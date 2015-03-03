@@ -1,0 +1,280 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Home</title>
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,500,700,900,100italic,300italic,400italic,500italic,700italic,900italic,100' rel='stylesheet' type='text/css' />
+    <link href="css/styles.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    <div class="header">
+        <div class="center">
+            <div class="header-top">
+                <ul class="social">
+                    <li><a href="#" class="facebook"></a></li>
+                    <li><a href="#" class="twitter"></a></li>
+                    <li><a href="#" class="linkedin"></a></li>
+                </ul>
+                <div class="right">
+                    <p><a href="#">Lost your log in details?</a></p>
+                    <p class="remember">Remember Me?</p>
+                    <input type="checkbox" name="" value="" />
+                    <input type="text" onblur="if(this.value=='')this.value=this.defaultValue;" onfocus="if(this.value=='Email')this.value='';" value="Email" />
+                    <input type="password" onblur="if(this.value=='')this.value=this.defaultValue;" onfocus="if(this.value=='Password')this.value='';" value="Password" />
+                    <input type="submit" name="" value="submit" />
+                </div>
+            </div>
+            <div class="header-botm">
+                <div class="logo"><a href="#"><img src='@Url.Content("~/Images/logo.png")' alt="" /></a></div>
+                <div class="header-img"><img src='@Url.Content("~/Images/header-img.png")' alt="" /></div>
+            </div>
+        </div>
+    </div>
+    <div class="nav-container">
+        <div class="center">
+            <ul class="nav">
+                <li class="active"><a href="#">home</a></li>
+                <li><a href="#">how to play</a></li>
+                <li><a href="#">ranking</a></li>
+                <li><a href="#">latest bets</a></li>
+                <li><a href="#">Latest Winners</a></li>
+                <li><a href="#">member search</a></li>
+                <li><a href="#">sign up</a></li>
+                <li><a href="#">contact us</a></li>
+            </ul>
+
+        </div>
+    </div>
+    <div class="main-banner"><div class="outer"><img src='@Url.Content("~/Images/banner.jpg")' alt="" /></div></div>
+    @*<div class="main-container">
+        <div class="container">
+            <h1 class="heading">Welcome to Inplay<span class="grn-bg">20</span><span class="thin">.com</span></h1>
+            <p class="home">Welcome to our £20-£1000 challenge system. This website is the first of its kind and allows you to track your inplay £20-£1000 challenges. It also allows you view follower other members challenges and see a list of latest inplay bets, in realtime format.</p>
+
+            <p class="home">Are you good enough to complete the £20-£1000 challenge, or do you want to follow others and pick up some great tips for your own inplay betting? Our system allows you to keep an eye on people who can make profit and shows how many challenges have been won and how many have been lost.</p>
+
+            <p class="home">Please note, this website is not offering any cash prizes and is to be used in conjunction with an inplay betting account. Any betting that occurs from using our website is done at the users own risk.</p>
+            </p>
+            <div class="heading-bg">
+                <h2>leaderboard</h2>
+            </div>
+            <ul class="leadbroad-block">
+                <li>
+                    <div class="position">1st</div>
+                    <div class="leaderblock">
+                        <h3 class="blue-heading">Member Profile</h3>
+                        <div class="block-top">
+                            <img src="images/leadboard-sh-img.jpg" alt="" />
+                            <h4>John Smith</h4>
+                            <p class="member">Member Since: 21-2-15</p>
+                            <p class="join">Ranking: 4</p>
+                            <div class="clear"></div>
+                            <div class="points">
+                                <p class="left">Wins - 7</p>
+                                <p class="right">Losses - 18</p>
+                            </div>
+                            <div class="points points-botm">
+                                <p class="left">Won - £7144</p>
+                                <p class="right">Lost - £360</p>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="position">2nd</div>
+                    <div class="leaderblock">
+                        <h3 class="blue-heading">Member Profile</h3>
+                        <div class="block-top">
+                            <img src="images/leadboard-sh-img.jpg" alt="" />
+                            <h4>John Smith</h4>
+                            <p class="member">Member Since: 21-2-15</p>
+                            <p class="join">Ranking: 4</p>
+                            <div class="clear"></div>
+                            <div class="points">
+                                <p class="left">Wins - 7</p>
+                                <p class="right">Losses - 18</p>
+                            </div>
+                            <div class="points points-botm">
+                                <p class="left">Won - £7144</p>
+                                <p class="right">Lost - £360</p>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="last">
+                    <div class="position">3rd</div>
+                    <div class="leaderblock">
+                        <h3 class="blue-heading">Member Profile</h3>
+                        <div class="block-top">
+                            <img src="images/leadboard-sh-img.jpg" alt="" />
+                            <h4>John Smith</h4>
+                            <p class="member">Member Since: 21-2-15</p>
+                            <p class="join">Ranking: 4</p>
+                            <div class="clear"></div>
+                            <div class="points">
+                                <p class="left">Wins - 7</p>
+                                <p class="right">Losses - 18</p>
+                            </div>
+                            <div class="points points-botm">
+                                <p class="left">Won - £7144</p>
+                                <p class="right">Lost - £360</p>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <li>
+                    <div class="position">4th</div>
+                    <div class="leaderblock">
+                        <h3 class="blue-heading">Member Profile</h3>
+                        <div class="block-top">
+                            <img src="images/leadboard-sh-img.jpg" alt="" />
+                            <h4>John Smith</h4>
+                            <p class="member">Member Since: 21-2-15</p>
+                            <p class="join">Ranking: 4</p>
+                            <div class="clear"></div>
+                            <div class="points">
+                                <p class="left">Wins - 7</p>
+                                <p class="right">Losses - 18</p>
+                            </div>
+                            <div class="points points-botm">
+                                <p class="left">Won - £7144</p>
+                                <p class="right">Lost - £360</p>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="position">5th</div>
+                    <div class="leaderblock">
+                        <h3 class="blue-heading">Member Profile</h3>
+                        <div class="block-top">
+                            <img src="images/leadboard-sh-img.jpg" alt="" />
+                            <h4>John Smith</h4>
+                            <p class="member">Member Since: 21-2-15</p>
+                            <p class="join">Ranking: 4</p>
+                            <div class="clear"></div>
+                            <div class="points">
+                                <p class="left">Wins - 7</p>
+                                <p class="right">Losses - 18</p>
+                            </div>
+                            <div class="points points-botm">
+                                <p class="left">Won - £7144</p>
+                                <p class="right">Lost - £360</p>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="last">
+                    <div class="position">6th</div>
+                    <div class="leaderblock">
+                        <h3 class="blue-heading">Member Profile</h3>
+                        <div class="block-top">
+                            <img src="images/leadboard-sh-img.jpg" alt="" />
+                            <h4>John Smith</h4>
+                            <p class="member">Member Since: 21-2-15</p>
+                            <p class="join">Ranking: 4</p>
+                            <div class="clear"></div>
+                            <div class="points">
+                                <p class="left">Wins - 7</p>
+                                <p class="right">Losses - 18</p>
+                            </div>
+                            <div class="points points-botm">
+                                <p class="left">Won - £7144</p>
+                                <p class="right">Lost - £360</p>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <li>
+                    <div class="position">7th</div>
+                    <div class="leaderblock">
+                        <h3 class="blue-heading">Member Profile</h3>
+                        <div class="block-top">
+                            <img src="images/leadboard-sh-img.jpg" alt="" />
+                            <h4>John Smith</h4>
+                            <p class="member">Member Since: 21-2-15</p>
+                            <p class="join">Ranking: 4</p>
+                            <div class="clear"></div>
+                            <div class="points">
+                                <p class="left">Wins - 7</p>
+                                <p class="right">Losses - 18</p>
+                            </div>
+                            <div class="points points-botm">
+                                <p class="left">Won - £7144</p>
+                                <p class="right">Lost - £360</p>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="position">8th</div>
+                    <div class="leaderblock">
+                        <h3 class="blue-heading">Member Profile</h3>
+                        <div class="block-top">
+                            <img src="images/leadboard-sh-img.jpg" alt="" />
+                            <h4>John Smith</h4>
+                            <p class="member">Member Since: 21-2-15</p>
+                            <p class="join">Ranking: 4</p>
+                            <div class="clear"></div>
+                            <div class="points">
+                                <p class="left">Wins - 7</p>
+                                <p class="right">Losses - 18</p>
+                            </div>
+                            <div class="points points-botm">
+                                <p class="left">Won - £7144</p>
+                                <p class="right">Lost - £360</p>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="last">
+                    <div class="position">9th</div>
+                    <div class="leaderblock">
+                        <h3 class="blue-heading">Member Profile</h3>
+                        <div class="block-top">
+                            <img src="images/leadboard-sh-img.jpg" alt="" />
+                            <h4>John Smith</h4>
+                            <p class="member">Member Since: 21-2-15</p>
+                            <p class="join">Ranking: 4</p>
+                            <div class="clear"></div>
+                            <div class="points">
+                                <p class="left">Wins - 7</p>
+                                <p class="right">Losses - 18</p>
+                            </div>
+                            <div class="points points-botm">
+                                <p class="left">Won - £7144</p>
+                                <p class="right">Lost - £360</p>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>*@
+    @RenderBody()
+     /> /><div class="footer">
+        <div class="center">
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">how to play</a></li>
+                <li><a href="#">ranking</a></li>
+                <li><a href="#">latest bets</a></li>
+                <li><a href="#">Latest Winners</a></li>
+                <li><a href="#">member search</a></li>
+                <li><a href="#">sign up</a></li>
+                <li><a href="#">contact us</a></li>
+                <li><a href="#">Terms & Conditions</a></li>
+                <li><a href="#">Privacy Policy</a></li>
+            </ul>
+            <div class="clear"></div>
+            <p>&copy; 2015 Inplay20.com.  All rights reserved</p>
+        </div>
+    </div>
+</body>
+</html>

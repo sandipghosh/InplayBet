@@ -113,6 +113,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -123,6 +124,30 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Content Include="Global.asax" />
+    <None Include="Scripts\jquery-2.1.3.intellisense.js" />
+    <Content Include="Images\banner.jpg" />
+    <Content Include="Images\betting-video.jpg" />
+    <Content Include="Images\contact-icon.jpg" />
+    <Content Include="Images\f-icon.png" />
+    <Content Include="Images\footer-devider.gif" />
+    <Content Include="Images\header-bg.png" />
+    <Content Include="Images\header-img.png" />
+    <Content Include="Images\heading-bg.gif" />
+    <Content Include="Images\in-icon.png" />
+    <Content Include="Images\inner-title-bg.jpg" />
+    <Content Include="Images\leadboard-sh-img.jpg" />
+    <Content Include="Images\logo.png" />
+    <Content Include="Images\main-bg.jpg" />
+    <Content Include="Images\nav-devider.gif" />
+    <Content Include="Images\pisition-bg.png" />
+    <Content Include="Images\profile-img.jpg" />
+    <Content Include="Images\t-icon.png" />
+    <Content Include="Images\welcome.gif" />
+    <Content Include="Scripts\jquery-2.1.3.js" />
+    <Content Include="Scripts\jquery-2.1.3.min.js" />
+    <Content Include="Scripts\jquery-migrate-1.2.1.js" />
+    <Content Include="Scripts\jquery-migrate-1.2.1.min.js" />
+    <Content Include="Styles\styles.css" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -131,13 +156,14 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Views\Web.config" />
+    <Content Include="Scripts\jquery-2.1.3.min.map" />
+    <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Controllers\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\Shared\" />
-    <Folder Include="Controllers\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
@@ -145,6 +171,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Admin\Views\Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\_Layout.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\_ViewStart.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
