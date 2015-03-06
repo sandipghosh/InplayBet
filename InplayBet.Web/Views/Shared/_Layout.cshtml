@@ -1,13 +1,18 @@
-﻿@{
+﻿@using InplayBet.Web.Utilities
+@{
     Layout = null;
 }
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Home</title>
+    <title>@ViewBag.Title</title>
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,500,700,900,100italic,300italic,400italic,500italic,700italic,900italic,100' rel='stylesheet' type='text/css' />
-    <link href="css/styles.css" rel="stylesheet" type="text/css" />
+    @Html.RenderStyles("~/Styles/CommonStyle")
+    @RenderSection("PageStyle", false)
+
+    @Html.RenderScripts("~/Scripts/CommonScript")
+    @RenderSection("PageScript", false)
 </head>
 
 <body>
@@ -34,22 +39,8 @@
             </div>
         </div>
     </div>
-    <div class="nav-container">
-        <div class="center">
-            <ul class="nav">
-                <li class="active"><a href="#">home</a></li>
-                <li><a href="#">how to play</a></li>
-                <li><a href="#">ranking</a></li>
-                <li><a href="#">latest bets</a></li>
-                <li><a href="#">Latest Winners</a></li>
-                <li><a href="#">member search</a></li>
-                <li><a href="#">sign up</a></li>
-                <li><a href="#">contact us</a></li>
-            </ul>
-
-        </div>
-    </div>
-    <div class="main-banner"><div class="outer"><img src='@Url.Content("~/Images/banner.jpg")' alt="" /></div></div>
+    @{Html.RenderPartial("_TopNavigation");}
+    
     @*<div class="main-container">
         <div class="container">
             <h1 class="heading">Welcome to Inplay<span class="grn-bg">20</span><span class="thin">.com</span></h1>
@@ -258,7 +249,7 @@
         </div>
     </div>*@
     @RenderBody()
-     /> /><div class="footer">
+    <div class="footer">
         <div class="center">
             <ul>
                 <li><a href="#">Home</a></li>
