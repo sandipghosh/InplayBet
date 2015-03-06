@@ -175,6 +175,7 @@
     <Compile Include="Controllers\Base\BaseController.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Controllers\CommonController.cs" />
     <Compile Include="Controllers\ContactUsController.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -184,6 +185,7 @@
     </Compile>
     <Compile Include="Controllers\LatestBetsController.cs" />
     <Compile Include="Controllers\LatestWinnersController.cs" />
+    <Compile Include="Controllers\MemberProfileController.cs" />
     <Compile Include="Controllers\MemberSearchController.cs" />
     <Compile Include="Controllers\RankingController.cs" />
     <Compile Include="Controllers\RegisterUserController.cs">
@@ -204,7 +206,9 @@
     <Compile Include="MapperConfig\DataServiceLocatorConfig.cs" />
     <Compile Include="MapperConfig\EntityMapperConfig.cs" />
     <Compile Include="Models\Base\BaseModel.cs" />
-    <Compile Include="Models\Base\SafeDisposableBaseClass.cs" />
+    <Compile Include="Models\Base\SafeDisposableBaseClass.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\CommonUtility.cs" />
     <Compile Include="Utilities\EmailSender.cs" />
@@ -242,7 +246,14 @@
     <Content Include="Scripts\jquery-2.1.3.min.js" />
     <Content Include="Scripts\jquery-migrate-1.2.1.js" />
     <Content Include="Scripts\jquery-migrate-1.2.1.min.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Styles\style.css" />
+    <Content Include="Views\ContactUs\Index.cshtml">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="Views\Home\Index.cshtml">
       <SubType>Code</SubType>
     </Content>
@@ -261,12 +272,14 @@
     <Content Include="Views\Shared\_MainBanner.cshtml" />
     <Content Include="Views\Shared\_PageTitle.cshtml" />
     <Content Include="Views\Shared\_TopNavigation.cshtml" />
-    <Content Include="Views\ContactUs\Index.cshtml" />
     <Content Include="Views\Ranking\Index.cshtml" />
     <Content Include="Views\MemberSearch\Index.cshtml" />
     <Content Include="Views\LatestWinners\Index.cshtml" />
     <Content Include="Views\LatestBets\Index.cshtml" />
     <Content Include="Views\HowToPlay\Index.cshtml" />
+    <Content Include="Views\MemberProfile\Index.cshtml" />
+    <Content Include="Views\Shared\_BottomNavigation.cshtml" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

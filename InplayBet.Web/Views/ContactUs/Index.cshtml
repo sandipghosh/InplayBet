@@ -1,6 +1,34 @@
 ﻿@{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Contact Us";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@{Html.RenderPartial("_PageTitle", new ViewDataDictionary { { "Caption", "Contact Us" } });}
+<div class="container">
+    <div class="query-left">
+        <h2 class="query-heading">Query Form</h2>
 
-<h2>Index</h2>
+        <ul class="query-list">
+            <li>
+                <label>Your Name:</label>
+                <input name="" value="" type="text">
+            </li>
+            <li>
+                <label>Your Email Address:</label>
+                <input name="" value="" type="text">
+            </li>
+            <li>
+                <label>Your Phone Number:</label>
+                <input name="" value="" type="text">
+            </li>
+            <li>
+                <label>Your Message:</label>
+                <textarea name=""></textarea>
+            </li>
+            <li>
+                <input name="" value="submit" type="submit">
+            </li>
+        </ul>
+    </div>
+    <div class="contact-img"><img src="images/contact-icon.jpg" alt=""></div>
+    <div class="promo-bnr"><img src="images/bet-promo-bnr.jpg" alt=""></div>
+</div>
