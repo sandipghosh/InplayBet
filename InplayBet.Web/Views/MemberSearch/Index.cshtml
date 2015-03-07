@@ -5,160 +5,180 @@
 @{Html.RenderPartial("_PageTitle", new ViewDataDictionary { { "Caption", "Member Search" } });}
 <div class="main-container">
     <div class="container">
-        <div class="registration-block">
+        <div class="left-panel">
+            <h2 class="left-heading">member search</h2>
+            <p>Member name:</p>
+            <input value="" name="" type="text">
 
-            <ul class="query-list">
+            <ul class="search-filter">
+                <li><a href="#">Date Joined</a></li>
+                <li><a href="#">Ranking</a></li>
+                <li><a href="#">Wins</a></li>
+                <li><a href="#">Losses</a></li>
+                <li><a href="#">Winning Bets</a></li>
+                <li><a href="#">Highest Profit</a></li>
+                <li><a href="#">Bookmaker</a></li>
+            </ul>
+        </div>
+        <div class="right-block">
+            <ul class="leadbroad-block">
                 <li>
-                    <label>Member name:</label>
-                    <input name="" value="" type="text">
-                </li>
-                <li>
-                    <label>Date Joined:</label>
-                    <select>
-                        <option>Select Month</option>
-                        <option>January</option>
-                        <option>February</option>
-                        <option>March</option>
-                        <option>April</option>
-                        <option>May</option>
-                        <option>June</option>
-                        <option>July</option>
-                        <option>August</option>
-                        <option>September</option>
-                        <option>October</option>
-                        <option>November</option>
-                        <option>Decenber</option>
-                    </select>
-                    <select>
-                        <option>Select Date</option>
-                        <option>01</option>
-                        <option>02</option>
-                        <option>03</option>
-                        <option>04</option>
-                        <option>05</option>
-                        <option>06</option>
-                        <option>07</option>
-                        <option>08</option>
-                        <option>09</option>
-                        <option>10</option>
-                        <option>11</option>
-                        <option>12</option>
-                        <option>13</option>
-                        <option>14</option>
-                        <option>15</option>
-                        <option>16</option>
-                        <option>17</option>
-                        <option>18</option>
-                        <option>19</option>
-                        <option>20</option>
-                        <option>21</option>
-                        <option>22</option>
-                        <option>23</option>
-                        <option>24</option>
-                        <option>25</option>
-                        <option>26</option>
-                        <option>27</option>
-                        <option>28</option>
-                        <option>29</option>
-                        <option>30</option>
-                        <option>31</option>
-                    </select>
-                    <select>
-                        <option class="year">Select Year</option>
-                        <option>2010</option>
-                        <option>2011</option>
-                        <option>2012</option>
-                        <option>2013</option>
-                    </select>
-                </li>
-                <li>
-                    <label>Ranking:</label>
-                    <select>
-                        <option>Select Ranking</option>
-                        <option>01</option>
-                        <option>02</option>
-                        <option>03</option>
-                        <option>04</option>
-                        <option>05</option>
-                        <option>06</option>
-                        <option>07</option>
-                        <option>08</option>
-                        <option>09</option>
-                        <option>10</option>
-                        <option>11</option>
-                        <option>12</option>
-                        <option>13</option>
-                        <option>14</option>
-                        <option>15</option>
-                        <option>16</option>
-                        <option>17</option>
-                        <option>18</option>
-                        <option>19</option>
-                        <option>20</option>
-                        <option>21</option>
-                        <option>22</option>
-                        <option>23</option>
-                        <option>24</option>
-                        <option>25</option>
-                        <option>26</option>
-                        <option>27</option>
-                        <option>28</option>
-                        <option>29</option>
-                        <option>30</option>
-                        <option>31</option>
-                    </select>
-                </li>
-
-                <li>
-                    <div class="password">
-                        <label>Wins:</label>
-                        <input name="" value="" type="text">
-                    </div>
-                    <div class="confirmpassword">
-                        <label>Losses:</label>
-                        <input name="" value="" type="text">
-                    </div>
-                </li>
-                <li>
-                    <label>Winning Bets:</label>
-                    <input name="" value="" type="text">
-                </li>
-                <li>
-                    <div class="password">
-                        <label>Amount Won:</label>
-                        <input name="" value="" type="text">
-                    </div>
-                    <div class="confirmpassword">
-                        <label>Amount Lost:</label>
-                        <input name="" value="" type="text">
-                    </div>
-                </li>
-                <li>
-                    <div class="password">
-                        <label>Highest Profit:</label>
-                        <input name="" value="" type="text">
-                    </div>
-                    <div class="confirmpassword">
-                        <label>Lowest Profit:</label>
-                        <input name="" value="" type="text">
+                    <div class="position">1st</div>
+                    <div class="leaderblock">
+                        <h3 class="blue-heading">Member Profile</h3>
+                        <div class="block-top">
+                            <img alt="" src="images/leadboard-sh-img.jpg">
+                            <h4>John Smith</h4>
+                            <p class="member">Member Since: 21-2-15</p>
+                            <p class="join">Ranking: 4</p>
+                            <div class="clear"></div>
+                            <div class="points">
+                                <p class="left">Wins - 7</p>
+                                <p class="right">Losses - 18</p>
+                            </div>
+                            <div class="points">
+                                <p class="left">Won - £7144</p>
+                                <p class="right">placed - £360</p>
+                            </div>
+                            <div class="points points-botm">
+                                <p class="left">Winning Bets</p>
+                                <p class="right">Profit</p>
+                            </div>
+                        </div>
                     </div>
                 </li>
 
-                <li>
-                    <label>Bookmaker:</label>
-                    <select class="bookmaker">
-                        <option>Bet365</option>
-                        <option>Bet365</option>
-                        <option>Bet365</option>
-                    </select>
+                <li class="last">
+                    <div class="position">2nd</div>
+                    <div class="leaderblock">
+                        <h3 class="blue-heading">Member Profile</h3>
+                        <div class="block-top">
+                            <img alt="" src="images/leadboard-sh-img.jpg">
+                            <h4>John Smith</h4>
+                            <p class="member">Member Since: 21-2-15</p>
+                            <p class="join">Ranking: 4</p>
+                            <div class="clear"></div>
+                            <div class="points">
+                                <p class="left">Wins - 7</p>
+                                <p class="right">Losses - 18</p>
+                            </div>
+                            <div class="points">
+                                <p class="left">Won - £7144</p>
+                                <p class="right">placed - £360</p>
+                            </div>
+                            <div class="points points-botm">
+                                <p class="left">Winning Bets</p>
+                                <p class="right">Profit</p>
+                            </div>
+                        </div>
+                    </div>
                 </li>
                 <li>
-                    <input name="" value="submit" type="submit">
+                    <div class="position">3rd</div>
+                    <div class="leaderblock">
+                        <h3 class="blue-heading">Member Profile</h3>
+                        <div class="block-top">
+                            <img alt="" src="images/leadboard-sh-img.jpg">
+                            <h4>John Smith</h4>
+                            <p class="member">Member Since: 21-2-15</p>
+                            <p class="join">Ranking: 4</p>
+                            <div class="clear"></div>
+                            <div class="points">
+                                <p class="left">Wins - 7</p>
+                                <p class="right">Losses - 18</p>
+                            </div>
+                            <div class="points">
+                                <p class="left">Won - £7144</p>
+                                <p class="right">placed - £360</p>
+                            </div>
+                            <div class="points points-botm">
+                                <p class="left">Winning Bets</p>
+                                <p class="right">Profit</p>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="last">
+                    <div class="position">4th</div>
+                    <div class="leaderblock">
+                        <h3 class="blue-heading">Member Profile</h3>
+                        <div class="block-top">
+                            <img alt="" src="images/leadboard-sh-img.jpg">
+                            <h4>John Smith</h4>
+                            <p class="member">Member Since: 21-2-15</p>
+                            <p class="join">Ranking: 4</p>
+                            <div class="clear"></div>
+                            <div class="points">
+                                <p class="left">Wins - 7</p>
+                                <p class="right">Losses - 18</p>
+                            </div>
+                            <div class="points">
+                                <p class="left">Won - £7144</p>
+                                <p class="right">placed - £360</p>
+                            </div>
+                            <div class="points points-botm">
+                                <p class="left">Winning Bets</p>
+                                <p class="right">Profit</p>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="position">5th</div>
+                    <div class="leaderblock">
+                        <h3 class="blue-heading">Member Profile</h3>
+                        <div class="block-top">
+                            <img alt="" src="images/leadboard-sh-img.jpg">
+                            <h4>John Smith</h4>
+                            <p class="member">Member Since: 21-2-15</p>
+                            <p class="join">Ranking: 4</p>
+                            <div class="clear"></div>
+                            <div class="points">
+                                <p class="left">Wins - 7</p>
+                                <p class="right">Losses - 18</p>
+                            </div>
+                            <div class="points">
+                                <p class="left">Won - £7144</p>
+                                <p class="right">placed - £360</p>
+                            </div>
+                            <div class="points points-botm">
+                                <p class="left">Winning Bets</p>
+                                <p class="right">Profit</p>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="last">
+                    <div class="position">6th</div>
+                    <div class="leaderblock">
+                        <h3 class="blue-heading">Member Profile</h3>
+                        <div class="block-top">
+                            <img alt="" src="images/leadboard-sh-img.jpg">
+                            <h4>John Smith</h4>
+                            <p class="member">Member Since: 21-2-15</p>
+                            <p class="join">Ranking: 4</p>
+                            <div class="clear"></div>
+                            <div class="points">
+                                <p class="left">Wins - 7</p>
+                                <p class="right">Losses - 18</p>
+                            </div>
+                            <div class="points">
+                                <p class="left">Won - £7144</p>
+                                <p class="right">placed - £360</p>
+                            </div>
+                            <div class="points points-botm">
+                                <p class="left">Winning Bets</p>
+                                <p class="right">Profit</p>
+                            </div>
+                        </div>
+                    </div>
                 </li>
             </ul>
-
-            <div class="promo-bnr"><img src="images/bet-promo-bnr.jpg" alt=""></div>
         </div>
+
+        <div class="promo-bnr"><img src="images/bet-promo-bnr.jpg" alt=""></div>
 
 
 

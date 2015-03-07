@@ -34,7 +34,10 @@ namespace InplayBet.Web
             {
                 Bundle scriptBundle = new Bundle("~/Scripts/CommonScript", new JsMinify());
                 scriptBundle.Include("~/Scripts/jquery-2.1.3.min.js",
-                    "~/Scripts/jquery-migrate-1.2.1.min.js"
+                    "~/Scripts/jquery-migrate-1.2.1.min.js",
+                    "~/Scripts/consolelog.min.js",
+                    "~/Scripts/AppScripts/Common.js",
+                    "~/Scripts/AppScripts/MainScript.js"
                 );
                 BundleTable.Bundles.Add(scriptBundle);
             }
