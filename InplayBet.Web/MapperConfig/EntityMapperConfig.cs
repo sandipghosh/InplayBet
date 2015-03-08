@@ -2,7 +2,10 @@
 namespace InplayBet.Web.MapperConfig
 {
     using AutoMapper;
+    using InplayBet.Web.MapperConfig.Converter;
     using InplayBet.Web.Utilities;
+    using InplayBet.Web.Models;
+    using InplayBet.Web.Data.Context;
     using System;
 
     public class EntityMapperConfig : Profile
@@ -29,6 +32,18 @@ namespace InplayBet.Web.MapperConfig
         {
             try
             {
+                Mapper.CreateMap<DateTime?, DateTime>().ConvertUsing<DateTimeConverter>();
+                Mapper.CreateMap<DateTime?, DateTime?>().ConvertUsing<NullableDateTimeConverter>();
+
+                Mapper.CreateMap<int?, int>().ConvertUsing<IntConverter>();
+                Mapper.CreateMap<int?, int?>().ConvertUsing<NullableIntConverter>();
+
+                Mapper.CreateMap<Status, StatusModel>().MapBothWays().IgnoreAllNonExisting();
+                Mapper.CreateMap<BookMaker, BookMakerModel>().MapBothWays().IgnoreAllNonExisting();
+                Mapper.CreateMap<User, UserModel>().MapBothWays().IgnoreAllNonExisting();
+
+                Mapper.AssertConfigurationIsValid();
+
                 //Mapper.CreateMap<NJFairground.Web.Data.Context.Page, PageModel>()
                 //    .IgnoreAllNonExisting().MapBothWays().IgnoreAllNonExisting();
 

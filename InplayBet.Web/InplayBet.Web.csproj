@@ -98,6 +98,8 @@
     <Reference Include="System.Runtime">
       <HintPath>..\packages\Microsoft.Bcl.1.1.10\lib\net40\System.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Threading.Tasks">
       <HintPath>..\packages\Microsoft.Bcl.1.1.10\lib\net40\System.Threading.Tasks.dll</HintPath>
     </Reference>
@@ -192,23 +194,59 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Data\Context\BaseData.cs" />
+    <Compile Include="Data\Context\BookMaker.cs">
+      <DependentUpon>InplayBetDBEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Context\InplayBetDBEntities.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>InplayBetDBEntities.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Context\InplayBetDBEntities.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>InplayBetDBEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Context\InplayBetDBEntities.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>InplayBetDBEntities.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Context\Status.cs">
+      <DependentUpon>InplayBetDBEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Context\User.cs">
+      <DependentUpon>InplayBetDBEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\Implementation\Base\DataRepository.cs" />
     <Compile Include="Data\Implementation\Base\QueryDataRepository.cs" />
     <Compile Include="Data\Implementation\Base\UnitOfWork.cs" />
+    <Compile Include="Data\Implementation\BookMakerDataRepository.cs" />
+    <Compile Include="Data\Implementation\UserDataRepository.cs" />
     <Compile Include="Data\Interface\Base\IQueryableUnitOfWork.cs" />
     <Compile Include="Data\Interface\Base\IQueryDataRepository.cs" />
     <Compile Include="Data\Interface\Base\IRepository.cs" />
     <Compile Include="Data\Interface\Base\ISql.cs" />
     <Compile Include="Data\Interface\Base\IUnitOfWork.cs" />
+    <Compile Include="Data\Interface\IBookMakerDataRepository.cs" />
+    <Compile Include="Data\Interface\IUserDataRepository.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="MapperConfig\Converter\IntConverter.cs" />
+    <Compile Include="MapperConfig\Converter\NullableIntConverter.cs" />
     <Compile Include="MapperConfig\DataServiceLocatorConfig.cs" />
+    <Compile Include="MapperConfig\Converter\DateTimeConverter.cs" />
     <Compile Include="MapperConfig\EntityMapperConfig.cs" />
+    <Compile Include="MapperConfig\Converter\NullableDateTimeConverter.cs" />
     <Compile Include="Models\Base\BaseModel.cs" />
+    <Compile Include="Models\Base\CommonDataType.cs" />
     <Compile Include="Models\Base\SafeDisposableBaseClass.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Models\BookMakerModel.cs" />
+    <Compile Include="Models\StatusModel.cs" />
+    <Compile Include="Models\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\CommonUtility.cs" />
     <Compile Include="Utilities\EmailSender.cs" />
@@ -230,7 +268,25 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Content Include="DBScript\SQLQuery.sql" />
     <Content Include="Global.asax" />
+    <EntityDeploy Include="Data\Context\InplayBetDBEntities.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>InplayBetDBEntities.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Data\Context\InplayBetDBEntities.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>InplayBetDBEntities.edmx</DependentUpon>
+      <LastGenOutput>InplayBetDBEntities.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Data\Context\InplayBetDBEntities.edmx.diagram">
+      <DependentUpon>InplayBetDBEntities.edmx</DependentUpon>
+    </Content>
+    <Content Include="Data\Context\InplayBetDBEntities.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>InplayBetDBEntities.edmx</DependentUpon>
+      <LastGenOutput>InplayBetDBEntities.cs</LastGenOutput>
+    </Content>
     <None Include="Scripts\jquery-2.1.3.intellisense.js" />
     <Content Include="Images\banner.jpg" />
     <Content Include="Images\bet-promo-bnr.jpg" />
@@ -250,10 +306,12 @@
     <Content Include="Images\pisition-bg.png" />
     <Content Include="Images\profile-img.jpg" />
     <Content Include="Images\t-icon.png" />
+    <Content Include="Images\Users\Default.jpg" />
     <Content Include="Images\welcome.gif" />
     <Content Include="Scripts\AppScripts\Common.js" />
     <Content Include="Scripts\AppScripts\MainScript.js" />
     <Content Include="Scripts\consolelog.min.js" />
+    <Content Include="Scripts\cropbox-min.js" />
     <Content Include="Scripts\jquery-2.1.3.js" />
     <Content Include="Scripts\jquery-2.1.3.min.js" />
     <Content Include="Scripts\jquery-migrate-1.2.1.js" />
@@ -292,6 +350,7 @@
     <Content Include="Views\MemberProfile\Index.cshtml" />
     <Content Include="Views\Shared\_BottomNavigation.cshtml" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Views\Shared\_RagistrationMailTemplate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -299,7 +358,6 @@
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\Shared\" />
     <Folder Include="ErrorLogs\" />
-    <Folder Include="Images\Users\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">
@@ -314,6 +372,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\_ViewStart.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

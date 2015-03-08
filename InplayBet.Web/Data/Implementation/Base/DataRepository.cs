@@ -3,6 +3,7 @@ namespace InplayBet.Web.Data.Implementation.Base
 {
     #region Required Namespace(s)
     using AutoMapper;
+    using InplayBet.Web.Data.Context;
     using InplayBet.Web.Data.Interface.Base;
     using InplayBet.Web.Models.Base;
     using InplayBet.Web.Utilities;
@@ -21,7 +22,7 @@ namespace InplayBet.Web.Data.Implementation.Base
     /// <typeparam name="TModel">The type of underlying entity in this repository</typeparam>
     public class DataRepository<TEntity, TModel> : IRepository<TModel>
         where TModel : BaseModel
-        where TEntity : class
+        where TEntity : BaseData
     {
         #region Members
         private readonly IQueryableUnitOfWork _UnitOfWork;

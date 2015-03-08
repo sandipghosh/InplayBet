@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="d1ce9a4d37fc47619b61dd0c26233b01" Name="Diagram1">
+        <EntityTypeShape EntityType="InplayBetModel.BookMaker" Width="1.5" PointX="3" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="InplayBetModel.Status" Width="1.5" PointX="0.75" PointY="2.25" IsExpanded="true" />
+        <AssociationConnector Association="InplayBetModel.FK_BookMaker_Status" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="InplayBetModel.User" Width="1.5" PointX="5.25" PointY="1" />
+        <AssociationConnector Association="InplayBetModel.FK_User_BookMaker" />
+        <AssociationConnector Association="InplayBetModel.FK_User_Status" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

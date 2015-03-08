@@ -2,13 +2,14 @@
 namespace InplayBet.Web.Data.Interface.Base
 {
     #region Required Namespace(s)
+    using InplayBet.Web.Models.Base;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
     #endregion
 
-    public interface IRepository<TModel> where TModel : class
+    public interface IRepository<TModel> where TModel : BaseModel
     {
         /// <summary>
         /// Get the unit of work in this repository

@@ -1,4 +1,6 @@
-﻿@{
+﻿@using InplayBet.Web.Models
+@model UserModel
+@{
     ViewBag.Title = "Registration";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -13,111 +15,67 @@
                 We recommend using Bet365 for your inplay bets, as they offer the most comprehensive inplay listing and the best odds.<br>
                 Please click on the Bet365 below and it will take you Bet365 to create an account -
             </p>
-            <div class="promo-bnr"><img src="images/bet-promo-bnr.jpg" alt=""></div>
+            <div class="promo-bnr"><img src='@Url.Content("images/bet-promo-bnr.jpg")' alt=""></div>
             <h4 class="grn-heading">£20-£1000 Challenge Account Registration -</h4>
             <p>If you are waiting to sign up to our £20-£1000 system, please fill in the details below and create your account -</p>
-            <ul class="query-list">
-                <li>
-                    <label>First Name:</label>
-                    <input name="" value="" type="text">
-                </li>
-                <li>
-                    <label>Last Name:</label>
-                    <input name="" value="" type="text">
-                </li>
-                <li>
-                    <label>Email Address:</label>
-                    <input name="" value="" type="text">
-                </li>
-                <li>
-                    <div class="password">
-                        <label>Password</label>
-                        <input name="" value="" type="password">
-                    </div>
-                    <div class="confirmpassword">
-                        <label>Confirm Password</label>
-                        <input name="" value="" type="password">
-                    </div>
-                </li>
-                <li>
-                    <label>I am:</label>
-                    <select>
-                        <option>Select Sex</option>
-                        <option>Male</option>
-                        <option>Female</option>
-                    </select>
-                </li>
-                <li>
-                    <label>Date of birth:</label>
-                    <select>
-                        <option>Select Month</option>
-                        <option>January</option>
-                        <option>February</option>
-                        <option>March</option>
-                        <option>April</option>
-                        <option>May</option>
-                        <option>June</option>
-                        <option>July</option>
-                        <option>August</option>
-                        <option>September</option>
-                        <option>October</option>
-                        <option>November</option>
-                        <option>Decenber</option>
-                    </select>
-                    <select>
-                        <option>Select Date</option>
-                        <option>01</option>
-                        <option>02</option>
-                        <option>03</option>
-                        <option>04</option>
-                        <option>05</option>
-                        <option>06</option>
-                        <option>07</option>
-                        <option>08</option>
-                        <option>09</option>
-                        <option>10</option>
-                        <option>11</option>
-                        <option>12</option>
-                        <option>13</option>
-                        <option>14</option>
-                        <option>15</option>
-                        <option>16</option>
-                        <option>17</option>
-                        <option>18</option>
-                        <option>19</option>
-                        <option>20</option>
-                        <option>21</option>
-                        <option>22</option>
-                        <option>23</option>
-                        <option>24</option>
-                        <option>25</option>
-                        <option>26</option>
-                        <option>27</option>
-                        <option>28</option>
-                        <option>29</option>
-                        <option>30</option>
-                        <option>31</option>
-                    </select>
-                    <select>
-                        <option class="year">Select Year</option>
-                        <option>2010</option>
-                        <option>2011</option>
-                        <option>2012</option>
-                        <option>2013</option>
-                    </select>
-                </li>
-                <li>
-                    <label>Bookmaker:</label>
-                    <select class="bookmaker">
-                        <option>Bet365</option>
-                        <option>Bet365</option>
-                        <option>Bet365</option>
-                    </select>
-                </li>
-                <li>
-                    <input name="" value="submit" type="submit">
-                </li>
-            </ul>
+
+            @using (Html.BeginForm("SignUp", "RegisterUser", FormMethod.Post, new { id = "frmSignUp" }))
+            {
+                <ul class="query-list">
+                    <li>
+                        <label>First Name:</label>
+                        @Html.TextBoxFor(m => m.FirstName)
+                    </li>
+                    <li>
+                        <label>Last Name:</label>
+                        @Html.ValidationMessageFor(x => x.EmailId)
+                        @Html.TextBoxFor(m => m.LastName)
+                    </li>
+                    <li>
+                        <label>Email Address:</label>
+                        @Html.TextBoxFor(m => m.EmailId)
+                    </li>
+                    <li>
+                        <div class="password">
+                            <label>Password</label>
+                            @Html.ValidationMessageFor(m => m.Password)
+                            @Html.TextBoxFor(m => m.Password, new { type = "password" })
+                        </div>
+                        <div class="confirmpassword">
+                            <label>Confirm Password</label>
+                            @Html.ValidationMessageFor(m => m.ConfirmPassword)
+                            @Html.TextBox("ConfirmPassword", "", new { type = "password" })
+                        </div>
+                    </li>
+                    <li>
+                        <label>I am:</label>
+                        @Html.ValidationMessageFor(m => m.Sex)
+                        @Html.DropDownListFor(m => m.Sex, (IEnumerable<SelectListItem>)ViewBag.Sex, "Select Sex", null)
+                    </li>
+                    <li>
+                        <label>Date of birth:</label>
+                        @Html.ValidationMessageFor(m => m.DobMonth)
+                        @Html.DropDownListFor(m => m.DobMonth, (IEnumerable<SelectListItem>)ViewBag.Months, "Select Month", null)
+                        @Html.ValidationMessageFor(m => m.DobDay)
+                        @Html.DropDownListFor(m => m.DobDay, (IEnumerable<SelectListItem>)ViewBag.Days, "Select Date", null)
+                        @Html.ValidationMessageFor(m => m.DobYear)
+                        @Html.DropDownListFor(m => m.DobYear, (IEnumerable<SelectListItem>)ViewBag.Years, "Select Year", null)
+                    </li>
+                    <li>
+                        <label>Bookmaker:</label>
+                        @Html.DropDownListFor(m => m.BookMakerId, (IEnumerable<SelectListItem>)ViewBag.BookMakers)
+                    </li>
+                    <li>
+                        <input name="" value="submit" type="submit">
+                    </li>
+                </ul>
+
+                @Html.HiddenFor(m => m.UserId)
+                @Html.HiddenFor(m => m.AvatarPath)
+                @Html.HiddenFor(m => m.StatusId)
+                @Html.HiddenFor(m => m.CreatedOn)
+                @Html.HiddenFor(m => m.CreatedBy)
+            }
         </div>
     </div>
 </div>

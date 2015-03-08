@@ -1,0 +1,20 @@
+﻿@{Layout = null;}
+@model InplayBet.Web.Models.UserModel
+<p>Welcome to Inplay Bet 20</p>
+<br/>
+<br />
+<p>Hello @Model.FirstName @Model.LastName!</p>
+<br />
+<p>Thank you for registering in www.inplay20.com</p>
+<br />
+<p>Your access credential are as follows</p>
+<br />
+<p><strong>User Id: @Model.UserId</strong></p>
+<br />
+<p><strong>Password: @Model.Password</strong></p>
+<br />
+<br />
+<br />
+<p>Please click the following link to activate your account. This link will be available upto 48 hours.</p>
+<br />
+@ViewData["ActivationUrl"]

@@ -7,15 +7,86 @@ namespace InplayBet.Web.Utilities
     using System.Collections.Specialized;
     using System.Configuration;
     using System.Diagnostics;
+    using System.Drawing;
+    using System.Drawing.Imaging;
+    using System.IO;
     using System.Linq;
     using System.Linq.Expressions;
     using System.Reflection;
     using System.Text;
+    using System.Threading;
     using System.Web;
     using System.Web.Mvc;
+    using System.Web.Routing;
 
     public static class CommonUtility
     {
+        private static Random rand = new Random();
+        private static int seed = Environment.TickCount;
+        public const string DEFAULT_ALLOWED_CHARACTER = @"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        public const int DEFAULT_LENGTH = 8;
+
+        /// <summary>
+        /// The random wrapper
+        /// </summary>
+        private static ThreadLocal<Random> randomWrapper = new ThreadLocal<Random>(() =>
+            new Random(Interlocked.Increment(ref seed))
+        );
+
+        /// <summary>
+        /// Gets the thread random.
+        /// </summary>
+        /// <returns></returns>
+        private static Random GetThreadRandom()
+        {
+            return randomWrapper.Value;
+        }
+
+        /// <summary>
+        /// Gets the random string.
+        /// </summary>
+        /// <param name="rnd">The RND.</param>
+        /// <param name="allowedChars">The allowed chars.</param>
+        /// <param name="minLength">Length of the min.</param>
+        /// <param name="maxLength">Length of the max.</param>
+        /// <param name="count">The count.</param>
+        /// <returns></returns>
+        public static IEnumerable<string> GetRandomString(Random rnd,
+            string allowedChars = DEFAULT_ALLOWED_CHARACTER,
+            int minLength = DEFAULT_LENGTH,
+            int maxLength = DEFAULT_LENGTH, int count = 1)
+        {
+            char[] chars = new char[maxLength];
+            int setLength = allowedChars.Length;
+
+            while (count-- > 0)
+            {
+                int length = rnd.Next(minLength, maxLength + 1);
+                for (int i = 0; i < length; ++i)
+                {
+                    chars[i] = allowedChars[rnd.Next(setLength)];
+                }
+                yield return new string(chars, 0, length);
+            }
+        }
+
+        /// <summary>
+        /// Genarates the random string.
+        /// </summary>
+        /// <param name="minLength">The minimum length.</param>
+        /// <param name="maxLength">The maximum length.</param>
+        /// <returns></returns>
+        public static string GenarateRandomString
+            (int minLength = DEFAULT_LENGTH,
+            int maxLength = DEFAULT_LENGTH)
+        {
+            //int seed = (int)DateTime.Now.Ticks;
+            //Random rnd = new Random(seed);
+            //return GetRandomString(rnd, DEFAULT_ALLOWED_CHARACTER, minLength, maxLength).First();
+
+            return GetRandomString(GetThreadRandom(), DEFAULT_ALLOWED_CHARACTER, minLength, maxLength).First();
+        }
+
         /// <summary>
         /// Determines whether [contains search ex] [the specified search context].
         /// </summary>
@@ -388,6 +459,72 @@ namespace InplayBet.Web.Utilities
                 request.Headers["x-requested-with"] == "XMLHttpRequest") ||
                 (request.Headers.AllKeys.Contains("x-my-custom-header") &&
                 request.Headers["x-my-custom-header"] == "AjaxRequest"));
+        }
+
+        /// <summary>
+        /// Renders the view to string.
+        /// </summary>
+        /// <param name="viewName">Name of the view.</param>
+        /// <param name="viewData">The view data.</param>
+        /// <param name="controller">The controller.</param>
+        /// <param name="additionalData">The additional data.</param>
+        /// <returns></returns>
+        public static string RenderViewToString(string viewName, object viewData,
+            ControllerBase controller, IDictionary<string, object> additionalData)
+        {
+            try
+            {
+                HttpContextBase contextBase = new HttpContextWrapper(HttpContext.Current);
+                TempDataDictionary tempData = new TempDataDictionary();
+
+                foreach (var item in additionalData)
+                {
+                    tempData[item.Key] = item.Value;
+                }
+
+                var routeData = new RouteData();
+                routeData.Values.Add("controller", controller.GetType().Name.Replace("Controller", ""));
+                var controllerContext = new ControllerContext(contextBase, routeData, controller);
+
+                var razorViewEngine = new RazorViewEngine();
+                var razorViewResult = razorViewEngine.FindView(controllerContext, viewName, "", false);
+
+                var writer = new StringWriter();
+                var viewContext = new ViewContext(controllerContext, razorViewResult.View,
+                       new ViewDataDictionary(viewData), tempData, writer);
+                razorViewResult.View.Render(viewContext, writer);
+
+                return writer.ToString();
+            }
+            catch (Exception ex)
+            {
+                ex.ExceptionValueTracker(viewName, viewData, controller, additionalData);
+            }
+            return string.Empty;
+        }
+
+        /// <summary>
+        /// Saves the image from data URL.
+        /// </summary>
+        /// <param name="urlData">The URL data.</param>
+        /// <param name="imagePath">The image path.</param>
+        public static void SaveImageFromDataURL(string urlData, string imagePath)
+        {
+            try
+            {
+                byte[] byteArrayIn = Convert.FromBase64String(urlData);
+                using (MemoryStream ms = new MemoryStream(byteArrayIn))
+                {
+                    using (Image returnImage = Image.FromStream(ms))
+                    {
+                        returnImage.Save(imagePath, ImageFormat.Jpeg);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.ExceptionValueTracker(urlData);
+            }
         }
     }
 }

@@ -3,6 +3,8 @@ namespace InplayBet.Web.MapperConfig
 {
     using AutoMapper;
     using InplayBet.Web.Utilities;
+    using InplayBet.Web.Data.Interface;
+    using InplayBet.Web.Data.Implementation;
     using SimpleInjector;
     using SimpleInjector.Advanced;
     using SimpleInjector.Packaging;
@@ -35,8 +37,8 @@ namespace InplayBet.Web.MapperConfig
         {
             try
             {
-                //container.Register<IPageDataRepository, PageDataRepository>();
-                //container.Register<IPageItemDataRepository, PageItemDataRepository>();
+                container.Register<IUserDataRepository, UserDataRepository>();
+                container.Register<IBookMakerDataRepository, BookMakerDataRepository>();
                 //container.Register<IEventDataRepository, EventDataRepository>();
             }
             catch (Exception ex)
