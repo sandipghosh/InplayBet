@@ -13,22 +13,40 @@
             return "green-box";
     }
 }
-
-@foreach (ChallengeModel challenge in Model)
+@helper PopulateChallenge(ChallengeModel challenge)
 {
-    <div class="@SetChallengeColor(challenge)">
+    <div class='@((challenge == null)?"yellow-box":SetChallengeColor(challenge))'>
         <div class="blk-bg">
-            <h3 class="blk-heading">Challenge @challenge.ChallengeNumber.AsString() - Inplay</h3>
+            <h3 class="blk-heading">Challenge @((challenge == null) ? "1" : challenge.ChallengeNumber.AsString()) - Inplay</h3>
             <a href="#" class="report-btn">report</a>
         </div>
         <div class="scroll">
             <div class="outer">
-                @Html.Action("GetBetsByChallenge", "Bet", new { challengeId = challenge.ChallengeId })
+                @if (challenge == null)
+                {
+                    @Html.RenderPartial("GetBetsByChallenge", new List<BetModel>(),
+                        new ViewDataDictionary { { "CurrentChallenge", new ChallengeModel() } })
+                }
+                else
+                {
+                    @Html.RenderPartial("GetBetsByChallenge", challenge.Bets,
+                        new ViewDataDictionary { { "CurrentChallenge", challenge } })
+                }
             </div>
         </div>
     </div>
+}
+
+@foreach (ChallengeModel challenge in Model)
+{
+    PopulateChallenge(challenge)
     if (Model.IndexOf(challenge) == 1)
     {
         <div class="promo-bnr"><img src='@Url.Content("~/Styles/images/bet-promo-bnr.jpg")' alt=""></div>
     }
+}
+@if (Model == null)
+{
+    PopulateChallenge(null)
+    <div class="promo-bnr"><img src='@Url.Content("~/Styles/images/bet-promo-bnr.jpg")' alt=""></div>
 }

@@ -2,6 +2,9 @@
 @using InplayBet.Web.Utilities
 @using System.Globalization
 @model List<BetModel>
+@{
+    ChallengeModel currentChallenge = (ChallengeModel)ViewData["CurrentChallenge"];
+}
 
 @foreach (BetModel bet in Model)
 {
@@ -15,4 +18,8 @@
         Winning Total: @bet.WiningTotal.ToString("C", CultureInfo.GetCultureInfo("en-GB"))<br />
         Bet Status: @bet.BetStatus.AsString()
     </p>
+}
+@if (string.IsNullOrEmpty(currentChallenge.ChallengeStatus))
+{
+    @Html.Action("ShowNewBetWindow", "Bet", int.Parse(Session["USERKEY"].AsString()))
 }
