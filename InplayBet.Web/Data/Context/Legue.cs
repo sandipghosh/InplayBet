@@ -12,31 +12,22 @@ namespace InplayBet.Web.Data.Context
     using System;
     using System.Collections.Generic;
     
-    public partial class User : BaseData
+    public partial class Legue : BaseData
     {
-        public User()
+        public Legue()
         {
-            this.Challenges = new HashSet<Challenge>();
+            this.Bets = new HashSet<Bet>();
         }
     
-        public int UserKey { get; set; }
-        public string UserId { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string EmailId { get; set; }
-        public string Password { get; set; }
-        public string Sex { get; set; }
-        public System.DateTime DateOfBirth { get; set; }
-        public int BookMakerId { get; set; }
-        public string AvatarPath { get; set; }
+        public int LegueId { get; set; }
+        public string LegueName { get; set; }
         public int StatusId { get; set; }
         public int CreatedBy { get; set; }
         public System.DateTime CreatedOn { get; set; }
         public Nullable<int> UpdatedBy { get; set; }
         public Nullable<System.DateTime> UpdatedOn { get; set; }
     
-        public virtual BookMaker BookMaker { get; set; }
-        public virtual ICollection<Challenge> Challenges { get; set; }
+        public virtual ICollection<Bet> Bets { get; set; }
         public virtual Status Status { get; set; }
     }
 }
