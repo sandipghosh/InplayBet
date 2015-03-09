@@ -26,13 +26,14 @@
         reader.readAsDataURL(this.files[0]);
         this.files = [];
     });
+
     $('#btnCrop').on('click', function () {
         var img = cropper.getDataURL();
-
         var rawData = cropper.getDataURL().replace('data:image/jpeg;base64,', '');
         //$('.cropped').append('<img src="' + img + '">');
         UploadAvatarImage(rawData);
     });
+
     $('#btnZoomIn').on('click', function () {
         cropper.zoomIn();
     });
@@ -56,10 +57,6 @@
             });
         } catch (ex) { log(ex.message); }
     };
-
-
-
-
 
 }((jQuery, window)));
 

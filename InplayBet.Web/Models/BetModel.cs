@@ -5,9 +5,10 @@ namespace InplayBet.Web.Models
     using System;
     using InplayBet.Web.Models.Base;
 
-    public class BetModel:BaseModel
+    public class BetModel : BaseModel
     {
         public int BetId { get; set; }
+        public int BetNumber { get; set; }
         public int TeamAId { get; set; }
         public int TeamBId { get; set; }
         public int LegueId { get; set; }

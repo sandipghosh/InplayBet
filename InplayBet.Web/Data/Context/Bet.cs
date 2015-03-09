@@ -15,6 +15,7 @@ namespace InplayBet.Web.Data.Context
     public partial class Bet : BaseData
     {
         public int BetId { get; set; }
+        public int BetNumber { get; set; }
         public int TeamAId { get; set; }
         public int TeamBId { get; set; }
         public int LegueId { get; set; }

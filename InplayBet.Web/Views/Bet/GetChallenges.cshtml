@@ -1,0 +1,76 @@
+﻿@using InplayBet.Web.Models
+@using InplayBet.Web.Utilities
+@model List<ChallengeModel>
+@functions {
+    public static string SetChallengeColor(ChallengeModel challenge)
+    {
+        string challangeStatus = challenge.ChallengeStatus.AsString();
+        if (string.IsNullOrEmpty(challangeStatus))
+            return "yellow-box";
+        else if (challangeStatus.ToLower() = "lost")
+            return "red-box";
+        else if (challangeStatus.ToLower() = "lost")
+            return "green-box";
+    }
+}
+
+@foreach (ChallengeModel challenge in Model)
+{
+    <div class="@SetChallengeColor(challenge)">
+        <div class="blk-bg">
+            <h3 class="blk-heading">Challenge @challenge.ChallengeNumber.AsString() - Inplay</h3>
+            <a href="#" class="report-btn">report</a>
+        </div>
+        <div class="scroll">
+            <div class="outer">
+                @Html.Action("", "", new { })
+            </div>
+        </div>
+    </div>
+}
+<div class="yellow-box">
+    <div class="blk-bg">
+        <h3 class="blk-heading">Challenge 21 - Inplay</h3>
+        <a href="#" class="report-btn">report</a>
+    </div>
+    <div class="scroll">
+        <div class="outer">
+            @*<p class="internal">
+                    <strong>Bet 1 Man u vs Arsenal</strong><br>
+                    Man U first Goal<br>
+                    £20 - £24.52<br>
+                    Won
+                </p>
+                <p class="internal">
+                    <strong>Bet 1 Man u vs Arsenal</strong><br>
+                    Man U first Goal<br>
+                    £20 - £24.52<br>
+                    Won
+                </p>
+                <p class="internal">
+                    <strong>Bet 1 Man u vs Arsenal</strong><br>
+                    Man U first Goal<br>
+                    £20 - £24.52<br>
+                    Won
+                </p>
+                <p class="internal">
+                    <strong>Bet 1 Man u vs Arsenal</strong><br>
+                    Man U first Goal<br>
+                    £20 - £24.52<br>
+                    Won
+                </p>
+                <p class="internal">
+                    <strong>Bet 1 Man u vs Arsenal</strong><br>
+                    Man U first Goal<br>
+                    £20 - £24.52<br>
+                    Won
+                </p>
+                <p class="internal">
+                    <strong>Bet 1 Man u vs Arsenal</strong><br>
+                    Man U first Goal<br>
+                    £20 - £24.52<br>
+                    Won
+                </p>*@
+        </div>
+    </div>
+</div>

@@ -5,18 +5,12 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="ce7c544554bb4db1ba662132042471c2" Name="Diagram1">
-        <EntityTypeShape EntityType="InplayBetModel.Bet" Width="1.5" PointX="5.25" PointY="12.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="InplayBetModel.BookMaker" Width="1.5" PointX="3" PointY="5.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="InplayBetModel.Challenge" Width="1.5" PointX="7.5" PointY="7.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="InplayBetModel.Legue" Width="1.5" PointX="3" PointY="14.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="InplayBetModel.Status" Width="1.5" PointX="0.75" PointY="9.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="InplayBetModel.Team" Width="1.5" PointX="3" PointY="18.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="InplayBetModel.User" Width="1.5" PointX="5.25" PointY="6.375" IsExpanded="true" />
-        <AssociationConnector Association="InplayBetModel.FK_Bet_Challenge" ManuallyRouted="false" />
-        <AssociationConnector Association="InplayBetModel.FK_Bet_Legue" ManuallyRouted="false" />
-        <AssociationConnector Association="InplayBetModel.FK_Bet_Status" ManuallyRouted="false" />
-        <AssociationConnector Association="InplayBetModel.FK_Bet_TeamA" ManuallyRouted="false" />
-        <AssociationConnector Association="InplayBetModel.FK_Bet_TeamB" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="InplayBetModel.BookMaker" Width="1.5" PointX="3" PointY="2.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="InplayBetModel.Challenge" Width="1.5" PointX="7.5" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="InplayBetModel.Legue" Width="1.5" PointX="3" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="InplayBetModel.Status" Width="1.5" PointX="0.75" PointY="6.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="InplayBetModel.Team" Width="1.5" PointX="3" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="InplayBetModel.User" Width="1.5" PointX="5.25" PointY="3.625" IsExpanded="true" />
         <AssociationConnector Association="InplayBetModel.FK_BookMaker_Status" ManuallyRouted="false" />
         <AssociationConnector Association="InplayBetModel.FK_User_BookMaker" ManuallyRouted="false" />
         <AssociationConnector Association="InplayBetModel.FK_Challenge_Status" ManuallyRouted="false" />
@@ -24,6 +18,12 @@
         <AssociationConnector Association="InplayBetModel.FK_Legue_Status" ManuallyRouted="false" />
         <AssociationConnector Association="InplayBetModel.FK_Team_Status" ManuallyRouted="false" />
         <AssociationConnector Association="InplayBetModel.FK_User_Status" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="InplayBetModel.Bet" Width="1.5" PointX="9.75" PointY="6" />
+        <AssociationConnector Association="InplayBetModel.FK_Bet_Challenge" />
+        <AssociationConnector Association="InplayBetModel.FK_Bet_Legue" />
+        <AssociationConnector Association="InplayBetModel.FK_Bet_Status" />
+        <AssociationConnector Association="InplayBetModel.FK_Bet_TeamA" />
+        <AssociationConnector Association="InplayBetModel.FK_Bet_TeamB" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

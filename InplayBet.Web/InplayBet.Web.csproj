@@ -56,6 +56,9 @@
       <HintPath>..\packages\EntityFramework.6.1.2\lib\net40\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="MoreLinq">
+      <HintPath>..\packages\morelinq.2.0.0-alpha01\lib\net35\MoreLinq.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net40\Newtonsoft.Json.dll</HintPath>
@@ -104,6 +107,7 @@
     <Reference Include="System.Threading.Tasks">
       <HintPath>..\packages\Microsoft.Bcl.1.1.10\lib\net40\System.Threading.Tasks.dll</HintPath>
     </Reference>
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -189,12 +193,14 @@
     </Compile>
     <Compile Include="Controllers\LatestBetsController.cs" />
     <Compile Include="Controllers\LatestWinnersController.cs" />
+    <Compile Include="Controllers\LegueController.cs" />
     <Compile Include="Controllers\MemberProfileController.cs" />
     <Compile Include="Controllers\MemberSearchController.cs" />
     <Compile Include="Controllers\RankingController.cs" />
     <Compile Include="Controllers\RegisterUserController.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Controllers\TeamController.cs" />
     <Compile Include="Data\Context\BaseData.cs" />
     <Compile Include="Data\Context\Bet.cs">
       <DependentUpon>InplayBetDBEntities.tt</DependentUpon>
@@ -287,6 +293,7 @@
     <Compile Include="Utilities\Expression\TypeUtils.cs" />
     <Compile Include="Utilities\Extension.cs" />
     <Compile Include="Utilities\FileLogger.cs" />
+    <Compile Include="Utilities\JsonActionResult.cs" />
     <Compile Include="Utilities\MapperExtension.cs" />
     <Compile Include="Utilities\OptimizationExtensions.cs" />
   </ItemGroup>
@@ -294,6 +301,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Content Include="DBScript\MoreLinqDoc.txt" />
     <Content Include="DBScript\SQLQuery.sql" />
     <Content Include="Global.asax" />
     <EntityDeploy Include="Data\Context\InplayBetDBEntities.edmx">
@@ -393,6 +401,11 @@
     <Content Include="Views\Shared\_BottomNavigation.cshtml" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Views\Shared\_RagistrationMailTemplate.cshtml" />
+    <Content Include="Views\Bet\ShowNewBetWindow.cshtml" />
+    <Content Include="Views\Shared\_PopupBet.cshtml" />
+    <Content Include="Views\Bet\GetChallenges.cshtml" />
+    <Content Include="Views\Bet\GetBetsByChallenge.cshtml" />
+    <Content Include="Views\Bet\GetChallengesByUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -432,7 +445,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>49568</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

@@ -1,0 +1,18 @@
+﻿@using InplayBet.Web.Models
+@using InplayBet.Web.Utilities
+@using System.Globalization
+@model List<BetModel>
+
+@foreach (BetModel bet in Model)
+{
+    <p class="internal">
+        <strong>Bet @bet.BetNumber.AsString()</strong><br />
+        Team Names: @bet.TeamA.TeamName.AsString() vs @bet.TeamB.TeamName.AsString()<br />
+        league: @bet.Legue.LegueName.AsString()<br />
+        Bet Type: @bet.BetType<br />
+        Odds: @bet.Odds.AsString()<br />
+        Amount Placed: @bet.BetPlaced.ToString("C", CultureInfo.GetCultureInfo("en-GB"))<br />
+        Winning Total: @bet.WiningTotal.ToString("C", CultureInfo.GetCultureInfo("en-GB"))<br />
+        Bet Status: @bet.BetStatus.AsString()
+    </p>
+}

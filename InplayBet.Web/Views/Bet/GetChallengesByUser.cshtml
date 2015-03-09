@@ -1,0 +1,34 @@
+﻿@using InplayBet.Web.Models
+@using InplayBet.Web.Utilities
+@model List<ChallengeModel>
+@functions {
+    public static string SetChallengeColor(ChallengeModel challenge)
+    {
+        string challangeStatus = challenge.ChallengeStatus.AsString();
+        if (string.IsNullOrEmpty(challangeStatus))
+            return "yellow-box";
+        else if (challangeStatus.ToLower() = "lost")
+            return "red-box";
+        else if (challangeStatus.ToLower() = "lost")
+            return "green-box";
+    }
+}
+
+@foreach (ChallengeModel challenge in Model)
+{
+    <div class="@SetChallengeColor(challenge)">
+        <div class="blk-bg">
+            <h3 class="blk-heading">Challenge @challenge.ChallengeNumber.AsString() - Inplay</h3>
+            <a href="#" class="report-btn">report</a>
+        </div>
+        <div class="scroll">
+            <div class="outer">
+                @Html.Action("GetBetsByChallenge", "Bet", new { challengeId = challenge.ChallengeId })
+            </div>
+        </div>
+    </div>
+    if (Model.IndexOf(challenge) == 1)
+    {
+        <div class="promo-bnr"><img src='@Url.Content("~/Styles/images/bet-promo-bnr.jpg")' alt=""></div>
+    }
+}

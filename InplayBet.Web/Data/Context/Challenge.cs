@@ -29,8 +29,8 @@ namespace InplayBet.Web.Data.Context
         public Nullable<int> UpdatedBy { get; set; }
         public Nullable<System.DateTime> UpdatedOn { get; set; }
     
-        public virtual ICollection<Bet> Bets { get; set; }
         public virtual Status Status { get; set; }
         public virtual User User { get; set; }
+        public virtual ICollection<Bet> Bets { get; set; }
     }
 }
