@@ -178,6 +178,7 @@
     <Compile Include="Controllers\Base\BaseController.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Controllers\BetController.cs" />
     <Compile Include="Controllers\CommonController.cs" />
     <Compile Include="Controllers\ContactUsController.cs">
       <SubType>Code</SubType>
@@ -234,14 +235,22 @@
     <Compile Include="Data\Implementation\Base\DataRepository.cs" />
     <Compile Include="Data\Implementation\Base\QueryDataRepository.cs" />
     <Compile Include="Data\Implementation\Base\UnitOfWork.cs" />
+    <Compile Include="Data\Implementation\BetDataRepository.cs" />
     <Compile Include="Data\Implementation\BookMakerDataRepository.cs" />
+    <Compile Include="Data\Implementation\ChallengeDataRepository.cs" />
+    <Compile Include="Data\Implementation\LegueDataRepository.cs" />
+    <Compile Include="Data\Implementation\TeamDataRepository.cs" />
     <Compile Include="Data\Implementation\UserDataRepository.cs" />
     <Compile Include="Data\Interface\Base\IQueryableUnitOfWork.cs" />
     <Compile Include="Data\Interface\Base\IQueryDataRepository.cs" />
     <Compile Include="Data\Interface\Base\IRepository.cs" />
     <Compile Include="Data\Interface\Base\ISql.cs" />
     <Compile Include="Data\Interface\Base\IUnitOfWork.cs" />
+    <Compile Include="Data\Interface\IBetDataRepository.cs" />
     <Compile Include="Data\Interface\IBookMakerDataRepository.cs" />
+    <Compile Include="Data\Interface\IChallengeDataRepository.cs" />
+    <Compile Include="Data\Interface\ILegueDataRepository.cs" />
+    <Compile Include="Data\Interface\ITeamDataRepository.cs" />
     <Compile Include="Data\Interface\IUserDataRepository.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -257,8 +266,12 @@
     <Compile Include="Models\Base\SafeDisposableBaseClass.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Models\BetModel.cs" />
     <Compile Include="Models\BookMakerModel.cs" />
+    <Compile Include="Models\ChallengeModel.cs" />
+    <Compile Include="Models\LegueModel.cs" />
     <Compile Include="Models\StatusModel.cs" />
+    <Compile Include="Models\TeamModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\CommonUtility.cs" />
@@ -301,26 +314,26 @@
       <LastGenOutput>InplayBetDBEntities.cs</LastGenOutput>
     </Content>
     <None Include="Scripts\jquery-2.1.3.intellisense.js" />
-    <Content Include="Images\banner.jpg" />
-    <Content Include="Images\bet-promo-bnr.jpg" />
-    <Content Include="Images\betting-video.jpg" />
-    <Content Include="Images\contact-icon.jpg" />
-    <Content Include="Images\f-icon.png" />
-    <Content Include="Images\footer-devider.gif" />
-    <Content Include="Images\header-bg.png" />
-    <Content Include="Images\header-img.png" />
-    <Content Include="Images\heading-bg.gif" />
-    <Content Include="Images\in-icon.png" />
-    <Content Include="Images\inner-title-bg.jpg" />
-    <Content Include="Images\leadboard-sh-img.jpg" />
-    <Content Include="Images\logo.png" />
-    <Content Include="Images\main-bg.jpg" />
-    <Content Include="Images\nav-devider.gif" />
-    <Content Include="Images\pisition-bg.png" />
-    <Content Include="Images\profile-img.jpg" />
-    <Content Include="Images\t-icon.png" />
+    <Content Include="Styles\images\banner.jpg" />
+    <Content Include="Styles\images\bet-promo-bnr.jpg" />
+    <Content Include="Styles\images\betting-video.jpg" />
+    <Content Include="Styles\images\contact-icon.jpg" />
+    <Content Include="Styles\images\f-icon.png" />
+    <Content Include="Styles\images\footer-devider.gif" />
+    <Content Include="Styles\images\header-bg.png" />
+    <Content Include="Styles\images\header-img.png" />
+    <Content Include="Styles\images\heading-bg.gif" />
+    <Content Include="Styles\images\in-icon.png" />
+    <Content Include="Styles\images\inner-title-bg.jpg" />
+    <Content Include="Styles\images\leadboard-sh-img.jpg" />
+    <Content Include="Styles\images\logo.png" />
+    <Content Include="Styles\images\main-bg.jpg" />
+    <Content Include="Styles\images\nav-devider.gif" />
+    <Content Include="Styles\images\pisition-bg.png" />
+    <Content Include="Styles\images\profile-img.jpg" />
+    <Content Include="Styles\images\t-icon.png" />
     <Content Include="Images\Users\Default.jpg" />
-    <Content Include="Images\welcome.gif" />
+    <Content Include="Styles\images\welcome.gif" />
     <Content Include="Scripts\AppScripts\Common.js" />
     <Content Include="Scripts\AppScripts\MainScript.js" />
     <Content Include="Scripts\consolelog.min.js" />
@@ -329,10 +342,26 @@
     <Content Include="Scripts\jquery-2.1.3.min.js" />
     <Content Include="Scripts\jquery-migrate-1.2.1.js" />
     <Content Include="Scripts\jquery-migrate-1.2.1.min.js" />
+    <Content Include="Scripts\jquery-ui.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Styles\images\ui-bg_diagonals-thick_18_b81900_40x40.png" />
+    <Content Include="Styles\images\ui-bg_diagonals-thick_20_666666_40x40.png" />
+    <Content Include="Styles\images\ui-bg_flat_10_000000_40x100.png" />
+    <Content Include="Styles\images\ui-bg_glass_100_f6f6f6_1x400.png" />
+    <Content Include="Styles\images\ui-bg_glass_100_fdf5ce_1x400.png" />
+    <Content Include="Styles\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Styles\images\ui-bg_gloss-wave_35_f6a828_500x100.png" />
+    <Content Include="Styles\images\ui-bg_highlight-soft_100_eeeeee_1x100.png" />
+    <Content Include="Styles\images\ui-bg_highlight-soft_75_ffe45c_1x100.png" />
+    <Content Include="Styles\images\ui-icons_222222_256x240.png" />
+    <Content Include="Styles\images\ui-icons_228ef1_256x240.png" />
+    <Content Include="Styles\images\ui-icons_ef8c08_256x240.png" />
+    <Content Include="Styles\images\ui-icons_ffd27a_256x240.png" />
+    <Content Include="Styles\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Styles\jquery-ui.min.css" />
     <Content Include="Styles\style.css" />
     <Content Include="Views\ContactUs\Index.cshtml">
       <SubType>Code</SubType>

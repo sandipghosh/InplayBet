@@ -35,6 +35,7 @@ namespace InplayBet.Web
                 Bundle scriptBundle = new Bundle("~/Scripts/CommonScript", new JsMinify());
                 scriptBundle.Include("~/Scripts/jquery-2.1.3.min.js",
                     "~/Scripts/jquery-migrate-1.2.1.min.js",
+                    "~/Scripts/jquery-ui.min.js",
                     "~/Scripts/consolelog.min.js",
                     "~/Scripts/cropbox-min.js",
                     "~/Scripts/AppScripts/Common.js",
@@ -57,7 +58,7 @@ namespace InplayBet.Web
             try
             {
                 Bundle styleBundle = new Bundle("~/Styles/CommonStyle", new CssMinify());
-                styleBundle.Include("~/Styles/style.css");
+                styleBundle.Include("~/Styles/jquery-ui.min.css", "~/Styles/style.css");
                 BundleTable.Bundles.Add(styleBundle);
             }
             catch (Exception ex)

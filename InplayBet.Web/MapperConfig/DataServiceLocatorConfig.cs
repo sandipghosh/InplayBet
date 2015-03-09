@@ -1,14 +1,14 @@
 ﻿
 namespace InplayBet.Web.MapperConfig
 {
+    using System;
     using AutoMapper;
-    using InplayBet.Web.Utilities;
-    using InplayBet.Web.Data.Interface;
     using InplayBet.Web.Data.Implementation;
+    using InplayBet.Web.Data.Interface;
+    using InplayBet.Web.Utilities;
     using SimpleInjector;
     using SimpleInjector.Advanced;
     using SimpleInjector.Packaging;
-    using System;
 
     public class DataServiceLocatorConfig : IPackage
     {
@@ -39,7 +39,10 @@ namespace InplayBet.Web.MapperConfig
             {
                 container.Register<IUserDataRepository, UserDataRepository>();
                 container.Register<IBookMakerDataRepository, BookMakerDataRepository>();
-                //container.Register<IEventDataRepository, EventDataRepository>();
+                container.Register<IBetDataRepository, BetDataRepository>();
+                container.Register<IChallengeDataRepository, ChallengeDataRepository>();
+                container.Register<ILegueDataRepository, LegueDataRepository>();
+                container.Register<ITeamDataRepository, TeamDataRepository>();
             }
             catch (Exception ex)
             {

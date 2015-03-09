@@ -42,32 +42,15 @@ namespace InplayBet.Web.MapperConfig
                 Mapper.CreateMap<BookMaker, BookMakerModel>().MapBothWays().IgnoreAllNonExisting();
                 Mapper.CreateMap<User, UserModel>().MapBothWays().IgnoreAllNonExisting();
 
+                Mapper.CreateMap<Bet, BetModel>()
+                    .ForMember(dest => dest.TeamA, opt => opt.MapFrom(src => src.Team))
+                    .ForMember(dest => dest.TeamB, opt => opt.MapFrom(src => src.Team1))
+                    .MapBothWays().IgnoreAllNonExisting();
+                Mapper.CreateMap<Challenge, ChallengeModel>().MapBothWays().IgnoreAllNonExisting();
+                Mapper.CreateMap<Legue, LegueModel>().MapBothWays().IgnoreAllNonExisting();
+                Mapper.CreateMap<Team, TeamModel>().MapBothWays().IgnoreAllNonExisting();
+
                 Mapper.AssertConfigurationIsValid();
-
-                //Mapper.CreateMap<NJFairground.Web.Data.Context.Page, PageModel>()
-                //    .IgnoreAllNonExisting().MapBothWays().IgnoreAllNonExisting();
-
-                //Mapper.CreateMap<PageItem, PageItemModel>()
-                //   .IgnoreAllNonExisting().MapBothWays().IgnoreAllNonExisting();
-
-                //Mapper.CreateMap<Event, EventModel>()
-                //   .IgnoreAllNonExisting().MapBothWays().IgnoreAllNonExisting();
-
-                //Mapper.CreateMap<SchedularSchema, EventModel>()
-                //    .ForMember(dest => dest.EventId, opt => opt.MapFrom(src => src.id))
-                //    .ForMember(dest => dest.EventTitle, opt => opt.MapFrom(src => src.title))
-                //    .ForMember(dest => dest.StartDate, opt => opt.MapFrom(src => src.start))
-                //    .ForMember(dest => dest.EndDate, opt => opt.MapFrom(src => src.end))
-                //    .ForMember(dest => dest.EventDesc, opt => opt.MapFrom(src => src.description))
-                //    .IgnoreAllNonExisting();
-
-                //Mapper.CreateMap<EventModel, SchedularSchema>()
-                //    .ForMember(dest => dest.id, opt => opt.MapFrom(src => src.EventId))
-                //    .ForMember(dest => dest.title, opt => opt.MapFrom(src => src.EventTitle))
-                //    .ForMember(dest => dest.start, opt => opt.MapFrom(src => src.StartDate))
-                //    .ForMember(dest => dest.end, opt => opt.MapFrom(src => src.EndDate))
-                //    .ForMember(dest => dest.description, opt => opt.MapFrom(src => src.EventDesc))
-                //    .IgnoreAllNonExisting();
             }
             catch (Exception ex)
             {

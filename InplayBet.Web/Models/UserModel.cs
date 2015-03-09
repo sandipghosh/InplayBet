@@ -38,5 +38,8 @@ namespace InplayBet.Web.Models
         public DateTime CreatedOn { get; set; }
         public int? UpdatedBy { get; set; }
         public DateTime? UpdatedOn { get; set; }
+
+        public virtual BookMakerModel BookMaker { get; set; }
+        public virtual IEquatable<ChallengeModel> Challenges { get; set; }
     }
 }

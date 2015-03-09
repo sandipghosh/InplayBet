@@ -4,17 +4,17 @@
 * {margin:0; padding:0;}
 p, h1, h2, h3, h4, h5, h6 {margin:0; padding:0;}
 ul, li {list-style:none;}
-body {background:#030b1b url(../images/main-bg.jpg) top center / cover no-repeat; font:400 13px/21px 'Roboto'; color:#6a6a6a; margin:0; padding:0;}
-.header {float:left; background:url(../images/header-bg.png) 0 0 repeat;}
+body {background:#030b1b url(images/main-bg.jpg) top center / cover no-repeat; font:400 13px/21px 'Roboto'; color:#6a6a6a; margin:0; padding:0;}
+.header {float:left; background:url(images/header-bg.png) 0 0 repeat;}
 .center {width:1200px; margin:0 auto;}
 .header-top {width:100%; float:left; padding:12px 0; border-bottom:1px solid #1f3248;}
 .header-top ul.social {margin:0; padding:0;}
 .header-top ul.social li {margin:0; padding:0 12px 0 0; float:left; width:auto;}
-.header-top ul.social li a.facebook {width:32px; height:32px; background:url(../images/f-icon.png) 0 0 no-repeat; -webkit-transition: all 0.4s ease; -moz-transition: all 0.4s ease; transition: all 0.4s ease; display:inline-block;}
+.header-top ul.social li a.facebook {width:32px; height:32px; background:url(images/f-icon.png) 0 0 no-repeat; -webkit-transition: all 0.4s ease; -moz-transition: all 0.4s ease; transition: all 0.4s ease; display:inline-block;}
 .header-top ul.social li a:hover.facebook {background-position:100% 0;}
-.header-top ul.social li a.twitter {width:32px; height:32px; background:url(../images/t-icon.png) 0 0 no-repeat; -webkit-transition: all 0.4s ease; -moz-transition: all 0.4s ease; transition: all 0.4s ease; display:inline-block;}
+.header-top ul.social li a.twitter {width:32px; height:32px; background:url(images/t-icon.png) 0 0 no-repeat; -webkit-transition: all 0.4s ease; -moz-transition: all 0.4s ease; transition: all 0.4s ease; display:inline-block;}
 .header-top ul.social li a:hover.twitter {background-position:100% 0;}
-.header-top ul.social li a.linkedin {width:32px; height:32px; background:url(../images/in-icon.png) 0 0 no-repeat; -webkit-transition: all 0.4s ease; -moz-transition: all 0.4s ease; transition: all 0.4s ease; display:inline-block;}
+.header-top ul.social li a.linkedin {width:32px; height:32px; background:url(images/in-icon.png) 0 0 no-repeat; -webkit-transition: all 0.4s ease; -moz-transition: all 0.4s ease; transition: all 0.4s ease; display:inline-block;}
 .header-top ul.social li a:hover.linkedin {background-position:100% 0;}
 
 .header-top .right {float:right; width:70%; text-align:right;}
@@ -35,7 +35,7 @@ body {background:#030b1b url(../images/main-bg.jpg) top center / cover no-repeat
 
 .nav-container {float:left; background:#63b222;}
 .nav-container ul.nav {margin:0; padding:0;}
-.nav-container ul.nav li {margin:0; padding:0; list-style:none; background:url(../images/nav-devider.gif) 0 0 no-repeat; float:left;}
+.nav-container ul.nav li {margin:0; padding:0; list-style:none; background:url(images/nav-devider.gif) 0 0 no-repeat; float:left;}
 .nav-container ul.nav li a {display:block; font-size:15px; color:#fff; text-transform:uppercase; padding:0 20px; margin:0; text-decoration:none; line-height:62px; -webkit-transition: all 0.3s ease-in; -moz-transition: all 0.3s ease-in; transition: all 0.3s ease-in;}
 .nav-container ul.nav li:hover a, .nav-container ul.nav li.active a, .nav-container ul.nav li:hover.active a {background:#072147; background-position: left top;}
 .search-top {float:right; width:18%; background:#fff; margin:10px 0 0 0;}
@@ -55,7 +55,7 @@ border-radius: 100px 100px 100px 100px;}
 .container h1.heading span.thin {font-size:28px; font-weight:300;}
 .container p {text-align:left; margin:0 0 30px; font-size:15px;}
 .container p.home {text-align:center; margin:0 0 30px; font-size:15px;}
-.heading-bg {background:url(../images/heading-bg.gif) 0 19px repeat-x; text-align:center; width:100%; float:left;}
+.heading-bg {background:url(images/heading-bg.gif) 0 19px repeat-x; text-align:center; width:100%; float:left;}
 .heading-bg h2 {display:inline-block; text-align:center; font-size:30px; text-transform:uppercase; color:#fff; background:#63b222; font-weight:700; margin:0; padding:10px;}
 ul.leadbroad-block {float:left; width:100%; margin:20px 0 0 0; padding:0;}
 ul.leadbroad-block li {float:left; width:31%; margin:0 17px 15px 0; padding:0.5%; border:2px solid #c7c7c7; position:relative;}
@@ -85,11 +85,11 @@ ul.leadbroad-block li .block-top .points {background:#fff; padding:2%; width:96%
 ul.leadbroad-block li .block-top .points-botm {margin-bottom:0;}
 ul.leadbroad-block li .block-top .points p.left {float:left; width:46%; font-size:20px; color:#000; text-align:left; margin:0;}
 ul.leadbroad-block li .block-top .points p.right {float:right; width:46%; font-size:20px; color:#000; text-align:left; margin:0;}
-ul.leadbroad-block li .position {position:absolute; top:-2px; right:15px; background:url(../images/pisition-bg.png) 0 0 no-repeat; font-size:20px; color:#fff; width:58px; font-weight:700; height:57px; padding:20px 0 0 0; text-align:center;}
+ul.leadbroad-block li .position {position:absolute; top:-2px; right:15px; background:url(images/pisition-bg.png) 0 0 no-repeat; font-size:20px; color:#fff; width:58px; font-weight:700; height:57px; padding:20px 0 0 0; text-align:center;}
 
 .footer {width:100%; float:left; padding:45px 0;}
 .footer ul {margin:0; padding:0; width:100%; text-align:center;}
-.footer ul li {list-style:none; display:inline-block; font-size:14px; text-transform:uppercase; color:#fff; background:url(../images/footer-devider.gif) 0 5px no-repeat; margin:0; padding:0 12px;}
+.footer ul li {list-style:none; display:inline-block; font-size:14px; text-transform:uppercase; color:#fff; background:url(images/footer-devider.gif) 0 5px no-repeat; margin:0; padding:0 12px;}
 .footer ul li:first-child {background:none;}
 .footer ul li a {color:#fff; text-decoration:none; -webkit-transition: all 0.3s ease-in; -moz-transition: all 0.3s ease-in; transition: all 0.3s ease-in;}
 .footer ul li a:hover {color:#63b222; text-decoration:none;}
@@ -98,7 +98,7 @@ ul.leadbroad-block li .position {position:absolute; top:-2px; right:15px; backgr
 
 /*---------------- Inner Page CSS -------------------*/
 .title-outer {width:1200px; margin:0 auto;}
-.page-title {background:url(../images/inner-title-bg.jpg) 0 0 no-repeat; width:100%; height:153px; float:left;}
+.page-title {background:url(images/inner-title-bg.jpg) 0 0 no-repeat; width:100%; height:153px; float:left;}
 .page-title h2 {margin:0; padding:0 0 0 25px; line-height:152px; color:#fff; text-transform:uppercase; font-size:45px; font-weight:700;}
 .mp-block {width:98%; float:left; border:2px solid #c7c7c7; padding:1%;}
 .mp-block:hover {border:2px solid #63b222; -webkit-transition: all 0.3s ease-in; -moz-transition: all 0.3s ease-in; transition: all 0.3s ease-in;}
