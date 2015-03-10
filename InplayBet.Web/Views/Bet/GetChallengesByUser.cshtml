@@ -7,15 +7,17 @@
         string challangeStatus = challenge.ChallengeStatus.AsString();
         if (string.IsNullOrEmpty(challangeStatus))
             return "yellow-box";
-        else if (challangeStatus.ToLower() = "lost")
+        else if (challangeStatus.ToLower() == "lost")
             return "red-box";
-        else if (challangeStatus.ToLower() = "lost")
+        else if (challangeStatus.ToLower() == "lost")
             return "green-box";
+        else
+            return string.Empty;
     }
 }
-@helper PopulateChallenge(ChallengeModel challenge)
+@helper PopulateChallenge(ChallengeModel challenge, bool showPromo)
 {
-    <div class='@((challenge == null)?"yellow-box":SetChallengeColor(challenge))'>
+    <div class='@((challenge == null) ? "yellow-box" : SetChallengeColor(challenge))'>
         <div class="blk-bg">
             <h3 class="blk-heading">Challenge @((challenge == null) ? "1" : challenge.ChallengeNumber.AsString()) - Inplay</h3>
             <a href="#" class="report-btn">report</a>
@@ -35,18 +37,25 @@
             </div>
         </div>
     </div>
+    if (showPromo)
+    {
+        <div class="promo-bnr">
+            <img src='@Url.Content("~/Styles/images/bet-promo-bnr.jpg")' alt="">
+        </div>
+    }
 }
 
 @foreach (ChallengeModel challenge in Model)
 {
-    PopulateChallenge(challenge)
+    PopulateChallenge(challenge, false);
     if (Model.IndexOf(challenge) == 1)
     {
-        <div class="promo-bnr"><img src='@Url.Content("~/Styles/images/bet-promo-bnr.jpg")' alt=""></div>
+    <div class="promo-bnr">
+        <img src='@Url.Content("~/Styles/images/bet-promo-bnr.jpg")' alt="">
+    </div>
     }
 }
 @if (Model == null)
 {
-    PopulateChallenge(null)
-    <div class="promo-bnr"><img src='@Url.Content("~/Styles/images/bet-promo-bnr.jpg")' alt=""></div>
+    PopulateChallenge(null, true);
 }

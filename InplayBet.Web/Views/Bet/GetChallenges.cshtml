@@ -7,10 +7,12 @@
         string challangeStatus = challenge.ChallengeStatus.AsString();
         if (string.IsNullOrEmpty(challangeStatus))
             return "yellow-box";
-        else if (challangeStatus.ToLower() = "lost")
+        else if (challangeStatus.ToLower() == "lost")
             return "red-box";
-        else if (challangeStatus.ToLower() = "lost")
+        else if (challangeStatus.ToLower() == "lost")
             return "green-box";
+        else
+            return string.Empty;
     }
 }
 

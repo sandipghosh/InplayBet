@@ -61,7 +61,42 @@
 }((jQuery, window)));
 
 var source = ["Apples", "Oranges", "Bananas"];
+
+(function ($) {
+    $.fn.genericAutocomplete = function (options) {
+        var settings = $.extend({
+            url: '',
+            minLength: 2
+        }, options);
+        var $self = this;
+
+        return $self.each(function () {
+            var $item = this;
+            $item.autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: settings.url,
+                        dataType: "json",
+                        success: function (data) {
+                            var re = $.ui.autocomplete.escapeRegex(request.term);
+                            var matcher = new RegExp("^" + re, "i");
+                            var result = $.grep(data, function (item) { return matcher.test(item.value); });
+                            $item.next('a.btn').toggle($.inArray(request.term, result) < 0);
+                            response(result);
+                        }
+                    });
+                },
+                minLength: settings.minLength
+            });
+        });
+    };
+
+}(jQuery));
+
 $(function () {
+    //$('#txtTesmA, #txtTesmB')
+
+
     $("#auto").autocomplete({
         source: function (request, response) {
             var result = $.ui.autocomplete.filter(source, request.term);

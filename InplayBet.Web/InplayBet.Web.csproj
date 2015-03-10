@@ -323,6 +323,8 @@
     </Content>
     <None Include="Properties\PublishProfiles\Publish.pubxml" />
     <None Include="Scripts\jquery-2.1.3.intellisense.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Styles\images\banner.jpg" />
     <Content Include="Styles\images\bet-promo-bnr.jpg" />
     <Content Include="Styles\images\betting-video.jpg" />
