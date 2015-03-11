@@ -17,6 +17,7 @@ namespace InplayBet.Web.Controllers
         }
         public ActionResult Index()
         {
+
             var a = this._userDataRepository.GetList(x => x.StatusId == 1).ToList();
             return View();
         }

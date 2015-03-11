@@ -5,6 +5,17 @@ namespace InplayBet.Web.Models.Base
     {
         Active = 1,
         Inative = 2,
-        Discontinue = 3
+        Discontinue = 3,
+        Won = 4,
+        Lost = 5
     }
+
+    public enum BetDisplayType
+    {
+        Insert = 1,
+        Update = 2,
+        Read = 3
+    }
+
+
 }

@@ -22,6 +22,7 @@ namespace InplayBet.Web.Data.Context
         public int ChallengeId { get; set; }
         public int ChallengeNumber { get; set; }
         public int UserKey { get; set; }
+        public decimal WiningPrice { get; set; }
         public string ChallengeStatus { get; set; }
         public int StatusId { get; set; }
         public int CreatedBy { get; set; }
@@ -29,8 +30,8 @@ namespace InplayBet.Web.Data.Context
         public Nullable<int> UpdatedBy { get; set; }
         public Nullable<System.DateTime> UpdatedOn { get; set; }
     
+        public virtual ICollection<Bet> Bets { get; set; }
         public virtual Status Status { get; set; }
         public virtual User User { get; set; }
-        public virtual ICollection<Bet> Bets { get; set; }
     }
 }

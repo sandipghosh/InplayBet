@@ -140,7 +140,7 @@ namespace InplayBet.Web.Utilities
             get
             {
                 return string.IsNullOrEmpty(this.from) ?
-                    ConfigurationManager.AppSettings["MAIL_SENDER_UID"].ToString() : this.from;
+                    CommonUtility.GetConfigData<string>("MAIL_SENDER_UID") : this.from;
             }
             set { from = value; }
         }
@@ -179,8 +179,8 @@ namespace InplayBet.Web.Utilities
         {
             get
             {
-                return string.IsNullOrEmpty(this.Server_) ?
-                    ConfigurationManager.AppSettings["MAIL_SERVER"].ToString() : this.Server_;
+                return string.IsNullOrEmpty(this.Server_) ? 
+                    CommonUtility.GetConfigData<string>("MAIL_SERVER"): this.Server_;
             }
             set { Server_ = value; }
         }
@@ -193,7 +193,7 @@ namespace InplayBet.Web.Utilities
             get
             {
                 return string.IsNullOrEmpty(this.UserName_) ?
-                    ConfigurationManager.AppSettings["MAIL_SENDER_UID"].ToString() : this.UserName_;
+                    CommonUtility.GetConfigData<string>("MAIL_SENDER_UID") : this.UserName_;
             }
             set { UserName_ = value; }
         }
@@ -206,7 +206,7 @@ namespace InplayBet.Web.Utilities
             get
             {
                 return string.IsNullOrEmpty(this.Password_) ?
-                    ConfigurationManager.AppSettings["MAIL_SENDER_PWD"].ToString() : this.Password_;
+                    CommonUtility.GetConfigData<string>("MAIL_SENDER_PWD") : this.Password_;
             }
             set { Password_ = value; }
         }
@@ -219,7 +219,7 @@ namespace InplayBet.Web.Utilities
             get
             {
                 return this.Port_ == 0 ?
-                  int.Parse(ConfigurationManager.AppSettings["MAIL_SERVER_PORT"].ToString()) : this.Port_;
+                  CommonUtility.GetConfigData<int>("MAIL_SERVER_PORT") : this.Port_;
             }
             set { Port_ = value; }
         }
@@ -235,7 +235,7 @@ namespace InplayBet.Web.Utilities
             get
             {
                 return string.IsNullOrEmpty(this.fromSenderName) ?
-                    ConfigurationManager.AppSettings["MAIL_SENDER_FROM"].ToString() : this.fromSenderName;
+                    CommonUtility.GetConfigData<string>("MAIL_SENDER_FROM") : this.fromSenderName;
             }
             set
             {

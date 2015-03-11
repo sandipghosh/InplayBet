@@ -10,6 +10,7 @@ namespace InplayBet.Web.Models
         public int ChallengeId { get; set; }
         public int ChallengeNumber { get; set; }
         public int UserKey { get; set; }
+        public decimal WiningPrice { get; set; }
         public string ChallengeStatus { get; set; }
         public int StatusId { get; set; }
         public int CreatedBy { get; set; }

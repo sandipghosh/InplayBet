@@ -46,6 +46,7 @@
           <Property Name="ChallengeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ChallengeNumber" Type="int" Nullable="false" />
           <Property Name="UserKey" Type="int" Nullable="false" />
+          <Property Name="WiningPrice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="ChallengeStatus" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="StatusId" Type="int" Nullable="false" />
           <Property Name="CreatedBy" Type="int" Nullable="false" />
@@ -311,7 +312,6 @@
       <Schema Namespace="InplayBetModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
         <EntityContainer Name="InplayBetDBEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="BookMakers" EntityType="InplayBetModel.BookMaker" />
-          <EntitySet Name="Challenges" EntityType="InplayBetModel.Challenge" />
           <EntitySet Name="Legues" EntityType="InplayBetModel.Legue" />
           <EntitySet Name="Status" EntityType="InplayBetModel.Status" />
           <EntitySet Name="Teams" EntityType="InplayBetModel.Team" />
@@ -323,14 +323,6 @@
           <AssociationSet Name="FK_User_BookMaker" Association="InplayBetModel.FK_User_BookMaker">
             <End Role="BookMaker" EntitySet="BookMakers" />
             <End Role="User" EntitySet="Users" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Challenge_Status" Association="InplayBetModel.FK_Challenge_Status">
-            <End Role="Status" EntitySet="Status" />
-            <End Role="Challenge" EntitySet="Challenges" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Challenge_User" Association="InplayBetModel.FK_Challenge_User">
-            <End Role="User" EntitySet="Users" />
-            <End Role="Challenge" EntitySet="Challenges" />
           </AssociationSet>
           <AssociationSet Name="FK_Legue_Status" Association="InplayBetModel.FK_Legue_Status">
             <End Role="Status" EntitySet="Status" />
@@ -345,10 +337,6 @@
             <End Role="User" EntitySet="Users" />
           </AssociationSet>
           <EntitySet Name="Bets" EntityType="InplayBetModel.Bet" />
-          <AssociationSet Name="FK_Bet_Challenge" Association="InplayBetModel.FK_Bet_Challenge">
-            <End Role="Challenge" EntitySet="Challenges" />
-            <End Role="Bet" EntitySet="Bets" />
-          </AssociationSet>
           <AssociationSet Name="FK_Bet_Legue" Association="InplayBetModel.FK_Bet_Legue">
             <End Role="Legue" EntitySet="Legues" />
             <End Role="Bet" EntitySet="Bets" />
@@ -365,6 +353,19 @@
             <End Role="Team" EntitySet="Teams" />
             <End Role="Bet" EntitySet="Bets" />
           </AssociationSet>
+          <EntitySet Name="Challenges" EntityType="InplayBetModel.Challenge" />
+          <AssociationSet Name="FK_Bet_Challenge" Association="InplayBetModel.FK_Bet_Challenge">
+            <End Role="Challenge" EntitySet="Challenges" />
+            <End Role="Bet" EntitySet="Bets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Challenge_Status" Association="InplayBetModel.FK_Challenge_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Challenge" EntitySet="Challenges" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Challenge_User" Association="InplayBetModel.FK_Challenge_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Challenge" EntitySet="Challenges" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="BookMaker">
           <Key>
@@ -379,23 +380,6 @@
           <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Status" Relationship="InplayBetModel.FK_BookMaker_Status" FromRole="BookMaker" ToRole="Status" />
           <NavigationProperty Name="Users" Relationship="InplayBetModel.FK_User_BookMaker" FromRole="BookMaker" ToRole="User" />
-        </EntityType>
-        <EntityType Name="Challenge">
-          <Key>
-            <PropertyRef Name="ChallengeId" />
-          </Key>
-          <Property Name="ChallengeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ChallengeNumber" Type="Int32" Nullable="false" />
-          <Property Name="UserKey" Type="Int32" Nullable="false" />
-          <Property Name="ChallengeStatus" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="StatusId" Type="Int32" Nullable="false" />
-          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
-          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UpdatedBy" Type="Int32" />
-          <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Status" Relationship="InplayBetModel.FK_Challenge_Status" FromRole="Challenge" ToRole="Status" />
-          <NavigationProperty Name="User" Relationship="InplayBetModel.FK_Challenge_User" FromRole="Challenge" ToRole="User" />
-          <NavigationProperty Name="Bets" Relationship="InplayBetModel.FK_Bet_Challenge" FromRole="Challenge" ToRole="Bet" />
         </EntityType>
         <EntityType Name="Legue">
           <Key>
@@ -418,11 +402,11 @@
           <Property Name="StatusId" Type="Int32" Nullable="false" />
           <Property Name="StatusName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="BookMakers" Relationship="InplayBetModel.FK_BookMaker_Status" FromRole="Status" ToRole="BookMaker" />
-          <NavigationProperty Name="Challenges" Relationship="InplayBetModel.FK_Challenge_Status" FromRole="Status" ToRole="Challenge" />
           <NavigationProperty Name="Legues" Relationship="InplayBetModel.FK_Legue_Status" FromRole="Status" ToRole="Legue" />
           <NavigationProperty Name="Teams" Relationship="InplayBetModel.FK_Team_Status" FromRole="Status" ToRole="Team" />
           <NavigationProperty Name="Users" Relationship="InplayBetModel.FK_User_Status" FromRole="Status" ToRole="User" />
           <NavigationProperty Name="Bets" Relationship="InplayBetModel.FK_Bet_Status" FromRole="Status" ToRole="Bet" />
+          <NavigationProperty Name="Challenges" Relationship="InplayBetModel.FK_Challenge_Status" FromRole="Status" ToRole="Challenge" />
         </EntityType>
         <EntityType Name="Team">
           <Key>
@@ -459,8 +443,8 @@
           <Property Name="UpdatedBy" Type="Int32" />
           <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
           <NavigationProperty Name="BookMaker" Relationship="InplayBetModel.FK_User_BookMaker" FromRole="User" ToRole="BookMaker" />
-          <NavigationProperty Name="Challenges" Relationship="InplayBetModel.FK_Challenge_User" FromRole="User" ToRole="Challenge" />
           <NavigationProperty Name="Status" Relationship="InplayBetModel.FK_User_Status" FromRole="User" ToRole="Status" />
+          <NavigationProperty Name="Challenges" Relationship="InplayBetModel.FK_Challenge_User" FromRole="User" ToRole="Challenge" />
         </EntityType>
         <Association Name="FK_BookMaker_Status">
           <End Role="Status" Type="InplayBetModel.Status" Multiplicity="1" />
@@ -483,30 +467,6 @@
             </Principal>
             <Dependent Role="User">
               <PropertyRef Name="BookMakerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Challenge_Status">
-          <End Role="Status" Type="InplayBetModel.Status" Multiplicity="1" />
-          <End Role="Challenge" Type="InplayBetModel.Challenge" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Status">
-              <PropertyRef Name="StatusId" />
-            </Principal>
-            <Dependent Role="Challenge">
-              <PropertyRef Name="StatusId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Challenge_User">
-          <End Role="User" Type="InplayBetModel.User" Multiplicity="1" />
-          <End Role="Challenge" Type="InplayBetModel.Challenge" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="UserKey" />
-            </Principal>
-            <Dependent Role="Challenge">
-              <PropertyRef Name="UserKey" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -567,24 +527,12 @@
           <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="UpdatedBy" Type="Int32" />
           <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Challenge" Relationship="InplayBetModel.FK_Bet_Challenge" FromRole="Bet" ToRole="Challenge" />
           <NavigationProperty Name="Legue" Relationship="InplayBetModel.FK_Bet_Legue" FromRole="Bet" ToRole="Legue" />
           <NavigationProperty Name="Status" Relationship="InplayBetModel.FK_Bet_Status" FromRole="Bet" ToRole="Status" />
           <NavigationProperty Name="Team" Relationship="InplayBetModel.FK_Bet_TeamA" FromRole="Bet" ToRole="Team" />
           <NavigationProperty Name="Team1" Relationship="InplayBetModel.FK_Bet_TeamB" FromRole="Bet" ToRole="Team" />
+          <NavigationProperty Name="Challenge" Relationship="InplayBetModel.FK_Bet_Challenge" FromRole="Bet" ToRole="Challenge" />
         </EntityType>
-        <Association Name="FK_Bet_Challenge">
-          <End Type="InplayBetModel.Challenge" Role="Challenge" Multiplicity="1" />
-          <End Type="InplayBetModel.Bet" Role="Bet" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Challenge">
-              <PropertyRef Name="ChallengeId" />
-            </Principal>
-            <Dependent Role="Bet">
-              <PropertyRef Name="ChallengeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Bet_Legue">
           <End Type="InplayBetModel.Legue" Role="Legue" Multiplicity="1" />
           <End Type="InplayBetModel.Bet" Role="Bet" Multiplicity="*" />
@@ -633,6 +581,60 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Challenge">
+          <Key>
+            <PropertyRef Name="ChallengeId" />
+          </Key>
+          <Property Name="ChallengeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ChallengeNumber" Type="Int32" Nullable="false" />
+          <Property Name="UserKey" Type="Int32" Nullable="false" />
+          <Property Name="WiningPrice" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="ChallengeStatus" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="StatusId" Type="Int32" Nullable="false" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedBy" Type="Int32" />
+          <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Bets" Relationship="InplayBetModel.FK_Bet_Challenge" FromRole="Challenge" ToRole="Bet" />
+          <NavigationProperty Name="Status" Relationship="InplayBetModel.FK_Challenge_Status" FromRole="Challenge" ToRole="Status" />
+          <NavigationProperty Name="User" Relationship="InplayBetModel.FK_Challenge_User" FromRole="Challenge" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_Bet_Challenge">
+          <End Type="InplayBetModel.Challenge" Role="Challenge" Multiplicity="1" />
+          <End Type="InplayBetModel.Bet" Role="Bet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Challenge">
+              <PropertyRef Name="ChallengeId" />
+            </Principal>
+            <Dependent Role="Bet">
+              <PropertyRef Name="ChallengeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Challenge_Status">
+          <End Type="InplayBetModel.Status" Role="Status" Multiplicity="1" />
+          <End Type="InplayBetModel.Challenge" Role="Challenge" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="StatusId" />
+            </Principal>
+            <Dependent Role="Challenge">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Challenge_User">
+          <End Type="InplayBetModel.User" Role="User" Multiplicity="1" />
+          <End Type="InplayBetModel.Challenge" Role="Challenge" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserKey" />
+            </Principal>
+            <Dependent Role="Challenge">
+              <PropertyRef Name="UserKey" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -644,21 +646,6 @@
               <MappingFragment StoreEntitySet="BookMaker">
                 <ScalarProperty Name="BookMakerId" ColumnName="BookMakerId" />
                 <ScalarProperty Name="BookMakerName" ColumnName="BookMakerName" />
-                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Challenges">
-            <EntityTypeMapping TypeName="InplayBetModel.Challenge">
-              <MappingFragment StoreEntitySet="Challenge">
-                <ScalarProperty Name="ChallengeId" ColumnName="ChallengeId" />
-                <ScalarProperty Name="ChallengeNumber" ColumnName="ChallengeNumber" />
-                <ScalarProperty Name="UserKey" ColumnName="UserKey" />
-                <ScalarProperty Name="ChallengeStatus" ColumnName="ChallengeStatus" />
                 <ScalarProperty Name="StatusId" ColumnName="StatusId" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
@@ -742,6 +729,22 @@
                 <ScalarProperty Name="TeamAId" ColumnName="TeamAId" />
                 <ScalarProperty Name="BetNumber" ColumnName="BetNumber" />
                 <ScalarProperty Name="BetId" ColumnName="BetId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Challenges">
+            <EntityTypeMapping TypeName="InplayBetModel.Challenge">
+              <MappingFragment StoreEntitySet="Challenge">
+                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="ChallengeStatus" ColumnName="ChallengeStatus" />
+                <ScalarProperty Name="WiningPrice" ColumnName="WiningPrice" />
+                <ScalarProperty Name="UserKey" ColumnName="UserKey" />
+                <ScalarProperty Name="ChallengeNumber" ColumnName="ChallengeNumber" />
+                <ScalarProperty Name="ChallengeId" ColumnName="ChallengeId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

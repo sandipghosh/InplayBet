@@ -17,21 +17,21 @@ namespace InplayBet.Web.Data.Context
         public Status()
         {
             this.BookMakers = new HashSet<BookMaker>();
-            this.Challenges = new HashSet<Challenge>();
             this.Legues = new HashSet<Legue>();
             this.Teams = new HashSet<Team>();
             this.Users = new HashSet<User>();
             this.Bets = new HashSet<Bet>();
+            this.Challenges = new HashSet<Challenge>();
         }
     
         public int StatusId { get; set; }
         public string StatusName { get; set; }
     
         public virtual ICollection<BookMaker> BookMakers { get; set; }
-        public virtual ICollection<Challenge> Challenges { get; set; }
         public virtual ICollection<Legue> Legues { get; set; }
         public virtual ICollection<Team> Teams { get; set; }
         public virtual ICollection<User> Users { get; set; }
         public virtual ICollection<Bet> Bets { get; set; }
+        public virtual ICollection<Challenge> Challenges { get; set; }
     }
 }

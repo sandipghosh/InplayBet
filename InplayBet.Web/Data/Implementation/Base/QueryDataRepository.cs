@@ -4,6 +4,7 @@ namespace InplayBet.Web.Data.Implementation.Base
     #region Required Namespace(s)
     using InplayBet.Web.Data.Interface.Base;
     using InplayBet.Web.Models.Base;
+    using InplayBet.Web.Utilities;
     using System.Collections.Generic;
     using System.Configuration;
     using System.Data.Entity;
@@ -28,7 +29,7 @@ namespace InplayBet.Web.Data.Implementation.Base
         public IEnumerable<TModel> ExecuteQuery<TModel>(string sqlQuery, params object[] parameters)
             where TModel : BaseModel
         {
-            int commandTimeoutAppSetting = int.Parse(ConfigurationManager.AppSettings["CommandTimeout"].ToString());
+            int commandTimeoutAppSetting = int.Parse(CommonUtility.GetConfigData<string>("CommandTimeout"));
             ((IObjectContextAdapter)_dbContext).ObjectContext.CommandTimeout = commandTimeoutAppSetting;
             var entities = this._dbContext.Database.SqlQuery<TModel>(sqlQuery, parameters);
             return entities;
@@ -42,7 +43,7 @@ namespace InplayBet.Web.Data.Implementation.Base
         /// <returns></returns>
         public int ExecuteCommand(string sqlCommand, params object[] parameters)
         {
-            int commandTimeoutAppSetting = int.Parse(ConfigurationManager.AppSettings["CommandTimeout"].ToString());
+            int commandTimeoutAppSetting = CommonUtility.GetConfigData<int>("CommandTimeout");
             ((IObjectContextAdapter)_dbContext).ObjectContext.CommandTimeout = commandTimeoutAppSetting;
             return this._dbContext.Database.ExecuteSqlCommand(sqlCommand, parameters);
         }

@@ -21,14 +21,14 @@ namespace InplayBet.Web.Utilities
         /// <value>
         /// <c>true</c> if this instance is js minify; otherwise, <c>false</c>.
         /// </value>
-        public static bool IsJsMinify { get { return Convert.ToBoolean(ConfigurationManager.AppSettings["JsMinify"] ?? "false"); } }
+        public static bool IsJsMinify { get { return CommonUtility.GetConfigData<string>("JsMinify").ToLower() =="true"; } }
         /// <summary>
         /// Gets a value indicating whether this instance is CSS minify.
         /// </summary>
         /// <value>
         /// <c>true</c> if this instance is CSS minify; otherwise, <c>false</c>.
         /// </value>
-        public static bool IsCssMinify { get { return Convert.ToBoolean(ConfigurationManager.AppSettings["CssMinify"] ?? "false"); } }
+        public static bool IsCssMinify { get { return CommonUtility.GetConfigData<string>("CssMinify").ToLower() == "true"; } }
 
         /// <summary>
         /// Jses the minify.

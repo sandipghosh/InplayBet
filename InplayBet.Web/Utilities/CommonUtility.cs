@@ -289,8 +289,8 @@ namespace InplayBet.Web.Utilities
         {
             //string baseDir = AppDomain.CurrentDomain.BaseDirectory;
             string baseDir = HttpContext.Current == null ?
-                string.Format("{0}{1}\\", AppDomain.CurrentDomain.BaseDirectory, ConfigurationManager.AppSettings["ErrorLogFolder"]) :
-                HttpContext.Current.Server.MapPath(string.Format("~/{0}/", ConfigurationManager.AppSettings["ErrorLogFolder"]));
+                string.Format("{0}{1}\\", AppDomain.CurrentDomain.BaseDirectory, CommonUtility.GetConfigData<string>("ErrorLogFolder")) :
+                HttpContext.Current.Server.MapPath(string.Format("~/{0}/", CommonUtility.GetConfigData<string>("ErrorLogFolder")));
 
             string logFilePath = string.Format("{0}LogFile-{1}{2}{3}-{4}{5}{6}.txt", baseDir,
                 DateTime.Now.Day, DateTime.Now.Month, DateTime.Now.Year,
@@ -347,7 +347,7 @@ namespace InplayBet.Web.Utilities
             ex.Data.Clear();
             ex.Data.Add("FunctionInfo", sb.ToString());
 
-            if (ConfigurationManager.AppSettings["EnableErrorLog"].ToString().ToLower() == "true")
+            if (CommonUtility.GetConfigData<string>("EnableErrorLog").ToLower() == "true")
             {
                 LogToFileWithStack(string.Format("{0}\r\n{1}", ex.Message, sb.ToString()));
             }
@@ -378,7 +378,7 @@ namespace InplayBet.Web.Utilities
             ex.Data.Clear();
             ex.Data.Add("FunctionInfo", sb.ToString());
 
-            if (ConfigurationManager.AppSettings["EnableErrorLog"].ToString().ToLower() == "true")
+            if (CommonUtility.GetConfigData<string>("EnableErrorLog").ToLower() == "true")
             {
                 LogToFileWithStack(string.Format("{0}\r\n{1}", ex.Message, sb.ToString()));
             }
@@ -525,6 +525,11 @@ namespace InplayBet.Web.Utilities
             {
                 ex.ExceptionValueTracker(urlData);
             }
+        }
+
+        public static T GetConfigData<T>(string key)
+        {
+            return (T)Convert.ChangeType(ConfigurationManager.AppSettings[key], typeof(T));
         }
     }
 }

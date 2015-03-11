@@ -62,7 +62,7 @@ namespace InplayBet.Web
             if (!HttpContext.Current.Request.IsAjaxRequest())
             {
                 HttpContext.Current.Response.Redirect(string.Format("{0}/Error/Index",
-                    ConfigurationManager.AppSettings["VirtualDirectory"].ToString()));
+                    CommonUtility.GetConfigData<string>("VirtualDirectory")));
             }
             else
             {

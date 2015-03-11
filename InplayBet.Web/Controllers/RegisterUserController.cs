@@ -152,7 +152,7 @@ namespace InplayBet.Web.Controllers
             {
                 EmailSender email = new EmailSender
                 {
-                    SSL = bool.Parse(ConfigurationManager.AppSettings["MAIL_SERVER_SSL"].ToString()),
+                    SSL = bool.Parse(CommonUtility.GetConfigData<string>("MAIL_SERVER_SSL")),
                     Subject = "Inplay Bet Registration Confirmation",
                     To = user.EmailId
                 };

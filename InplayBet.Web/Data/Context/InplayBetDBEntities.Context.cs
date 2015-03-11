@@ -26,11 +26,11 @@ namespace InplayBet.Web.Data.Context
         }
     
         public DbSet<BookMaker> BookMakers { get; set; }
-        public DbSet<Challenge> Challenges { get; set; }
         public DbSet<Legue> Legues { get; set; }
         public DbSet<Status> Status { get; set; }
         public DbSet<Team> Teams { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Bet> Bets { get; set; }
+        public DbSet<Challenge> Challenges { get; set; }
     }
 }
