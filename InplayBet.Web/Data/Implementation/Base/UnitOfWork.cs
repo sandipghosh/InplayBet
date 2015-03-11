@@ -2,6 +2,8 @@
 namespace InplayBet.Web.Data.Implementation.Base
 {
     #region Required Namespace(s)
+    using System.Data;
+    using System.Data.Common;
     using InplayBet.Web.Data.Interface.Base;
     using InplayBet.Web.Utilities;
     using System;
@@ -10,6 +12,8 @@ namespace InplayBet.Web.Data.Implementation.Base
     using System.Data.Entity.Core.Metadata.Edm;
     using System.Data.Entity.Infrastructure;
     using System.Linq;
+    using InplayBet.Web.Data.Context;
+    using System.Data.Entity.Core.Objects;
     #endregion
 
     public class UnitOfWork<TEntityModel> : IQueryableUnitOfWork
@@ -17,13 +21,51 @@ namespace InplayBet.Web.Data.Implementation.Base
     {
         private bool _IsDispose;
         private readonly TEntityModel _dbContext;
+        private bool isAuditEnabled;
 
+        /// <summary>
+        /// Gets or sets a value indicating whether this instance is dispose.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if this instance is dispose; otherwise, <c>false</c>.
+        /// </value>
         public bool IsDispose
         {
             get { return this._IsDispose; }
             set { _IsDispose = value; }
         }
 
+        /// <summary>
+        /// Gets the object context.
+        /// </summary>
+        /// <value>The object context.</value>
+        public ObjectContext ObjectContext
+        {
+            get { return (this as IObjectContextAdapter).ObjectContext; }
+        }
+
+        /// <summary>
+        /// Gets the metadata workspace from context.
+        /// </summary>
+        /// <value>The metadata workspace from context.</value>
+        public MetadataWorkspace MetadataWorkspaceFromContext
+        {
+            get { return this.ObjectContext.MetadataWorkspace; }
+        }
+
+        /// <summary>
+        /// Gets or sets the is audit enabled.
+        /// </summary>
+        /// <value>The is audit enabled.</value>
+        public bool IsAuditEnabled
+        {
+            get { return this.isAuditEnabled; }
+            set { this.isAuditEnabled = value; }
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UnitOfWork" /> class.
+        /// </summary>
         public UnitOfWork()
         {
             this.IsDispose = false;
@@ -47,7 +89,7 @@ namespace InplayBet.Web.Data.Implementation.Base
         /// </summary>
         /// <typeparam name="TEntity">The type of the entity.</typeparam>
         /// <returns></returns>
-        public DbSet<TEntity> CreateSet<TEntity>() where TEntity : class
+        public DbSet<TEntity> CreateSet<TEntity>() where TEntity : BaseData
         {
             return this._dbContext.Set<TEntity>();
         }
@@ -58,49 +100,14 @@ namespace InplayBet.Web.Data.Implementation.Base
         /// <typeparam name="TEntity">The type of the entity.</typeparam>
         /// <param name="entity">The entity.</param>
         /// <returns></returns>
-        public DbEntityEntry<TEntity> GetEntry<TEntity>(TEntity entity) where TEntity : class
+        public DbEntityEntry<TEntity> GetEntry<TEntity>(TEntity entity) where TEntity : BaseData
         {
             return this._dbContext.Entry<TEntity>(entity);
         }
 
-        /// <summary>
-        /// Sets the unchanged.
-        /// </summary>
-        /// <typeparam name="TEntity">The type of the entity.</typeparam>
-        /// <param name="item">The item.</param>
-        public void SetUnchanged<TEntity>(TEntity item) where TEntity : class
+        public void ChangeState<TEntity>(TEntity entity, System.Data.Entity.EntityState state) where TEntity : BaseData
         {
-            this._dbContext.Entry<TEntity>(item).State = EntityState.Unchanged;
-        }
-
-        /// <summary>
-        /// Sets the inserted.
-        /// </summary>
-        /// <typeparam name="TEntity">The type of the entity.</typeparam>
-        /// <param name="item">The item.</param>
-        public void SetInserted<TEntity>(TEntity item) where TEntity : class
-        {
-            this._dbContext.Entry<TEntity>(item).State = EntityState.Added;
-        }
-
-        /// <summary>
-        /// Sets the modified.
-        /// </summary>
-        /// <typeparam name="TEntity">The type of the entity.</typeparam>
-        /// <param name="item">The item.</param>
-        public void SetModified<TEntity>(TEntity item) where TEntity : class
-        {
-            this._dbContext.Entry<TEntity>(item).State = EntityState.Modified;
-        }
-
-        /// <summary>
-        /// Sets the deleted.
-        /// </summary>
-        /// <typeparam name="TEntity">The type of the entity.</typeparam>
-        /// <param name="item">The item.</param>
-        public void SetDeleted<TEntity>(TEntity item) where TEntity : class
-        {
-            this._dbContext.Entry<TEntity>(item).State = EntityState.Deleted;
+            this._dbContext.Entry<TEntity>(entity).State = state;
         }
 
         /// <summary>
@@ -109,10 +116,19 @@ namespace InplayBet.Web.Data.Implementation.Base
         /// <typeparam name="TEntity">The type of the entity.</typeparam>
         /// <param name="original">The original.</param>
         /// <param name="current">The current.</param>
-        public void ApplyCurrentValues<TEntity>(TEntity original, TEntity current) where TEntity : class
+        public void ApplyCurrentValues<TEntity>(TEntity original, TEntity current) where TEntity : BaseData
         {
             //if it is not attached, attach original and set current values
             this._dbContext.Entry<TEntity>(original).CurrentValues.SetValues(current);
+        }
+
+        public DbTransaction BeginTransaction()
+        {
+            var connection = this.ObjectContext.Connection;
+            if (connection.State != ConnectionState.Open)
+                connection.Open();
+
+            return connection.BeginTransaction(IsolationLevel.ReadCommitted);
         }
 
         /// <summary>
@@ -161,7 +177,7 @@ namespace InplayBet.Web.Data.Implementation.Base
         public void RollbackChanges()
         {
             this._dbContext.ChangeTracker.Entries().ToList()
-                .ForEach(entry => entry.State = EntityState.Unchanged);
+                .ForEach(entry => entry.State = System.Data.Entity.EntityState.Unchanged);
         }
 
         /// <summary>
@@ -192,16 +208,19 @@ namespace InplayBet.Web.Data.Implementation.Base
             return this._dbContext.Database.ExecuteSqlCommand(sqlCommand, parameters);
         }
 
-        /// <summary>
-        /// Gets the metadata workspace from context.
-        /// </summary>
-        /// <returns></returns>
-        public MetadataWorkspace GetMetadataWorkspaceFromContext()
+        #region Private Member
+        private static bool IsChanged(DbEntityEntry entity)
         {
-            var objectContext = ((IObjectContextAdapter)this._dbContext).ObjectContext;
-            var mdw = objectContext.MetadataWorkspace;
-            return mdw;
+            return IsStateEqual(entity, System.Data.Entity.EntityState.Added) ||
+                   IsStateEqual(entity, System.Data.Entity.EntityState.Deleted) ||
+                   IsStateEqual(entity, System.Data.Entity.EntityState.Modified);
         }
+
+        private static bool IsStateEqual(DbEntityEntry entity, System.Data.Entity.EntityState state)
+        {
+            return (entity.State & state) == state;
+        }
+        #endregion
 
         #region IDisposable Members
 

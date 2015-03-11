@@ -4,7 +4,9 @@ namespace InplayBet.Web.Data.Interface.Base
     #region Required Namespace(s)
     using System.Data.Entity;
     using System.Data.Entity.Core.Metadata.Edm;
+    using System.Data.Entity.Core.Objects;
     using System.Data.Entity.Infrastructure;
+    using InplayBet.Web.Data.Context;
     #endregion
 
     /// <summary>
@@ -24,11 +26,29 @@ namespace InplayBet.Web.Data.Interface.Base
         bool IsDispose { get; set; }
 
         /// <summary>
+        /// Gets the object context.
+        /// </summary>
+        /// <value>The object context.</value>
+        ObjectContext ObjectContext { get; }
+
+        /// <summary>
+        /// Gets the metadata workspace from context.
+        /// </summary>
+        /// <value>The metadata workspace from context.</value>
+        MetadataWorkspace MetadataWorkspaceFromContext { get; }
+
+        /// <summary>
+        /// Gets or sets the is audit enabled.
+        /// </summary>
+        /// <value>The is audit enabled.</value>
+        bool IsAuditEnabled { get; set; }
+
+        /// <summary>
         /// Creates the set.
         /// </summary>
         /// <typeparam name="TEntity">The type of the entity.</typeparam>
         /// <returns></returns>
-        DbSet<TEntity> CreateSet<TEntity>() where TEntity : class;
+        DbSet<TEntity> CreateSet<TEntity>() where TEntity : BaseData;
 
         /// <summary>
         /// Gets the entry.
@@ -36,35 +56,14 @@ namespace InplayBet.Web.Data.Interface.Base
         /// <typeparam name="TEntity">The type of the entity.</typeparam>
         /// <param name="entity">The entity.</param>
         /// <returns></returns>
-        DbEntityEntry<TEntity> GetEntry<TEntity>(TEntity entity) where TEntity : class;
+        DbEntityEntry<TEntity> GetEntry<TEntity>(TEntity entity) where TEntity : BaseData;
 
         /// <summary>
-        /// Sets the unchanged.
+        /// Changes the state.
         /// </summary>
-        /// <typeparam name="TEntity">The type of the entity.</typeparam>
-        /// <param name="item">The item.</param>
-        void SetUnchanged<TEntity>(TEntity item) where TEntity : class;
-
-        /// <summary>
-        /// Sets the inserted.
-        /// </summary>
-        /// <typeparam name="TEntity">The type of the entity.</typeparam>
-        /// <param name="item">The item.</param>
-        void SetInserted<TEntity>(TEntity item) where TEntity : class;
-
-        /// <summary>
-        /// Sets the modified.
-        /// </summary>
-        /// <typeparam name="TEntity">The type of the entity.</typeparam>
-        /// <param name="item">The item.</param>
-        void SetModified<TEntity>(TEntity item) where TEntity : class;
-
-        /// <summary>
-        /// Sets the deleted.
-        /// </summary>
-        /// <typeparam name="TEntity">The type of the entity.</typeparam>
-        /// <param name="item">The item.</param>
-        void SetDeleted<TEntity>(TEntity item) where TEntity : class;
+        /// <param name="entity">The entity.</param>
+        /// <param name="state">The state.</param>
+        void ChangeState<TEntity>(TEntity entity, EntityState state) where TEntity : BaseData;
 
         /// <summary>
         /// Applies the current values.
@@ -72,13 +71,7 @@ namespace InplayBet.Web.Data.Interface.Base
         /// <typeparam name="TEntity">The type of the entity.</typeparam>
         /// <param name="original">The original.</param>
         /// <param name="current">The current.</param>
-        void ApplyCurrentValues<TEntity>(TEntity original, TEntity current) where TEntity : class;
-
-        /// <summary>
-        /// Gets the metadata workspace from context.
-        /// </summary>
-        /// <returns></returns>
-        MetadataWorkspace GetMetadataWorkspaceFromContext();
+        void ApplyCurrentValues<TEntity>(TEntity original, TEntity current) where TEntity : BaseData;
 
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.

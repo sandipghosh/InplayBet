@@ -103,6 +103,13 @@ namespace InplayBet.Web.Data.Interface.Base
             Expression<Func<TModel, KProperty>> orderByExpression, bool ascending);
         #endregion
 
+        /// <summary>
+        /// Existses the specified filter.
+        /// </summary>
+        /// <param name="filter">The filter.</param>
+        /// <returns></returns>
+        bool Exists(Expression<Func<TModel, bool>> filter);
+
         #region Insert/Update/Delete operation
         /// <summary>
         /// Add item into repository

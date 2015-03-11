@@ -3,6 +3,7 @@
 namespace InplayBet.Web.Models
 {
     using System;
+    using AutoMapper;
     using InplayBet.Web.Models.Base;
 
     public class BetModel : BaseModel
@@ -25,6 +26,7 @@ namespace InplayBet.Web.Models
         public int? UpdatedBy { get; set; }
         public DateTime? UpdatedOn { get; set; }
 
+        [IgnoreMap]
         public virtual ChallengeModel Challenge { get; set; }
         public virtual LegueModel Legue { get; set; }
         public virtual TeamModel TeamA { get; set; }

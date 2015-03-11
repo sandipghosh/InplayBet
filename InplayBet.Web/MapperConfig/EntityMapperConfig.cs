@@ -38,17 +38,29 @@ namespace InplayBet.Web.MapperConfig
                 Mapper.CreateMap<int?, int>().ConvertUsing<IntConverter>();
                 Mapper.CreateMap<int?, int?>().ConvertUsing<NullableIntConverter>();
 
-                Mapper.CreateMap<Status, StatusModel>().MapBothWays().IgnoreAllNonExisting();
-                Mapper.CreateMap<BookMaker, BookMakerModel>().MapBothWays().IgnoreAllNonExisting();
-                Mapper.CreateMap<User, UserModel>().MapBothWays().IgnoreAllNonExisting();
+                Mapper.CreateMap<Status, StatusModel>().IgnoreAllNonExisting();
+                Mapper.CreateMap<StatusModel, Status>().IgnoreAllNonExisting();
+
+                Mapper.CreateMap<BookMaker, BookMakerModel>().IgnoreAllNonExisting();
+                Mapper.CreateMap<BookMakerModel, BookMaker>().IgnoreAllNonExisting();
+
+                Mapper.CreateMap<User, UserModel>().IgnoreAllNonExisting();
+                Mapper.CreateMap<UserModel, User>().IgnoreAllNonExisting();
 
                 Mapper.CreateMap<Bet, BetModel>()
                     .ForMember(dest => dest.TeamA, opt => opt.MapFrom(src => src.Team))
                     .ForMember(dest => dest.TeamB, opt => opt.MapFrom(src => src.Team1))
-                    .MapBothWays().IgnoreAllNonExisting();
-                Mapper.CreateMap<Challenge, ChallengeModel>().MapBothWays().IgnoreAllNonExisting();
-                Mapper.CreateMap<Legue, LegueModel>().MapBothWays().IgnoreAllNonExisting();
-                Mapper.CreateMap<Team, TeamModel>().MapBothWays().IgnoreAllNonExisting();
+                    .IgnoreAllNonExisting();
+                Mapper.CreateMap<BetModel, Bet>().IgnoreAllNonExisting();
+
+                Mapper.CreateMap<Challenge, ChallengeModel>().IgnoreAllNonExisting();
+                Mapper.CreateMap<ChallengeModel, Challenge>().IgnoreAllNonExisting();
+
+                Mapper.CreateMap<Legue, LegueModel>().IgnoreAllNonExisting();
+                Mapper.CreateMap<LegueModel, Legue>().IgnoreAllNonExisting();
+
+                Mapper.CreateMap<Team, TeamModel>().IgnoreAllNonExisting();
+                Mapper.CreateMap<TeamModel, Team>().IgnoreAllNonExisting();
 
                 Mapper.AssertConfigurationIsValid();
             }

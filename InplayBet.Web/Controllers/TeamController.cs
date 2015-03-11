@@ -9,6 +9,7 @@ namespace InplayBet.Web.Controllers
     using System;
     using System.Linq;
     using System.Web.Mvc;
+    using System.Linq.Expressions;
 
     public class TeamController : BaseController
     {
@@ -33,7 +34,7 @@ namespace InplayBet.Web.Controllers
             {
                 var teams = this._teamDataRepository.GetList(x => x.StatusId.Equals((int)StatusCode.Active))
                     .OrderBy(x => x.TeamName).Select(x => new { Id = x.TeamId, Name = x.TeamName });
-                return new JsonActionResult(teams);
+                return new JsonActionResult(teams.ToList());
             }
             catch (Exception ex)
             {
@@ -45,28 +46,37 @@ namespace InplayBet.Web.Controllers
         /// <summary>
         /// Sets the teams.
         /// </summary>
-        /// <param name="teamName">Name of the team.</param>
+        /// <param name="name">Name of the team.</param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult SetTeams(string teamName, int userId)
+        public ActionResult SetTeams(string name, int userId)
         {
             try
             {
-                if (!this._teamDataRepository.GetList(x => x.StatusId.Equals((int)StatusCode.Active)
-                    && x.TeamName.Equals(teamName)).Any())
+                TeamModel team;
+                Expression<Func<TeamModel, bool>> criteria = (x) => x.StatusId.Equals((int)StatusCode.Active)
+                    && x.TeamName.Equals(name);
+
+                if (!this._teamDataRepository.Exists(criteria))
                 {
-                    this._teamDataRepository.Insert(new TeamModel
+                    team = new TeamModel
                     {
-                        TeamName = teamName,
+                        TeamName = name,
                         StatusId = (int)StatusCode.Active,
                         CreatedBy = userId,
                         CreatedOn = DateTime.Now
-                    });
+                    };
+                    this._teamDataRepository.Insert(team);
                 }
+                else
+                {
+                    team = this._teamDataRepository.GetList(criteria).FirstOrDefault();
+                }
+                return new JsonActionResult(new { Id = team.TeamId, Name = team.TeamName });
             }
             catch (Exception ex)
             {
-                ex.ExceptionValueTracker(teamName);
+                ex.ExceptionValueTracker(name);
             }
             return null;
         }

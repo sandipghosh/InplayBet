@@ -2,16 +2,16 @@
 
 namespace InplayBet.Web.Controllers
 {
-    using InplayBet.Web.Data.Interface;
-    using InplayBet.Web.Models;
-    using InplayBet.Web.Models.Base;
-    using InplayBet.Web.Utilities;
-    using MoreLinq;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Transactions;
     using System.Web.Mvc;
+    using InplayBet.Web.Data.Interface;
+    using InplayBet.Web.Models;
+    using InplayBet.Web.Models.Base;
+    using InplayBet.Web.Utilities;
+    using MoreLinq;
 
     public class BetController : Controller
     {
@@ -112,7 +112,7 @@ namespace InplayBet.Web.Controllers
         /// <param name="bet">The bet.</param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult InsertNewBet(BetModel bet)
+        public ActionResult InsertNewBet(BetModel bet, int userKey)
         {
             try
             {
@@ -132,6 +132,7 @@ namespace InplayBet.Web.Controllers
                         };
                         using (TransactionScope scope = new TransactionScope(TransactionScopeOption.RequiresNew, options))
                         {
+                            //ChallengeModel challenge = GetRecentChallenge(userKey);
                             this._challengeDataRepository.Insert(bet.Challenge);
                             insertBet(bet, bet.ChallengeId);
                             scope.Complete();
@@ -241,6 +242,7 @@ namespace InplayBet.Web.Controllers
             }
             return null;
         }
+
         /// <summary>
         /// Gets the challenges.
         /// </summary>

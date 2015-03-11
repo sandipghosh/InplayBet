@@ -3,7 +3,6 @@
 namespace InplayBet.Web.Models
 {
     using InplayBet.Web.Models.Base;
-    using System.Collections.Generic;
 
     public class StatusModel:BaseModel
     {

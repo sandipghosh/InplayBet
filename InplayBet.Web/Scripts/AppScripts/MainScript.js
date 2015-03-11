@@ -65,28 +65,56 @@ var source = ["Apples", "Oranges", "Bananas"];
 (function ($) {
     $.fn.genericAutocomplete = function (options) {
         var settings = $.extend({
-            url: '',
-            minLength: 2
+            getUrl: '',
+            postUrl: '',
+            minLength: 3,
+            userKey: 0
         }, options);
         var $self = this;
 
         return $self.each(function () {
             var $item = this;
+            var cache = {};
+
             $item.autocomplete({
                 source: function (request, response) {
                     $.ajax({
-                        url: settings.url,
+                        url: settings.getUrl,
                         dataType: "json",
                         success: function (data) {
                             var re = $.ui.autocomplete.escapeRegex(request.term);
                             var matcher = new RegExp("^" + re, "i");
-                            var result = $.grep(data, function (item) { return matcher.test(item.value); });
-                            $item.next('a.btn').toggle($.inArray(request.term, result) < 0);
-                            response(result);
+                            var result = $.grep(data, function (item) { return matcher.test(item.label); });
+                            $item.next('a.btn').toggle(result.length <= 0)
+                                .data('searchtext', request.term);
+                            response($.map(result, function (c) {
+                                return {
+                                    label: c.Name,
+                                    value: c.Id
+                                }
+                            }));
                         }
                     });
                 },
-                minLength: settings.minLength
+                minLength: settings.minLength,
+                select: function (event, ui) {
+                    $item.previous('input[type=text]').val(ui.item.value);
+                }
+            });
+
+            $item.next('a.btn').on("click", function () {
+                var $self = $(this);
+                $.ajax({
+                    url: settings.postUrl,
+                    type: "POST",
+                    dataType: "json",
+                    data: { name: $self.data('searchtext'), userId: settings.userKey },
+                    success: function (data) {
+                        $('#empf').autocomplete("option", { source: colors });
+                    }
+                });
+                source.push($("#auto").val());
+                $(this).hide();
             });
         });
     };

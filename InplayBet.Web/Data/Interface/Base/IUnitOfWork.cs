@@ -2,9 +2,12 @@
 namespace InplayBet.Web.Data.Interface.Base
 {
     using System;
+    using System.Data.Common;
 
     public interface IUnitOfWork : IDisposable
     {
+        DbTransaction BeginTransaction();
+
         /// <summary>
         /// Commit all changes made in a container.
         /// </summary>

@@ -238,6 +238,7 @@
     <Compile Include="Data\Context\User.cs">
       <DependentUpon>InplayBetDBEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\DataExtension.cs" />
     <Compile Include="Data\Implementation\Base\DataRepository.cs" />
     <Compile Include="Data\Implementation\Base\QueryDataRepository.cs" />
     <Compile Include="Data\Implementation\Base\UnitOfWork.cs" />
@@ -248,8 +249,8 @@
     <Compile Include="Data\Implementation\TeamDataRepository.cs" />
     <Compile Include="Data\Implementation\UserDataRepository.cs" />
     <Compile Include="Data\Interface\Base\IQueryableUnitOfWork.cs" />
-    <Compile Include="Data\Interface\Base\IQueryDataRepository.cs" />
     <Compile Include="Data\Interface\Base\IRepository.cs" />
+    <Compile Include="Data\Interface\Base\IQueryDataRepository.cs" />
     <Compile Include="Data\Interface\Base\ISql.cs" />
     <Compile Include="Data\Interface\Base\IUnitOfWork.cs" />
     <Compile Include="Data\Interface\IBetDataRepository.cs" />

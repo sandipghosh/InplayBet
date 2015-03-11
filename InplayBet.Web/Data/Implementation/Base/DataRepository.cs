@@ -2,11 +2,6 @@
 namespace InplayBet.Web.Data.Implementation.Base
 {
     #region Required Namespace(s)
-    using AutoMapper;
-    using InplayBet.Web.Data.Context;
-    using InplayBet.Web.Data.Interface.Base;
-    using InplayBet.Web.Models.Base;
-    using InplayBet.Web.Utilities;
     using System;
     using System.Collections.Generic;
     using System.Data.Entity;
@@ -14,6 +9,12 @@ namespace InplayBet.Web.Data.Implementation.Base
     using System.Data.Entity.Infrastructure;
     using System.Linq;
     using System.Linq.Expressions;
+    using AutoMapper;
+    using AutoMapper.QueryableExtensions;
+    using InplayBet.Web.Data.Context;
+    using InplayBet.Web.Data.Interface.Base;
+    using InplayBet.Web.Models.Base;
+    using InplayBet.Web.Utilities;
     #endregion
 
     /// <summary>
@@ -44,6 +45,8 @@ namespace InplayBet.Web.Data.Implementation.Base
         #endregion
 
         #region IRepository Members
+        
+
         /// <summary>
         /// Gets the unit of work.
         /// </summary>
@@ -134,7 +137,7 @@ namespace InplayBet.Web.Data.Implementation.Base
             try
             {
                 Expression<Func<TEntity, bool>> entityFilterExpression = filter.RemapForType<TModel, TEntity, bool>();
-                return this.GetEntity().Where(entityFilterExpression.Compile()).Count();
+                return this.GetEntity().Where(entityFilterExpression).Count();
             }
             catch (Exception ex)
             {
@@ -153,8 +156,7 @@ namespace InplayBet.Web.Data.Implementation.Base
         {
             try
             {
-                var entities = this.GetEntity();
-                return Mapper.Map<IQueryable<TEntity>, IEnumerable<TModel>>(entities).AsQueryable();
+                return this.GetEntity().Project().To<TModel>();
             }
             catch (Exception ex)
             {
@@ -173,8 +175,7 @@ namespace InplayBet.Web.Data.Implementation.Base
             try
             {
                 Expression<Func<TEntity, bool>> entityFilterExpression = filter.RemapForType<TModel, TEntity, bool>();
-                var entities = this.GetEntity().Where(entityFilterExpression.Compile());
-                return Mapper.Map<IEnumerable<TEntity>, IEnumerable<TModel>>(entities).AsQueryable();
+                return this.GetEntity().Where(entityFilterExpression).Project().To<TModel>();
             }
             catch (Exception ex)
             {
@@ -195,11 +196,8 @@ namespace InplayBet.Web.Data.Implementation.Base
             try
             {
                 Expression<Func<TEntity, bool>> entityFilterExpression = filter.RemapForType<TModel, TEntity, bool>();
-
-                var entities = this.GetEntity().Where(entityFilterExpression.Compile())
-                    .Skip(pageCount * (pageIndex - 1)).Take(pageCount);
-
-                return Mapper.Map<IEnumerable<TEntity>, IEnumerable<TModel>>(entities).AsQueryable();
+                return this.GetEntity().Where(entityFilterExpression)
+                    .GetPaggedData(pageIndex, pageCount).Project().To<TModel>();
             }
             catch (Exception ex)
             {
@@ -223,15 +221,12 @@ namespace InplayBet.Web.Data.Implementation.Base
                 Expression<Func<TEntity, bool>> entityFilterExpression = filter.RemapForType<TModel, TEntity, bool>();
                 Expression<Func<TEntity, KProperty>> entityOrderExpression = orderByExpression.RemapForType<TModel, TEntity, KProperty>();
 
-                var entities = this.GetEntity().Where(entityFilterExpression.Compile());
-                IEnumerable<TEntity> orderedEntities;
+                var entities = this.GetEntity().Where(entityFilterExpression);
 
                 if (ascending)
-                    orderedEntities = entities.OrderBy(entityOrderExpression.Compile());
+                    entities.OrderBy(entityOrderExpression).Project().To<TModel>();
                 else
-                    orderedEntities = entities.OrderByDescending(entityOrderExpression.Compile());
-
-                return Mapper.Map<IEnumerable<TEntity>, IEnumerable<TModel>>(orderedEntities).AsQueryable();
+                    entities.OrderByDescending(entityOrderExpression).Project().To<TModel>();
             }
             catch (Exception ex)
             {
@@ -257,15 +252,12 @@ namespace InplayBet.Web.Data.Implementation.Base
                 Expression<Func<TEntity, bool>> entityFilterExpression = filter.RemapForType<TModel, TEntity, bool>();
                 Expression<Func<TEntity, KProperty>> entityOrderExpression = orderByExpression.RemapForType<TModel, TEntity, KProperty>();
 
-                var entities = this.GetEntity().Where(entityFilterExpression.Compile());
-                IEnumerable<TEntity> orderedEntities;
+                var entities = this.GetEntity().Where(entityFilterExpression);
 
                 if (ascending)
-                    orderedEntities = entities.OrderBy(entityOrderExpression.Compile()).Skip(pageCount * (pageIndex - 1)).Take(pageCount);
+                    return entities.OrderBy(entityOrderExpression).GetPaggedData(pageIndex, pageCount).Project().To<TModel>();
                 else
-                    orderedEntities = entities.OrderByDescending(entityOrderExpression.Compile()).Skip(pageCount * (pageIndex - 1)).Take(pageCount);
-
-                return Mapper.Map<IEnumerable<TEntity>, IEnumerable<TModel>>(orderedEntities).AsQueryable();
+                    return entities.OrderByDescending(entityOrderExpression).GetPaggedData(pageIndex, pageCount).Project().To<TModel>();
             }
             catch (Exception ex)
             {
@@ -289,16 +281,12 @@ namespace InplayBet.Web.Data.Implementation.Base
             try
             {
                 Expression<Func<TEntity, KProperty>> entityOrderExpression = orderByExpression.RemapForType<TModel, TEntity, KProperty>();
-
                 var entities = this.GetEntity();
-                IEnumerable<TEntity> orderedEntities;
 
                 if (ascending)
-                    orderedEntities = entities.OrderBy(entityOrderExpression).Skip(pageCount * (pageIndex - 1)).Take(pageCount);
+                    return entities.OrderBy(entityOrderExpression).GetPaggedData(pageIndex, pageCount).Project().To<TModel>();
                 else
-                    orderedEntities = entities.OrderByDescending(entityOrderExpression).Skip(pageCount * (pageIndex - 1)).Take(pageCount);
-
-                return Mapper.Map<IEnumerable<TEntity>, IEnumerable<TModel>>(orderedEntities).AsQueryable();
+                    return entities.OrderByDescending(entityOrderExpression).GetPaggedData(pageIndex, pageCount).Project().To<TModel>();
             }
             catch (Exception ex)
             {
@@ -307,6 +295,25 @@ namespace InplayBet.Web.Data.Implementation.Base
             return GetList();
         }
         #endregion
+
+        /// <summary>
+        /// Existses the specified filter.
+        /// </summary>
+        /// <param name="filter">The filter.</param>
+        /// <returns></returns>
+        public bool Exists(Expression<Func<TModel, bool>> filter)
+        {
+            try
+            {
+                Expression<Func<TEntity, bool>> entityFilterExpression = filter.RemapForType<TModel, TEntity, bool>();
+                return this.GetEntity().Any(entityFilterExpression);
+            }
+            catch (Exception ex)
+            {
+                ex.ExceptionValueTracker();
+            }
+            return false;
+        }
 
         #region Insert/Update/Delete operation
         /// <summary>
@@ -322,7 +329,7 @@ namespace InplayBet.Web.Data.Implementation.Base
                 try
                 {
                     this.GetEntity().Add(entity); // add new item in this set
-                    this._UnitOfWork.SetInserted(entity);
+                    this._UnitOfWork.ChangeState(entity, System.Data.Entity.EntityState.Added);
 
                     if (doSaveChanges)
                     {
@@ -351,17 +358,22 @@ namespace InplayBet.Web.Data.Implementation.Base
         /// <param name="items">The items.</param>
         public virtual void Insert(IEnumerable<TModel> items)
         {
-            try
+            using (var transaction = this._UnitOfWork.BeginTransaction())
             {
-                foreach (TModel item in items)
-                    this.Insert(item, false);
+                try
+                {
+                    foreach (TModel item in items)
+                        this.Insert(item, false);
 
-                this._UnitOfWork.CommitAndRefreshChanges();
-            }
-            catch (Exception ex)
-            {
-                this._UnitOfWork.RollbackChanges();
-                ex.ExceptionValueTracker(items);
+                    this._UnitOfWork.CommitAndRefreshChanges();
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    this._UnitOfWork.RollbackChanges();
+                    transaction.Rollback();
+                    ex.ExceptionValueTracker(items);
+                }
             }
         }
 
@@ -413,17 +425,22 @@ namespace InplayBet.Web.Data.Implementation.Base
         /// <param name="items">The items.</param>
         public virtual void Update(IEnumerable<TModel> items)
         {
-            try
+            using (var transaction = this._UnitOfWork.BeginTransaction())
             {
-                foreach (TModel item in items)
-                    this.Update(item, false);
+                try
+                {
+                    foreach (TModel item in items)
+                        this.Update(item, false);
 
-                this._UnitOfWork.CommitAndRefreshChanges();
-            }
-            catch (Exception ex)
-            {
-                this._UnitOfWork.RollbackChanges();
-                ex.ExceptionValueTracker(items);
+                    this._UnitOfWork.CommitAndRefreshChanges();
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    this._UnitOfWork.RollbackChanges();
+                    transaction.Rollback();
+                    ex.ExceptionValueTracker(items);
+                }
             }
         }
 
@@ -475,17 +492,22 @@ namespace InplayBet.Web.Data.Implementation.Base
         /// <param name="items">The items.</param>
         public virtual void Delete(IEnumerable<TModel> items)
         {
-            try
+            using (var transaction = this._UnitOfWork.BeginTransaction())
             {
-                foreach (TModel item in items)
-                    this.Delete(item, false);
+                try
+                {
+                    foreach (TModel item in items)
+                        this.Delete(item, false);
 
-                this._UnitOfWork.CommitAndRefreshChanges();
-            }
-            catch (Exception ex)
-            {
-                this._UnitOfWork.RollbackChanges();
-                ex.ExceptionValueTracker(items);
+                    this._UnitOfWork.CommitAndRefreshChanges();
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    this._UnitOfWork.RollbackChanges();
+                    transaction.Rollback();
+                    ex.ExceptionValueTracker(items);
+                }
             }
         }
         #endregion
@@ -502,7 +524,7 @@ namespace InplayBet.Web.Data.Implementation.Base
                 {
                     TEntity entity = Mapper.Map<TModel, TEntity>(item);
                     this.GetEntity().Attach(entity);
-                    this._UnitOfWork.SetUnchanged<TEntity>(entity);
+                    this._UnitOfWork.ChangeState(entity, System.Data.Entity.EntityState.Unchanged);
                     this._UnitOfWork.CommitChanges();
                 }
             }
@@ -674,7 +696,7 @@ namespace InplayBet.Web.Data.Implementation.Base
             IList<string> keyName = new List<string>();
             try
             {
-                var mdw = this._UnitOfWork.GetMetadataWorkspaceFromContext();
+                var mdw = this._UnitOfWork.MetadataWorkspaceFromContext;
 
                 keyName = mdw.GetItems<EntityType>(DataSpace.CSpace)
                     .FirstOrDefault(x => typeof(TEntity).Name.Equals(x.Name))

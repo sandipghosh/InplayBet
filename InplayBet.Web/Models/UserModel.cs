@@ -2,10 +2,11 @@
 
 namespace InplayBet.Web.Models
 {
-    using InplayBet.Web.Models.Base;
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Web.Mvc;
+    using InplayBet.Web.Models.Base;
 
     public class UserModel : BaseModel
     {
@@ -40,6 +41,6 @@ namespace InplayBet.Web.Models
         public DateTime? UpdatedOn { get; set; }
 
         public virtual BookMakerModel BookMaker { get; set; }
-        public virtual IEquatable<ChallengeModel> Challenges { get; set; }
+        public virtual IEnumerable<ChallengeModel> Challenges { get; set; }
     }
 }
