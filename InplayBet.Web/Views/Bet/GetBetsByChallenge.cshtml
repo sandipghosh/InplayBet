@@ -1,25 +1,48 @@
 ﻿@using InplayBet.Web.Models
+@using InplayBet.Web.Models.Base
 @using InplayBet.Web.Utilities
 @using System.Globalization
 @model List<BetModel>
 @{
+    Layout = null;
     ChallengeModel currentChallenge = (ChallengeModel)ViewData["CurrentChallenge"];
+    int userKey = (int)ViewData["UserKey"];
+    List<BetModel> bets = Model.OrderByDescending(x => x.BetId).ToList();
 }
+@functions{
+    string GetBetDisplayType(BetModel bet)
+    {
+        if (string.IsNullOrEmpty(bet.BetStatus))
+            return BetDisplayType.Update.ToString();
+        else
+            return BetDisplayType.Read.ToString();
+    }
 
-@foreach (BetModel bet in Model)
-{
-    <p class="internal">
-        <strong>Bet @bet.BetNumber.AsString()</strong><br />
-        Team Names: @bet.TeamA.TeamName.AsString() vs @bet.TeamB.TeamName.AsString()<br />
-        league: @bet.Legue.LegueName.AsString()<br />
-        Bet Type: @bet.BetType<br />
-        Odds: @bet.Odds.AsString()<br />
-        Amount Placed: @bet.BetPlaced.ToString("C", CultureInfo.GetCultureInfo("en-GB"))<br />
-        Winning Total: @bet.WiningTotal.ToString("C", CultureInfo.GetCultureInfo("en-GB"))<br />
-        Bet Status: @bet.BetStatus.AsString()
-    </p>
+    bool IsEnableForNewBet(ChallengeModel challenge)
+    {
+        return string.IsNullOrEmpty(challenge.ChallengeStatus);
+    }
 }
-@if (string.IsNullOrEmpty(currentChallenge.ChallengeStatus))
+@foreach (BetModel bet in bets)
 {
-    @Html.Action("ShowNewBetWindow", "Bet", int.Parse(Session["USERKEY"].AsString()))
+    string betDisplayMode = GetBetDisplayType(bet);
+
+    if (bets.IndexOf(bet) == 0 && betDisplayMode == BetDisplayType.Read.ToString()
+        && IsEnableForNewBet(currentChallenge))
+    {
+        <div id="betEntry">
+            @Html.Action("ShowNewBetWindow", "Bet", new { userKey = userKey })
+        </div>
+    }
+
+    @Html.Partial("ShowNewBetWindow", bet,
+        new ViewDataDictionary(this.ViewData) { { "BetDisplayMode", betDisplayMode } })
+}
+@if (currentChallenge == null)
+{
+    @Html.Action("ShowNewBetWindow", "Bet", new { userKey = userKey })
+}
+else if (currentChallenge.ChallengeId == 0)
+{
+    @Html.Action("ShowNewBetWindowOverwride", "Bet", currentChallenge)
 }
