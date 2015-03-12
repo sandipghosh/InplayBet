@@ -110,6 +110,8 @@ namespace InplayBet.Web.Data.Interface.Base
         /// <returns></returns>
         bool Exists(Expression<Func<TModel, bool>> filter);
 
+        double Sum(Expression<Func<TModel, bool>> filter, Expression<Func<TModel, double>> sumExpression);
+
         #region Insert/Update/Delete operation
         /// <summary>
         /// Add item into repository

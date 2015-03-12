@@ -45,7 +45,7 @@ namespace InplayBet.Web.Data.Implementation.Base
         #endregion
 
         #region IRepository Members
-        
+
 
         /// <summary>
         /// Gets the unit of work.
@@ -301,7 +301,7 @@ namespace InplayBet.Web.Data.Implementation.Base
         /// </summary>
         /// <param name="filter">The filter.</param>
         /// <returns></returns>
-        public bool Exists(Expression<Func<TModel, bool>> filter)
+        public virtual bool Exists(Expression<Func<TModel, bool>> filter)
         {
             try
             {
@@ -313,6 +313,35 @@ namespace InplayBet.Web.Data.Implementation.Base
                 ex.ExceptionValueTracker();
             }
             return false;
+        }
+
+        /// <summary>
+        /// Sums the specified filter.
+        /// </summary>
+        /// <param name="filter">The filter.</param>
+        /// <param name="sumExpression">The sum expression.</param>
+        /// <returns></returns>
+        public virtual double Sum(Expression<Func<TModel, bool>> filter,
+            Expression<Func<TModel, double>> sumExpression)
+        {
+            try
+            {
+                Expression<Func<TEntity, bool>> entityFilterExpression = null;
+                if(filter!=null)
+                    entityFilterExpression = filter.RemapForType<TModel, TEntity, bool>();
+                Expression<Func<TEntity, double>> entitySumExpression = sumExpression.RemapForType<TModel, TEntity, double>();
+
+                IQueryable<TEntity> entities = this.GetEntity();
+                if (entityFilterExpression != null)
+                    entities = entities.Where(entityFilterExpression);
+
+                return entities.Sum(entitySumExpression);
+            }
+            catch (Exception ex)
+            {
+                ex.ExceptionValueTracker(filter, sumExpression);
+            }
+            return default(double);
         }
 
         #region Insert/Update/Delete operation

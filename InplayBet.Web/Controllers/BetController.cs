@@ -5,6 +5,7 @@ namespace InplayBet.Web.Controllers
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Linq.Expressions;
     using System.Transactions;
     using System.Web.Mvc;
     using InplayBet.Web.Data.Interface;
@@ -52,9 +53,7 @@ namespace InplayBet.Web.Controllers
         {
             try
             {
-                var challenges = GetChallenges(userKey)
-                    .OrderByDescending(x => x.ChallengeId).ToList();
-
+                var challenges = GetChallenges(userKey, true).ToList();
                 if (!challenges.IsEmptyCollection())
                 {
                     ChallengeModel lastCompletedChallenge = challenges.MaxBy(x => x.ChallengeId);
@@ -95,8 +94,13 @@ namespace InplayBet.Web.Controllers
         {
             try
             {
-                var challenges = GetBets(challengeId);
-                return View(challenges);
+                ChallengeModel challenge = this._challengeDataRepository.Get(challengeId);
+                if (challenge!=null)
+                {
+                    var bets = challenge.Bets.OrderByDescending(x => x.BetId).ToList();
+                    ViewBag.CurrentChallenge = challenge;
+                    return View(bets); 
+                }
             }
             catch (Exception ex)
             {
@@ -127,7 +131,8 @@ namespace InplayBet.Web.Controllers
                 bet.BetPlaced = GetBetPlacedAmount(bet.ChallengeId);
 
                 ViewBag.UserKey = userKey;
-                ViewBag.BetDisplayMode = BetDisplayType.Insert.ToString();
+                ViewBag.BetDisplayMode = (userKey == SessionVeriables.GetSessionData<int>(SessionVeriables.UserKey)) ?
+                    BetDisplayType.Insert.ToString() : BetDisplayType.Read.ToString();
                 return View(bet);
             }
             catch (Exception ex)
@@ -138,7 +143,7 @@ namespace InplayBet.Web.Controllers
         }
 
         /// <summary>
-        /// Shows the new bet window.
+        /// Shows the new bet window overwride.
         /// </summary>
         /// <param name="challenge">The challenge.</param>
         /// <returns></returns>
@@ -160,7 +165,8 @@ namespace InplayBet.Web.Controllers
                     CommonUtility.GetConfigData<decimal>("StartingBetAmount") : GetBetPlacedAmount(bet.ChallengeId);
 
                 ViewBag.UserKey = challenge.UserKey;
-                ViewBag.BetDisplayMode = BetDisplayType.Insert.ToString();
+                ViewBag.BetDisplayMode = (challenge.UserKey == SessionVeriables.GetSessionData<int>(SessionVeriables.UserKey)) ?
+                    BetDisplayType.Insert.ToString() : BetDisplayType.Read.ToString();
                 return View("ShowNewBetWindow", bet);
             }
             catch (Exception ex)
@@ -234,13 +240,15 @@ namespace InplayBet.Web.Controllers
                     {
                         ChallengeNumber = num,
                         StatusId = (int)StatusCode.Active,
+                        WiningPrice = 0,
+                        UserKey = userKey,
                         CreatedBy = userKey,
                         CreatedOn = DateTime.Now,
-                        ChallengeStatus = string.Empty
+                        ChallengeStatus = string.Empty,
                     };
 
                 var challenges = GetChallenges(userKey);
-                if (challenges.Count == 0)
+                if (challenges.IsEmptyCollection())
                 {
                     return createChallengeInstance(1);
                 }
@@ -251,7 +259,8 @@ namespace InplayBet.Web.Controllers
                         .MaxBy(x => x.BetId);
 
                     if (bet.BetStatus.AsString() == StatusCode.Lost.ToString() ||
-                        (bet.BetStatus.AsString() == StatusCode.Won.ToString() && bet.WiningTotal >= CommonUtility.GetConfigData<decimal>("WiningBetAmount")))
+                        (bet.BetStatus.AsString() == StatusCode.Won.ToString()
+                        && bet.WiningTotal >= CommonUtility.GetConfigData<decimal>("WiningBetAmount")))
                     {
                         ChallengeModel challenge = getLastChellenge(challenges, bet.ChallengeId);
                         return createChallengeInstance(challenge.ChallengeNumber + 1);
@@ -278,9 +287,10 @@ namespace InplayBet.Web.Controllers
             try
             {
                 BetModel lastBet = null;
-                var bets = GetBets(challengeId);
+                var bets = GetBets(challengeId, true);
+
                 if (!bets.IsEmptyCollection())
-                    lastBet = GetBets(challengeId).MaxBy(x => x.BetId);
+                    lastBet = bets.MaxBy(x => x.BetId);
 
                 if (lastBet == null)
                     return 1;
@@ -300,8 +310,9 @@ namespace InplayBet.Web.Controllers
             {
                 BetModel lastBet = null;
                 var bets = GetBets(challengeId);
+
                 if (!bets.IsEmptyCollection())
-                    lastBet = GetBets(challengeId).MaxBy(x => x.BetId);
+                    lastBet = bets.MaxBy(x => x.BetId);
 
                 if (lastBet == null)
                     return CommonUtility.GetConfigData<decimal>("StartingBetAmount");
@@ -320,12 +331,16 @@ namespace InplayBet.Web.Controllers
         /// </summary>
         /// <param name="challengeId">The challenge identifier.</param>
         /// <returns></returns>
-        private List<BetModel> GetBets(int challengeId)
+        private List<BetModel> GetBets(int challengeId, bool useSorting = false)
         {
             try
             {
-                return this._betDataRepository.GetList(x => x.ChallengeId.Equals(challengeId)
-                    && x.StatusId.Equals((int)StatusCode.Active)).ToList();
+                if (useSorting)
+                    return this._betDataRepository.GetList(x => x.ChallengeId.Equals(challengeId)
+                    && x.StatusId.Equals((int)StatusCode.Active), x => x.BetId, false).ToList();
+                else
+                    return this._betDataRepository.GetList(x => x.ChallengeId.Equals(challengeId)
+                        && x.StatusId.Equals((int)StatusCode.Active)).ToList();
             }
             catch (Exception ex)
             {
@@ -339,12 +354,16 @@ namespace InplayBet.Web.Controllers
         /// </summary>
         /// <param name="userKey">The user identifier.</param>
         /// <returns></returns>
-        private List<ChallengeModel> GetChallenges(int userKey)
+        private List<ChallengeModel> GetChallenges(int userKey, bool useSorting = false)
         {
             try
             {
-                return this._challengeDataRepository.GetList(x => x.UserKey.Equals(userKey)
-                    && x.StatusId.Equals((int)StatusCode.Active)).ToList();
+                if (useSorting)
+                    return this._challengeDataRepository.GetList(x => x.UserKey.Equals(userKey)
+                    && x.StatusId.Equals((int)StatusCode.Active), x => x.ChallengeId, false).ToList();
+                else
+                    return this._challengeDataRepository.GetList(x => x.UserKey.Equals(userKey)
+                        && x.StatusId.Equals((int)StatusCode.Active)).ToList();
             }
             catch (Exception ex)
             {

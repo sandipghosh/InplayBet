@@ -38,7 +38,7 @@ namespace InplayBet.Web
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         protected void Application_PreSendRequestHeaders(object sender, EventArgs e)
         {
-            HttpContext.Current.Response.Headers.Remove("X-Frame-Options");
+            //HttpContext.Current.Response.Headers.Remove("X-Frame-Options");
         }
 
         /// <summary>

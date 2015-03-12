@@ -1,0 +1,3 @@
+﻿(function ($, win) {
+
+}((jQuery, window)));

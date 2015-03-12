@@ -1,9 +1,12 @@
-﻿@using InplayBet.Web.Models
-@using InplayBet.Web.Utilities
+﻿@using InplayBet.Web.Utilities
+@using InplayBet.Web.Models
 @using System.Globalization
 @model UserModel
 @{
     ViewBag.Title = "Member Profile";
+}
+@section PageScript {
+    @Html.RenderStyles("~/Styles/CommonStyle")
 }
 @{Html.RenderPartial("_PageTitle", new ViewDataDictionary { { "Caption", "Member Profile" } });}
 <div class="main-container">

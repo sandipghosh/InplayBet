@@ -1,21 +1,25 @@
 ﻿@using InplayBet.Web.Models
 @using InplayBet.Web.Models.Base
 @using InplayBet.Web.Utilities
-@using System.Globalization
 @model List<BetModel>
 @{
     Layout = null;
-    ChallengeModel currentChallenge = (ChallengeModel)ViewData["CurrentChallenge"];
+    ChallengeModel currentChallenge = (ChallengeModel)(ViewBag.CurrentChallenge ?? ViewData["CurrentChallenge"]);
     int userKey = (int)ViewData["UserKey"];
     List<BetModel> bets = Model.OrderByDescending(x => x.BetId).ToList();
 }
 @functions{
     string GetBetDisplayType(BetModel bet)
     {
-        if (string.IsNullOrEmpty(bet.BetStatus))
-            return BetDisplayType.Update.ToString();
+        if (userKey != SessionVeriables.GetSessionData<int>(SessionVeriables.UserKey))
+        { return BetDisplayType.Read.ToString(); }
         else
-            return BetDisplayType.Read.ToString();
+        {
+            if (string.IsNullOrEmpty(bet.BetStatus))
+                return BetDisplayType.Update.ToString();
+            else
+                return BetDisplayType.Read.ToString();
+        }
     }
 
     bool IsEnableForNewBet(ChallengeModel challenge)
@@ -30,9 +34,9 @@
     if (bets.IndexOf(bet) == 0 && betDisplayMode == BetDisplayType.Read.ToString()
         && IsEnableForNewBet(currentChallenge))
     {
-        <div id="betEntry">
-            @Html.Action("ShowNewBetWindow", "Bet", new { userKey = userKey })
-        </div>
+    <div id="betEntry">
+        @Html.Action("ShowNewBetWindow", "Bet", new { userKey = userKey })
+    </div>
     }
 
     @Html.Partial("ShowNewBetWindow", bet,

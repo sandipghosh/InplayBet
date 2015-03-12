@@ -17,11 +17,13 @@ namespace InplayBet.Web.Models
         public int ChallengeId { get; set; }
         public string BetType { get; set; }
         public string Odds { get; set; }
+
         [DisplayFormat(DataFormatString = "{0:C}")]
         public decimal BetPlaced { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:C}")]
         public decimal WiningTotal { get; set; }
+
         public decimal LoosingTotal { get; set; }
         public string BetStatus { get; set; }
         public int StatusId { get; set; }

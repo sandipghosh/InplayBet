@@ -42,6 +42,10 @@ namespace InplayBet.Web
                     "~/Scripts/AppScripts/MainScript.js"
                 );
                 BundleTable.Bundles.Add(scriptBundle);
+
+                scriptBundle = new Bundle("~/Scripts/ChallengeScript", new JsMinify());
+                scriptBundle.Include("~/Scripts/ChallengeManager.js");
+                BundleTable.Bundles.Add(scriptBundle);
             }
             catch (Exception ex)
             {
