@@ -224,9 +224,9 @@ namespace InplayBet.Web.Data.Implementation.Base
                 var entities = this.GetEntity().Where(entityFilterExpression);
 
                 if (ascending)
-                    entities.OrderBy(entityOrderExpression).Project().To<TModel>();
+                    return entities.OrderBy(entityOrderExpression).Project().To<TModel>();
                 else
-                    entities.OrderByDescending(entityOrderExpression).Project().To<TModel>();
+                    return entities.OrderByDescending(entityOrderExpression).Project().To<TModel>();
             }
             catch (Exception ex)
             {

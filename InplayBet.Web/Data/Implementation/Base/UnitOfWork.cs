@@ -41,7 +41,7 @@ namespace InplayBet.Web.Data.Implementation.Base
         /// <value>The object context.</value>
         public ObjectContext ObjectContext
         {
-            get { return (this as IObjectContextAdapter).ObjectContext; }
+            get { return (this._dbContext as IObjectContextAdapter).ObjectContext; }
         }
 
         /// <summary>

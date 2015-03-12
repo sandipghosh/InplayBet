@@ -95,11 +95,11 @@ namespace InplayBet.Web.Controllers
             try
             {
                 ChallengeModel challenge = this._challengeDataRepository.Get(challengeId);
-                if (challenge!=null)
+                if (challenge != null)
                 {
                     var bets = challenge.Bets.OrderByDescending(x => x.BetId).ToList();
                     ViewBag.CurrentChallenge = challenge;
-                    return View(bets); 
+                    return View(bets);
                 }
             }
             catch (Exception ex)
@@ -124,7 +124,8 @@ namespace InplayBet.Web.Controllers
                     Challenge = GetRecentChallenge(userKey),
                     StatusId = (int)StatusCode.Active,
                     CreatedBy = userKey,
-                    CreatedOn = DateTime.Now
+                    CreatedOn = DateTime.Now,
+                    BetStatus = string.Empty
                 };
                 bet.ChallengeId = bet.Challenge.ChallengeId;
                 bet.BetNumber = GetBetNumber(bet.ChallengeId);
@@ -157,7 +158,8 @@ namespace InplayBet.Web.Controllers
                     Challenge = challenge,
                     StatusId = (int)StatusCode.Active,
                     CreatedBy = challenge.UserKey,
-                    CreatedOn = challenge.CreatedOn
+                    CreatedOn = challenge.CreatedOn,
+                    BetStatus = string.Empty
                 };
                 bet.ChallengeId = bet.Challenge.ChallengeId;
                 bet.BetNumber = (bet.ChallengeId == 0) ? 1 : GetBetNumber(bet.ChallengeId);
@@ -189,11 +191,6 @@ namespace InplayBet.Web.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    Action<BetModel, int> insertBet = (b, challengeId) =>
-                    {
-                        b.ChallengeId = challengeId;
-                        this._betDataRepository.Insert(b);
-                    };
                     if (bet.ChallengeId == 0)
                     {
                         TransactionOptions options = new TransactionOptions()
@@ -201,17 +198,85 @@ namespace InplayBet.Web.Controllers
                             IsolationLevel = IsolationLevel.ReadCommitted,
                             Timeout = new TimeSpan(0, 1, 0)
                         };
-                        using (TransactionScope scope = new TransactionScope(TransactionScopeOption.RequiresNew, options))
+                        using (TransactionScope scope = new TransactionScope
+                            (TransactionScopeOption.RequiresNew, options))
                         {
-                            //ChallengeModel challenge = GetRecentChallenge(userKey);
-                            this._challengeDataRepository.Insert(bet.Challenge);
-                            insertBet(bet, bet.ChallengeId);
+                            ChallengeModel challenge = bet.Challenge;
+                            challenge.ChallengeStatus = challenge.ChallengeStatus.AsString();
+                            this._challengeDataRepository.Insert(challenge);
+
+                            bet.ChallengeId = challenge.ChallengeId;
+                            bet.BetStatus = bet.BetStatus.AsString();
+                            bet.Challenge = null;
+                            this._betDataRepository.Insert(bet);
+
                             scope.Complete();
                         }
                     }
                     else
                     {
-                        insertBet(bet, bet.ChallengeId);
+                        bet.BetStatus = bet.BetStatus.AsString();
+                        bet.Challenge = null;
+                        this._betDataRepository.Insert(bet);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.ExceptionValueTracker(bet);
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Updates the bet status.
+        /// </summary>
+        /// <param name="bet">The bet.</param>
+        /// <returns></returns>
+        [AcceptVerbs(HttpVerbs.Post),
+        OutputCache(NoStore = true, Duration = 0, VaryByHeader = "*")]
+        public ActionResult UpdateBetStatus(BetModel bet)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    Func<BetModel, ChallengeModel> getCurrentChallenge = (b) =>
+                    {
+                        if ((b.WiningTotal >= CommonUtility.GetConfigData<decimal>("WiningBetAmount")
+                            && b.BetStatus == StatusCode.Won.ToString()) || b.BetStatus == StatusCode.Lost.ToString())
+                        {
+                            int chellangeId = b.ChallengeId;
+                            return this._challengeDataRepository.Get(chellangeId);
+                        }
+                        return null;
+                    };
+                    ChallengeModel challenge = getCurrentChallenge(bet);
+
+                    TransactionOptions options = new TransactionOptions()
+                    {
+                        IsolationLevel = IsolationLevel.ReadCommitted,
+                        Timeout = new TimeSpan(0, 1, 0)
+                    };
+                    using (TransactionScope scope = new TransactionScope
+                        (TransactionScopeOption.RequiresNew, options))
+                    {
+                        bet.UpdatedOn = DateTime.Now;
+                        bet.UpdatedBy = bet.CreatedBy;
+                        this._betDataRepository.Update(bet);
+
+                        if (challenge != null)
+                        {
+                            challenge.UpdatedBy = challenge.CreatedBy;
+                            challenge.UpdatedOn = DateTime.Now;
+                            challenge.ChallengeStatus = bet.BetStatus;
+                            challenge.WiningPrice = (bet.BetStatus == StatusCode.Lost.ToString()) ?
+                                ((CommonUtility.GetConfigData<decimal>("StartingBetAmount")) * (-1)) : bet.WiningTotal;
+
+                            this._challengeDataRepository.Update(challenge);
+                        }
+
+                        scope.Complete();
                     }
                 }
             }

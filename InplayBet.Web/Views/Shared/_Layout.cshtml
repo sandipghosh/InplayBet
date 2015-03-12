@@ -8,6 +8,10 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>@ViewBag.Title</title>
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,500,700,900,100italic,300italic,400italic,500italic,700italic,900italic,100' rel='stylesheet' type='text/css' />
+
+    <script type="text/javascript">
+        var VirtualDirectory = '@Url.Content("~/")';
+    </script>
     @Html.RenderStyles("~/Styles/CommonStyle")
     @RenderSection("PageStyle", false)
 

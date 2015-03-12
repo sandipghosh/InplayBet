@@ -8,8 +8,8 @@ namespace InplayBet.Web.Controllers
     using InplayBet.Web.Utilities;
     using System;
     using System.Linq;
-    using System.Web.Mvc;
     using System.Linq.Expressions;
+    using System.Web.Mvc;
 
     public class TeamController : BaseController
     {
@@ -28,12 +28,15 @@ namespace InplayBet.Web.Controllers
         /// Gets the teams.
         /// </summary>
         /// <returns></returns>
-        public JsonActionResult GetTeams()
+        [AcceptVerbs(HttpVerbs.Get),
+        OutputCache(NoStore = true, Duration = 0, VaryByHeader = "*")]
+        public JsonActionResult GetTeams(string filter)
         {
             try
             {
-                var teams = this._teamDataRepository.GetList(x => x.StatusId.Equals((int)StatusCode.Active))
-                    .OrderBy(x => x.TeamName).Select(x => new { Id = x.TeamId, Name = x.TeamName });
+                var teams = this._teamDataRepository.GetList(x => x.StatusId.Equals((int)StatusCode.Active)
+                    && x.TeamName.StartsWith(filter), x => x.TeamName, true)
+                    .Select(x => new { label = x.TeamName, value = x.TeamId });
                 return new JsonActionResult(teams.ToList());
             }
             catch (Exception ex)
@@ -46,22 +49,23 @@ namespace InplayBet.Web.Controllers
         /// <summary>
         /// Sets the teams.
         /// </summary>
-        /// <param name="name">Name of the team.</param>
+        /// <param name="searchName">Name of the team.</param>
         /// <returns></returns>
-        [HttpPost]
-        public ActionResult SetTeams(string name, int userId)
+        [AcceptVerbs(HttpVerbs.Post),
+        OutputCache(NoStore = true, Duration = 0, VaryByHeader = "*")]
+        public ActionResult SetTeams(string searchName, int userId)
         {
             try
             {
                 TeamModel team;
                 Expression<Func<TeamModel, bool>> criteria = (x) => x.StatusId.Equals((int)StatusCode.Active)
-                    && x.TeamName.Equals(name);
+                    && x.TeamName.Equals(searchName);
 
                 if (!this._teamDataRepository.Exists(criteria))
                 {
                     team = new TeamModel
                     {
-                        TeamName = name,
+                        TeamName = searchName,
                         StatusId = (int)StatusCode.Active,
                         CreatedBy = userId,
                         CreatedOn = DateTime.Now
@@ -72,11 +76,11 @@ namespace InplayBet.Web.Controllers
                 {
                     team = this._teamDataRepository.GetList(criteria).FirstOrDefault();
                 }
-                return new JsonActionResult(new { Id = team.TeamId, Name = team.TeamName });
+                return new JsonActionResult(new { label = team.TeamName, value = team.TeamId });
             }
             catch (Exception ex)
             {
-                ex.ExceptionValueTracker(name);
+                ex.ExceptionValueTracker(searchName);
             }
             return null;
         }

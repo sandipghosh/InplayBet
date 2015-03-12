@@ -1,15 +1,15 @@
 ﻿
 namespace InplayBet.Web.Controllers
 {
-    using System;
-    using System.Linq;
-    using System.Linq.Expressions;
-    using System.Web.Mvc;
     using InplayBet.Web.Controllers.Base;
     using InplayBet.Web.Data.Interface;
     using InplayBet.Web.Models;
     using InplayBet.Web.Models.Base;
     using InplayBet.Web.Utilities;
+    using System;
+    using System.Linq;
+    using System.Linq.Expressions;
+    using System.Web.Mvc;
 
     public class LegueController : BaseController
     {
@@ -28,12 +28,14 @@ namespace InplayBet.Web.Controllers
         /// Gets the legues.
         /// </summary>
         /// <returns></returns>
+        [AcceptVerbs(HttpVerbs.Get),
+        OutputCache(NoStore = true, Duration = 0, VaryByHeader = "*")]
         public JsonActionResult GetLegues()
         {
             try
             {
                 var legues = this._legueDataRepository.GetList(x => x.StatusId.Equals((int)StatusCode.Active))
-                    .OrderBy(x => x.LegueName).Select(x => new { Id = x.LegueId, Name = x.LegueName });
+                    .OrderBy(x => x.LegueName).Select(x => new { label = x.LegueName, value = x.LegueId });
                 return new JsonActionResult(legues.ToList());
             }
             catch (Exception ex)
@@ -49,20 +51,21 @@ namespace InplayBet.Web.Controllers
         /// <param name="name">Name of the legue.</param>
         /// <param name="userId">The user identifier.</param>
         /// <returns></returns>
-        [HttpPost]
-        public ActionResult SetLegues(string name, int userId)
+        [AcceptVerbs(HttpVerbs.Post),
+        OutputCache(NoStore = true, Duration = 0, VaryByHeader = "*")]
+        public ActionResult SetLegues(string searchName, int userId)
         {
             try
             {
                 LegueModel legue;
                 Expression<Func<LegueModel, bool>> criteria = (x) => x.StatusId.Equals((int)StatusCode.Active)
-                    && x.LegueName.Equals(name);
+                    && x.LegueName.Equals(searchName);
 
                 if (!this._legueDataRepository.Exists(criteria))
                 {
                     legue = new LegueModel
                     {
-                        LegueName = name,
+                        LegueName = searchName,
                         StatusId = (int)StatusCode.Active,
                         CreatedBy = userId,
                         CreatedOn = DateTime.Now
@@ -73,11 +76,11 @@ namespace InplayBet.Web.Controllers
                 {
                     legue = this._legueDataRepository.GetList(criteria).FirstOrDefault();
                 }
-                return new JsonActionResult(new { Id = legue.LegueId, Name = legue.LegueName });
+                return new JsonActionResult(new { label = legue.LegueName, value = legue.LegueId });
             }
             catch (Exception ex)
             {
-                ex.ExceptionValueTracker(name);
+                ex.ExceptionValueTracker(searchName);
             }
             return null;
         }

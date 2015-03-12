@@ -55,6 +55,7 @@
     @Html.HiddenFor(m => m.BetId)
     @Html.HiddenFor(m => m.ChallengeId)
     @Html.HiddenFor(m => m.BetNumber)
+    @Html.HiddenFor(m => m.BetStatus)
     @Html.HiddenFor(m => m.StatusId)
     @Html.HiddenFor(m => m.CreatedBy)
     @Html.HiddenFor(m => m.CreatedOn)
@@ -62,8 +63,11 @@
     @Html.HiddenFor(m => m.Challenge.ChallengeId)
     @Html.HiddenFor(m => m.Challenge.ChallengeNumber)
     @Html.HiddenFor(m => m.Challenge.ChallengeStatus)
+    @Html.HiddenFor(m => m.Challenge.UserKey)
+    @Html.HiddenFor(m => m.Challenge.WiningPrice)
     @Html.HiddenFor(m => m.Challenge.CreatedBy)
     @Html.HiddenFor(m => m.Challenge.CreatedOn)
+    @Html.HiddenFor(m => m.Challenge.StatusId)
     }
 }
 else
@@ -77,15 +81,12 @@ else
             </li>
             <li>
                 <label><strong>Team Names:</strong></label>
-                @Html.HiddenFor(m => m.TeamAId)
                 @Html.Label(Model.TeamA.TeamName)
                 <label><strong>vs</strong></label>
-                @Html.HiddenFor(m => m.TeamBId)
                 @Html.Label(Model.TeamB.TeamName)
             </li>
             <li>
                 <label><strong>league:</strong></label>
-                @Html.HiddenFor(m => m.LegueId)
                 @Html.Label(Model.Legue.LegueName)
             </li>
             <li>
@@ -101,6 +102,7 @@ else
                 <label>@Model.BetPlaced.ToString("C")</label>
             </li>
             <li>
+                
                 <label><strong>Winning Total:</strong></label>
                 <label>@Model.WiningTotal.ToString("C")</label>
             </li>
@@ -121,7 +123,7 @@ else
                     <label>Bet Submited On: @Model.CreatedOn.ToString("dd/MM/yyyy hh:mm tt")</label>
                 </li>
                 <li>
-                    <label>Bet @Html.Label(Model.BetStatus) On: @Model.UpdatedOn.ToString("dd/MM/yyyy hh:mm tt")</label>
+                    <label>Bet @Html.Label(Model.BetStatus) On: @Model.UpdatedOn.Value.ToString("dd/MM/yyyy hh:mm tt")</label>
                 </li>
                 <li>
                     <label><strong>Status:</strong></label>
@@ -130,12 +132,19 @@ else
             }
 
         </ul>
-
     </div>
 
     @Html.HiddenFor(m => m.BetId)
+    @Html.HiddenFor(m => m.TeamAId)
+    @Html.HiddenFor(m => m.TeamBId)
+    @Html.HiddenFor(m => m.LegueId)
     @Html.HiddenFor(m => m.ChallengeId)
+    @Html.HiddenFor(m => m.BetType)
     @Html.HiddenFor(m => m.BetNumber)
+    @Html.HiddenFor(m => m.Odds)
+    @Html.HiddenFor(m => m.BetStatus)
+    @Html.HiddenFor(m => m.BetPlaced)
+    @Html.HiddenFor(m => m.WiningTotal)
     @Html.HiddenFor(m => m.StatusId)
     @Html.HiddenFor(m => m.CreatedBy)
     @Html.HiddenFor(m => m.CreatedOn)

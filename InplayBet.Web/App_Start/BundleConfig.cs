@@ -37,9 +37,10 @@ namespace InplayBet.Web
                     "~/Scripts/jquery-migrate-1.2.1.min.js",
                     "~/Scripts/jquery-ui.min.js",
                     "~/Scripts/consolelog.min.js",
-                    "~/Scripts/cropbox-min.js",
+                    //"~/Scripts/cropbox-min.js",
                     "~/Scripts/AppScripts/Common.js",
-                    "~/Scripts/AppScripts/MainScript.js"
+                    "~/Scripts/AppScripts/MainScript.js",
+                    "~/Scripts/AppScripts/ChallengeManager.js"
                 );
                 BundleTable.Bundles.Add(scriptBundle);
 
