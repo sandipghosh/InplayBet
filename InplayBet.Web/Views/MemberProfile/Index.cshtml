@@ -21,12 +21,12 @@
                     <p class="bookmarker">Bookmarker - @Model.BookMaker.BookMakerName.ToString()</p>
                 </div>
                 <div class="detail-block">
-                    <p class="left">Wins 7</p>
-                    <p class="left">Losses 16</p>
-                    <p class="left">Winning Bets 36</p>
-                    <p class="left">Won £4151</p>
-                    <p class="left">Placed -£360</p>
-                    <p class="left">Profit £3791</p>
+                    <p class="left">Wins @ViewBag.TotalWonChallengeCount</p>
+                    <p class="left">Losses @ViewBag.TotalLostChallengeCount</p>
+                    <p class="left">Winning Bets @ViewBag.TotalWonBetCount</p>
+                    <p class="left">Won @ViewBag.TotalWonChallengeAmount</p>
+                    <p class="left">Placed -@ViewBag.TotalPlacedChallengeAmount.ToString("C")</p>
+                    <p class="left">Profit @ViewBag.TotalProfitAmount.ToString("C")</p>
                 </div>
             </div>
             @Html.Action("GetChallengesByUser", "Bet", new { userKey = (int)ViewBag.UserKey })

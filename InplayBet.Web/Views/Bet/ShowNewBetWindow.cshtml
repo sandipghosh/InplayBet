@@ -7,7 +7,7 @@
 }
 @if (betDisplayMode == BetDisplayType.Insert.ToString())
 {
-    using (Ajax.BeginForm("InsertNewBet", "Bet", new AjaxOptions { HttpMethod = "POST" }, new { id = "frmBet" }))
+    using (Ajax.BeginForm("InsertNewBet", "Bet", new AjaxOptions { HttpMethod = "POST", OnSuccess="InsertBetSuccessHandler(this)" }, new { id = "frmIndertBet" }))
     {
     <div class="popup-border">
         <ul class="popup">
@@ -68,7 +68,7 @@
 }
 else
 {
-    using (Ajax.BeginForm("UpdateBetStatus", "Bet", new AjaxOptions { HttpMethod = "POST" }, new { id = "frmBetStatus" }))
+    using (Ajax.BeginForm("UpdateBetStatus", "Bet", new AjaxOptions { HttpMethod = "POST" }, new { id = "frmUpdateBet" }))
     {
     <div class="popup-border">
         <ul class="popup">

@@ -43,8 +43,14 @@ namespace InplayBet.Web
                 );
                 BundleTable.Bundles.Add(scriptBundle);
 
-                scriptBundle = new Bundle("~/Scripts/ChallengeScript", new JsMinify());
+                scriptBundle = new Bundle("~/Scripts/AjaxValidation", new JsMinify());
                 scriptBundle.Include("~/Scripts/ChallengeManager.js");
+                BundleTable.Bundles.Add(scriptBundle);
+
+                scriptBundle = new Bundle("~/Scripts/ChallengeScript", new JsMinify());
+                scriptBundle.Include("~/Scripts/jquery.unobtrusive-ajax.min.js",
+                    "~/Scripts/jquery.validate.min.js",
+                    "~/Scripts/jquery.validate.unobtrusive.min.js");
                 BundleTable.Bundles.Add(scriptBundle);
             }
             catch (Exception ex)

@@ -183,7 +183,7 @@ namespace InplayBet.Web.Controllers
         /// <returns></returns>
         [AcceptVerbs(HttpVerbs.Post),
         OutputCache(NoStore = true, Duration = 0, VaryByHeader = "*")]
-        public ActionResult InsertNewBet(BetModel bet, int userKey)
+        public ActionResult InsertNewBet(BetModel bet)
         {
             try
             {
