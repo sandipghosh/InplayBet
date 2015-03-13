@@ -12,24 +12,24 @@ namespace InplayBet.Web.Data.Context
     using System;
     using System.Collections.Generic;
     
-    public partial class Team : BaseData
+    public partial class Currency : BaseData
     {
-        public Team()
+        public Currency()
         {
-            this.Bets = new HashSet<Bet>();
-            this.Bets1 = new HashSet<Bet>();
+            this.Users = new HashSet<User>();
         }
     
-        public int TeamId { get; set; }
-        public string TeamName { get; set; }
+        public int CurrencyId { get; set; }
+        public string CurrencyName { get; set; }
+        public string CurrencySymbol { get; set; }
+        public string CultureCode { get; set; }
         public int StatusId { get; set; }
         public int CreatedBy { get; set; }
         public System.DateTime CreatedOn { get; set; }
         public Nullable<int> UpdatedBy { get; set; }
         public Nullable<System.DateTime> UpdatedOn { get; set; }
     
-        public virtual ICollection<Bet> Bets { get; set; }
-        public virtual ICollection<Bet> Bets1 { get; set; }
         public virtual Status Status { get; set; }
+        public virtual ICollection<User> Users { get; set; }
     }
 }

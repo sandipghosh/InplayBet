@@ -1,50 +1,46 @@
 ﻿@using InplayBet.Web.Utilities
-@{
-    Layout = null;
-}
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>@ViewBag.Title</title>
-    <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,500,700,900,100italic,300italic,400italic,500italic,700italic,900italic,100' rel='stylesheet' type='text/css' />
+@using InplayBet.Web.Models
+    @{
+        Layout = null;
+    }
+    <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    <html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>@ViewBag.Title</title>
+        <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,500,700,900,100italic,300italic,400italic,500italic,700italic,900italic,100' rel='stylesheet' type='text/css' />
 
-    <script type="text/javascript">
-        var VirtualDirectory = '@Url.Content("~/")';
-    </script>
-    @Html.RenderStyles("~/Styles/CommonStyle")
-    @RenderSection("PageStyle", false)
+        <script type="text/javascript">
+            var VirtualDirectory = '@Url.Content("~/")';
+        </script>
+        @Html.RenderStyles("~/Styles/CommonStyle")
+        @RenderSection("PageStyle", false)
 
-    @Html.RenderScripts("~/Scripts/CommonScript")
-    @RenderSection("PageScript", false)
-</head>
+        @Html.RenderScripts("~/Scripts/CommonScript")
+        @RenderSection("PageScript", false)
 
-<body>
-    <div class="header">
-        <div class="center">
-            <div class="header-top">
-                <ul class="social">
-                    <li><a href="#" class="facebook"></a></li>
-                    <li><a href="#" class="twitter"></a></li>
-                    <li><a href="#" class="linkedin"></a></li>
-                </ul>
-                <div class="right">
-                    <p><a href="#">Lost your log in details?</a></p>
-                    <p class="remember">Remember Me?</p>
-                    <input type="checkbox" name="" value="" />
-                    <input type="text" onblur="if(this.value=='')this.value=this.defaultValue;" onfocus="if(this.value=='Email')this.value='';" value="Email" />
-                    <input type="password" onblur="if(this.value=='')this.value=this.defaultValue;" onfocus="if(this.value=='Password')this.value='';" value="Password" />
-                    <input type="submit" name="" value="submit" />
+        <script type="text/javascript" src='@Url.Action("AppConfigData", "Base")'></script>
+    </head>
+
+    <body>
+        <div class="header">
+            <div class="center">
+                <div class="header-top">
+                    <ul class="social">
+                        <li><a href="#" class="facebook"></a></li>
+                        <li><a href="#" class="twitter"></a></li>
+                        <li><a href="#" class="linkedin"></a></li>
+                    </ul>
+                    @{Html.RenderPartial("_SignIn", (new SignInModel()));}
+                </div>
+                <div class="header-botm">
+                    <div class="logo"><a href="#"><img src='@Url.Content("~/Styles/images/logo.png")' alt="" /></a></div>
+                    <div class="header-img"><img src='@Url.Content("~/Styles/images/header-img.png")' alt="" /></div>
                 </div>
             </div>
-            <div class="header-botm">
-                <div class="logo"><a href="#"><img src='@Url.Content("~/Styles/images/logo.png")' alt="" /></a></div>
-                <div class="header-img"><img src='@Url.Content("~/Styles/images/header-img.png")' alt="" /></div>
-            </div>
         </div>
-    </div>
-    @{Html.RenderPartial("_TopNavigation");}
-    @RenderBody()
-    @{Html.RenderPartial("_BottomNavigation");}
-</body>
+        @{Html.RenderPartial("_TopNavigation");}
+        @RenderBody()
+        @{Html.RenderPartial("_BottomNavigation");}
+    </body>
 </html>

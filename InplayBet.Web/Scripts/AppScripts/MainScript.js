@@ -3,6 +3,22 @@
 /// <reference path="../consolelog.min.js" />
 
 (function ($, win) {
+    this.SignInSuccessHandler = function (data, context) {
+        try {
+            if (typeof data.Status != 'undefined') {
+                if (data.Status) {
+                    win.location.assign(data.Url);
+                }
+            }
+            else {
+                $('#frmSignIn').html($(data).find('#frmSignIn').html());
+                $.validator.unobtrusive.parse($('#frmSignIn'));
+            }
+        } catch (ex) {
+            log(ex.message);
+        }
+    };
+
     //var options = {
     //    thumbBox: '.thumbBox',
     //    spinner: '.spinner',
@@ -52,7 +68,7 @@
     //    } catch (ex) { log(ex.message); }
     //};
 
-}((jQuery, window)));
+}(jQuery, window));
 
 (function ($) {
     $.fn.GenericAutocomplete = function (options) {

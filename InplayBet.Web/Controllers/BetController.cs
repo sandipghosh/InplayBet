@@ -99,6 +99,7 @@ namespace InplayBet.Web.Controllers
                 {
                     var bets = challenge.Bets.OrderByDescending(x => x.BetId).ToList();
                     ViewBag.CurrentChallenge = challenge;
+                    ViewBag.UserKey = challenge.UserKey;
                     return View(bets);
                 }
             }
@@ -219,6 +220,8 @@ namespace InplayBet.Web.Controllers
                         bet.Challenge = null;
                         this._betDataRepository.Insert(bet);
                     }
+
+                    return new JsonActionResult(bet);
                 }
             }
             catch (Exception ex)
@@ -277,6 +280,7 @@ namespace InplayBet.Web.Controllers
                         }
 
                         scope.Complete();
+                        return new JsonActionResult(bet);
                     }
                 }
             }

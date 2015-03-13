@@ -18,8 +18,8 @@ body {background:#030b1b url(images/main-bg.jpg) top center / cover no-repeat; f
 .header-top ul.social li a:hover.linkedin {background-position:100% 0;}
 
 .header-top .right {float:right; width:70%; text-align:right;}
-.header-top .right input[type="text"] {width:20%; padding:9px; background:#31435e; color:#9da5b0; border:0; margin-right:5px;}
-.header-top .right input[type="password"] {width:20%; padding:9px; background:#31435e; color:#9da5b0; border:0; margin-right:5px;}
+.header-top .right input[type="text"] { padding:9px; background:#31435e; color:#9da5b0; border:0; margin-right:5px;}
+.header-top .right input[type="password"] { padding:9px; background:#31435e; color:#9da5b0; border:0; margin-right:5px;}
 .header-top .right input[type="submit"] {width:auto; padding:7px 10px; font-size:15px; background:#63b222; color:#fff; border:0; margin-right:0; -webkit-transition: all 0.4s ease; -moz-transition: all 0.4s ease; transition: all 0.4s ease; display:inline-block; text-transform:uppercase; cursor:pointer;}
 .header-top .right input[type="submit"]:hover {background:#2c5907;}
 .header-top .right input[type="text"]:focus, .header-top .right input[type="password"]:focus {background:#475c7b; color:#fff; -webkit-transition: all 0.4s ease; -moz-transition: all 0.4s ease; transition: all 0.4s ease;}
@@ -118,7 +118,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 .mp-block .top .name-block p.join {font-size:20px; color:#000; margin:0; padding:0; font-style:italic; text-align:left;}
 .mp-block .top .name-block p.bookmarker {font-size:20px; color:#000; margin:5px 0 0 0; padding:0; font-style:normal; text-align:left;}
 .mp-block .top .detail-block {float:right; width:48%; margin:10px 0 0 0;}
-.mp-block .top .detail-block p.left {background:#63b222; color:#fff; font-weight:700; font-size:20px; float:left; display:block; padding:0 12px; margin:0 10px 10px 0; line-height:70px; width:27%; text-align:left;}
+.mp-block .top .detail-block p.left {background:#63b222; color:#fff; font-weight:700; font-size:18px; float:left; display:block; padding:0 12px; margin:0 10px 10px 0; line-height:70px; width:27%; text-align:left;}
 
 .mp-block .blk-bg {background:#000; padding:1%; width:98%; position:relative;}
 .mp-block .blk-bg h3.blk-heading {font-size:35px; font-weight:700; color:#fff; padding:0; margin:0;}
@@ -138,7 +138,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 
 
 .mp-block .green-box {width:98%; padding:1%; margin:1% 0 0 0; float:left; background:#54af09;}
-.mp-block .green-box .scroll {width:1129px;height:170px;overflow-y:hidden;overflow-x:scroll; margin:25px 0 0 0;}
+.mp-block .green-box .scroll {width:1129px;/*height:170px;*/overflow-y:hidden;overflow-x:scroll; margin:25px 0 0 0;}
 .mp-block .green-box .outer {width:250%;}
 .mp-block .green-box p {margin:0 2% 0 0; padding:0; display:inline; float:left; width:auto; font-size:20px; color:#fff; text-align:left; line-height:30px;}
 
@@ -244,11 +244,18 @@ ul.search-filter li a:hover {text-decoration:none; color:#63b222; background:#63
 ul.popup {margin:0; padding:0;}
 ul.popup li {margin:3px 0; padding:0; list-style:none; width:100%; float:left;}
 ul.popup li p{float:none !important;}
-ul.popup li label {float:left; min-width:18%; font-size:13px; margin:5px 0 0 0; padding:0;color:#000}
-ul.popup li input[type="text"] {border:1px solid #d8d8d8; width:19.5%; padding:1%; font-size:15px; line-height:15px; color:#6a6a6a;}
+ul.popup li label {float:left; width:30%; font-size:16px; margin:5px 0 0 0; padding:0;color:#000}
+ul.popup li label.vs {width:20px; padding:0 5px;}
+ul.popup li label.right {width:50%;}
+
+
+.left-input {float:left; width:25%; position:relative;}
+ul.popup li input[type="text"] {border:1px solid #d8d8d8; float:left; margin:0; width:93%; padding:3%; font-size:15px; line-height:15px; color:#6a6a6a;}
 ul.popup li input[type="text"]:focus {border:1px solid #63b222; -webkit-transition: all 0.4s ease; -moz-transition: all 0.4s ease; transition: all 0.4s ease; background:#f6f7f7;}
-ul.popup li span {padding:0 2px; font-size:15px;font-weight: bold;}
-ul.popup li input[type="text"].full {border:1px solid #d8d8d8; width:50%; padding:1%; font-size:15px; line-height:15px; color:#6a6a6a;}
+ul.popup li span.vs {padding:0 24px; float:left; font-size:15px;font-weight: bold;}
+ul.popup li span {padding:0; float:left; font-size:12px;font-weight:normal;}
+.input-full-outer {width:60%; float:left; position:relative;}
+ul.popup li input[type="text"].full {border:1px solid #d8d8d8; width:99%; padding:2%; font-size:15px; line-height:15px; color:#6a6a6a;}
 ul.popup li input[type="text"].full:focus {border:1px solid #63b222; -webkit-transition: all 0.4s ease; -moz-transition: all 0.4s ease; transition: all 0.4s ease; background:#f6f7f7;}
 ul.popup li input[type="submit"] {display:block; text-align:center; background: #63b222; /* Old browsers */
 background: -moz-linear-gradient(top, #63b222 0%, #3e7b0b 100%); /* FF3.6+ */
@@ -267,7 +274,8 @@ background: -ms-linear-gradient(top, #545455 0%,#1b1b1b 100%); /* IE10+ */
 background: linear-gradient(to bottom, #545455 0%,#1b1b1b 100%); /* W3C */
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#545455', endColorstr='#1b1b1b',GradientType=0 ); /* IE6-9 */}
 
-ul.popup li a.btn {font-size:16px; font-weight:700; color:#fff; text-decoration:none; background:#000; margin:0; padding:4px 5px;}
+.input-full-outer ul.popup li a.btn {right:-38px;}
+ul.popup li a.btn {font-size:16px; font-weight:700; color:#fff; text-decoration:none; background:#000; margin:0; padding:4px 5px; float:left; margin:0 4px; position:absolute; top:0; right:-25px;}
 ul.popup li a.btn:hover {color:#fff; text-decoration:none; background:#63b222;}
 ul.popup li input[type="radio"] {width:5%; margin:9px 0 0 0;}
 
@@ -290,4 +298,13 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#545455', end
 
 /*------------------------- Popup CSS End---------------------------------*/
 
+
+.yellow-box .popup-border {border:2px solid #d4be00; width:526px; margin-right:10px; min-height:320px;}
+ul.popup li input[type="submit"] {float:left; margin:0 10px 0 0;}
+
+.red-box .popup-border {border:2px solid #be0202; width:526px; margin-right:10px;}
+.red-box ul.popup li label {color:#fff;}
+
+.green-box .popup-border {border:2px solid #60cd06; width:526px; margin-right:10px;}
+.green-box ul.popup li label {color:#fff;}
  

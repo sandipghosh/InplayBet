@@ -17,6 +17,7 @@ namespace InplayBet.Web.Data.Context
         public Challenge()
         {
             this.Bets = new HashSet<Bet>();
+            this.Reports = new HashSet<Report>();
         }
     
         public int ChallengeId { get; set; }
@@ -33,5 +34,6 @@ namespace InplayBet.Web.Data.Context
         public virtual ICollection<Bet> Bets { get; set; }
         public virtual Status Status { get; set; }
         public virtual User User { get; set; }
+        public virtual ICollection<Report> Reports { get; set; }
     }
 }

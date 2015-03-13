@@ -9,6 +9,7 @@ namespace InplayBet.Web.Controllers
     using InplayBet.Web.Models.Base;
     using InplayBet.Web.Utilities;
 
+    
     public class MemberProfileController : BaseController
     {
         private readonly IUserDataRepository _userDataRepository;
@@ -38,8 +39,8 @@ namespace InplayBet.Web.Controllers
         {
             try
             {
-                SessionVeriables.SetSessionData<int>(SessionVeriables.UserKey, 5);
-                UserModel user = this._userDataRepository.Get(5);
+                UserModel user = this._userDataRepository.Get
+                    (SessionVeriables.GetSessionData<int>(SessionVeriables.UserKey));
 
                 if (user != null)
                 {
@@ -64,7 +65,7 @@ namespace InplayBet.Web.Controllers
                         * CommonUtility.GetConfigData<int>("StartingBetAmount"));
 
                     ViewBag.TotalProfitAmount = ((decimal)ViewBag.TotalWonChallengeAmount - (decimal)ViewBag.TotalPlacedChallengeAmount);
-                    ViewBag.UserKey = 5;
+                    ViewBag.UserKey = userKey;
 
                     return View(user);
                 }

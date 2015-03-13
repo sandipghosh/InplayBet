@@ -62,6 +62,12 @@ namespace InplayBet.Web.MapperConfig
                 Mapper.CreateMap<Team, TeamModel>().IgnoreAllNonExisting();
                 Mapper.CreateMap<TeamModel, Team>().IgnoreAllNonExisting();
 
+                Mapper.CreateMap<Currency, CurrencyModel>().IgnoreAllNonExisting();
+                Mapper.CreateMap<CurrencyModel, Currency>().IgnoreAllNonExisting();
+
+                Mapper.CreateMap<Report, ReportModel>().IgnoreAllNonExisting();
+                Mapper.CreateMap<ReportModel, Report>().IgnoreAllNonExisting();
+
                 Mapper.AssertConfigurationIsValid();
             }
             catch (Exception ex)

@@ -27,13 +27,24 @@
                         @Html.TextBoxFor(m => m.FirstName)
                     </li>
                     <li>
+                        <label>First Name:</label>
+                        @Html.ValidationMessageFor(m => m.FirstName)
+                        @Html.TextBoxFor(m => m.FirstName)
+                    </li>
+                    <li>
                         <label>Last Name:</label>
-                        @Html.ValidationMessageFor(x => x.EmailId)
+                        @Html.ValidationMessageFor(x => x.LastName)
                         @Html.TextBoxFor(m => m.LastName)
                     </li>
                     <li>
                         <label>Email Address:</label>
+                        @Html.ValidationMessageFor(x => x.EmailId)
                         @Html.TextBoxFor(m => m.EmailId)
+                    </li>
+                    <li>
+                        <label>Currency:</label>
+                        @Html.ValidationMessageFor(x => x.Currency)
+                        @Html.DropDownListFor(m => m.Sex, (IEnumerable<SelectListItem>)ViewBag.Currencies, "Select Currency", null)
                     </li>
                     <li>
                         <div class="password">
@@ -56,8 +67,10 @@
                         <label>Date of birth:</label>
                         @Html.ValidationMessageFor(m => m.DobMonth)
                         @Html.DropDownListFor(m => m.DobMonth, (IEnumerable<SelectListItem>)ViewBag.Months, "Select Month", null)
+
                         @Html.ValidationMessageFor(m => m.DobDay)
                         @Html.DropDownListFor(m => m.DobDay, (IEnumerable<SelectListItem>)ViewBag.Days, "Select Date", null)
+
                         @Html.ValidationMessageFor(m => m.DobYear)
                         @Html.DropDownListFor(m => m.DobYear, (IEnumerable<SelectListItem>)ViewBag.Years, "Select Year", null)
                     </li>

@@ -16,22 +16,26 @@ namespace InplayBet.Web.Data.Context
     {
         public Status()
         {
+            this.Bets = new HashSet<Bet>();
             this.BookMakers = new HashSet<BookMaker>();
+            this.Challenges = new HashSet<Challenge>();
+            this.Currencies = new HashSet<Currency>();
             this.Legues = new HashSet<Legue>();
+            this.Reports = new HashSet<Report>();
             this.Teams = new HashSet<Team>();
             this.Users = new HashSet<User>();
-            this.Bets = new HashSet<Bet>();
-            this.Challenges = new HashSet<Challenge>();
         }
     
         public int StatusId { get; set; }
         public string StatusName { get; set; }
     
+        public virtual ICollection<Bet> Bets { get; set; }
         public virtual ICollection<BookMaker> BookMakers { get; set; }
+        public virtual ICollection<Challenge> Challenges { get; set; }
+        public virtual ICollection<Currency> Currencies { get; set; }
         public virtual ICollection<Legue> Legues { get; set; }
+        public virtual ICollection<Report> Reports { get; set; }
         public virtual ICollection<Team> Teams { get; set; }
         public virtual ICollection<User> Users { get; set; }
-        public virtual ICollection<Bet> Bets { get; set; }
-        public virtual ICollection<Challenge> Challenges { get; set; }
     }
 }

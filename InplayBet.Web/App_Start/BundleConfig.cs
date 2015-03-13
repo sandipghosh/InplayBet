@@ -36,19 +36,26 @@ namespace InplayBet.Web
                 scriptBundle.Include("~/Scripts/jquery-2.1.3.min.js",
                     "~/Scripts/jquery-migrate-1.2.1.min.js",
                     "~/Scripts/jquery-ui.min.js",
+                    "~/Scripts/jquery.unobtrusive-ajax.min.js",
+                    "~/Scripts/jquery.validate.min.js",
+                    "~/Scripts/jquery.validate.unobtrusive.min.js",
+                    //"~/Scripts/jquery.fs.boxer.min.js",
                     "~/Scripts/consolelog.min.js",
-                    //"~/Scripts/cropbox-min.js",
                     "~/Scripts/AppScripts/Common.js",
-                    "~/Scripts/AppScripts/MainScript.js",
-                    "~/Scripts/AppScripts/ChallengeManager.js"
+                    "~/Scripts/AppScripts/MainScript.js"
                 );
                 BundleTable.Bundles.Add(scriptBundle);
 
-                scriptBundle = new Bundle("~/Scripts/AjaxValidation", new JsMinify());
-                scriptBundle.Include("~/Scripts/ChallengeManager.js");
+                scriptBundle = new Bundle("~/Scripts/RegistrationScript", new JsMinify());
+                scriptBundle.Include("~/Scripts/cropbox-min.js",
+                    "~/Scripts/AppScripts/RegistrationManager.js");
                 BundleTable.Bundles.Add(scriptBundle);
 
                 scriptBundle = new Bundle("~/Scripts/ChallengeScript", new JsMinify());
+                scriptBundle.Include("~/Scripts/AppScripts/ChallengeManager.js");
+                BundleTable.Bundles.Add(scriptBundle);
+
+                scriptBundle = new Bundle("~/Scripts/AjaxValidation", new JsMinify());
                 scriptBundle.Include("~/Scripts/jquery.unobtrusive-ajax.min.js",
                     "~/Scripts/jquery.validate.min.js",
                     "~/Scripts/jquery.validate.unobtrusive.min.js");

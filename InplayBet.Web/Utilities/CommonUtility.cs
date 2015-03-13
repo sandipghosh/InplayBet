@@ -527,9 +527,22 @@ namespace InplayBet.Web.Utilities
             }
         }
 
+        /// <summary>
+        /// Gets the configuration data.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key">The key.</param>
+        /// <returns></returns>
         public static T GetConfigData<T>(string key)
         {
             return (T)Convert.ChangeType(ConfigurationManager.AppSettings[key], typeof(T));
+        }
+
+        public static string AppsettingsToJson()
+        {
+            return JsonConvert.SerializeObject(ConfigurationManager.AppSettings
+                .AllKeys.Where(x => !x.Contains(":"))
+                .ToDictionary(key => key, key => ConfigurationManager.AppSettings[key]));
         }
     }
 }

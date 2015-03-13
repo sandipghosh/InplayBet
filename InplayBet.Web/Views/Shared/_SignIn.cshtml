@@ -1,0 +1,60 @@
+﻿@using InplayBet.Web.Models
+@model SignInModel
+@{Layout = null;}
+
+<style type="text/css">
+    .right div {
+        float: left;
+        width: 23%;
+    }
+
+        .right div > span {
+            float: left;
+            text-align: left;
+            color: #b20c0c;
+            white-space: nowrap;
+            -ms-text-overflow: ellipsis;
+            -o-text-overflow: ellipsis;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            width: 100%;
+            padding-right: 10px;
+        }
+
+        .right div > div {
+            float: left;
+            width: 100%;
+        }
+
+        .right div:first-child {
+            line-height: 40px;
+            width: 35%;
+        }
+
+        .right div:nth-child(4) {
+            width: 9%;
+        }
+</style>
+
+<div class="right">
+    @using (Ajax.BeginForm("SignIn", "RegisterUser", new { area = "" },
+        new AjaxOptions { HttpMethod = "POST", OnSuccess = "SignInSuccessHandler(data, this)" }, new { id = "frmSignIn" }))
+    {
+        <div>
+            <p><a href="#">Lost your log in details?</a></p>
+            <p class="remember">Remember Me?</p>
+            <input type="checkbox" name="" value="" />
+        </div>
+        <div>
+            <div>@Html.TextBoxFor(m => m.UserOrEmail, new { placeholder = "Email" })</div>
+            @Html.ValidationMessageFor(m => m.UserOrEmail)
+        </div>
+        <div>
+            <div>@Html.TextBoxFor(m => m.Password, new { type = "password", placeholder = "Password" })</div>
+            @Html.ValidationMessageFor(m => m.Password)
+        </div>
+        <div>
+            <input type="submit" name="" value="submit" />
+        </div>
+    }
+</div>

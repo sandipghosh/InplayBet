@@ -17,10 +17,13 @@ namespace InplayBet.Web.Data.Context
         public User()
         {
             this.Challenges = new HashSet<Challenge>();
+            this.Reports = new HashSet<Report>();
+            this.Reports1 = new HashSet<Report>();
         }
     
         public int UserKey { get; set; }
         public string UserId { get; set; }
+        public int CurrencyId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string EmailId { get; set; }
@@ -36,7 +39,10 @@ namespace InplayBet.Web.Data.Context
         public Nullable<System.DateTime> UpdatedOn { get; set; }
     
         public virtual BookMaker BookMaker { get; set; }
-        public virtual Status Status { get; set; }
         public virtual ICollection<Challenge> Challenges { get; set; }
+        public virtual Currency Currency { get; set; }
+        public virtual ICollection<Report> Reports { get; set; }
+        public virtual ICollection<Report> Reports1 { get; set; }
+        public virtual Status Status { get; set; }
     }
 }

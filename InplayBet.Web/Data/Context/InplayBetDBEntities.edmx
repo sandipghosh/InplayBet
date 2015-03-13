@@ -54,12 +54,42 @@
           <Property Name="UpdatedBy" Type="int" />
           <Property Name="UpdatedOn" Type="datetime" />
         </EntityType>
+        <EntityType Name="Currency">
+          <Key>
+            <PropertyRef Name="CurrencyId" />
+          </Key>
+          <Property Name="CurrencyId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CurrencyName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CurrencySymbol" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CultureCode" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="StatusId" Type="int" Nullable="false" />
+          <Property Name="CreatedBy" Type="int" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="UpdatedBy" Type="int" />
+          <Property Name="UpdatedOn" Type="datetime" />
+        </EntityType>
         <EntityType Name="Legue">
           <Key>
             <PropertyRef Name="LegueId" />
           </Key>
           <Property Name="LegueId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="LegueName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="StatusId" Type="int" Nullable="false" />
+          <Property Name="CreatedBy" Type="int" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="UpdatedBy" Type="int" />
+          <Property Name="UpdatedOn" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Report">
+          <Key>
+            <PropertyRef Name="ReportId" />
+          </Key>
+          <Property Name="ReportId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ReportedBy" Type="int" Nullable="false" />
+          <Property Name="ReportedUserId" Type="int" Nullable="false" />
+          <Property Name="ReportedChallengeId" Type="int" Nullable="false" />
+          <Property Name="Comment" Type="nvarchar" MaxLength="50" />
+          <Property Name="ReportStatus" Type="nvarchar" MaxLength="50" />
           <Property Name="StatusId" Type="int" Nullable="false" />
           <Property Name="CreatedBy" Type="int" Nullable="false" />
           <Property Name="CreatedOn" Type="datetime" Nullable="false" />
@@ -91,6 +121,7 @@
           </Key>
           <Property Name="UserKey" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UserId" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="CurrencyId" Type="int" Nullable="false" />
           <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="EmailId" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -201,6 +232,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Currency_Status">
+          <End Role="Status" Type="Self.Status" Multiplicity="1" />
+          <End Role="Currency" Type="Self.Currency" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="StatusId" />
+            </Principal>
+            <Dependent Role="Currency">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Legue_Status">
           <End Role="Status" Type="Self.Status" Multiplicity="1" />
           <End Role="Legue" Type="Self.Legue" Multiplicity="*" />
@@ -210,6 +253,54 @@
             </Principal>
             <Dependent Role="Legue">
               <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Report_Challenge">
+          <End Role="Challenge" Type="Self.Challenge" Multiplicity="1" />
+          <End Role="Report" Type="Self.Report" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Challenge">
+              <PropertyRef Name="ChallengeId" />
+            </Principal>
+            <Dependent Role="Report">
+              <PropertyRef Name="ReportedChallengeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Report_Status">
+          <End Role="Status" Type="Self.Status" Multiplicity="1" />
+          <End Role="Report" Type="Self.Report" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="StatusId" />
+            </Principal>
+            <Dependent Role="Report">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Report_To_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Report" Type="Self.Report" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserKey" />
+            </Principal>
+            <Dependent Role="Report">
+              <PropertyRef Name="ReportedUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Report_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Report" Type="Self.Report" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserKey" />
+            </Principal>
+            <Dependent Role="Report">
+              <PropertyRef Name="ReportedBy" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -237,6 +328,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_User_Currency">
+          <End Role="Currency" Type="Self.Currency" Multiplicity="1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Currency">
+              <PropertyRef Name="CurrencyId" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="CurrencyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_User_Status">
           <End Role="Status" Type="Self.Status" Multiplicity="1" />
           <End Role="User" Type="Self.User" Multiplicity="*" />
@@ -253,7 +356,9 @@
           <EntitySet Name="Bet" EntityType="Self.Bet" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BookMaker" EntityType="Self.BookMaker" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Challenge" EntityType="Self.Challenge" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Currency" EntityType="Self.Currency" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Legue" EntityType="Self.Legue" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Report" EntityType="Self.Report" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Team" EntityType="Self.Team" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
@@ -289,9 +394,29 @@
             <End Role="User" EntitySet="User" />
             <End Role="Challenge" EntitySet="Challenge" />
           </AssociationSet>
+          <AssociationSet Name="FK_Currency_Status" Association="Self.FK_Currency_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Currency" EntitySet="Currency" />
+          </AssociationSet>
           <AssociationSet Name="FK_Legue_Status" Association="Self.FK_Legue_Status">
             <End Role="Status" EntitySet="Status" />
             <End Role="Legue" EntitySet="Legue" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Report_Challenge" Association="Self.FK_Report_Challenge">
+            <End Role="Challenge" EntitySet="Challenge" />
+            <End Role="Report" EntitySet="Report" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Report_Status" Association="Self.FK_Report_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Report" EntitySet="Report" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Report_To_User" Association="Self.FK_Report_To_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Report" EntitySet="Report" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Report_User" Association="Self.FK_Report_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Report" EntitySet="Report" />
           </AssociationSet>
           <AssociationSet Name="FK_Team_Status" Association="Self.FK_Team_Status">
             <End Role="Status" EntitySet="Status" />
@@ -299,6 +424,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_User_BookMaker" Association="Self.FK_User_BookMaker">
             <End Role="BookMaker" EntitySet="BookMaker" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Currency" Association="Self.FK_User_Currency">
+            <End Role="Currency" EntitySet="Currency" />
             <End Role="User" EntitySet="User" />
           </AssociationSet>
           <AssociationSet Name="FK_User_Status" Association="Self.FK_User_Status">
@@ -311,32 +440,19 @@
     <edmx:ConceptualModels>
       <Schema Namespace="InplayBetModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
         <EntityContainer Name="InplayBetDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Bets" EntityType="InplayBetModel.Bet" />
           <EntitySet Name="BookMakers" EntityType="InplayBetModel.BookMaker" />
+          <EntitySet Name="Challenges" EntityType="InplayBetModel.Challenge" />
+          <EntitySet Name="Currencies" EntityType="InplayBetModel.Currency" />
           <EntitySet Name="Legues" EntityType="InplayBetModel.Legue" />
+          <EntitySet Name="Reports" EntityType="InplayBetModel.Report" />
           <EntitySet Name="Status" EntityType="InplayBetModel.Status" />
           <EntitySet Name="Teams" EntityType="InplayBetModel.Team" />
           <EntitySet Name="Users" EntityType="InplayBetModel.User" />
-          <AssociationSet Name="FK_BookMaker_Status" Association="InplayBetModel.FK_BookMaker_Status">
-            <End Role="Status" EntitySet="Status" />
-            <End Role="BookMaker" EntitySet="BookMakers" />
+          <AssociationSet Name="FK_Bet_Challenge" Association="InplayBetModel.FK_Bet_Challenge">
+            <End Role="Challenge" EntitySet="Challenges" />
+            <End Role="Bet" EntitySet="Bets" />
           </AssociationSet>
-          <AssociationSet Name="FK_User_BookMaker" Association="InplayBetModel.FK_User_BookMaker">
-            <End Role="BookMaker" EntitySet="BookMakers" />
-            <End Role="User" EntitySet="Users" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Legue_Status" Association="InplayBetModel.FK_Legue_Status">
-            <End Role="Status" EntitySet="Status" />
-            <End Role="Legue" EntitySet="Legues" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Team_Status" Association="InplayBetModel.FK_Team_Status">
-            <End Role="Status" EntitySet="Status" />
-            <End Role="Team" EntitySet="Teams" />
-          </AssociationSet>
-          <AssociationSet Name="FK_User_Status" Association="InplayBetModel.FK_User_Status">
-            <End Role="Status" EntitySet="Status" />
-            <End Role="User" EntitySet="Users" />
-          </AssociationSet>
-          <EntitySet Name="Bets" EntityType="InplayBetModel.Bet" />
           <AssociationSet Name="FK_Bet_Legue" Association="InplayBetModel.FK_Bet_Legue">
             <End Role="Legue" EntitySet="Legues" />
             <End Role="Bet" EntitySet="Bets" />
@@ -353,10 +469,13 @@
             <End Role="Team" EntitySet="Teams" />
             <End Role="Bet" EntitySet="Bets" />
           </AssociationSet>
-          <EntitySet Name="Challenges" EntityType="InplayBetModel.Challenge" />
-          <AssociationSet Name="FK_Bet_Challenge" Association="InplayBetModel.FK_Bet_Challenge">
-            <End Role="Challenge" EntitySet="Challenges" />
-            <End Role="Bet" EntitySet="Bets" />
+          <AssociationSet Name="FK_BookMaker_Status" Association="InplayBetModel.FK_BookMaker_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="BookMaker" EntitySet="BookMakers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_BookMaker" Association="InplayBetModel.FK_User_BookMaker">
+            <End Role="BookMaker" EntitySet="BookMakers" />
+            <End Role="User" EntitySet="Users" />
           </AssociationSet>
           <AssociationSet Name="FK_Challenge_Status" Association="InplayBetModel.FK_Challenge_Status">
             <End Role="Status" EntitySet="Status" />
@@ -366,146 +485,43 @@
             <End Role="User" EntitySet="Users" />
             <End Role="Challenge" EntitySet="Challenges" />
           </AssociationSet>
+          <AssociationSet Name="FK_Report_Challenge" Association="InplayBetModel.FK_Report_Challenge">
+            <End Role="Challenge" EntitySet="Challenges" />
+            <End Role="Report" EntitySet="Reports" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Currency_Status" Association="InplayBetModel.FK_Currency_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Currency" EntitySet="Currencies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Currency" Association="InplayBetModel.FK_User_Currency">
+            <End Role="Currency" EntitySet="Currencies" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Legue_Status" Association="InplayBetModel.FK_Legue_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Legue" EntitySet="Legues" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Report_Status" Association="InplayBetModel.FK_Report_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Report" EntitySet="Reports" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Report_To_User" Association="InplayBetModel.FK_Report_To_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Report" EntitySet="Reports" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Report_User" Association="InplayBetModel.FK_Report_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Report" EntitySet="Reports" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Team_Status" Association="InplayBetModel.FK_Team_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Team" EntitySet="Teams" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Status" Association="InplayBetModel.FK_User_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
         </EntityContainer>
-        <EntityType Name="BookMaker">
-          <Key>
-            <PropertyRef Name="BookMakerId" />
-          </Key>
-          <Property Name="BookMakerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="BookMakerName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="StatusId" Type="Int32" Nullable="false" />
-          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
-          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UpdatedBy" Type="Int32" />
-          <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Status" Relationship="InplayBetModel.FK_BookMaker_Status" FromRole="BookMaker" ToRole="Status" />
-          <NavigationProperty Name="Users" Relationship="InplayBetModel.FK_User_BookMaker" FromRole="BookMaker" ToRole="User" />
-        </EntityType>
-        <EntityType Name="Legue">
-          <Key>
-            <PropertyRef Name="LegueId" />
-          </Key>
-          <Property Name="LegueId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="LegueName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="StatusId" Type="Int32" Nullable="false" />
-          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
-          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UpdatedBy" Type="Int32" />
-          <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Status" Relationship="InplayBetModel.FK_Legue_Status" FromRole="Legue" ToRole="Status" />
-          <NavigationProperty Name="Bets" Relationship="InplayBetModel.FK_Bet_Legue" FromRole="Legue" ToRole="Bet" />
-        </EntityType>
-        <EntityType Name="Status">
-          <Key>
-            <PropertyRef Name="StatusId" />
-          </Key>
-          <Property Name="StatusId" Type="Int32" Nullable="false" />
-          <Property Name="StatusName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
-          <NavigationProperty Name="BookMakers" Relationship="InplayBetModel.FK_BookMaker_Status" FromRole="Status" ToRole="BookMaker" />
-          <NavigationProperty Name="Legues" Relationship="InplayBetModel.FK_Legue_Status" FromRole="Status" ToRole="Legue" />
-          <NavigationProperty Name="Teams" Relationship="InplayBetModel.FK_Team_Status" FromRole="Status" ToRole="Team" />
-          <NavigationProperty Name="Users" Relationship="InplayBetModel.FK_User_Status" FromRole="Status" ToRole="User" />
-          <NavigationProperty Name="Bets" Relationship="InplayBetModel.FK_Bet_Status" FromRole="Status" ToRole="Bet" />
-          <NavigationProperty Name="Challenges" Relationship="InplayBetModel.FK_Challenge_Status" FromRole="Status" ToRole="Challenge" />
-        </EntityType>
-        <EntityType Name="Team">
-          <Key>
-            <PropertyRef Name="TeamId" />
-          </Key>
-          <Property Name="TeamId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TeamName" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
-          <Property Name="StatusId" Type="Int32" Nullable="false" />
-          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
-          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UpdatedBy" Type="Int32" />
-          <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Status" Relationship="InplayBetModel.FK_Team_Status" FromRole="Team" ToRole="Status" />
-          <NavigationProperty Name="Bets" Relationship="InplayBetModel.FK_Bet_TeamA" FromRole="Team" ToRole="Bet" />
-          <NavigationProperty Name="Bets1" Relationship="InplayBetModel.FK_Bet_TeamB" FromRole="Team" ToRole="Bet" />
-        </EntityType>
-        <EntityType Name="User">
-          <Key>
-            <PropertyRef Name="UserKey" />
-          </Key>
-          <Property Name="UserKey" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserId" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="false" />
-          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="EmailId" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="Password" Type="String" Nullable="false" MaxLength="20" Unicode="true" FixedLength="false" />
-          <Property Name="Sex" Type="String" Nullable="false" MaxLength="1" Unicode="true" FixedLength="false" />
-          <Property Name="DateOfBirth" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="BookMakerId" Type="Int32" Nullable="false" />
-          <Property Name="AvatarPath" Type="String" Nullable="false" MaxLength="500" Unicode="true" FixedLength="false" />
-          <Property Name="StatusId" Type="Int32" Nullable="false" />
-          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
-          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UpdatedBy" Type="Int32" />
-          <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="BookMaker" Relationship="InplayBetModel.FK_User_BookMaker" FromRole="User" ToRole="BookMaker" />
-          <NavigationProperty Name="Status" Relationship="InplayBetModel.FK_User_Status" FromRole="User" ToRole="Status" />
-          <NavigationProperty Name="Challenges" Relationship="InplayBetModel.FK_Challenge_User" FromRole="User" ToRole="Challenge" />
-        </EntityType>
-        <Association Name="FK_BookMaker_Status">
-          <End Role="Status" Type="InplayBetModel.Status" Multiplicity="1" />
-          <End Role="BookMaker" Type="InplayBetModel.BookMaker" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Status">
-              <PropertyRef Name="StatusId" />
-            </Principal>
-            <Dependent Role="BookMaker">
-              <PropertyRef Name="StatusId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_User_BookMaker">
-          <End Role="BookMaker" Type="InplayBetModel.BookMaker" Multiplicity="1" />
-          <End Role="User" Type="InplayBetModel.User" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BookMaker">
-              <PropertyRef Name="BookMakerId" />
-            </Principal>
-            <Dependent Role="User">
-              <PropertyRef Name="BookMakerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Legue_Status">
-          <End Role="Status" Type="InplayBetModel.Status" Multiplicity="1" />
-          <End Role="Legue" Type="InplayBetModel.Legue" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Status">
-              <PropertyRef Name="StatusId" />
-            </Principal>
-            <Dependent Role="Legue">
-              <PropertyRef Name="StatusId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Team_Status">
-          <End Role="Status" Type="InplayBetModel.Status" Multiplicity="1" />
-          <End Role="Team" Type="InplayBetModel.Team" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Status">
-              <PropertyRef Name="StatusId" />
-            </Principal>
-            <Dependent Role="Team">
-              <PropertyRef Name="StatusId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_User_Status">
-          <End Role="Status" Type="InplayBetModel.Status" Multiplicity="1" />
-          <End Role="User" Type="InplayBetModel.User" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Status">
-              <PropertyRef Name="StatusId" />
-            </Principal>
-            <Dependent Role="User">
-              <PropertyRef Name="StatusId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="Bet">
           <Key>
             <PropertyRef Name="BetId" />
@@ -527,12 +543,164 @@
           <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="UpdatedBy" Type="Int32" />
           <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Challenge" Relationship="InplayBetModel.FK_Bet_Challenge" FromRole="Bet" ToRole="Challenge" />
           <NavigationProperty Name="Legue" Relationship="InplayBetModel.FK_Bet_Legue" FromRole="Bet" ToRole="Legue" />
           <NavigationProperty Name="Status" Relationship="InplayBetModel.FK_Bet_Status" FromRole="Bet" ToRole="Status" />
           <NavigationProperty Name="Team" Relationship="InplayBetModel.FK_Bet_TeamA" FromRole="Bet" ToRole="Team" />
           <NavigationProperty Name="Team1" Relationship="InplayBetModel.FK_Bet_TeamB" FromRole="Bet" ToRole="Team" />
-          <NavigationProperty Name="Challenge" Relationship="InplayBetModel.FK_Bet_Challenge" FromRole="Bet" ToRole="Challenge" />
         </EntityType>
+        <EntityType Name="BookMaker">
+          <Key>
+            <PropertyRef Name="BookMakerId" />
+          </Key>
+          <Property Name="BookMakerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BookMakerName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="StatusId" Type="Int32" Nullable="false" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedBy" Type="Int32" />
+          <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Status" Relationship="InplayBetModel.FK_BookMaker_Status" FromRole="BookMaker" ToRole="Status" />
+          <NavigationProperty Name="Users" Relationship="InplayBetModel.FK_User_BookMaker" FromRole="BookMaker" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Challenge">
+          <Key>
+            <PropertyRef Name="ChallengeId" />
+          </Key>
+          <Property Name="ChallengeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ChallengeNumber" Type="Int32" Nullable="false" />
+          <Property Name="UserKey" Type="Int32" Nullable="false" />
+          <Property Name="WiningPrice" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="ChallengeStatus" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="StatusId" Type="Int32" Nullable="false" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedBy" Type="Int32" />
+          <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Bets" Relationship="InplayBetModel.FK_Bet_Challenge" FromRole="Challenge" ToRole="Bet" />
+          <NavigationProperty Name="Status" Relationship="InplayBetModel.FK_Challenge_Status" FromRole="Challenge" ToRole="Status" />
+          <NavigationProperty Name="User" Relationship="InplayBetModel.FK_Challenge_User" FromRole="Challenge" ToRole="User" />
+          <NavigationProperty Name="Reports" Relationship="InplayBetModel.FK_Report_Challenge" FromRole="Challenge" ToRole="Report" />
+        </EntityType>
+        <EntityType Name="Currency">
+          <Key>
+            <PropertyRef Name="CurrencyId" />
+          </Key>
+          <Property Name="CurrencyId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CurrencyName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CurrencySymbol" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CultureCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="StatusId" Type="Int32" Nullable="false" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedBy" Type="Int32" />
+          <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Status" Relationship="InplayBetModel.FK_Currency_Status" FromRole="Currency" ToRole="Status" />
+          <NavigationProperty Name="Users" Relationship="InplayBetModel.FK_User_Currency" FromRole="Currency" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Legue">
+          <Key>
+            <PropertyRef Name="LegueId" />
+          </Key>
+          <Property Name="LegueId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LegueName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="StatusId" Type="Int32" Nullable="false" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedBy" Type="Int32" />
+          <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Bets" Relationship="InplayBetModel.FK_Bet_Legue" FromRole="Legue" ToRole="Bet" />
+          <NavigationProperty Name="Status" Relationship="InplayBetModel.FK_Legue_Status" FromRole="Legue" ToRole="Status" />
+        </EntityType>
+        <EntityType Name="Report">
+          <Key>
+            <PropertyRef Name="ReportId" />
+          </Key>
+          <Property Name="ReportId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ReportedBy" Type="Int32" Nullable="false" />
+          <Property Name="ReportedUserId" Type="Int32" Nullable="false" />
+          <Property Name="ReportedChallengeId" Type="Int32" Nullable="false" />
+          <Property Name="Comment" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ReportStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="StatusId" Type="Int32" Nullable="false" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedBy" Type="Int32" />
+          <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Challenge" Relationship="InplayBetModel.FK_Report_Challenge" FromRole="Report" ToRole="Challenge" />
+          <NavigationProperty Name="Status" Relationship="InplayBetModel.FK_Report_Status" FromRole="Report" ToRole="Status" />
+          <NavigationProperty Name="UserTo" Relationship="InplayBetModel.FK_Report_To_User" FromRole="Report" ToRole="User" />
+          <NavigationProperty Name="UserBy" Relationship="InplayBetModel.FK_Report_User" FromRole="Report" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="StatusId" />
+          </Key>
+          <Property Name="StatusId" Type="Int32" Nullable="false" />
+          <Property Name="StatusName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Bets" Relationship="InplayBetModel.FK_Bet_Status" FromRole="Status" ToRole="Bet" />
+          <NavigationProperty Name="BookMakers" Relationship="InplayBetModel.FK_BookMaker_Status" FromRole="Status" ToRole="BookMaker" />
+          <NavigationProperty Name="Challenges" Relationship="InplayBetModel.FK_Challenge_Status" FromRole="Status" ToRole="Challenge" />
+          <NavigationProperty Name="Currencies" Relationship="InplayBetModel.FK_Currency_Status" FromRole="Status" ToRole="Currency" />
+          <NavigationProperty Name="Legues" Relationship="InplayBetModel.FK_Legue_Status" FromRole="Status" ToRole="Legue" />
+          <NavigationProperty Name="Reports" Relationship="InplayBetModel.FK_Report_Status" FromRole="Status" ToRole="Report" />
+          <NavigationProperty Name="Teams" Relationship="InplayBetModel.FK_Team_Status" FromRole="Status" ToRole="Team" />
+          <NavigationProperty Name="Users" Relationship="InplayBetModel.FK_User_Status" FromRole="Status" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Team">
+          <Key>
+            <PropertyRef Name="TeamId" />
+          </Key>
+          <Property Name="TeamId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TeamName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="StatusId" Type="Int32" Nullable="false" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedBy" Type="Int32" />
+          <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Bets" Relationship="InplayBetModel.FK_Bet_TeamA" FromRole="Team" ToRole="Bet" />
+          <NavigationProperty Name="Bets1" Relationship="InplayBetModel.FK_Bet_TeamB" FromRole="Team" ToRole="Bet" />
+          <NavigationProperty Name="Status" Relationship="InplayBetModel.FK_Team_Status" FromRole="Team" ToRole="Status" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserKey" />
+          </Key>
+          <Property Name="UserKey" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="CurrencyId" Type="Int32" Nullable="false" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EmailId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Sex" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="true" />
+          <Property Name="DateOfBirth" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="BookMakerId" Type="Int32" Nullable="false" />
+          <Property Name="AvatarPath" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="StatusId" Type="Int32" Nullable="false" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedBy" Type="Int32" />
+          <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="BookMaker" Relationship="InplayBetModel.FK_User_BookMaker" FromRole="User" ToRole="BookMaker" />
+          <NavigationProperty Name="Challenges" Relationship="InplayBetModel.FK_Challenge_User" FromRole="User" ToRole="Challenge" />
+          <NavigationProperty Name="Currency" Relationship="InplayBetModel.FK_User_Currency" FromRole="User" ToRole="Currency" />
+          <NavigationProperty Name="Reports" Relationship="InplayBetModel.FK_Report_To_User" FromRole="User" ToRole="Report" />
+          <NavigationProperty Name="Reports1" Relationship="InplayBetModel.FK_Report_User" FromRole="User" ToRole="Report" />
+          <NavigationProperty Name="Status" Relationship="InplayBetModel.FK_User_Status" FromRole="User" ToRole="Status" />
+        </EntityType>
+        <Association Name="FK_Bet_Challenge">
+          <End Type="InplayBetModel.Challenge" Role="Challenge" Multiplicity="1" />
+          <End Type="InplayBetModel.Bet" Role="Bet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Challenge">
+              <PropertyRef Name="ChallengeId" />
+            </Principal>
+            <Dependent Role="Bet">
+              <PropertyRef Name="ChallengeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Bet_Legue">
           <End Type="InplayBetModel.Legue" Role="Legue" Multiplicity="1" />
           <End Type="InplayBetModel.Bet" Role="Bet" Multiplicity="*" />
@@ -581,33 +749,27 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Challenge">
-          <Key>
-            <PropertyRef Name="ChallengeId" />
-          </Key>
-          <Property Name="ChallengeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ChallengeNumber" Type="Int32" Nullable="false" />
-          <Property Name="UserKey" Type="Int32" Nullable="false" />
-          <Property Name="WiningPrice" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="ChallengeStatus" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="StatusId" Type="Int32" Nullable="false" />
-          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
-          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UpdatedBy" Type="Int32" />
-          <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Bets" Relationship="InplayBetModel.FK_Bet_Challenge" FromRole="Challenge" ToRole="Bet" />
-          <NavigationProperty Name="Status" Relationship="InplayBetModel.FK_Challenge_Status" FromRole="Challenge" ToRole="Status" />
-          <NavigationProperty Name="User" Relationship="InplayBetModel.FK_Challenge_User" FromRole="Challenge" ToRole="User" />
-        </EntityType>
-        <Association Name="FK_Bet_Challenge">
-          <End Type="InplayBetModel.Challenge" Role="Challenge" Multiplicity="1" />
-          <End Type="InplayBetModel.Bet" Role="Bet" Multiplicity="*" />
+        <Association Name="FK_BookMaker_Status">
+          <End Type="InplayBetModel.Status" Role="Status" Multiplicity="1" />
+          <End Type="InplayBetModel.BookMaker" Role="BookMaker" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Challenge">
-              <PropertyRef Name="ChallengeId" />
+            <Principal Role="Status">
+              <PropertyRef Name="StatusId" />
             </Principal>
-            <Dependent Role="Bet">
-              <PropertyRef Name="ChallengeId" />
+            <Dependent Role="BookMaker">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_BookMaker">
+          <End Type="InplayBetModel.BookMaker" Role="BookMaker" Multiplicity="1" />
+          <End Type="InplayBetModel.User" Role="User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BookMaker">
+              <PropertyRef Name="BookMakerId" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="BookMakerId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -635,80 +797,120 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        <Association Name="FK_Report_Challenge">
+          <End Type="InplayBetModel.Challenge" Role="Challenge" Multiplicity="1" />
+          <End Type="InplayBetModel.Report" Role="Report" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Challenge">
+              <PropertyRef Name="ChallengeId" />
+            </Principal>
+            <Dependent Role="Report">
+              <PropertyRef Name="ReportedChallengeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Currency_Status">
+          <End Type="InplayBetModel.Status" Role="Status" Multiplicity="1" />
+          <End Type="InplayBetModel.Currency" Role="Currency" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="StatusId" />
+            </Principal>
+            <Dependent Role="Currency">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Currency">
+          <End Type="InplayBetModel.Currency" Role="Currency" Multiplicity="1" />
+          <End Type="InplayBetModel.User" Role="User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Currency">
+              <PropertyRef Name="CurrencyId" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="CurrencyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Legue_Status">
+          <End Type="InplayBetModel.Status" Role="Status" Multiplicity="1" />
+          <End Type="InplayBetModel.Legue" Role="Legue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="StatusId" />
+            </Principal>
+            <Dependent Role="Legue">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Report_Status">
+          <End Type="InplayBetModel.Status" Role="Status" Multiplicity="1" />
+          <End Type="InplayBetModel.Report" Role="Report" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="StatusId" />
+            </Principal>
+            <Dependent Role="Report">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Report_To_User">
+          <End Type="InplayBetModel.User" Role="User" Multiplicity="1" />
+          <End Type="InplayBetModel.Report" Role="Report" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserKey" />
+            </Principal>
+            <Dependent Role="Report">
+              <PropertyRef Name="ReportedUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Report_User">
+          <End Type="InplayBetModel.User" Role="User" Multiplicity="1" />
+          <End Type="InplayBetModel.Report" Role="Report" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserKey" />
+            </Principal>
+            <Dependent Role="Report">
+              <PropertyRef Name="ReportedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Team_Status">
+          <End Type="InplayBetModel.Status" Role="Status" Multiplicity="1" />
+          <End Type="InplayBetModel.Team" Role="Team" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="StatusId" />
+            </Principal>
+            <Dependent Role="Team">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Status">
+          <End Type="InplayBetModel.Status" Role="Status" Multiplicity="1" />
+          <End Type="InplayBetModel.User" Role="User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="StatusId" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="InplayBetModelStoreContainer" CdmEntityContainer="InplayBetDBEntities">
-          <EntitySetMapping Name="BookMakers">
-            <EntityTypeMapping TypeName="InplayBetModel.BookMaker">
-              <MappingFragment StoreEntitySet="BookMaker">
-                <ScalarProperty Name="BookMakerId" ColumnName="BookMakerId" />
-                <ScalarProperty Name="BookMakerName" ColumnName="BookMakerName" />
-                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Legues">
-            <EntityTypeMapping TypeName="InplayBetModel.Legue">
-              <MappingFragment StoreEntitySet="Legue">
-                <ScalarProperty Name="LegueId" ColumnName="LegueId" />
-                <ScalarProperty Name="LegueName" ColumnName="LegueName" />
-                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Status">
-            <EntityTypeMapping TypeName="InplayBetModel.Status">
-              <MappingFragment StoreEntitySet="Status">
-                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
-                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Teams">
-            <EntityTypeMapping TypeName="InplayBetModel.Team">
-              <MappingFragment StoreEntitySet="Team">
-                <ScalarProperty Name="TeamId" ColumnName="TeamId" />
-                <ScalarProperty Name="TeamName" ColumnName="TeamName" />
-                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Users">
-            <EntityTypeMapping TypeName="InplayBetModel.User">
-              <MappingFragment StoreEntitySet="User">
-                <ScalarProperty Name="UserKey" ColumnName="UserKey" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="EmailId" ColumnName="EmailId" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="Sex" ColumnName="Sex" />
-                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
-                <ScalarProperty Name="BookMakerId" ColumnName="BookMakerId" />
-                <ScalarProperty Name="AvatarPath" ColumnName="AvatarPath" />
-                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Bets">
             <EntityTypeMapping TypeName="InplayBetModel.Bet">
               <MappingFragment StoreEntitySet="Bet">
@@ -732,6 +934,19 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="BookMakers">
+            <EntityTypeMapping TypeName="InplayBetModel.BookMaker">
+              <MappingFragment StoreEntitySet="BookMaker">
+                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="BookMakerName" ColumnName="BookMakerName" />
+                <ScalarProperty Name="BookMakerId" ColumnName="BookMakerId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Challenges">
             <EntityTypeMapping TypeName="InplayBetModel.Challenge">
               <MappingFragment StoreEntitySet="Challenge">
@@ -745,6 +960,94 @@
                 <ScalarProperty Name="UserKey" ColumnName="UserKey" />
                 <ScalarProperty Name="ChallengeNumber" ColumnName="ChallengeNumber" />
                 <ScalarProperty Name="ChallengeId" ColumnName="ChallengeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Currencies">
+            <EntityTypeMapping TypeName="InplayBetModel.Currency">
+              <MappingFragment StoreEntitySet="Currency">
+                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="CultureCode" ColumnName="CultureCode" />
+                <ScalarProperty Name="CurrencySymbol" ColumnName="CurrencySymbol" />
+                <ScalarProperty Name="CurrencyName" ColumnName="CurrencyName" />
+                <ScalarProperty Name="CurrencyId" ColumnName="CurrencyId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Legues">
+            <EntityTypeMapping TypeName="InplayBetModel.Legue">
+              <MappingFragment StoreEntitySet="Legue">
+                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="LegueName" ColumnName="LegueName" />
+                <ScalarProperty Name="LegueId" ColumnName="LegueId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reports">
+            <EntityTypeMapping TypeName="InplayBetModel.Report">
+              <MappingFragment StoreEntitySet="Report">
+                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="ReportStatus" ColumnName="ReportStatus" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="ReportedChallengeId" ColumnName="ReportedChallengeId" />
+                <ScalarProperty Name="ReportedUserId" ColumnName="ReportedUserId" />
+                <ScalarProperty Name="ReportedBy" ColumnName="ReportedBy" />
+                <ScalarProperty Name="ReportId" ColumnName="ReportId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Status">
+            <EntityTypeMapping TypeName="InplayBetModel.Status">
+              <MappingFragment StoreEntitySet="Status">
+                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Teams">
+            <EntityTypeMapping TypeName="InplayBetModel.Team">
+              <MappingFragment StoreEntitySet="Team">
+                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="TeamName" ColumnName="TeamName" />
+                <ScalarProperty Name="TeamId" ColumnName="TeamId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="InplayBetModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="AvatarPath" ColumnName="AvatarPath" />
+                <ScalarProperty Name="BookMakerId" ColumnName="BookMakerId" />
+                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+                <ScalarProperty Name="Sex" ColumnName="Sex" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="EmailId" ColumnName="EmailId" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="CurrencyId" ColumnName="CurrencyId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="UserKey" ColumnName="UserKey" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

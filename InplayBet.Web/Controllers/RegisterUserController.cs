@@ -1,21 +1,21 @@
 ﻿
 namespace InplayBet.Web.Controllers
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Configuration;
-    using System.Globalization;
-    using System.Linq;
-    using System.Web.Mvc;
     using InplayBet.Web.Controllers.Base;
     using InplayBet.Web.Data.Interface;
     using InplayBet.Web.Models;
     using InplayBet.Web.Models.Base;
     using InplayBet.Web.Utilities;
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.Linq;
+    using System.Web.Mvc;
 
     public class RegisterUserController : BaseController
     {
         private readonly IUserDataRepository _userDataRepository;
+        private readonly ICurrencyDataRepository _currencyDataRepository;
         private readonly IBookMakerDataRepository _bookMakerDataRepository;
 
         /// <summary>
@@ -23,9 +23,11 @@ namespace InplayBet.Web.Controllers
         /// </summary>
         /// <param name="userDataRepository">The user data repository.</param>
         public RegisterUserController(IUserDataRepository userDataRepository,
+            ICurrencyDataRepository currencyDataRepository,
             IBookMakerDataRepository bookMakerDataRepository)
         {
             this._userDataRepository = userDataRepository;
+            this._currencyDataRepository = currencyDataRepository;
             this._bookMakerDataRepository = bookMakerDataRepository;
         }
 
@@ -81,6 +83,11 @@ namespace InplayBet.Web.Controllers
                         ModelState.AddModelError("EmailId", "This email id already exists. Please try a valid one.");
                         return process(user);
                     }
+                    if (IsUserIdExists(user))
+                    {
+                        ModelState.AddModelError("UserId", "This user id already exists. Please try a valid one.");
+                        return process(user);
+                    }
                     else
                     {
                         user.DateOfBirth = new DateTime(user.DobYear, user.DobMonth, user.DobDay);
@@ -97,6 +104,42 @@ namespace InplayBet.Web.Controllers
                 ex.ExceptionValueTracker(user);
             }
             return null;
+        }
+
+        [AcceptVerbs(HttpVerbs.Post),
+        OutputCache(NoStore = true, Duration = 0, VaryByHeader = "*")]
+        public ActionResult SignIn(SignInModel signIn)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    UserModel user = this._userDataRepository.GetList
+                        (x => (x.UserId.Equals(signIn.UserOrEmail) || x.EmailId.Equals(signIn.UserOrEmail))
+                        && x.Password.Equals(signIn.Password) && x.StatusId.Equals((int)StatusCode.Active))
+                        .FirstOrDefaultCustom();
+
+                    if (user != null)
+                    {
+                        SessionVeriables.SetSessionData<int>(SessionVeriables.UserKey, user.UserKey);
+                        return new JsonActionResult(new { Status = true, Url = Url.Action("Index", "MemberProfile") });
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("UserOrEmail", "User Id, Email, Password is invalid");
+                        return PartialView("_SignIn", signIn);
+                    }
+                }
+                else
+                {
+                    return PartialView("_SignIn", signIn);
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.ExceptionValueTracker(signIn);
+            }
+            return new JsonActionResult(new { Status = false });
         }
 
         /// <summary>
@@ -128,6 +171,13 @@ namespace InplayBet.Web.Controllers
                     Text = x,
                     Value = x.First().ToString()
                 });
+                ViewBag.Currencies = this._currencyDataRepository
+                    .GetList(x => x.StatusId.Equals((int)StatusCode.Active))
+                    .Select(y => new SelectListItem()
+                    {
+                        Text = string.Format("{0} ({1})", y.CurrencyName ,y.CurrencySymbol),
+                        Value = y.CurrencyId.ToString()
+                    });
                 ViewBag.BookMakers = this._bookMakerDataRepository
                     .GetList(x => x.StatusId.Equals((int)StatusCode.Active))
                     .Select(y => new SelectListItem()
@@ -179,7 +229,26 @@ namespace InplayBet.Web.Controllers
             try
             {
                 string emailId = user.EmailId;
-                return (this._userDataRepository.GetCount(x => x.EmailId.Equals(emailId)) > 0);
+                return this._userDataRepository.Exists(x => x.EmailId.Equals(emailId));
+            }
+            catch (Exception ex)
+            {
+                ex.ExceptionValueTracker(user);
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Determines whether [is user identifier exists] [the specified user].
+        /// </summary>
+        /// <param name="user">The user.</param>
+        /// <returns></returns>
+        private bool IsUserIdExists(UserModel user)
+        {
+            try
+            {
+                string userId = user.UserId;
+                return this._userDataRepository.Exists(x => x.EmailId.Equals(userId));
             }
             catch (Exception ex)
             {
