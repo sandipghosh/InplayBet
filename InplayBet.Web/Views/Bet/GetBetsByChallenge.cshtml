@@ -24,9 +24,10 @@
         }
     }
 
-    bool IsEnableForNewBet(ChallengeModel challenge)
+    bool IsEnableForNewBet(ChallengeModel challenge, int userKey)
     {
-        return string.IsNullOrEmpty(challenge.ChallengeStatus);
+        return (string.IsNullOrEmpty(challenge.ChallengeStatus)
+            && userKey == SessionVeriables.GetSessionData<int>(SessionVeriables.UserKey));
     }
 }
 @foreach (BetModel bet in bets)
@@ -34,7 +35,7 @@
     string betDisplayMode = GetBetDisplayType(bet);
 
     if (bets.IndexOf(bet) == 0 && betDisplayMode == BetDisplayType.Read.ToString()
-        && IsEnableForNewBet(currentChallenge))
+        && IsEnableForNewBet(currentChallenge, userKey))
     {
         @Html.Action("ShowNewBetWindow", "Bet", new { userKey = userKey })
     }

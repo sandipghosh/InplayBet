@@ -1,0 +1,21 @@
+﻿@{Layout = null;}
+@using InplayBet.Web.Models
+@using InplayBet.Web.Utilities
+@model List<BetModel>
+@functions {
+    string getClassName(int index, int lastIndex)
+    {
+        return ((index + 1) % lastIndex) == 0 ? "latest-bets-block-last" : "";
+    }
+}
+@foreach (BetModel bet in Model)
+{
+    <div class="latest-bets-block @getClassName(Model.IndexOf(bet),4)">
+        <h3>bet @bet.BetNumber</h3>
+        <p>
+            <strong>Date:</strong> @bet.CreatedOn.ToString("d")<br>
+            <strong>Time:</strong> @bet.CreatedOn.ToString("hh:mm:ss tt")<br>
+            <strong>Place:</strong> @bet.BetType
+        </p>
+    </div>
+}

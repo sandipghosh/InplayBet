@@ -1,12 +1,9 @@
-﻿using InplayBet.Web.Models.Base;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using AutoMapper;
+﻿
 
 namespace InplayBet.Web.Models
 {
+    using InplayBet.Web.Models.Base;
+
     public class UserRankViewModel : BaseModel
     {
         public int UserKey { get; set; }

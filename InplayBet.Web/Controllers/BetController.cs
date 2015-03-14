@@ -57,7 +57,8 @@ namespace InplayBet.Web.Controllers
                 if (!challenges.IsEmptyCollection())
                 {
                     ChallengeModel lastCompletedChallenge = challenges.MaxBy(x => x.ChallengeId);
-                    if (!string.IsNullOrEmpty(lastCompletedChallenge.ChallengeStatus))
+                    if (!string.IsNullOrEmpty(lastCompletedChallenge.ChallengeStatus) &&
+                        (userKey == SessionVeriables.GetSessionData<int>(SessionVeriables.UserKey)))
                     {
                         challenges.Insert(0, new ChallengeModel
                         {

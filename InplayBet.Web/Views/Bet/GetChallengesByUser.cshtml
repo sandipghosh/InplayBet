@@ -33,9 +33,7 @@
     </div>
     if (showPromo)
     {
-        <div class="promo-bnr">
-            <img src='@Url.Content("~/Styles/images/bet-promo-bnr.jpg")' alt="">
-        </div>
+        Html.Partial("_PromoBanner");
     }
 }
 
@@ -44,9 +42,7 @@
     @PopulateChallenge(challenge, false, (Model.IndexOf(challenge) == 0))
     if (Model.IndexOf(challenge) == 1)
     {
-        <div class="promo-bnr">
-            <img src='@Url.Content("~/Styles/images/bet-promo-bnr.jpg")' alt="">
-        </div>
+        Html.Partial("_PromoBanner");
     }
 }
 @if (Model.IsEmptyCollection())

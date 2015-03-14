@@ -55,6 +55,11 @@ namespace InplayBet.Web
                 scriptBundle.Include("~/Scripts/AppScripts/ChallengeManager.js");
                 BundleTable.Bundles.Add(scriptBundle);
 
+                scriptBundle = new Bundle("~/Scripts/Ranking", new JsMinify());
+                scriptBundle.Include("~/Scripts/jquery.simplePagination.js",
+                    "~/Scripts/AppScripts/RankingManager.js");
+                BundleTable.Bundles.Add(scriptBundle);
+
                 scriptBundle = new Bundle("~/Scripts/AjaxValidation", new JsMinify());
                 scriptBundle.Include("~/Scripts/jquery.unobtrusive-ajax.min.js",
                     "~/Scripts/jquery.validate.min.js",
@@ -77,6 +82,10 @@ namespace InplayBet.Web
             {
                 Bundle styleBundle = new Bundle("~/Styles/CommonStyle", new CssMinify());
                 styleBundle.Include("~/Styles/jquery-ui.min.css", "~/Styles/style.css");
+                BundleTable.Bundles.Add(styleBundle);
+
+                styleBundle = new Bundle("~/Styles/Ranking", new CssMinify());
+                styleBundle.Include("~/Styles/simplePagination.css");
                 BundleTable.Bundles.Add(styleBundle);
             }
             catch (Exception ex)

@@ -1,0 +1,59 @@
+﻿@using InplayBet.Web.Utilities
+@using InplayBet.Web.Models
+@using System.Globalization
+@model List<UserRankViewModel>
+@{
+    Layout = null;
+    int lastElement = (int)(ViewBag.LastElement ?? ViewData["LastElement"]);
+}
+@functions {
+    string getClassName(int index, int lastIndex)
+    {
+        return ((index + 1) % lastIndex) == 0 ? "class=last" : "";
+    }
+
+    string getStringFromIndex(int index)
+    {
+        int ind = (index + 1);
+        switch (ind)
+        {
+            case 1:
+                return ind.ToString() + "st";
+            case 2:
+                return ind.ToString() + "nd";
+            default:
+                return ind.ToString() + "th";
+        }
+    }
+}
+
+<ul class="leadbroad-block">
+    @foreach (UserRankViewModel user in Model)
+    {
+        <li onclick="RedirevtToUserProfile('@user.UserId')" @getClassName(Model.IndexOf(user), lastElement)>
+            <div class="position">@getStringFromIndex(Model.IndexOf(user))</div>
+            <div class="leaderblock">
+                <h3 class="blue-heading">Member Profile</h3>
+                <div class="block-top">
+                    <img width="115" src='@Url.Content(user.AvatarPath)' alt="">
+                    <h4>@user.UserId</h4>
+                    <p class="member">Member Since: @user.MemberSince.ToString(new CultureInfo(user.CultureCode))</p>
+                    <p class="join">Ranking: @user.Rank</p>
+                    <div class="clear"></div>
+                    <div class="points">
+                        <p class="left">Wins - @user.Wins</p>
+                        <p class="right">Losses - @user.Losses</p>
+                    </div>
+                    <div class="points">
+                        <p class="left">Won - @user.Won.ToString("C", new CultureInfo(user.CultureCode))</p>
+                        <p class="right">Lost - @user.Placed.ToString("C", new CultureInfo(user.CultureCode))</p>
+                    </div>
+                    <div class="points points-botm">
+                        <p class="left">Winning Bets</p>
+                        <p class="right">@user.WinningBets</p>
+                    </div>
+                </div>
+            </div>
+        </li>
+    }
+</ul>

@@ -1,0 +1,75 @@
+﻿@using InplayBet.Web.Models
+@model UserModel
+@{
+    Layout = null;
+}
+@using (Html.BeginForm("SignUp", "RegisterUser", FormMethod.Post, new { id = "frmSignUp" }))
+{
+    <ul class="query-list">
+        <li>
+            <label>First Name:</label>
+            @Html.TextBoxFor(m => m.FirstName)
+        </li>
+        <li>
+            <label>First Name:</label>
+            @Html.ValidationMessageFor(m => m.FirstName)
+            @Html.TextBoxFor(m => m.FirstName)
+        </li>
+        <li>
+            <label>Last Name:</label>
+            @Html.ValidationMessageFor(x => x.LastName)
+            @Html.TextBoxFor(m => m.LastName)
+        </li>
+        <li>
+            <label>Email Address:</label>
+            @Html.ValidationMessageFor(x => x.EmailId)
+            @Html.TextBoxFor(m => m.EmailId)
+        </li>
+        <li>
+            <label>Currency:</label>
+            @Html.ValidationMessageFor(x => x.Currency)
+            @Html.DropDownListFor(m => m.Currency, (IEnumerable<SelectListItem>)ViewBag.Currencies, "Select Currency", null)
+        </li>
+        <li>
+            <div class="password">
+                <label>Password</label>
+                @Html.ValidationMessageFor(m => m.Password)
+                @Html.TextBoxFor(m => m.Password, new { type = "password" })
+            </div>
+            <div class="confirmpassword">
+                <label>Confirm Password</label>
+                @Html.ValidationMessageFor(m => m.ConfirmPassword)
+                @Html.TextBox("ConfirmPassword", "", new { type = "password" })
+            </div>
+        </li>
+        <li>
+            <label>I am:</label>
+            @Html.ValidationMessageFor(m => m.Sex)
+            @Html.DropDownListFor(m => m.Sex, (IEnumerable<SelectListItem>)ViewBag.Sex, "Select Sex", null)
+        </li>
+        <li>
+            <label>Date of birth:</label>
+            @Html.ValidationMessageFor(m => m.DobMonth)
+            @Html.DropDownListFor(m => m.DobMonth, (IEnumerable<SelectListItem>)ViewBag.Months, "Select Month", null)
+
+            @Html.ValidationMessageFor(m => m.DobDay)
+            @Html.DropDownListFor(m => m.DobDay, (IEnumerable<SelectListItem>)ViewBag.Days, "Select Date", null)
+
+            @Html.ValidationMessageFor(m => m.DobYear)
+            @Html.DropDownListFor(m => m.DobYear, (IEnumerable<SelectListItem>)ViewBag.Years, "Select Year", null)
+        </li>
+        <li>
+            <label>Bookmaker:</label>
+            @Html.DropDownListFor(m => m.BookMakerId, (IEnumerable<SelectListItem>)ViewBag.BookMakers)
+        </li>
+        <li>
+            <input name="" value="submit" type="submit">
+        </li>
+    </ul>
+
+    @Html.HiddenFor(m => m.UserId)
+    @Html.HiddenFor(m => m.AvatarPath)
+    @Html.HiddenFor(m => m.StatusId)
+    @Html.HiddenFor(m => m.CreatedOn)
+    @Html.HiddenFor(m => m.CreatedBy)
+}

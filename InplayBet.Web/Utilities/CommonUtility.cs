@@ -304,8 +304,9 @@ namespace InplayBet.Web.Utilities
             string lineNumber = frame.GetFileLineNumber().ToString();
 
             FileLogger log = new FileLogger(logFilePath, true, FileLogger.LogType.TXT, FileLogger.LogLevel.All);
-            log.LogRaw(string.Format("{0} :{1}-{2}; {3}.{4} ==> {5}", DateTime.Now.ToString("dd-MMM-yyyy hh:mm:ss tt"),
-                fileName, lineNumber, callingModule, lastCallingFunction, logContent));
+            ThreadPool.QueueUserWorkItem((state) =>
+                log.LogRaw(string.Format("{0} :{1}-{2}; {3}.{4} ==> {5}", DateTime.Now.ToString("dd-MMM-yyyy hh:mm:ss tt"),
+                    fileName, lineNumber, callingModule, lastCallingFunction, logContent)));
         }
 
         /// <summary>

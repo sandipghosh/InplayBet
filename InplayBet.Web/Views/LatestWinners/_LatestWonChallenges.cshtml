@@ -1,0 +1,27 @@
+﻿@using InplayBet.Web.Models
+@using InplayBet.Web.Utilities
+@using System.Globalization
+@model ChallengeModel
+@{
+    Layout = null;
+    string caltureCore = (string)(ViewBag.CaltureCode ?? ViewData["CaltureCode"]);
+}
+<div class="green-box">
+    <div class="blk-bg">
+        <h3 class="blk-heading2">Challenge @Model.ChallengeNumber. - Won</h3>
+        <a href="#" class="report-btn">report</a>
+    </div>
+    <div class="scroll">
+        <div class="outer">
+            @foreach (BetModel bet in Model.Bets)
+            {
+                <p>
+                    <strong><strong>@string.Format("Bet {0} - {1} vs {2}", bet.BetNumber, bet.TeamA.TeamName, bet.TeamB.TeamName)</strong></strong><br>
+                    @bet.BetType.AsString()<br />
+                    @string.Format((new CultureInfo(caltureCore)), "{0:C} - {1:C}", bet.BetPlaced, bet.WiningTotal)<br />
+                    @bet.BetStatus.AsString()
+                </p>
+            }
+        </div>
+    </div>
+</div>

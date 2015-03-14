@@ -1,6 +1,14 @@
-﻿@{
+﻿@using InplayBet.Web.Models
+@using InplayBet.Web.Utilities
+@model List<UserRankViewModel>
+@{
     ViewBag.Title = "Member Search";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section PageScript{
+    @Html.RenderScripts("~/Scripts/Ranking")
+}
+@section PageStyle{
+    @Html.RenderStyles("~/Styles/Ranking")
 }
 @{Html.RenderPartial("_PageTitle", new ViewDataDictionary { { "Caption", "Member Search" } });}
 <div class="main-container">
@@ -21,167 +29,10 @@
             </ul>
         </div>
         <div class="right-block">
-            <ul class="leadbroad-block">
-                <li>
-                    <div class="position">1st</div>
-                    <div class="leaderblock">
-                        <h3 class="blue-heading">Member Profile</h3>
-                        <div class="block-top">
-                            <img alt="" src="images/leadboard-sh-img.jpg">
-                            <h4>John Smith</h4>
-                            <p class="member">Member Since: 21-2-15</p>
-                            <p class="join">Ranking: 4</p>
-                            <div class="clear"></div>
-                            <div class="points">
-                                <p class="left">Wins - 7</p>
-                                <p class="right">Losses - 18</p>
-                            </div>
-                            <div class="points">
-                                <p class="left">Won - £7144</p>
-                                <p class="right">placed - £360</p>
-                            </div>
-                            <div class="points points-botm">
-                                <p class="left">Winning Bets</p>
-                                <p class="right">Profit</p>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-
-                <li class="last">
-                    <div class="position">2nd</div>
-                    <div class="leaderblock">
-                        <h3 class="blue-heading">Member Profile</h3>
-                        <div class="block-top">
-                            <img alt="" src="images/leadboard-sh-img.jpg">
-                            <h4>John Smith</h4>
-                            <p class="member">Member Since: 21-2-15</p>
-                            <p class="join">Ranking: 4</p>
-                            <div class="clear"></div>
-                            <div class="points">
-                                <p class="left">Wins - 7</p>
-                                <p class="right">Losses - 18</p>
-                            </div>
-                            <div class="points">
-                                <p class="left">Won - £7144</p>
-                                <p class="right">placed - £360</p>
-                            </div>
-                            <div class="points points-botm">
-                                <p class="left">Winning Bets</p>
-                                <p class="right">Profit</p>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="position">3rd</div>
-                    <div class="leaderblock">
-                        <h3 class="blue-heading">Member Profile</h3>
-                        <div class="block-top">
-                            <img alt="" src="images/leadboard-sh-img.jpg">
-                            <h4>John Smith</h4>
-                            <p class="member">Member Since: 21-2-15</p>
-                            <p class="join">Ranking: 4</p>
-                            <div class="clear"></div>
-                            <div class="points">
-                                <p class="left">Wins - 7</p>
-                                <p class="right">Losses - 18</p>
-                            </div>
-                            <div class="points">
-                                <p class="left">Won - £7144</p>
-                                <p class="right">placed - £360</p>
-                            </div>
-                            <div class="points points-botm">
-                                <p class="left">Winning Bets</p>
-                                <p class="right">Profit</p>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-
-                <li class="last">
-                    <div class="position">4th</div>
-                    <div class="leaderblock">
-                        <h3 class="blue-heading">Member Profile</h3>
-                        <div class="block-top">
-                            <img alt="" src="images/leadboard-sh-img.jpg">
-                            <h4>John Smith</h4>
-                            <p class="member">Member Since: 21-2-15</p>
-                            <p class="join">Ranking: 4</p>
-                            <div class="clear"></div>
-                            <div class="points">
-                                <p class="left">Wins - 7</p>
-                                <p class="right">Losses - 18</p>
-                            </div>
-                            <div class="points">
-                                <p class="left">Won - £7144</p>
-                                <p class="right">placed - £360</p>
-                            </div>
-                            <div class="points points-botm">
-                                <p class="left">Winning Bets</p>
-                                <p class="right">Profit</p>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="position">5th</div>
-                    <div class="leaderblock">
-                        <h3 class="blue-heading">Member Profile</h3>
-                        <div class="block-top">
-                            <img alt="" src="images/leadboard-sh-img.jpg">
-                            <h4>John Smith</h4>
-                            <p class="member">Member Since: 21-2-15</p>
-                            <p class="join">Ranking: 4</p>
-                            <div class="clear"></div>
-                            <div class="points">
-                                <p class="left">Wins - 7</p>
-                                <p class="right">Losses - 18</p>
-                            </div>
-                            <div class="points">
-                                <p class="left">Won - £7144</p>
-                                <p class="right">placed - £360</p>
-                            </div>
-                            <div class="points points-botm">
-                                <p class="left">Winning Bets</p>
-                                <p class="right">Profit</p>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-
-                <li class="last">
-                    <div class="position">6th</div>
-                    <div class="leaderblock">
-                        <h3 class="blue-heading">Member Profile</h3>
-                        <div class="block-top">
-                            <img alt="" src="images/leadboard-sh-img.jpg">
-                            <h4>John Smith</h4>
-                            <p class="member">Member Since: 21-2-15</p>
-                            <p class="join">Ranking: 4</p>
-                            <div class="clear"></div>
-                            <div class="points">
-                                <p class="left">Wins - 7</p>
-                                <p class="right">Losses - 18</p>
-                            </div>
-                            <div class="points">
-                                <p class="left">Won - £7144</p>
-                                <p class="right">placed - £360</p>
-                            </div>
-                            <div class="points points-botm">
-                                <p class="left">Winning Bets</p>
-                                <p class="right">Profit</p>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-            </ul>
+            <div class="rank-pagger"></div>
+            @{Html.RenderPartial("_UserRank", Model, new ViewDataDictionary { { "LastElement", 2 } });}
+            <div class="rank-pagger"></div>
         </div>
-
-        <div class="promo-bnr"><img src="images/bet-promo-bnr.jpg" alt=""></div>
-
-
-
-
+        @{Html.RenderPartial("_PromoBanner");}
     </div>
 </div>

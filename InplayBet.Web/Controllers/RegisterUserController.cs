@@ -122,6 +122,9 @@ namespace InplayBet.Web.Controllers
                     if (user != null)
                     {
                         SessionVeriables.SetSessionData<int>(SessionVeriables.UserKey, user.UserKey);
+                        SessionVeriables.SetSessionData<string>(SessionVeriables.UserId, user.UserId);
+                        SessionVeriables.SetSessionData<string>(SessionVeriables.UserName, 
+                            string.Format("{0} {1}", user.FirstName, user.LastName));
                         return new JsonActionResult(new { Status = true, Url = Url.Action("Index", "MemberProfile") });
                     }
                     else
@@ -140,6 +143,15 @@ namespace InplayBet.Web.Controllers
                 ex.ExceptionValueTracker(signIn);
             }
             return new JsonActionResult(new { Status = false });
+        }
+
+        [AcceptVerbs(HttpVerbs.Post),
+        OutputCache(NoStore = true, Duration = 0, VaryByHeader = "*")]
+        public ActionResult SignOut()
+        {
+            Session.Clear();
+            Session.Abandon();
+            return RedirectToAction("Index", "Home");
         }
 
         /// <summary>
@@ -172,10 +184,10 @@ namespace InplayBet.Web.Controllers
                     Value = x.First().ToString()
                 });
                 ViewBag.Currencies = this._currencyDataRepository
-                    .GetList(x => x.StatusId.Equals((int)StatusCode.Active))
+                    .GetList(x => x.StatusId.Equals((int)StatusCode.Active)).ToList()
                     .Select(y => new SelectListItem()
                     {
-                        Text = string.Format("{0} ({1})", y.CurrencyName ,y.CurrencySymbol),
+                        Text = string.Format("{0} ({1})", y.CurrencyName, y.CurrencySymbol),
                         Value = y.CurrencyId.ToString()
                     });
                 ViewBag.BookMakers = this._bookMakerDataRepository

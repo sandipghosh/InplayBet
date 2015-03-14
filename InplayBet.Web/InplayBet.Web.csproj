@@ -300,6 +300,7 @@
     <Compile Include="Models\TeamModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Models\UserRankViewModel.cs" />
+    <Compile Include="Models\WinnerViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\CommonUtility.cs" />
     <Compile Include="Utilities\EmailSender.cs" />
@@ -346,8 +347,10 @@
     <None Include="Properties\PublishProfiles\Publish.pubxml" />
     <None Include="Scripts\jquery-2.1.3.intellisense.js" />
     <Content Include="Scripts\AppScripts\ChallengeManager.js" />
+    <Content Include="Scripts\AppScripts\RankingManager.js" />
     <Content Include="Scripts\AppScripts\RegistrationManager.js" />
     <Content Include="Scripts\jquery.fs.boxer.min.js" />
+    <Content Include="Scripts\jquery.simplePagination.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Styles\images\banner.jpg" />
@@ -398,6 +401,7 @@
     <Content Include="Styles\images\ui-icons_ffd27a_256x240.png" />
     <Content Include="Styles\images\ui-icons_ffffff_256x240.png" />
     <Content Include="Styles\jquery-ui.min.css" />
+    <Content Include="Styles\simplePagination.css" />
     <Content Include="Styles\style.css" />
     <Content Include="Views\ContactUs\Index.cshtml">
       <SubType>Code</SubType>
@@ -435,6 +439,12 @@
     <Content Include="Views\Bet\GetBetsByChallenge.cshtml" />
     <Content Include="Views\Bet\GetChallengesByUser.cshtml" />
     <Content Include="Views\Shared\_SignIn.cshtml" />
+    <Content Include="Views\Shared\_UserRank.cshtml" />
+    <Content Include="Views\RegisterUser\_SignUp.cshtml" />
+    <Content Include="Views\Shared\_PromoBanner.cshtml" />
+    <Content Include="Views\LatestWinners\_LatestWonChallenges.cshtml" />
+    <Content Include="Views\LatestWinners\_LatestChallengeWinner.cshtml" />
+    <Content Include="Views\LatestBets\_RecentBets.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

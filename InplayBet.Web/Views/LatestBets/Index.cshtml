@@ -1,84 +1,15 @@
-﻿@{
+﻿@using InplayBet.Web.Models
+@using InplayBet.Web.Utilities
+@model List<BetModel>
+@{
     ViewBag.Title = "Latest Bets";
-    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @{Html.RenderPartial("_PageTitle", new ViewDataDictionary { { "Caption", "Latest Bets" } });}
 <div class="main-container">
     <div class="container">
         <div class="mp-block">
-            <div class="latest-bets-block">
-                <h3>bet1</h3>
-                <p>
-                    <strong>Date:</strong> 28-2-15<br>
-                    <strong>Time:</strong> 20.50 pm<br>
-                    <strong>Place:</strong> Lorem ipsum is simply, lorem ipsum is simply dummy text.
-                </p>
-            </div>
-            <div class="latest-bets-block">
-                <h3>bet2</h3>
-                <p>
-                    <strong>Date:</strong> 28-2-15<br>
-                    <strong>Time:</strong> 20.50 pm<br>
-                    <strong>Place:</strong> Lorem ipsum is simply, lorem ipsum is simply dummy text.
-                </p>
-            </div>
-            <div class="latest-bets-block latest-bets-block-last">
-                <h3>bet3</h3>
-                <p>
-                    <strong>Date:</strong> 28-2-15<br>
-                    <strong>Time:</strong> 20.50 pm<br>
-                    <strong>Place:</strong> Lorem ipsum is simply, lorem ipsum is simply dummy text.
-                </p>
-            </div>
-            <div class="latest-bets-block">
-                <h3>bet4</h3>
-                <p>
-                    <strong>Date:</strong> 28-2-15<br>
-                    <strong>Time:</strong> 20.50 pm<br>
-                    <strong>Place:</strong> Lorem ipsum is simply, lorem ipsum is simply dummy text.
-                </p>
-            </div>
-            <div class="latest-bets-block">
-                <h3>bet5</h3>
-                <p>
-                    <strong>Date:</strong> 28-2-15<br>
-                    <strong>Time:</strong> 20.50 pm<br>
-                    <strong>Place:</strong> Lorem ipsum is simply, lorem ipsum is simply dummy text.
-                </p>
-            </div>
-            <div class="latest-bets-block latest-bets-block-last">
-                <h3>bet6</h3>
-                <p>
-                    <strong>Date:</strong> 28-2-15<br>
-                    <strong>Time:</strong> 20.50 pm<br>
-                    <strong>Place:</strong> Lorem ipsum is simply, lorem ipsum is simply dummy text.
-                </p>
-            </div>
-            <div class="latest-bets-block">
-                <h3>bet7</h3>
-                <p>
-                    <strong>Date:</strong> 28-2-15<br>
-                    <strong>Time:</strong> 20.50 pm<br>
-                    <strong>Place:</strong> Lorem ipsum is simply, lorem ipsum is simply dummy text.
-                </p>
-            </div>
-            <div class="latest-bets-block">
-                <h3>bet8</h3>
-                <p>
-                    <strong>Date:</strong> 28-2-15<br>
-                    <strong>Time:</strong> 20.50 pm<br>
-                    <strong>Place:</strong> Lorem ipsum is simply, lorem ipsum is simply dummy text.
-                </p>
-            </div>
-            <div class="latest-bets-block latest-bets-block-last">
-                <h3>bet9</h3>
-                <p>
-                    <strong>Date:</strong> 28-2-15<br>
-                    <strong>Time:</strong> 20.50 pm<br>
-                    <strong>Place:</strong> Lorem ipsum is simply, lorem ipsum is simply dummy text.
-                </p>
-            </div>
-            <div class="promo-bnr"><img src="images/bet-promo-bnr.jpg" alt=""></div>
+            @{Html.RenderPartial("_RecentBets", Model);}
+            @{Html.RenderPartial("_PromoBanner");}
         </div>
     </div>
 </div>

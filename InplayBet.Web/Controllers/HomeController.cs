@@ -2,25 +2,48 @@
 
 namespace InplayBet.Web.Controllers
 {
-    using System.Web.Mvc;
-    using System.Linq;
     using InplayBet.Web.Controllers.Base;
     using InplayBet.Web.Data.Interface;
+    using InplayBet.Web.Models;
+    using InplayBet.Web.Utilities;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Web.Mvc;
 
     public class HomeController : BaseController
     {
-        private readonly IUserDataRepository _userDataRepository;
+        private readonly IUserRankDataRepository _userRankDataRepository;
 
-        public HomeController(IUserDataRepository userDataRepository)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HomeController"/> class.
+        /// </summary>
+        /// <param name="userRankDataRepository">The user rank data repository.</param>
+        public HomeController(IUserRankDataRepository userRankDataRepository)
         {
-            this._userDataRepository = userDataRepository;
+            this._userRankDataRepository = userRankDataRepository;
         }
+
+        /// <summary>
+        /// Indexes this instance.
+        /// </summary>
+        /// <returns></returns>
+        [AcceptVerbs(HttpVerbs.Get),
+        OutputCache(NoStore = true, Duration = 0, VaryByHeader = "*")]
         public ActionResult Index()
         {
+            try
+            {
+                List<UserRankViewModel> user = this._userRankDataRepository
+                    .GetList(1, 50, x => !string.IsNullOrEmpty(x.WinningBets), x => x.Rank, true).ToList();
 
-            var a = this._userDataRepository.GetList(x => x.StatusId == 1).ToList();
-            return View();
+                return View(user);
+            }
+            catch (Exception ex)
+            {
+                ex.ExceptionValueTracker();
+            }
+            return null;
         }
-
     }
 }

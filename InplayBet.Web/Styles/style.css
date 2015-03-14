@@ -112,13 +112,13 @@ background: linear-gradient(to bottom, #ffffff 0%,#e8ebf0 100%); /* W3C */
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e8ebf0',GradientType=0 ); /* IE6-9 */}
 .mp-block .top img {float:left; margin:0 20px 0 0;}
 .mp-block .top .name-block {float:left; width:24%;}
-.mp-block .top .name-block h4 {font-size:24px; font-weight:700; color:#000; margin:0; padding:35px 0 20px;}
+.mp-block .top .name-block h4 {font-size:24px; font-weight:700; color:#000; margin:0; padding:0 0 20px;}
 .mp-block .top .name-block h4 span {font-weight:400;}
 .mp-block .top .name-block p.member {font-size:20px; color:#787878; margin:0; padding:0 0 7px; font-style:italic; text-align:left;}
 .mp-block .top .name-block p.join {font-size:20px; color:#000; margin:0; padding:0; font-style:italic; text-align:left;}
 .mp-block .top .name-block p.bookmarker {font-size:20px; color:#000; margin:5px 0 0 0; padding:0; font-style:normal; text-align:left;}
-.mp-block .top .detail-block {float:right; width:48%; margin:10px 0 0 0;}
-.mp-block .top .detail-block p.left {background:#63b222; color:#fff; font-weight:700; font-size:18px; float:left; display:block; padding:0 12px; margin:0 10px 10px 0; line-height:70px; width:27%; text-align:left;}
+.mp-block .top .detail-block {float:right; width:48%;}
+.mp-block .top .detail-block p.left {background:#63b222; color:#fff; font-weight:700; font-size:15px; float:left; display:block; padding:0 12px; margin:0 10px 10px 0; line-height:70px; width:27%; text-align:left;}
 
 .mp-block .blk-bg {background:#000; padding:1%; width:98%; position:relative;}
 .mp-block .blk-bg h3.blk-heading {font-size:35px; font-weight:700; color:#fff; padding:0; margin:0;}
@@ -298,6 +298,11 @@ background: -ms-linear-gradient(top, #545455 0%,#1b1b1b 100%); /* IE10+ */
 background: linear-gradient(to bottom, #545455 0%,#1b1b1b 100%); /* W3C */
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#545455', endColorstr='#1b1b1b',GradientType=0 ); /* IE6-9 */}
 
+.right div{float:left;width:23%}
+.right div>span{float:left;text-align:left;color:#b20c0c;white-space:nowrap;-ms-text-overflow:ellipsis;-o-text-overflow:ellipsis;text-overflow:ellipsis;overflow:hidden;width:100%;padding-right:10px}
+.right div>div{float:left;width:100%}
+.right div:first-child{line-height:40px;width:35%}
+.right div:nth-child(4){width:9%}
 /*------------------------- Popup CSS End---------------------------------*/
 
 
