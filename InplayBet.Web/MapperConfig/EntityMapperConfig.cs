@@ -38,6 +38,12 @@ namespace InplayBet.Web.MapperConfig
                 Mapper.CreateMap<int?, int>().ConvertUsing<IntConverter>();
                 Mapper.CreateMap<int?, int?>().ConvertUsing<NullableIntConverter>();
 
+                Mapper.CreateMap<long?, long>().ConvertUsing<LongConverter>();
+                Mapper.CreateMap<long?, long?>().ConvertUsing<NullableLongConverter>();
+
+                Mapper.CreateMap<decimal?, decimal>().ConvertUsing<DecimalConverter>();
+                Mapper.CreateMap<decimal?, decimal?>().ConvertUsing<NullableDecimalConverter>();
+
                 Mapper.CreateMap<Status, StatusModel>().IgnoreAllNonExisting();
                 Mapper.CreateMap<StatusModel, Status>().IgnoreAllNonExisting();
 
@@ -67,6 +73,16 @@ namespace InplayBet.Web.MapperConfig
 
                 Mapper.CreateMap<Report, ReportModel>().IgnoreAllNonExisting();
                 Mapper.CreateMap<ReportModel, Report>().IgnoreAllNonExisting();
+
+
+                Mapper.CreateMap<UserRank, UserRankViewModel>()
+                    //.ForMember(dest => dest.Won, opt => opt.MapFrom(src => src.Won.Value))
+                    //.ForMember(dest => dest.Placed, opt => opt.MapFrom(src => src.Placed.Value))
+                    //.ForMember(dest => dest.Profit, opt => opt.MapFrom(src => src.Profit.Value))
+                    //.ForMember(dest => dest.Rank, opt => opt.MapFrom(src => src.Rank.Value))
+                    .IgnoreAllNonExisting();
+                Mapper.CreateMap<UserRankViewModel, UserRank>().IgnoreAllNonExisting();
+
 
                 Mapper.AssertConfigurationIsValid();
             }

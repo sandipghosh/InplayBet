@@ -73,6 +73,7 @@ namespace InplayBet.Web.Controllers
                     }
                 }
 
+                ViewBag.CultureCode = GetUserCaltureCode(userKey);
                 ViewBag.UserKey = userKey;
                 return View(challenges);
             }
@@ -100,6 +101,7 @@ namespace InplayBet.Web.Controllers
                     var bets = challenge.Bets.OrderByDescending(x => x.BetId).ToList();
                     ViewBag.CurrentChallenge = challenge;
                     ViewBag.UserKey = challenge.UserKey;
+                    ViewBag.CultureCode = GetUserCaltureCode(challenge.UserKey);
                     return View(bets);
                 }
             }
@@ -133,6 +135,7 @@ namespace InplayBet.Web.Controllers
                 bet.BetPlaced = GetBetPlacedAmount(bet.ChallengeId);
 
                 ViewBag.UserKey = userKey;
+                ViewBag.CultureCode = GetUserCaltureCode(userKey);
                 ViewBag.BetDisplayMode = (userKey == SessionVeriables.GetSessionData<int>(SessionVeriables.UserKey)) ?
                     BetDisplayType.Insert.ToString() : BetDisplayType.Read.ToString();
                 return View(bet);
@@ -168,6 +171,7 @@ namespace InplayBet.Web.Controllers
                     CommonUtility.GetConfigData<decimal>("StartingBetAmount") : GetBetPlacedAmount(bet.ChallengeId);
 
                 ViewBag.UserKey = challenge.UserKey;
+                ViewBag.CultureCode = GetUserCaltureCode(challenge.UserKey);
                 ViewBag.BetDisplayMode = (challenge.UserKey == SessionVeriables.GetSessionData<int>(SessionVeriables.UserKey)) ?
                     BetDisplayType.Insert.ToString() : BetDisplayType.Read.ToString();
                 return View("ShowNewBetWindow", bet);
@@ -373,6 +377,11 @@ namespace InplayBet.Web.Controllers
             return 1;
         }
 
+        /// <summary>
+        /// Gets the bet placed amount.
+        /// </summary>
+        /// <param name="challengeId">The challenge identifier.</param>
+        /// <returns></returns>
         private decimal GetBetPlacedAmount(int challengeId)
         {
             try
@@ -439,6 +448,23 @@ namespace InplayBet.Web.Controllers
                 ex.ExceptionValueTracker(userKey);
             }
             return null;
+        }
+
+        private string GetUserCaltureCode(int userKey)
+        {
+            try
+            {
+                UserModel user = this._userDataRepository.Get(userKey);
+                if (user!=null)
+                {
+                    return user.Currency.CultureCode;
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.ExceptionValueTracker(userKey);
+            }
+            return string.Empty;
         }
         #endregion
     }

@@ -124,22 +124,24 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 .mp-block .blk-bg h3.blk-heading {font-size:35px; font-weight:700; color:#fff; padding:0; margin:0;}
 .mp-block .blk-bg h3.blk-heading span {font-size:25px;}
 .mp-block .blk-bg h3.blk-heading2 {font-size:25px; font-weight:700; color:#fff; padding:0; margin:0; text-transform:uppercase; line-height:24px;}
-.mp-block .blk-bg a.report-btn {display:block; background:#fff; font-size:22px; font-weight:700; text-transform:uppercase; color:#ff0000; padding:9px 15px; margin:0; position:absolute; top:4px; right:4px; text-decoration:none; -webkit-transition: all 0.3s ease-in; -moz-transition: all 0.3s ease-in; transition: all 0.3s ease-in;}
+.mp-block .blk-bg a.report-btn {display:block; background:#fff; font-size:22px; font-weight:700; text-transform:uppercase; color:#ff0000; padding:7px 12px; margin:0; position:absolute; top:4px; right:4px; text-decoration:none; -webkit-transition: all 0.3s ease-in; -moz-transition: all 0.3s ease-in; transition: all 0.3s ease-in;}
 .mp-block .blk-bg a:hover.report-btn {background:#63b222; color:#fff;}
 
 .mp-block .yellow-box {width:98%; padding:1%; margin:1% 0 0 0; float:left; background:#ffe400;}
 .mp-block .yellow-box .scroll {width:1129px;overflow-y:hidden;overflow-x:scroll;}
-.mp-block .yellow-box .outer {/*width:250%;*/}
+.mp-block .yellow-box .outer {width:1000%;}
 .mp-block .yellow-box p {margin:0 2% 0 0; padding:0; display:inline; float:left; width:auto; font-size:22px; color:#000; text-align:left; line-height:30px;}
 
 .mp-block .red-box {width:98%; padding:1%; float:left; margin:1% 0 0 0; background:#ff0000;}
-.mp-block .red-box .no-scroll {width:100%; min-height:170px; margin:25px 0 0 0;} 
+.mp-block .red-box .no-scroll {width:100%; margin:25px 0 0 0;} 
+.mp-block .red-box .scroll {width:1129px;overflow-y:hidden;overflow-x:scroll;}
+.mp-block .red-box .outer {width:1000%;}
 .mp-block .red-box p {margin:0 6.8% 0 0; padding:0; float:left; width:auto; font-size:20px; color:#fff; text-align:left; line-height:30px;}
 
 
 .mp-block .green-box {width:98%; padding:1%; margin:1% 0 0 0; float:left; background:#54af09;}
-.mp-block .green-box .scroll {width:1129px;/*height:170px;*/overflow-y:hidden;overflow-x:scroll; margin:25px 0 0 0;}
-.mp-block .green-box .outer {width:250%;}
+.mp-block .green-box .scroll {width:1129px; overflow-y:hidden;overflow-x:scroll;}
+.mp-block .green-box .outer {width:1000%;}
 .mp-block .green-box p {margin:0 2% 0 0; padding:0; display:inline; float:left; width:auto; font-size:20px; color:#fff; text-align:left; line-height:30px;}
 
 h3.sub-heading {font-size:20px; color:#63b222; font-weight:700; margin:0 0 15px; padding:0;}
@@ -242,7 +244,7 @@ ul.search-filter li a:hover {text-decoration:none; color:#63b222; background:#63
 .popup-border h2 {margin:0; padding:0; font-size:20px; color:#63b222; font-weight:700; text-transform:uppercase;} 
 .popup-border p {font-weight:700; font-size:15px; padding:10px 0;}
 ul.popup {margin:0; padding:0;}
-ul.popup li {margin:3px 0; padding:0; list-style:none; width:100%; float:left;}
+ul.popup li {margin:2px 0; padding:0; list-style:none; width:100%; float:left;}
 ul.popup li p{float:none !important;}
 ul.popup li label {float:left; width:30%; font-size:16px; margin:5px 0 0 0; padding:0;color:#000}
 ul.popup li label.vs {width:20px; padding:0 5px;}

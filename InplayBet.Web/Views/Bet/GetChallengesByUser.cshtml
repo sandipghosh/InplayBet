@@ -27,7 +27,7 @@
         <div class="scroll">
             <div class="outer">
                 @Html.Partial("GetBetsByChallenge", ((challenge == null || challenge.ChallengeId == 0) ? (new List<BetModel>()) : challenge.Bets),
-                    new ViewDataDictionary { { "CurrentChallenge", challenge },{"UserKey", (int)ViewBag.UserKey} })
+                    new ViewDataDictionary(this.ViewBag) { { "CurrentChallenge", challenge }, { "UserKey", (int)ViewBag.UserKey }, { "CultureCode", ViewBag.CultureCode } })
             </div>
         </div>
     </div>

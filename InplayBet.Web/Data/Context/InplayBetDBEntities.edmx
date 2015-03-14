@@ -136,6 +136,46 @@
           <Property Name="UpdatedBy" Type="int" />
           <Property Name="UpdatedOn" Type="datetime" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'InplayBet.dbo.UserRank' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="UserRank">
+          <Key>
+            <PropertyRef Name="UserKey" />
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="UserName" />
+            <PropertyRef Name="AvatarPath" />
+            <PropertyRef Name="MemberSince" />
+            <PropertyRef Name="CurrencyId" />
+            <PropertyRef Name="CultureCode" />
+            <PropertyRef Name="CurrencySymbol" />
+            <PropertyRef Name="BookMakerId" />
+            <PropertyRef Name="BookMakerName" />
+            <PropertyRef Name="Wins" />
+            <PropertyRef Name="Losses" />
+            <PropertyRef Name="Won" />
+            <PropertyRef Name="Placed" />
+            <PropertyRef Name="Profit" />
+            <PropertyRef Name="Rank" />
+            <PropertyRef Name="WinningBets" />
+          </Key>
+          <Property Name="UserKey" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="101" Nullable="false" />
+          <Property Name="AvatarPath" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="MemberSince" Type="datetime" Nullable="false" />
+          <Property Name="CurrencyId" Type="int" Nullable="false" />
+          <Property Name="CultureCode" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CurrencySymbol" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="BookMakerId" Type="int" Nullable="false" />
+          <Property Name="BookMakerName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Wins" Type="int" Nullable="false" />
+          <Property Name="Losses" Type="int" Nullable="false" />
+          <Property Name="Won" Type="decimal" Precision="11" Scale="2" Nullable="false" />
+          <Property Name="Placed" Type="decimal" Precision="11" Scale="2" Nullable="false" />
+          <Property Name="Profit" Type="decimal" Precision="11" Scale="2" Nullable="false" />
+          <Property Name="Rank" Type="bigint" Nullable="false" />
+          <Property Name="WinningBets" Type="varchar" MaxLength="6" Nullable="false" />
+        </EntityType>
         <Association Name="FK_Bet_Challenge">
           <End Role="Challenge" Type="Self.Challenge" Multiplicity="1" />
           <End Role="Bet" Type="Self.Bet" Multiplicity="*" />
@@ -362,6 +402,27 @@
           <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Team" EntityType="Self.Team" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserRank" EntityType="Self.UserRank" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+[UserRank].[UserKey] AS [UserKey], 
+[UserRank].[UserId] AS [UserId], 
+[UserRank].[UserName] AS [UserName], 
+[UserRank].[AvatarPath] AS [AvatarPath], 
+[UserRank].[MemberSince] AS [MemberSince], 
+[UserRank].[CurrencyId] AS [CurrencyId], 
+[UserRank].[CultureCode] AS [CultureCode], 
+[UserRank].[CurrencySymbol] AS [CurrencySymbol], 
+[UserRank].[BookMakerId] AS [BookMakerId], 
+[UserRank].[BookMakerName] AS [BookMakerName], 
+[UserRank].[Wins] AS [Wins], 
+[UserRank].[Losses] AS [Losses], 
+[UserRank].[Won] AS [Won], 
+[UserRank].[Placed] AS [Placed], 
+[UserRank].[Profit] AS [Profit], 
+[UserRank].[Rank] AS [Rank], 
+[UserRank].[WinningBets] AS [WinningBets]
+FROM [dbo].[UserRank] AS [UserRank]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_Bet_Challenge" Association="Self.FK_Bet_Challenge">
             <End Role="Challenge" EntitySet="Challenge" />
             <End Role="Bet" EntitySet="Bet" />
@@ -521,6 +582,7 @@
             <End Role="Status" EntitySet="Status" />
             <End Role="User" EntitySet="Users" />
           </AssociationSet>
+          <EntitySet Name="UserRanks" EntityType="InplayBetModel.UserRank" />
         </EntityContainer>
         <EntityType Name="Bet">
           <Key>
@@ -905,6 +967,44 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="UserRank">
+          <Key>
+            <PropertyRef Name="UserKey" />
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="UserName" />
+            <PropertyRef Name="AvatarPath" />
+            <PropertyRef Name="MemberSince" />
+            <PropertyRef Name="CurrencyId" />
+            <PropertyRef Name="CultureCode" />
+            <PropertyRef Name="CurrencySymbol" />
+            <PropertyRef Name="BookMakerId" />
+            <PropertyRef Name="BookMakerName" />
+            <PropertyRef Name="Wins" />
+            <PropertyRef Name="Losses" />
+            <PropertyRef Name="Won" />
+            <PropertyRef Name="Placed" />
+            <PropertyRef Name="Profit" />
+            <PropertyRef Name="Rank" />
+            <PropertyRef Name="WinningBets" />
+          </Key>
+          <Property Name="UserKey" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="101" FixedLength="false" Unicode="true" />
+          <Property Name="AvatarPath" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="MemberSince" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CurrencyId" Type="Int32" Nullable="false" />
+          <Property Name="CultureCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CurrencySymbol" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BookMakerId" Type="Int32" Nullable="false" />
+          <Property Name="BookMakerName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Wins" Type="Int32" Nullable="false" />
+          <Property Name="Losses" Type="Int32" Nullable="false" />
+          <Property Name="Won" Type="Decimal" Nullable="false" Precision="11" Scale="2" />
+          <Property Name="Placed" Type="Decimal" Nullable="false" Precision="11" Scale="2" />
+          <Property Name="Profit" Type="Decimal" Nullable="false" Precision="11" Scale="2" />
+          <Property Name="Rank" Type="Int64" Nullable="false" />
+          <Property Name="WinningBets" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1046,6 +1146,29 @@
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="CurrencyId" ColumnName="CurrencyId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="UserKey" ColumnName="UserKey" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserRanks">
+            <EntityTypeMapping TypeName="InplayBetModel.UserRank">
+              <MappingFragment StoreEntitySet="UserRank">
+                <ScalarProperty Name="WinningBets" ColumnName="WinningBets" />
+                <ScalarProperty Name="Rank" ColumnName="Rank" />
+                <ScalarProperty Name="Profit" ColumnName="Profit" />
+                <ScalarProperty Name="Placed" ColumnName="Placed" />
+                <ScalarProperty Name="Won" ColumnName="Won" />
+                <ScalarProperty Name="Losses" ColumnName="Losses" />
+                <ScalarProperty Name="Wins" ColumnName="Wins" />
+                <ScalarProperty Name="BookMakerName" ColumnName="BookMakerName" />
+                <ScalarProperty Name="BookMakerId" ColumnName="BookMakerId" />
+                <ScalarProperty Name="CurrencySymbol" ColumnName="CurrencySymbol" />
+                <ScalarProperty Name="CultureCode" ColumnName="CultureCode" />
+                <ScalarProperty Name="CurrencyId" ColumnName="CurrencyId" />
+                <ScalarProperty Name="MemberSince" ColumnName="MemberSince" />
+                <ScalarProperty Name="AvatarPath" ColumnName="AvatarPath" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="UserKey" ColumnName="UserKey" />
               </MappingFragment>

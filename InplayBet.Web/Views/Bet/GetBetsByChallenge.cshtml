@@ -6,6 +6,7 @@
     Layout = null;
     ChallengeModel currentChallenge = (ChallengeModel)(ViewBag.CurrentChallenge ?? ViewData["CurrentChallenge"]);
     int userKey = (int)(ViewBag.UserKey ?? ViewData["UserKey"]);
+    string cultureCode = (string)(ViewBag.CultureCode ?? ViewData["CultureCode"]);
     List<BetModel> bets = Model.OrderByDescending(x => x.BetId).ToList();
 }
 @functions{
@@ -35,9 +36,7 @@
     if (bets.IndexOf(bet) == 0 && betDisplayMode == BetDisplayType.Read.ToString()
         && IsEnableForNewBet(currentChallenge))
     {
-        <div id="betEntry">
-            @Html.Action("ShowNewBetWindow", "Bet", new { userKey = userKey })
-        </div>
+        @Html.Action("ShowNewBetWindow", "Bet", new { userKey = userKey })
     }
 
     @Html.Partial("ShowNewBetWindow", bet,

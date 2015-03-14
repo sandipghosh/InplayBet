@@ -17,4 +17,30 @@ namespace InplayBet.Web.MapperConfig.Converter
             return source;
         }
     }
+
+    public class NullableLongConverter : TypeConverter<long?, long?>
+    {
+        /// <summary>
+        /// Converts the core.
+        /// </summary>
+        /// <param name="source">The source.</param>
+        /// <returns></returns>
+        protected override long? ConvertCore(long? source)
+        {
+            return source;
+        }
+    }
+
+    public class NullableDecimalConverter : TypeConverter<decimal?, decimal?>
+    {
+        /// <summary>
+        /// Converts the core.
+        /// </summary>
+        /// <param name="source">The source.</param>
+        /// <returns></returns>
+        protected override decimal? ConvertCore(decimal? source)
+        {
+            return source;
+        }
+    }
 }

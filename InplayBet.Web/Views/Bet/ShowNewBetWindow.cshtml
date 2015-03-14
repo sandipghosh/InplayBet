@@ -1,8 +1,10 @@
 ﻿@using InplayBet.Web.Models
 @using InplayBet.Web.Models.Base
+@using System.Globalization
 @model BetModel
 @{
     Layout = null;
+    string cultureCode = (string)(ViewBag.CultureCode ?? ViewData["CultureCode"]);
     string betDisplayMode = (string)(ViewBag.BetDisplayMode ?? ViewData["BetDisplayMode"]);
 }
 @if (betDisplayMode == BetDisplayType.Insert.ToString())
@@ -20,36 +22,42 @@
                     <p>Bet @Model.BetNumber.ToString()</p>
                 </li>
                 <li>
-                    <label>Team Names:</label>
-                    @Html.HiddenFor(m => m.TeamAId)
-                    <input type="text" name="" id="txtTesmA" value="">
-                    <a href="#" class="btn">+</a>
-                    <span>vs</span>
-                    @Html.HiddenFor(m => m.TeamBId)
-                    <input type="text" name="" id="txtTesmB" value="">
-                    <a href="#" class="btn">+</a>
+                    <label><strong>Team Names:</strong></label>
+                    <div class="left-input">
+                        @Html.HiddenFor(m => m.TeamAId)
+                        <input type="text" name="" id="txtTesmA" value="">
+                        <a href="#" class="btn">+</a>
+                    </div>
+                    <span class="vs">vs</span>
+                    <div class="left-input">
+                        @Html.HiddenFor(m => m.TeamBId)
+                        <input type="text" name="" id="txtTesmB" value="">
+                        <a href="#" class="btn">+</a>
+                    </div>
                 </li>
                 <li>
-                    <label>league:</label>
-                    @Html.HiddenFor(m => m.LegueId)
-                    <input type="text" name="" id="txtLegue" class="full" value="">
-                    <a href="#" class="btn">+</a>
+                    <label><strong>league:</strong></label>
+                    <div class="input-full-outer">
+                        @Html.HiddenFor(m => m.LegueId)
+                        <input type="text" name="" id="txtLegue" class="full" value="">
+                        <a href="#" class="btn">+</a>
+                    </div>
                 </li>
                 <li>
-                    <label>Bet Type:</label>
-                    @Html.TextBoxFor(m => m.BetType, new { @class = "full" })
+                    <label><strong>Bet Type:</strong></label>
+                    <div class="input-full-outer">@Html.TextBoxFor(m => m.BetType, new { @class = "full" })</div>
                 </li>
                 <li>
-                    <label>Odds:</label>
-                    @Html.TextBoxFor(m => m.Odds, new { @class = "full" })
+                    <label><strong>Odds:</strong></label>
+                    <div class="input-full-outer">@Html.TextBoxFor(m => m.Odds, new { @class = "full" })</div>
                 </li>
                 <li>
-                    <label>Amount Placed:</label>
-                    @Html.TextBoxFor(m => m.BetPlaced, new { @class = "full" })
+                    <label><strong>Amount Placed:</strong></label>
+                    <div class="input-full-outer">@Html.TextBoxFor(m => m.BetPlaced, new { @class = "full" })</div>
                 </li>
                 <li>
-                    <label>Winning Total:</label>
-                    @Html.TextBoxFor(m => m.WiningTotal, new { @class = "full" })
+                    <label><strong>Winning Total:</strong></label>
+                    <div class="input-full-outer">@Html.TextBoxFor(m => m.WiningTotal, new { @class = "full" })</div>
                 </li>
                 <li>
                     <input type="submit" value="submit" name="">
@@ -91,35 +99,36 @@ else
                 <li>
                     <label><strong>Team Names:</strong></label>
                     @Html.Label(Model.TeamA.TeamName)
-                    <label><strong>vs</strong></label>
+                    <label class="vs"><strong>vs</strong></label>
                     @Html.Label(Model.TeamB.TeamName)
                 </li>
                 <li>
                     <label><strong>league:</strong></label>
-                    @Html.Label(Model.Legue.LegueName)
+                    @Html.Label(Model.Legue.LegueName, new { @class = "right" })
                 </li>
                 <li>
                     <label><strong>Bet Type:</strong></label>
-                    @Html.Label(Model.BetType)
+                    @Html.Label(Model.BetType, new { @class = "right" })
                 </li>
                 <li>
                     <label><strong>Odds:</strong></label>
-                    @Html.Label(Model.Odds)
+                    @Html.Label(Model.Odds, new { @class = "right" })
                 </li>
                 <li>
                     <label><strong>Amount Placed:</strong></label>
-                    <label>@Model.BetPlaced.ToString("C")</label>
+                    <label class="right">@Model.BetPlaced.ToString("C", (new CultureInfo(cultureCode)))</label>
                 </li>
                 <li>
 
                     <label><strong>Winning Total:</strong></label>
-                    <label>@Model.WiningTotal.ToString("C")</label>
+                    <label class="right">@Model.WiningTotal.ToString("C", (new CultureInfo(cultureCode)))</label>
                 </li>
 
                 @if (betDisplayMode == BetDisplayType.Update.ToString())
                 {
                     <li>
-                        <label>Bet Submited On: @Model.CreatedOn.ToString("dd/MM/yyyy hh:mm tt")</label>
+                        <label><strong>Bet Submited On:</strong></label>
+                        <label class="right">@Model.CreatedOn.ToString("dd/MM/yyyy hh:mm tt", (new CultureInfo(cultureCode)))</label>
                     </li>
                     <li>
                         <input type="submit" value="@StatusCode.Won.ToString()" name="BetStatus" />
@@ -129,10 +138,12 @@ else
                 else if (betDisplayMode == BetDisplayType.Read.ToString())
                 {
                     <li>
-                        <label>Bet Submited On: @Model.CreatedOn.ToString("dd/MM/yyyy hh:mm tt")</label>
+                        <label><strong>Bet Submited On:</strong></label>
+                        <label class="right">@Model.CreatedOn.ToString("dd/MM/yyyy hh:mm tt", (new CultureInfo(cultureCode)))</label>
                     </li>
                     <li>
-                        <label>Bet @Html.Label(Model.BetStatus) On: @Model.UpdatedOn.Value.ToString("dd/MM/yyyy hh:mm tt")</label>
+                        <label><strong>Bet @Model.BetStatus On:</strong></label>
+                        <label class="right">@Model.UpdatedOn.Value.ToString("dd/MM/yyyy hh:mm tt", (new CultureInfo(cultureCode)))</label>
                     </li>
                     <li>
                         <label><strong>Status:</strong></label>
