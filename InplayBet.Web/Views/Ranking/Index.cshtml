@@ -13,9 +13,12 @@
 @{Html.RenderPartial("_PageTitle", new ViewDataDictionary { { "Caption", "Ranking" } });}
 <div class="main-container">
     <div class="container">
-        <div class="rank-pagger"></div>
-        @{Html.RenderPartial("_UserRank", Model, new ViewDataDictionary { { "LastElement", 3 } });}
-        <div class="rank-pagger"></div>
+        @if(!Model.IsEmptyCollection())
+        {
+            <div class="rank-pagger"></div>
+            @Html.Partial("_UserRank", Model, new ViewDataDictionary { { "LastElement", 3 } })
+            <div class="rank-pagger"></div>
+        }
         @{Html.RenderPartial("_PromoBanner");}
     </div>
 </div>

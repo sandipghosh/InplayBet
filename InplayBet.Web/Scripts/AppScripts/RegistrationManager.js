@@ -5,6 +5,74 @@
 
 
 (function ($, win) {
+    var options = {
+        thumbBox: '.thumbBox',
+        spinner: '.spinner',
+        imgSrc: avaterImage
+    };
+    var cropper;
+
+    $(document).ready(function () {
+        try {
+            
+        } catch (ex) {
+            log(ex.message);
+        }
+    });
+
+    this.OpenAvaterDialog = function () {
+        try {
+            ShowModal('{0}RegisterUser/ShowImageCropper'.format(VirtualDirectory),
+                null, '435px', null, function ($modal) {
+                    cropper = $modal.find('.imageBox').cropbox(options);
+
+                    $('#uploadBtn').on('change', function () {
+                        try {
+                            $('#uploadFile').val($(this).val());
+                            var reader = new FileReader();
+                            reader.onload = function (e) {
+                                options.imgSrc = e.target.result;
+                                cropper = $('.imageBox').cropbox(options);
+                            }
+                            reader.readAsDataURL(this.files[0]);
+                            this.files = [];
+                        } catch (ex) {
+                            log(ex.message);
+                        }
+                    });
+
+                    $('#btnCrop').on('click', function () {
+                        try {
+                            var img = cropper.getDataURL();
+                            var rawData = cropper.getDataURL().replace('data:image/jpeg;base64,', '');
+                            $('.cropped').append('<img src="' + img + '">');
+                        } catch (ex) {
+                            log(ex.message);
+                        }
+                    });
+
+                    $('#btnZoomIn').on('click', function () {
+                        try {
+                            cropper.zoomIn();
+                        } catch (ex) {
+                            log(ex.message);
+                        }
+                    });
+
+                    $('#btnZoomOut').on('click', function () {
+                        try {
+                            cropper.zoomOut();
+                        } catch (ex) {
+                            log(ex.message);
+                        }
+                    });
+                }
+            );
+        } catch (ex) {
+            log(ex.message);
+        }
+    }
+
     this.SignUpBeforeSendHandler = function (context) {
         try {
             $.blockUI({ message: $("#dataloading") });
@@ -12,6 +80,7 @@
             log(ex.message);
         }
     }
+
     this.SignUpSuccessHandler = function (data, context) {
         try {
             var redirectionUrl = '{0}Home/Index'.format(VirtualDirectory);
@@ -62,37 +131,7 @@
         }
     }
 
-    //var options = {
-    //    thumbBox: '.thumbBox',
-    //    spinner: '.spinner',
-    //    imgSrc: 'avatar.png'
-    //};
-
-    //var cropper = $('.imageBox').cropbox(options);
-
-    //$('#file').on('change', function () {
-    //    var reader = new FileReader();
-    //    reader.onload = function (e) {
-    //        options.imgSrc = e.target.result;
-    //        cropper = $('.imageBox').cropbox(options);
-    //    }
-    //    reader.readAsDataURL(this.files[0]);
-    //    this.files = [];
-    //});
-
-    //$('#btnCrop').on('click', function () {
-    //    var img = cropper.getDataURL();
-    //    var rawData = cropper.getDataURL().replace('data:image/jpeg;base64,', '');
-    //    //$('.cropped').append('<img src="' + img + '">');
-    //    UploadAvatarImage(rawData);
-    //});
-
-    //$('#btnZoomIn').on('click', function () {
-    //    cropper.zoomIn();
-    //});
-    //$('#btnZoomOut').on('click', function () {
-    //    cropper.zoomOut();
-    //});
+    
 
     //this.UploadAvatarImage = function (rawData) {
     //    try {

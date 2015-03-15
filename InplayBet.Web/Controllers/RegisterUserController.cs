@@ -243,6 +243,21 @@ namespace InplayBet.Web.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [AcceptVerbs(HttpVerbs.Get),
+        OutputCache(NoStore = true, Duration = 0, VaryByHeader = "*")]
+        public ActionResult ShowImageCropper()
+        {
+            try
+            {
+                return PartialView("_ImageCroper");
+            }
+            catch (Exception ex)
+            {
+                ex.ExceptionValueTracker();
+            }
+            return null;
+        }
+
         /// <summary>
         /// Generates the additional data.
         /// </summary>

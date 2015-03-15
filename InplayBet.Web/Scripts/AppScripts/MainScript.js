@@ -10,7 +10,21 @@
                 $('body').css({ 'overflow': '' });
             });
         });
+
+        ManageTopNavigation();
     });
+
+    this.ManageTopNavigation = function () {
+        try {
+            $('ul.nav li').removeClass('active');
+            var urlPath = window.location.pathname;
+
+            var $link = $('ul.nav li a[href="' + urlPath + '"]');
+            if ($link.length > 0) $link.closest('li').addClass('active');
+        } catch (ex) {
+            log(ex.message);
+        }
+    };
 
     this.SignInSuccessHandler = function (data, context) {
         try {

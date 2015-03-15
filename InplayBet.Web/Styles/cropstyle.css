@@ -1,0 +1,114 @@
+﻿.btn {
+    display: inline-block;
+    margin-bottom: 0;
+    font-weight: normal;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    border-radius: 4px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.btn-success {
+    color: #fff;
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+}
+
+.cropcontainer {
+    width: 400px;
+}
+
+    .cropcontainer .action {
+        float: left;
+        display: block;
+        width: 100%;
+        padding: 15px 0;
+    }
+
+    .cropcontainer .title {
+        float: left;
+        width: 100%;
+        display: block;
+        padding: 4px 0;
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    .cropcontainer .action input[type=button] {
+        margin-left: 6px;
+    }
+
+    .cropcontainer .action .fileUpload {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .cropcontainer .action input {
+        padding: 8px 12px;
+        font-size: 14px;
+        color: #666;
+        border: 1px solid #D8D8D8;
+        font-family: inherit;
+    }
+
+    .cropcontainer .action .fileUpload input.upload {
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin: 0;
+        padding: 0;
+        font-size: 20px;
+        cursor: pointer;
+        opacity: 0;
+        filter: alpha(opacity=0);
+    }
+
+    .cropcontainer .imageBox {
+        position: relative;
+        height: 400px;
+        width: 100%;
+        border: 1px solid #aaa;
+        background: #fff;
+        overflow: hidden;
+        background-repeat: no-repeat;
+        cursor: move;
+    }
+
+.imageBox .thumbBox {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 200px;
+    height: 200px;
+    margin-top: -100px;
+    margin-left: -100px;
+    box-sizing: border-box;
+    border: 1px solid rgb(102, 102, 102);
+    box-shadow: 0 0 0 1000px rgba(0, 0, 0, 0.5);
+    background: none repeat scroll 0% 0% transparent;
+}
+
+.cropcontainer .imageBox .spinner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    text-align: center;
+    line-height: 400px;
+    background: rgba(0,0,0,0.7);
+}
+
+.cropped img {
+    width: 150px;
+}

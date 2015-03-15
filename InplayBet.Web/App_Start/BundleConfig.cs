@@ -37,13 +37,9 @@ namespace InplayBet.Web
                     "~/Scripts/jquery-migrate-1.2.1.min.js",
                     "~/Scripts/jquery-ui.min.js",
                     "~/Scripts/jquery.unobtrusive-ajax.min.js",
-                    //"~/Scripts/jquery.validate.js",
-                    //"~/Scripts/jquery.validate.unobtrusive.min.js",
                     "~/Scripts/jquery.blockUI.js",
                     "~/Scripts/jquery.fs.boxer.min.js",
                     "~/Scripts/consolelog.min.js"
-                    //"~/Scripts/AppScripts/Common.js",
-                    //"~/Scripts/AppScripts/MainScript.js"
                 );
                 BundleTable.Bundles.Add(scriptBundle);
 
@@ -90,7 +86,10 @@ namespace InplayBet.Web
             try
             {
                 Bundle styleBundle = new Bundle("~/Styles/CommonStyle", new CssMinify());
-                styleBundle.Include("~/Styles/jquery-ui.min.css", "~/Styles/jquery.fs.boxer.css", "~/Styles/style.css");
+                styleBundle.Include("~/Styles/jquery-ui.min.css", 
+                    "~/Styles/jquery.fs.boxer.css", 
+                    "~/Styles/style.css",
+                    "~/Styles/cropstyle.css");
                 BundleTable.Bundles.Add(styleBundle);
 
                 styleBundle = new Bundle("~/Styles/Ranking", new CssMinify());

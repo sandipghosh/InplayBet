@@ -6,21 +6,21 @@
 <div class="nav-container">
     <div class="center">
         <ul class="nav">
-            <li class="active">@Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)</li>
-            <li>@Html.ActionLink("How To Play", "Index", "HowToPlay", new { area = "" }, null)</li>
-            <li>@Html.ActionLink("Ranking", "Index", "Ranking", new { area = "" }, null)</li>
-            <li>@Html.ActionLink("Latest Bets", "Index", "LatestBets", new { area = "" }, null)</li>
-            <li>@Html.ActionLink("Latest Winners", "Index", "LatestWinners", new { area = "" }, null)</li>
-            <li>@Html.ActionLink("Member Search", "Index", "MemberSearch", new { area = "" }, null)</li>
+            <li id="lnkHome" class="active"><a href="@Url.Content("~/")Home">Home</a>@*@Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)*@</li>
+            <li id="lnkHowToPlay">@Html.ActionLink("How To Play", "Index", "HowToPlay", new { area = "" }, null)</li>
+            <li id="lnkRanking">@Html.ActionLink("Ranking", "Index", "Ranking", new { area = "" }, null)</li>
+            <li id="lnkLatestBets">@Html.ActionLink("Latest Bets", "Index", "LatestBets", new { area = "" }, null)</li>
+            <li id="lnkLatestWinners">@Html.ActionLink("Latest Winners", "Index", "LatestWinners", new { area = "" }, null)</li>
+            <li id="lnkMemberSearch">@Html.ActionLink("Member Search", "Index", "MemberSearch", new { area = "" }, null)</li>
             @if (isLoggedInUser > 0)
             {
-                <li>@Html.ActionLink("My Profile", "Index", "MemberProfile", new { area = "" }, null)</li>
+                <li id="lnkMemberProfile">@Html.ActionLink("My Profile", "Index", "MemberProfile", new { area = "" }, null)</li>
             }
             else
             {
-                <li>@Html.ActionLink("Sign Up", "Index", "RegisterUser", new { area = "" }, null)</li>
+                <li id="lnkRegisterUser">@Html.ActionLink("Sign Up", "Index", "RegisterUser", new { area = "" }, null)</li>
             }
-            <li>@Html.ActionLink("Contact Us", "Index", "ContactUs", new { area = "" }, null)</li>
+            <li id="lnkContactUs">@Html.ActionLink("Contact Us", "Index", "ContactUs", new { area = "" }, null)</li>
         </ul>
     </div>
 </div>

@@ -357,6 +357,7 @@
     <Content Include="Scripts\jquery.simplePagination.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Styles\cropstyle.css" />
     <Content Include="Styles\images\close.png" />
     <Content Include="Styles\images\loadingAnimation.gif" />
     <Content Include="Styles\images\banner.jpg" />
@@ -458,6 +459,7 @@
     <Content Include="Views\LatestBets\_RecentBets.cshtml" />
     <Content Include="Views\Bet\ShowChallengeStatusMessage.cshtml" />
     <Content Include="Views\Bet\ShowReportWindow.cshtml" />
+    <Content Include="Views\Shared\_ImageCroper.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

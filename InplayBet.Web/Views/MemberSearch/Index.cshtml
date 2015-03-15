@@ -29,9 +29,12 @@
             </ul>
         </div>
         <div class="right-block">
-            <div class="rank-pagger"></div>
-            @{Html.RenderPartial("_UserRank", Model, new ViewDataDictionary { { "LastElement", 2 } });}
-            <div class="rank-pagger"></div>
+            @if(!Model.IsEmptyCollection())
+            { 
+                <div class="rank-pagger"></div>
+                @Html.Partial("_UserRank", Model, new ViewDataDictionary { { "LastElement", 2 } })
+                <div class="rank-pagger"></div>
+            }
         </div>
         @{Html.RenderPartial("_PromoBanner");}
     </div>

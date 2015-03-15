@@ -13,6 +13,13 @@
 {
     <ul class="query-list">
         <li>
+            <div class="cropped">
+                <img src='@Url.Content("~/Images/Users/Default.jpg")' alt="" />
+                <br/>
+                <a href="javascript:OpenAvaterDialog()">Upload Profile Image</a>
+            </div>
+        </li>
+        <li>
             @if (Model.UserKey > 0)
             {
                 <label>User Id:</label>
