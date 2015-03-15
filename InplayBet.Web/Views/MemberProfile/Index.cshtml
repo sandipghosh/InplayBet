@@ -19,6 +19,10 @@
                     <p class="member">Member Since: @Model.MemberSince.ToString("d", (new CultureInfo(Model.CultureCode)))</p>
                     <p class="join">Ranking: @Model.Rank</p>
                     <p class="bookmarker">Bookmarker - @Model.BookMakerName.ToString()</p>
+                    @if (Model.UserKey == SessionVeriables.GetSessionData<int>(SessionVeriables.UserKey))
+                    {
+                        @Html.ActionLink("Edit Profile", "Update", "RegisterUser", new { userKey = Model.UserKey }, null)
+                    }
                 </div>
                 <div class="detail-block">
                     <p class="left">Wins @Model.Wins</p>
@@ -33,5 +37,4 @@
         </div>
     </div>
 </div>
-@Html.Hidden("CurrentUserKey", SessionVeriables.GetSessionData<int>(SessionVeriables.UserKey), 
-    new { id = "CurrentUserKey" })
+@Html.Hidden("CurrentUserKey", SessionVeriables.GetSessionData<int>(SessionVeriables.UserKey), new { id = "CurrentUserKey" })

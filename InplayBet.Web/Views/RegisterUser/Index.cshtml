@@ -11,7 +11,14 @@
 <div class="main-container">
     <div class="container">
         <div class="registration-block">
-            <h2 class="query-heading">Registration</h2>
+            @if (Model.UserKey > 0)
+            {
+                <h2 class="query-heading">Profile Update</h2>
+            }
+            else
+            {
+                <h2 class="query-heading">Registration</h2>
+            }
             <h4 class="grn-heading">Inplay Betting Account</h4>
             <p>
                 If you want to complete the £20-£1000 challenge with real money, you will need to create an inplay betting account.<br>

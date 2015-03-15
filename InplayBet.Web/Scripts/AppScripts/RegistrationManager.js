@@ -14,22 +14,32 @@
     }
     this.SignUpSuccessHandler = function (data, context) {
         try {
-            var msgHtml = '<div style="display:block; float:left;">{0}{1}{2}</div>'.format(
+            var redirectionUrl = '{0}Home/Index'.format(VirtualDirectory);
+            var msgTemplate = '<div style="display:block; float:left;">{0}{1}{2}</div>'.format(
                 '<span style="display:block; float:left;font-weight: bold;font-size: 18px;margin-bottom: 10px;">Congratulation!</span>',
-                '<p style="float: left;font-size: 14px;">You ara successfully register into inplay bet.<br/>Please visit your mail account to activate your inplay account.</p>',
-                '<div style="display:block; float:left;"><a style="display: block;text-align: center;background: #63b222;padding: 3px 14px;text-decoration: none;color: #fff;margin-top: 10px;" href="javascript:window.location.assign(\'{0}Home/Index\')">Close</a><div>'.format(VirtualDirectory)
-                );
+                '<p style="float: left;font-size: 14px;">{0}</p>',
+                '<div style="display:block; float:left;"><a style="display: block;text-align: center;background: #63b222;padding: 3px 14px;text-decoration: none;color: #fff;margin-top: 10px;" href="javascript:window.location.assign(\'{1}\')">Close</a><div>');
+            var msg = msgTemplate.format('You ara successfully register into inplay bet.<br/>Please visit your mail account to activate your inplay account.', redirectionUrl);
 
             if (typeof data.UserKey != 'undefined') {
                 if (data.UserKey > 0) {
-
+                    if (typeof data.UpdatedBy != 'undefined') {
+                        redirectionUrl = '{0}MemberProfile/Index'.format(VirtualDirectory);
+                        msg = msgTemplate.format('Your profile has been successfully updated.<br/>Keep betting.', redirectionUrl);
+                    }
+                    else {
+                        if (data.StatusId == 1) {
+                            redirectionUrl = '{0}MemberProfile/Index'.format(VirtualDirectory);
+                            msg = msgTemplate.format('You are successfully register into inplay bet.<br/>Start betting.', redirectionUrl);
+                        }
+                    }
                     modal.open({
-                        content: msgHtml,
+                        content: msg,
                         width: '400px',
                         openCallBack: function () {
                             $('.modal-close').unbind("click");
                             $('.modal-close').click(function () {
-                                window.location.assign('{0}Home/Index'.format(VirtualDirectory));
+                                window.location.assign(redirectionUrl);
                             });
                         }
                     });
