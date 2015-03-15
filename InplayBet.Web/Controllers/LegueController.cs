@@ -30,12 +30,14 @@ namespace InplayBet.Web.Controllers
         /// <returns></returns>
         [AcceptVerbs(HttpVerbs.Get),
         OutputCache(NoStore = true, Duration = 0, VaryByHeader = "*")]
-        public JsonActionResult GetLegues()
+        public JsonActionResult GetLegues(string filter)
         {
             try
             {
-                var legues = this._legueDataRepository.GetList(x => x.StatusId.Equals((int)StatusCode.Active))
-                    .OrderBy(x => x.LegueName).Select(x => new { label = x.LegueName, value = x.LegueId });
+                var legues = this._legueDataRepository.GetList(x => x.StatusId.Equals((int)StatusCode.Active)
+                    && x.LegueName.StartsWith(filter), x => x.LegueName, true)
+                    .Select(x => new { label = x.LegueName, value = x.LegueId });
+
                 return new JsonActionResult(legues.ToList());
             }
             catch (Exception ex)

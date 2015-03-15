@@ -12,9 +12,9 @@
     using (Ajax.BeginForm("InsertNewBet", "Bet", new AjaxOptions
     {
         HttpMethod = "POST",
-        OnBegin = "return InsertBetBeforeSend(this)",
+        //OnBegin = "return InsertBetBeforeSend(this)",
         OnSuccess = "InsertUpdateBetSuccessHandler(data, this)"
-    }, new { id = "frmIndertBet" }))
+    }, new { id = "frmInsertBet" }))
     {
         <div class="popup-border">
             <ul class="popup">
@@ -53,7 +53,7 @@
                 </li>
                 <li>
                     <label><strong>Amount Placed:</strong></label>
-                    <div class="input-full-outer">@Html.TextBoxFor(m => m.BetPlaced, new { @class = "full" })</div>
+                    <div class="input-full-outer">@Html.TextBoxFor(m => m.BetPlaced, new { @class = "full", @readonly = true })</div>
                 </li>
                 <li>
                     <label><strong>Winning Total:</strong></label>

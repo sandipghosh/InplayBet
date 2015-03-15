@@ -3,12 +3,19 @@
 @{
     Layout = null;
 }
-@using (Html.BeginForm("SignUp", "RegisterUser", FormMethod.Post, new { id = "frmSignUp" }))
+@using (Ajax.BeginForm("SignUp", "RegisterUser", new AjaxOptions
+    {
+        HttpMethod = "POST",
+        OnBegin = "SignUpBeforeSendHandler(this)",
+        OnSuccess = "SignUpSuccessHandler(data, this)",
+        OnComplete = "SignUpCompletionHandler(this)"
+    }, new { id = "frmSignUp" }))
 {
     <ul class="query-list">
         <li>
-            <label>First Name:</label>
-            @Html.TextBoxFor(m => m.FirstName)
+            <label>User Id: (must be alpha numeric and minimum length 8)</label>
+            @Html.ValidationMessageFor(m => m.FirstName)
+            @Html.TextBoxFor(m => m.UserId)
         </li>
         <li>
             <label>First Name:</label>
@@ -27,8 +34,8 @@
         </li>
         <li>
             <label>Currency:</label>
-            @Html.ValidationMessageFor(x => x.Currency)
-            @Html.DropDownListFor(m => m.Currency, (IEnumerable<SelectListItem>)ViewBag.Currencies, "Select Currency", null)
+            @Html.ValidationMessageFor(x => x.CurrencyId)
+            @Html.DropDownListFor(m => m.CurrencyId, (IEnumerable<SelectListItem>)ViewBag.Currencies, "Select Currency", null)
         </li>
         <li>
             <div class="password">
@@ -72,4 +79,5 @@
     @Html.HiddenFor(m => m.StatusId)
     @Html.HiddenFor(m => m.CreatedOn)
     @Html.HiddenFor(m => m.CreatedBy)
+    @Html.HiddenFor(m => m.IsAdmin)
 }

@@ -3,6 +3,15 @@
 /// <reference path="../consolelog.min.js" />
 
 (function ($, win) {
+    $(document).ready(function () {
+        $('body').css({ 'overflow': 'hidden' });
+        $(window).load(function () {
+            $('.loading-overlay').fadeOut('slow', function () {
+                $('body').css({ 'overflow': '' });
+            });
+        });
+    });
+
     this.SignInSuccessHandler = function (data, context) {
         try {
             if (typeof data.Status != 'undefined') {
@@ -24,6 +33,69 @@
             win.location.assign('{0}MemberProfile/ViewProfile/{1}'.format(VirtualDirectory, userId));
         } catch (ex) {
             log(ex.message);
+        }
+    };
+
+    $('input[readonly]').on('keydown', function (e) {
+        if (e.which === 8) {
+            e.preventDefault();
+        }
+    });
+
+    $.ajaxSetup({
+        beforeSend: function (jqXHR, settings) {
+            if (!settings.url.contains('Keepalive')) {
+                loadingCounter += 1;
+                $(document).css('cursor', 'wait !important');
+                try { $.blockUI({ message: $("#dataloading") }); } catch (ex) { }
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert('error');
+        },
+        complete: function (jqXHR, textStatus) {
+            if (loadingCounter > 1)
+            { loadingCounter -= 1 }
+            else {
+                loadingCounter = 0;
+                try { $.unblockUI(); } catch (ex) { }
+            }
+            $(document).css('cursor', 'default !important');
+        }
+    });
+
+    this.ShowModal = function (uri, content, windowWidth, beforeShowCallback, afterShowCallback) {
+        if (uri != null) {
+            $.ajax({
+                url: uri,
+                type: 'GET',
+                success: function (result, textStatus, jqXHR) {
+                    if (result) {
+                        if (typeof beforeShowCallback !== 'undefined' && beforeShowCallback != null) {
+                            var callbackReturn = beforeShowCallback();
+                            if (!callbackReturn) return;
+                        }
+
+                        modal.open({
+                            content: result,
+                            width: (windowWidth == undefined || windowWidth == null) ?
+                                '735px' : windowWidth,
+                            openCallBack: afterShowCallback
+                        });
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert(textStatus);
+                }
+            });
+        }
+        else {
+            modal.open({
+                content: content,
+                width: (windowWidth == undefined || windowWidth == null) ?
+                    '735px' : windowWidth,
+                openCallBack: afterShowCallback
+            });
         }
     };
 }(jQuery, window));
@@ -72,6 +144,9 @@
                         });
                     },
                     minLength: settings.minLength,
+                    change: function (event, ui) {
+                        //$idField.val('').change();
+                    },
                     focus: function (event, ui) {
                         event.preventDefault();
                         this.value = ui.item.label;
@@ -79,7 +154,7 @@
                     },
                     select: function (event, ui) {
                         event.preventDefault();
-                        $idField.val(ui.item.value);
+                        $idField.val(ui.item.value).change();
                         this.value = ui.item.label;
                         return false;
                     }

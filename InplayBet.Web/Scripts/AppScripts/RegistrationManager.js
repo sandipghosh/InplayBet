@@ -5,6 +5,53 @@
 
 
 (function ($, win) {
+    this.SignUpBeforeSendHandler = function (context) {
+        try {
+            $.blockUI({ message: $("#dataloading") });
+        } catch (ex) {
+            log(ex.message);
+        }
+    }
+    this.SignUpSuccessHandler = function (data, context) {
+        try {
+            var msgHtml = '<div style="display:block; float:left;">{0}{1}{2}</div>'.format(
+                '<span style="display:block; float:left;font-weight: bold;font-size: 18px;margin-bottom: 10px;">Congratulation!</span>',
+                '<p style="float: left;font-size: 14px;">You ara successfully register into inplay bet.<br/>Please visit your mail account to activate your inplay account.</p>',
+                '<div style="display:block; float:left;"><a style="display: block;text-align: center;background: #63b222;padding: 3px 14px;text-decoration: none;color: #fff;margin-top: 10px;" href="javascript:window.location.assign(\'{0}Home/Index\')">Close</a><div>'.format(VirtualDirectory)
+                );
+
+            if (typeof data.UserKey != 'undefined') {
+                if (data.UserKey > 0) {
+
+                    modal.open({
+                        content: msgHtml,
+                        width: '400px',
+                        openCallBack: function () {
+                            $('.modal-close').unbind("click");
+                            $('.modal-close').click(function () {
+                                window.location.assign('{0}Home/Index'.format(VirtualDirectory));
+                            });
+                        }
+                    });
+                }
+            }
+            else {
+                $('#frmSignUp').html($(data).find('#frmSignUp').html());
+                $.validator.unobtrusive.parse($('#frmSignUp'));
+            }
+        } catch (ex) {
+            log(ex.message);
+        }
+    }
+
+    this.SignUpCompletionHandler = function (context) {
+        try {
+            $.unblockUI();
+        } catch (ex) {
+            log(ex.message);
+        }
+    }
+
     //var options = {
     //    thumbBox: '.thumbBox',
     //    spinner: '.spinner',

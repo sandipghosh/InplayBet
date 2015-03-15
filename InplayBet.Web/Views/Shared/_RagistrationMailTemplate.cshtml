@@ -1,7 +1,9 @@
-﻿@{Layout = null;}
+﻿@{
+    Layout = null;
+}
 @model InplayBet.Web.Models.UserModel
 <p>Welcome to Inplay Bet 20</p>
-<br/>
+<br />
 <br />
 <p>Hello @Model.FirstName @Model.LastName!</p>
 <br />
@@ -17,4 +19,4 @@
 <br />
 <p>Please click the following link to activate your account. This link will be available upto 48 hours.</p>
 <br />
-@ViewData["ActivationUrl"]
+<a href='@TempData["ActivationUrl"]'>@TempData["ActivationUrl"]</a>

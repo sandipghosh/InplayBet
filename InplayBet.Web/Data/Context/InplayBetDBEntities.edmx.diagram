@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="ce7c544554bb4db1ba662132042471c2" Name="Diagram1" ZoomLevel="44">
+      <Diagram DiagramId="ce7c544554bb4db1ba662132042471c2" Name="Diagram1" ZoomLevel="74">
         <EntityTypeShape EntityType="InplayBetModel.Bet" Width="1.5" PointX="5.25" PointY="9.75" />
         <EntityTypeShape EntityType="InplayBetModel.BookMaker" Width="1.5" PointX="3" PointY="23.25" />
         <EntityTypeShape EntityType="InplayBetModel.Challenge" Width="1.5" PointX="7.5" PointY="14.625" />
@@ -13,26 +13,26 @@
         <EntityTypeShape EntityType="InplayBetModel.Report" Width="1.5" PointX="9.75" PointY="14.625" />
         <EntityTypeShape EntityType="InplayBetModel.Status" Width="1.5" PointX="0.75" PointY="11.625" />
         <EntityTypeShape EntityType="InplayBetModel.Team" Width="1.5" PointX="3" PointY="15.75" />
-        <EntityTypeShape EntityType="InplayBetModel.User" Width="1.5" PointX="5.25" PointY="16.25" />
         <AssociationConnector Association="InplayBetModel.FK_Bet_Challenge" />
         <AssociationConnector Association="InplayBetModel.FK_Bet_Legue" />
         <AssociationConnector Association="InplayBetModel.FK_Bet_Status" />
         <AssociationConnector Association="InplayBetModel.FK_Bet_TeamA" />
         <AssociationConnector Association="InplayBetModel.FK_Bet_TeamB" />
         <AssociationConnector Association="InplayBetModel.FK_BookMaker_Status" />
-        <AssociationConnector Association="InplayBetModel.FK_User_BookMaker" />
         <AssociationConnector Association="InplayBetModel.FK_Challenge_Status" />
-        <AssociationConnector Association="InplayBetModel.FK_Challenge_User" />
         <AssociationConnector Association="InplayBetModel.FK_Report_Challenge" />
         <AssociationConnector Association="InplayBetModel.FK_Currency_Status" />
-        <AssociationConnector Association="InplayBetModel.FK_User_Currency" />
         <AssociationConnector Association="InplayBetModel.FK_Legue_Status" />
         <AssociationConnector Association="InplayBetModel.FK_Report_Status" />
+        <AssociationConnector Association="InplayBetModel.FK_Team_Status" />
+        <EntityTypeShape EntityType="InplayBetModel.UserRank" Width="1.5" PointX="6.25" PointY="5.625" />
+        <EntityTypeShape EntityType="InplayBetModel.User" Width="1.5" PointX="5.25" PointY="16.125" />
+        <AssociationConnector Association="InplayBetModel.FK_User_BookMaker" />
+        <AssociationConnector Association="InplayBetModel.FK_Challenge_User" />
+        <AssociationConnector Association="InplayBetModel.FK_User_Currency" />
         <AssociationConnector Association="InplayBetModel.FK_Report_To_User" />
         <AssociationConnector Association="InplayBetModel.FK_Report_User" />
-        <AssociationConnector Association="InplayBetModel.FK_Team_Status" />
         <AssociationConnector Association="InplayBetModel.FK_User_Status" />
-        <EntityTypeShape EntityType="InplayBetModel.UserRank" Width="1.5" PointX="6.25" PointY="5.625" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -1,0 +1,37 @@
+﻿@using InplayBet.Web.Models
+@model ReportModel
+@{Layout = null;}
+@using (Ajax.BeginForm("SubmitReport", "Bet", null, new AjaxOptions
+    {
+        HttpMethod = "POST",
+        OnSuccess = "SubmitReportSuccessHandler(data, this)"
+    }, new { id = "frmSubmitReport" }))
+{
+    <div class="report-container">
+        <ul>
+            <li>
+                <span>Reported :</span>
+                <div>
+                    @Html.DropDownListFor(m => m.ReportStatus, (IEnumerable<SelectListItem>)ViewBag.ReportStatus)
+                </div>
+            </li>
+            <li>
+                <span>Comment :</span>
+                <div>
+                    @Html.TextAreaFor(m => m.Comment)
+                </div>
+            </li>
+            <li>
+                <input type="submit" value="Submit" />
+            </li>
+        </ul>
+    </div>
+
+    @Html.HiddenFor(m => m.ReportId)
+    @Html.HiddenFor(m => m.ReportedUserId)
+    @Html.HiddenFor(m => m.ReportedChallengeId)
+    @Html.HiddenFor(m => m.CreatedBy)
+    @Html.HiddenFor(m => m.CreatedOn)
+    @Html.HiddenFor(m => m.ReportedBy)
+    @Html.HiddenFor(m => m.StatusId)
+}

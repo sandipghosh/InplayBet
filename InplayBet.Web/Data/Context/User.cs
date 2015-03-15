@@ -32,6 +32,7 @@ namespace InplayBet.Web.Data.Context
         public System.DateTime DateOfBirth { get; set; }
         public int BookMakerId { get; set; }
         public string AvatarPath { get; set; }
+        public bool IsAdmin { get; set; }
         public int StatusId { get; set; }
         public int CreatedBy { get; set; }
         public System.DateTime CreatedOn { get; set; }

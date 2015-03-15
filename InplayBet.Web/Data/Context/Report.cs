@@ -28,7 +28,7 @@ namespace InplayBet.Web.Data.Context
     
         public virtual Challenge Challenge { get; set; }
         public virtual Status Status { get; set; }
-        public virtual User UserTo { get; set; }
-        public virtual User UserBy { get; set; }
+        public virtual User User { get; set; }
+        public virtual User User1 { get; set; }
     }
 }

@@ -3,10 +3,11 @@
 @model SignInModel
 @{Layout = null;}
 
-<div class="right">
-    @if (SessionVeriables.GetSessionData<int>(SessionVeriables.UserKey) == 0)
-    {
-        using (Ajax.BeginForm("SignIn", "RegisterUser", new { area = "" },
+
+@if (SessionVeriables.GetSessionData<int>(SessionVeriables.UserKey) == 0)
+{
+    <div class="right">
+        @using (Ajax.BeginForm("SignIn", "RegisterUser", new { area = "" },
         new AjaxOptions { HttpMethod = "POST", OnSuccess = "SignInSuccessHandler(data, this)" }, new { id = "frmSignIn" }))
         {
             <div>
@@ -26,15 +27,19 @@
                 <input type="submit" name="" value="submit" />
             </div>
         }
-    }
-    else
-    {
-        using (Html.BeginForm("SignOut", "RegisterUser", FormMethod.Post, new { id = "frmSignOut" }))
+    </div>
+}
+else
+{
+    <div class="right" style="float: right; width: 40%;">
+        @using (Html.BeginForm("SignOut", "RegisterUser", FormMethod.Post, new { id = "frmSignOut" }))
         {
-            <div style="font-size: 15px;text-transform: uppercase;color: #fff;">@(SessionVeriables.GetSessionData<string>(SessionVeriables.UserName))</div>
-            <div style="width:15%;">
+            <div style="font-size: 22px;text-transform: uppercase;color: #fff; width: 70%; text-align: right;">
+                <i>@(SessionVeriables.GetSessionData<string>(SessionVeriables.UserName))</i>
+            </div>
+            <div style="width: 28%; float: right;">
                 <input type="submit" name="" value="Sign Out" />
             </div>
         }
-    }
-</div>
+    </div>
+}

@@ -48,6 +48,7 @@ namespace InplayBet.Web.Controllers
                     StatusId = (int)StatusCode.Inative,
                     CreatedOn = DateTime.Now,
                     CreatedBy = 1,
+                    IsAdmin = false,
                     AvatarPath = @"~/Images/Users/Default.jpg"
                 };
 
@@ -91,13 +92,23 @@ namespace InplayBet.Web.Controllers
                     else
                     {
                         user.DateOfBirth = new DateTime(user.DobYear, user.DobMonth, user.DobDay);
-                        this._userDataRepository.Insert(user);
-                        SentConfirmationMail(user);
-                        return RedirectToAction("Index", "Home");
+
+                        if (CommonUtility.GetConfigData<string>("EnableUserMailActivation").AsString() == "true")
+                        {
+                            this._userDataRepository.Insert(user);
+                            SentConfirmationMail(user);
+                        }
+                        else
+                        {
+                            user.StatusId = (int)StatusCode.Active;
+                            this._userDataRepository.Insert(user);
+                        }
+
+                        return new JsonActionResult(user);
                     }
                 }
                 else
-                    return process(user);
+                    return View("_SignUp", user);
             }
             catch (Exception ex)
             {
@@ -106,6 +117,42 @@ namespace InplayBet.Web.Controllers
             return null;
         }
 
+        [AcceptVerbs(HttpVerbs.Get),
+        OutputCache(NoStore = true, Duration = 0, VaryByHeader = "*")]
+        public ActionResult ActivateUser(string timestamp, int userkey)
+        {
+            try
+            {
+                DateTime startDate = new DateTime(long.Parse(timestamp));
+                var hours = (DateTime.Now - startDate);
+                if (hours.TotalHours <= 48)
+                {
+                    UserModel user = this._userDataRepository.Get(userkey);
+                    if (user != null)
+                    {
+                        user.StatusId = (int)StatusCode.Active;
+                        this._userDataRepository.Update(user);
+                        SessionVeriables.SetSessionData<int>(SessionVeriables.UserKey, user.UserKey);
+                        SessionVeriables.SetSessionData<string>(SessionVeriables.UserId, user.UserId);
+                        SessionVeriables.SetSessionData<string>(SessionVeriables.UserName,
+                            string.Format("{0} {1}", user.FirstName, user.LastName));
+
+                        return RedirectToAction("Index", "MemberProfile");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.ExceptionValueTracker(timestamp, userkey);
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Signs the in.
+        /// </summary>
+        /// <param name="signIn">The sign in.</param>
+        /// <returns></returns>
         [AcceptVerbs(HttpVerbs.Post),
         OutputCache(NoStore = true, Duration = 0, VaryByHeader = "*")]
         public ActionResult SignIn(SignInModel signIn)
@@ -123,7 +170,7 @@ namespace InplayBet.Web.Controllers
                     {
                         SessionVeriables.SetSessionData<int>(SessionVeriables.UserKey, user.UserKey);
                         SessionVeriables.SetSessionData<string>(SessionVeriables.UserId, user.UserId);
-                        SessionVeriables.SetSessionData<string>(SessionVeriables.UserName, 
+                        SessionVeriables.SetSessionData<string>(SessionVeriables.UserName,
                             string.Format("{0} {1}", user.FirstName, user.LastName));
                         return new JsonActionResult(new { Status = true, Url = Url.Action("Index", "MemberProfile") });
                     }
@@ -145,6 +192,10 @@ namespace InplayBet.Web.Controllers
             return new JsonActionResult(new { Status = false });
         }
 
+        /// <summary>
+        /// Signs the out.
+        /// </summary>
+        /// <returns></returns>
         [AcceptVerbs(HttpVerbs.Post),
         OutputCache(NoStore = true, Duration = 0, VaryByHeader = "*")]
         public ActionResult SignOut()
@@ -218,12 +269,14 @@ namespace InplayBet.Web.Controllers
                     Subject = "Inplay Bet Registration Confirmation",
                     To = user.EmailId
                 };
+
+                var url = Url.Action("ActivateUser", "RegisterUser", new { area = "", timestamp = DateTime.Now.Ticks.ToString(), userid = user.UserKey });
+                
                 string mailBody = Utilities.CommonUtility.RenderViewToString
                     ("_RagistrationMailTemplate", user, this,
-                    new Dictionary<string, object>() { { "ActivationUrl", "http://google.com" } });
+                    new Dictionary<string, object>() { { "ActivationUrl", url } });
 
-                email.SendMailAsync(mailBody, () =>
-                { });
+                email.SendMail(mailBody);
             }
             catch (Exception ex)
             {

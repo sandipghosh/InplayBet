@@ -16,6 +16,9 @@ namespace InplayBet.Web
             routes.IgnoreRoute("{*robotstxt}", new { robotstxt = @"(.*/)?robots.txt(/.*)?" });
             routes.IgnoreRoute("{*favicon}", new { favicon = @"(.*/)?favicon.ico(/.*)?" });
 
+            routes.MapRoute("ActivateUser", "RegisterUser/ActivateUser/{timestamp}/{userkey}",
+                new { controller = "RegisterUser", action = "ActivateUser", timestamp = UrlParameter.Optional, userkey=UrlParameter.Optional });
+
             routes.MapRoute("ViewProfile", "MemberProfile/ViewProfile/{userId}",
                 new { controller = "MemberProfile", action = "ViewProfile", userId = UrlParameter.Optional });
 

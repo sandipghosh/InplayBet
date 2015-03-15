@@ -1,0 +1,20 @@
+﻿@using InplayBet.Web.Models.Base
+@{Layout = null;}
+<div>
+    <div style="width:25%; float:left;display:block;">
+        <img src='@Url.Content(string.Format("~/Styles/images/{0}.png", (string)ViewBag.Status))' alt="" />
+    </div>
+    <div style="width:70%; float:left;display:block;">
+        @if ((string)ViewBag.Status == StatusCode.Won.ToString())
+        {
+            <span style="font-size: 15px;">Congratulation! You own the challenge. Please proceed to the next challenge.</span>
+        }
+        else
+        {
+            <span style="font-size: 15px;">Sorry! You lost the challenge. Please proceed to the next challenge.</span>
+        }
+        <div style="  float: left; margin-top: 11px;">
+            <a style="background: #63b222;display:block;padding:4px 14px; text-decoration:none;font-weight:bold;color:#fff;" href="javascript:window.location.reload();">Proceed</a>
+        </div>
+    </div>
+</div>

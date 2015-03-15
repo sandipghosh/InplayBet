@@ -252,9 +252,9 @@ ul.popup li label.right {width:50%;}
 
 
 .left-input {float:left; width:25%; position:relative;}
-ul.popup li input[type="text"] {border:1px solid #d8d8d8; float:left; margin:0; width:93%; padding:3%; font-size:15px; line-height:15px; color:#6a6a6a;}
+ul.popup li input[type="text"] {border:1px solid #d8d8d8; float:left; margin:0; width:93%; padding:4%; font-size:15px; line-height:15px; color:#6a6a6a;}
 ul.popup li input[type="text"]:focus {border:1px solid #63b222; -webkit-transition: all 0.4s ease; -moz-transition: all 0.4s ease; transition: all 0.4s ease; background:#f6f7f7;}
-ul.popup li span.vs {padding:0 24px; float:left; font-size:15px;font-weight: bold;}
+ul.popup li span.vs {padding:0 22px; float:left; font-size:15px;font-weight: bold;}
 ul.popup li span {padding:0; float:left; font-size:12px;font-weight:normal;}
 .input-full-outer {width:60%; float:left; position:relative;}
 ul.popup li input[type="text"].full {border:1px solid #d8d8d8; width:99%; padding:2%; font-size:15px; line-height:15px; color:#6a6a6a;}
@@ -303,6 +303,15 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#545455', end
 .right div>div{float:left;width:100%}
 .right div:first-child{line-height:40px;width:35%}
 .right div:nth-child(4){width:9%}
+
+.input-validation-error{border:1px solid red !important;background-color:#fee}
+.field-validation-error{color:#AC1010;float:left;overflow:visible;font-style:normal;height:18px;line-height:1.5}
+
+.data_loading{position:fixed;display:none;padding:5px;width:80px;height:80px;text-align:center;z-index:100000;background-color:#e7e7e7;border-radius:5px}
+.data_loading .loading-image{width:80px;height:60px;background:url(images/loadingAnimation.GIF) center no-repeat;float:left;display:block}
+.data_loading .loading-text{width:80px;height:20px;background:url(images/loading-text.GIF) center no-repeat;float:left;display:block}
+.loading-overlay{position:fixed;height:100%;width:100%;background-color:#e7e7e7;z-index:9999}
+.loading-overlay img{display:block;margin:0 auto;max-height:100%;max-width:100%;top: 50%;position: absolute; left: 50%;}
 /*------------------------- Popup CSS End---------------------------------*/
 
 

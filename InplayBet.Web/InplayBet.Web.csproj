@@ -349,10 +349,13 @@
     <Content Include="Scripts\AppScripts\ChallengeManager.js" />
     <Content Include="Scripts\AppScripts\RankingManager.js" />
     <Content Include="Scripts\AppScripts\RegistrationManager.js" />
+    <Content Include="Scripts\jquery.blockUI.js" />
     <Content Include="Scripts\jquery.fs.boxer.min.js" />
     <Content Include="Scripts\jquery.simplePagination.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Styles\images\close.png" />
+    <Content Include="Styles\images\loadingAnimation.gif" />
     <Content Include="Styles\images\banner.jpg" />
     <Content Include="Styles\images\bet-promo-bnr.jpg" />
     <Content Include="Styles\images\betting-video.jpg" />
@@ -365,7 +368,10 @@
     <Content Include="Styles\images\in-icon.png" />
     <Content Include="Styles\images\inner-title-bg.jpg" />
     <Content Include="Styles\images\leadboard-sh-img.jpg" />
+    <Content Include="Styles\images\loading-image.GIF" />
+    <Content Include="Styles\images\loading-text.GIF" />
     <Content Include="Styles\images\logo.png" />
+    <Content Include="Styles\images\Lost.png" />
     <Content Include="Styles\images\main-bg.jpg" />
     <Content Include="Styles\images\nav-devider.gif" />
     <Content Include="Styles\images\pisition-bg.png" />
@@ -400,7 +406,9 @@
     <Content Include="Styles\images\ui-icons_ef8c08_256x240.png" />
     <Content Include="Styles\images\ui-icons_ffd27a_256x240.png" />
     <Content Include="Styles\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Styles\images\Won.png" />
     <Content Include="Styles\jquery-ui.min.css" />
+    <Content Include="Styles\jquery.fs.boxer.css" />
     <Content Include="Styles\simplePagination.css" />
     <Content Include="Styles\style.css" />
     <Content Include="Views\ContactUs\Index.cshtml">
@@ -445,6 +453,8 @@
     <Content Include="Views\LatestWinners\_LatestWonChallenges.cshtml" />
     <Content Include="Views\LatestWinners\_LatestChallengeWinner.cshtml" />
     <Content Include="Views\LatestBets\_RecentBets.cshtml" />
+    <Content Include="Views\Bet\ShowChallengeStatusMessage.cshtml" />
+    <Content Include="Views\Bet\ShowReportWindow.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -70,7 +70,8 @@ namespace InplayBet.Web.Utilities
 
                 if (!string.IsNullOrEmpty(this.UserName) && !string.IsNullOrEmpty(this.Password))
                 {
-                    smtp.UseDefaultCredentials = true;
+                    smtp.UseDefaultCredentials = false;
+                    smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
                     smtp.Credentials = new NetworkCredential(this.UserName, this.Password);
                     smtp.EnableSsl = this.SSL;
                 }
@@ -179,8 +180,8 @@ namespace InplayBet.Web.Utilities
         {
             get
             {
-                return string.IsNullOrEmpty(this.Server_) ? 
-                    CommonUtility.GetConfigData<string>("MAIL_SERVER"): this.Server_;
+                return string.IsNullOrEmpty(this.Server_) ?
+                    CommonUtility.GetConfigData<string>("MAIL_SERVER") : this.Server_;
             }
             set { Server_ = value; }
         }

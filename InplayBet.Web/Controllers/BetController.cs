@@ -13,6 +13,7 @@ namespace InplayBet.Web.Controllers
     using InplayBet.Web.Models.Base;
     using InplayBet.Web.Utilities;
     using MoreLinq;
+    using Newtonsoft.Json;
 
     public class BetController : Controller
     {
@@ -21,6 +22,7 @@ namespace InplayBet.Web.Controllers
         private readonly ITeamDataRepository _teamDataRepository;
         private readonly ILegueDataRepository _legueDataRepository;
         private readonly IChallengeDataRepository _challengeDataRepository;
+        private readonly IReportDataRepository _reportDataRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BetController" /> class.
@@ -34,13 +36,15 @@ namespace InplayBet.Web.Controllers
             IBetDataRepository betDataRepository,
             ITeamDataRepository teamDataRepository,
             ILegueDataRepository legueDataRepository,
-            IChallengeDataRepository challengeDataRepository)
+            IChallengeDataRepository challengeDataRepository,
+            IReportDataRepository reportDataRepository)
         {
             this._userDataRepository = userDataRepository;
             this._betDataRepository = betDataRepository;
             this._teamDataRepository = teamDataRepository;
             this._legueDataRepository = legueDataRepository;
             this._challengeDataRepository = challengeDataRepository;
+            this._reportDataRepository = reportDataRepository;
         }
 
         /// <summary>
@@ -296,6 +300,84 @@ namespace InplayBet.Web.Controllers
             return null;
         }
 
+        /// <summary>
+        /// Shows the challenge status message.
+        /// </summary>
+        /// <param name="status">The status.</param>
+        /// <returns></returns>
+        [AcceptVerbs(HttpVerbs.Get),
+        OutputCache(NoStore = true, Duration = 0, VaryByHeader = "*")]
+        public ActionResult ShowChallengeStatusMessage(string status)
+        {
+            ViewBag.Status = status;
+            return View();
+        }
+
+        /// <summary>
+        /// Shows the report window.
+        /// </summary>
+        /// <param name="reportToUserKey">The report to user key.</param>
+        /// <param name="challengeId">The challenge identifier.</param>
+        /// <param name="challengeStatus">The challenge status.</param>
+        /// <returns></returns>
+        [AcceptVerbs(HttpVerbs.Get),
+        OutputCache(NoStore = true, Duration = 0, VaryByHeader = "*")]
+        public ActionResult ShowReportWindow(int reportToUserKey, int challengeId, string challengeStatus)
+        {
+            try
+            {
+                ReportModel report = new ReportModel()
+                {
+                    ReportedUserId = reportToUserKey,
+                    ReportedChallengeId = challengeId,
+                    CreatedBy = SessionVeriables.GetSessionData<int>(SessionVeriables.UserKey),
+                    CreatedOn = DateTime.Now,
+                    ReportedBy = SessionVeriables.GetSessionData<int>(SessionVeriables.UserKey),
+                    StatusId = (int)StatusCode.Active,
+                    ReportStatus = (challengeStatus == StatusCode.Won.ToString()) ?
+                        StatusCode.Lost.ToString() : StatusCode.Won.ToString()
+                };
+
+                List<SelectListItem> reportStatusList = new List<SelectListItem>()
+                    {new SelectListItem{Text=StatusCode.Won.ToString(), Value=StatusCode.Won.ToString()},
+                    {new SelectListItem{Text=StatusCode.Lost.ToString(), Value=StatusCode.Lost.ToString()}}};
+
+                ViewBag.ReportStatus = reportStatusList;
+                return View(report);
+            }
+            catch (Exception ex)
+            {
+                ex.ExceptionValueTracker();
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Submits the report.
+        /// </summary>
+        /// <param name="report">The report.</param>
+        /// <returns></returns>
+        [AcceptVerbs(HttpVerbs.Post),
+        OutputCache(NoStore = true, Duration = 0, VaryByHeader = "*")]
+        public ActionResult SubmitReport(ReportModel report)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    this._reportDataRepository.Insert(report);
+
+                }
+                return new JsonActionResult(report);
+            }
+            catch (Exception ex)
+            {
+                ex.ExceptionValueTracker(report);
+            }
+            return null;
+        }
+
+
         #region Private Members
         /// <summary>
         /// Gets the challenge.
@@ -456,7 +538,7 @@ namespace InplayBet.Web.Controllers
             try
             {
                 UserModel user = this._userDataRepository.Get(userKey);
-                if (user!=null)
+                if (user != null)
                 {
                     return user.Currency.CultureCode;
                 }
