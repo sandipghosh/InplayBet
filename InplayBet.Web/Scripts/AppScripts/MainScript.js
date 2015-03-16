@@ -182,8 +182,9 @@
                     }
                 });
 
-                $addbtn.on("click", function () {
+                $addbtn.on("click", function (event) {
                     try {
+                        event.preventDefault();
                         var $self = $(this);
                         $.ajax({
                             url: settings.postUrl,
