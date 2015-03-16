@@ -62,7 +62,9 @@ namespace InplayBet.Web.Controllers
                         .Select(x => new WinnerViewModel
                     {
                         WonChallenge = x,
-                        User = this._userRankDataRepository.Get(x.UserKey)
+                        User = this._userRankDataRepository
+                            .GetList(y => y.UserKey.Equals(x.UserKey))
+                            .ToList().FirstOrDefaultCustom()
                     }).ToList();
                 }
             }

@@ -31,6 +31,8 @@
         <div class="right-block">
             @if(!Model.IsEmptyCollection())
             { 
+                @Html.Hidden("TotalRecord", (int)ViewBag.TotalRecord, new { id = "TotalRecord" })
+                @Html.Hidden("PageSize", (int)ViewBag.PageSize, new { id = "PageSize" })
                 <div class="rank-pagger"></div>
                 @Html.Partial("_UserRank", Model, new ViewDataDictionary { { "LastElement", 2 } })
                 <div class="rank-pagger"></div>

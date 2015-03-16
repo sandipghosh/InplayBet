@@ -29,7 +29,7 @@
             else
             {
                 <label>User Id: (must be alpha numeric and minimum length 8)</label>
-                @Html.ValidationMessageFor(m => m.FirstName)
+                @Html.ValidationMessageFor(m => m.UserId)
                 @Html.TextBoxFor(m => m.UserId)
             }
         </li>
@@ -99,7 +99,6 @@
     </ul>
 
     @Html.HiddenFor(m => m.UserKey)
-    @Html.HiddenFor(m => m.UserId)
     @Html.HiddenFor(m => m.AvatarPath)
     @Html.HiddenFor(m => m.StatusId)
     @Html.HiddenFor(m => m.CreatedOn)

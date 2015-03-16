@@ -48,6 +48,7 @@
                             //$('.cropped').append('<img src="' + img + '">');
                             $('#frmSignUp #AvatarPath').val(img);
                             $('.cropped img').attr('src', img);
+                            modal.close();
                         } catch (ex) {
                             log(ex.message);
                         }

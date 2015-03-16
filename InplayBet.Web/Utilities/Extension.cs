@@ -493,7 +493,7 @@ namespace InplayBet.Web.Utilities
         /// <returns></returns>
         public static T FirstOrDefaultCustom<T>(this IEnumerable<T> collection) where T : class
         {
-            if (!collection.IsEmptyCollection())
+            if (!collection.ToList().IsEmptyCollection())
             {
                 return collection.FirstOrDefault();
             }

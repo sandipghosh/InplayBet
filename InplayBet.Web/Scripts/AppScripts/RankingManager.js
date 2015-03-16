@@ -6,14 +6,14 @@
     $(document).ready(function () {
         try {
             $('.rank-pagger').pagination({
-                items: 100,
-                itemsOnPage: 10,
+                items: parseInt($('#TotalRecord').val()),
+                itemsOnPage: parseInt($('#PageSize').val()),
                 cssStyle: 'light-theme',
                 onPageClick: function (pageNumber, event) {
 
                 },
                 onInit: function () {
-                    PagerInitiation(10);
+                    PagerInitiation(parseInt($('#PageSize').val()));
                 }
             });
         } catch (ex) {

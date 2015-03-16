@@ -45,6 +45,7 @@ namespace InplayBet.Web.Controllers
                 if (user != null)
                 {
                     ViewBag.TotalRecord = this._userRankDataRepository.GetCount(exp);
+                    ViewBag.PageSize = this._defaultRankPageSize;
                     return View(user);
                 }
             }
