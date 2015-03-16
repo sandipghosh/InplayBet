@@ -122,7 +122,7 @@ namespace InplayBet.Web.Data
             }
             catch (Exception ex)
             {
-                ex.ExceptionValueTracker();
+                ex.ExceptionValueTracker(parameterExpression, destinationProperty, sourceProperties);
             }
             return null;
         }

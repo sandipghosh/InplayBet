@@ -12,7 +12,7 @@ namespace InplayBet.Web.Models
     {
         public int UserKey { get; set; }
         [Required(AllowEmptyStrings = false, ErrorMessage = "Please enter valid User Id"),
-        RegularExpression(@"^[a-zA-Z][a-zA-Z0-9]{8,}$", ErrorMessage = "User Id must be alphe numeric only")]
+        RegularExpression(@"^[a-zA-Z0-9!@#$%&.]{8,}$", ErrorMessage = "User Id must be alphe numeric only")]
         public string UserId { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "Please fillup First Name")]

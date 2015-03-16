@@ -18,9 +18,17 @@
         try {
             $('ul.nav li').removeClass('active');
             var urlPath = window.location.pathname;
-
             var $link = $('ul.nav li a[href="' + urlPath + '"]');
-            if ($link.length > 0) $link.closest('li').addClass('active');
+
+            if ($link.length > 0)
+                $link.closest('li').addClass('active');
+            else {
+                if (window.location.pathname.contains('contains'))
+                    $('#lnkRegisterUser').closest('li').addClass('active');
+                else
+                    $('ul.nav li:eq(0)').addClass('active');
+            }
+
         } catch (ex) {
             log(ex.message);
         }

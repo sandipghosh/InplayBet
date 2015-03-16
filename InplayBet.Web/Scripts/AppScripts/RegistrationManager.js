@@ -45,7 +45,9 @@
                         try {
                             var img = cropper.getDataURL();
                             var rawData = cropper.getDataURL().replace('data:image/jpeg;base64,', '');
-                            $('.cropped').append('<img src="' + img + '">');
+                            //$('.cropped').append('<img src="' + img + '">');
+                            $('#frmSignUp #AvatarPath').val(img);
+                            $('.cropped img').attr('src', img);
                         } catch (ex) {
                             log(ex.message);
                         }
@@ -131,22 +133,4 @@
         }
     }
 
-    
-
-    //this.UploadAvatarImage = function (rawData) {
-    //    try {
-    //        $.ajax({
-    //            type: 'POST',
-    //            url: '{0}/Editor/SetWatermarkForPreview'.format(virtualDirectory),
-    //            data: JSON.stringify({
-    //                'imageRawData': rawData,
-    //                'imageJSONData': jsonData
-    //            }),
-    //            contentType: 'application/json; charset=utf-8',
-    //            dataType: 'json',
-    //            success: function (draftImage) {
-    //            }
-    //        });
-    //    } catch (ex) { log(ex.message); }
-    //};
 }(jQuery, window));

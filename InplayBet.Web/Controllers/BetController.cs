@@ -147,7 +147,7 @@ namespace InplayBet.Web.Controllers
             }
             catch (Exception ex)
             {
-                ex.ExceptionValueTracker();
+                ex.ExceptionValueTracker(userKey);
             }
             return null;
         }
@@ -183,7 +183,7 @@ namespace InplayBet.Web.Controllers
             }
             catch (Exception ex)
             {
-                ex.ExceptionValueTracker();
+                ex.ExceptionValueTracker(challenge);
             }
             return null;
         }
@@ -347,7 +347,7 @@ namespace InplayBet.Web.Controllers
             }
             catch (Exception ex)
             {
-                ex.ExceptionValueTracker();
+                ex.ExceptionValueTracker(reportToUserKey, challengeId, challengeStatus);
             }
             return null;
         }
@@ -427,7 +427,7 @@ namespace InplayBet.Web.Controllers
             }
             catch (Exception ex)
             {
-                ex.ExceptionValueTracker();
+                ex.ExceptionValueTracker(userKey);
             }
             return currentChallenge;
         }
@@ -505,7 +505,7 @@ namespace InplayBet.Web.Controllers
             }
             catch (Exception ex)
             {
-                ex.ExceptionValueTracker(challengeId);
+                ex.ExceptionValueTracker(challengeId, useSorting);
             }
             return null;
         }
@@ -528,7 +528,7 @@ namespace InplayBet.Web.Controllers
             }
             catch (Exception ex)
             {
-                ex.ExceptionValueTracker(userKey);
+                ex.ExceptionValueTracker(userKey, useSorting);
             }
             return null;
         }

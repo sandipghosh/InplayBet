@@ -18,6 +18,7 @@ namespace InplayBet.Web.Utilities
     using System.Web;
     using System.Web.Mvc;
     using System.Web.Routing;
+    using System.Text.RegularExpressions;
 
     public static class CommonUtility
     {
@@ -200,10 +201,40 @@ namespace InplayBet.Web.Utilities
         /// <returns></returns>
         public static Expression<Func<TModel, bool>> GetLamdaExpressionFromFilter<TModel>(string strFilter)
         {
-            strFilter = strFilter.IsBase64() ? strFilter.ToBase64Decode() : strFilter;
-            Expression<Func<TModel, bool>> filterExp = InplayBet.Web.Utilities.Expression.ExpressionBuilder
-                .BuildLamdaExpression<TModel, bool>(strFilter);
-            return filterExp;
+            try
+            {
+                strFilter = strFilter.IsBase64() ? strFilter.ToBase64Decode() : strFilter;
+                Expression<Func<TModel, bool>> filterExp = InplayBet.Web.Utilities.Expression
+                    .ExpressionBuilder.BuildLamdaExpression<TModel, bool>(strFilter);
+                return filterExp;
+            }
+            catch (Exception ex)
+            {
+                ex.ExceptionValueTracker(strFilter);
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Excludes the state of from model.
+        /// </summary>
+        /// <param name="epxpression">The epxpression.</param>
+        /// <param name="state">The state.</param>
+        public static void ExcludeFromModelState<TModel, TProperty>
+            (Expression<Func<TModel, TProperty>> epxpression, ModelStateDictionary state)
+        {
+            try
+            {
+                NewExpression newExp = epxpression.Body as NewExpression;
+                var excludedFields = newExp.Arguments.Select(x => (x as MemberExpression).Member.Name).ToList();
+
+                state.Keys.Where(x => excludedFields.Contains(x.Split('.')[1])).ToList()
+                    .ForEach(x => { state[x].Errors.Clear(); });
+            }
+            catch (Exception ex)
+            {
+                ex.ExceptionValueTracker(epxpression, state);
+            }
         }
 
         /// <summary>
@@ -259,7 +290,7 @@ namespace InplayBet.Web.Utilities
             }
             catch (Exception ex)
             {
-                ex.ExceptionValueTracker();
+                ex.ExceptionValueTracker(source, context);
             }
         }
 
@@ -508,24 +539,64 @@ namespace InplayBet.Web.Utilities
         /// Saves the image from data URL.
         /// </summary>
         /// <param name="urlData">The URL data.</param>
-        /// <param name="imagePath">The image path.</param>
-        public static void SaveImageFromDataURL(string urlData, string imagePath)
+        /// <param name="userKey">The user key.</param>
+        /// <param name="userId">The user id.</param>
+        /// <returns></returns>
+        public static string SaveImageFromDataUrl(string urlData, int userKey, string userId)
         {
             try
             {
-                byte[] byteArrayIn = Convert.FromBase64String(urlData);
-                using (MemoryStream ms = new MemoryStream(byteArrayIn))
+                Func<ImageFormat, ImageCodecInfo> GetImageEncoder = (IF) =>
+                    ImageCodecInfo.GetImageEncoders().FirstOrDefaultCustom(x => x.FormatID.Equals(IF.Guid));
+
+                var base64Data = Regex.Match(urlData, @"data:image/(?<type>.+?),(?<data>.+)").Groups["data"].Value;
+                if (!string.IsNullOrEmpty(base64Data))
                 {
-                    using (Image returnImage = Image.FromStream(ms))
+                    byte[] byteArray = Convert.FromBase64String(base64Data);
+
+                    string imageRelativePath = string.Format("~/Images/Users/{0}/{1}.jpg", userKey, userId);
+                    string destinationImagePath = HttpContext.Current.Server.MapPath(imageRelativePath);
+
+                    if (!Directory.Exists(Path.GetDirectoryName(destinationImagePath)))
+                        Directory.CreateDirectory(Path.GetDirectoryName(destinationImagePath));
+
+                    using (MemoryStream ms = new MemoryStream(byteArray))
                     {
-                        returnImage.Save(imagePath, ImageFormat.Jpeg);
+                        using (Bitmap bmp = new Bitmap(ms))
+                        {
+                            ImageCodecInfo jgpEncoder = GetImageEncoder(ImageFormat.Jpeg);
+                            System.Drawing.Imaging.Encoder myEncoder = System.Drawing.Imaging.Encoder.Quality;
+                            EncoderParameters myEncoderParameters = new EncoderParameters(1);
+                            EncoderParameter myEncoderParameter = new EncoderParameter(myEncoder, 75L);
+                            myEncoderParameters.Param[0] = myEncoderParameter;
+                            try
+                            {
+                                bmp.Save(destinationImagePath, jgpEncoder, myEncoderParameters);
+                            }
+                            catch (Exception)
+                            {
+                                return urlData;
+                            }
+                        }
+
+                        //using (Image returnImage = Image.FromStream(ms))
+                        //{
+                        //    returnImage.Save(imagePath, ImageFormat.Jpeg);
+                        //    returnImage.Dispose();
+                        //}
+                        //ms.Close();
+                        //ms.Dispose();
                     }
+
+                    return imageRelativePath;
                 }
+                return urlData;
             }
             catch (Exception ex)
             {
-                ex.ExceptionValueTracker(urlData);
+                ex.ExceptionValueTracker(urlData, userKey, userId);
             }
+            return string.Empty;
         }
 
         /// <summary>
@@ -539,6 +610,10 @@ namespace InplayBet.Web.Utilities
             return (T)Convert.ChangeType(ConfigurationManager.AppSettings[key], typeof(T));
         }
 
+        /// <summary>
+        /// Appsettingses to json.
+        /// </summary>
+        /// <returns></returns>
         public static string AppsettingsToJson()
         {
             return JsonConvert.SerializeObject(ConfigurationManager.AppSettings

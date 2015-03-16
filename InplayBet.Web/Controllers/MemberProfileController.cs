@@ -78,7 +78,7 @@ namespace InplayBet.Web.Controllers
             }
             catch (Exception ex)
             {
-                ex.ExceptionValueTracker();
+                ex.ExceptionValueTracker(userId);
             }
             return null;
         }

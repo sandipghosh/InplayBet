@@ -313,6 +313,7 @@
     <Compile Include="Utilities\Expression\ExpressionSerializationTypeResolver.cs" />
     <Compile Include="Utilities\Expression\ExpressionSerializer.cs" />
     <Compile Include="Utilities\Expression\ListSegment.cs" />
+    <Compile Include="Utilities\Expression\PredicateBuilderEx.cs" />
     <Compile Include="Utilities\Expression\RequestEngineExceptions.cs" />
     <Compile Include="Utilities\Expression\Tokens.cs" />
     <Compile Include="Utilities\Expression\TypeUtils.cs" />

@@ -75,17 +75,19 @@ namespace InplayBet.Web.Controllers
                 UserModel user = this._userDataRepository.Get(userKey);
                 if (user != null)
                 {
-                    GenerateAdditionalData();
                     user.DobDay = user.DateOfBirth.Day;
                     user.DobMonth = user.DateOfBirth.Month;
                     user.DobYear = user.DateOfBirth.Year;
                     user.Password = string.Empty;
+                    user.AvatarPath = CommonUtility.SaveImageFromDataUrl(user.AvatarPath, user.UserKey, user.UserId);
+
+                    GenerateAdditionalData();
                     return View("Index", user);
                 }
             }
             catch (Exception ex)
             {
-                ex.ExceptionValueTracker();
+                ex.ExceptionValueTracker(userKey);
             }
             return null;
         }
@@ -108,43 +110,36 @@ namespace InplayBet.Web.Controllers
                 };
                 if (ModelState.IsValid)
                 {
-                    if (user.UserKey > 0)
+                    if (IsUserEmailExists(user))
                     {
-                        return UpdateProfile(user);
+                        ModelState.AddModelError("EmailId", "This email id already exists. Please try a valid one.");
+                        return process(user);
+                    }
+                    if (IsUserIdExists(user))
+                    {
+                        ModelState.AddModelError("UserId", "This user id already exists. Please try a valid one.");
+                        return process(user);
                     }
                     else
                     {
-                        if (IsUserEmailExists(user))
+                        user.DateOfBirth = new DateTime(user.DobYear, user.DobMonth, user.DobDay);
+                        user.AvatarPath = CommonUtility.SaveImageFromDataUrl(user.AvatarPath, user.UserKey, user.UserId);
+
+                        if (CommonUtility.GetConfigData<string>("EnableUserMailActivation").AsString() == "true")
                         {
-                            ModelState.AddModelError("EmailId", "This email id already exists. Please try a valid one.");
-                            return process(user);
-                        }
-                        if (IsUserIdExists(user))
-                        {
-                            ModelState.AddModelError("UserId", "This user id already exists. Please try a valid one.");
-                            return process(user);
+                            this._userDataRepository.Insert(user);
+                            SentConfirmationMail(user);
                         }
                         else
                         {
-                            user.DateOfBirth = new DateTime(user.DobYear, user.DobMonth, user.DobDay);
-
-                            if (CommonUtility.GetConfigData<string>("EnableUserMailActivation").AsString() == "true")
+                            user.StatusId = (int)StatusCode.Active;
+                            this._userDataRepository.Insert(user);
+                            if (user.UserKey > 0)
                             {
-                                this._userDataRepository.Insert(user);
-                                SentConfirmationMail(user);
+                                SetSessionData(user);
                             }
-                            else
-                            {
-                                user.StatusId = (int)StatusCode.Active;
-                                this._userDataRepository.Insert(user);
-                                if (user.UserKey > 0)
-                                {
-                                    SetSessionData(user);
-                                }
-                            }
-
-                            return new JsonActionResult(user);
                         }
+                        return new JsonActionResult(user);
                     }
                 }
                 else
@@ -385,27 +380,6 @@ namespace InplayBet.Web.Controllers
             SessionVeriables.SetSessionData<string>(SessionVeriables.UserId, user.UserId);
             SessionVeriables.SetSessionData<string>(SessionVeriables.UserName,
                 string.Format("{0} {1}", user.FirstName, user.LastName));
-        }
-
-        /// <summary>
-        /// Updates the profile.
-        /// </summary>
-        /// <param name="user">The user.</param>
-        /// <returns></returns>
-        private ActionResult UpdateProfile(UserModel user)
-        {
-            try
-            {
-                user.UpdatedBy = user.UserKey;
-                user.UpdatedOn = DateTime.Now;
-                this._userDataRepository.Update(user);
-                return new JsonActionResult(user);
-            }
-            catch (Exception ex)
-            {
-                ex.ExceptionValueTracker(user);
-            }
-            return null;
         }
     }
 }

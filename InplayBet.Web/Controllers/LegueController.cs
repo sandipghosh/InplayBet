@@ -42,7 +42,7 @@ namespace InplayBet.Web.Controllers
             }
             catch (Exception ex)
             {
-                ex.ExceptionValueTracker();
+                ex.ExceptionValueTracker(filter);
             }
             return null;
         }
@@ -82,7 +82,7 @@ namespace InplayBet.Web.Controllers
             }
             catch (Exception ex)
             {
-                ex.ExceptionValueTracker(searchName);
+                ex.ExceptionValueTracker(searchName, userId);
             }
             return null;
         }

@@ -195,9 +195,14 @@ namespace InplayBet.Web.Data.Implementation.Base
         {
             try
             {
-                Expression<Func<TEntity, bool>> entityFilterExpression = filter.RemapForType<TModel, TEntity, bool>();
-                return this.GetEntity().Where(entityFilterExpression)
-                    .GetPaggedData(pageIndex, pageCount).Project().To<TModel>();
+                Expression<Func<TEntity, bool>> entityFilterExpression = (filter == null)
+                    ? null : filter.RemapForType<TModel, TEntity, bool>();
+
+                if (entityFilterExpression == null)
+                    return this.GetEntity().GetPaggedData(pageIndex, pageCount).Project().To<TModel>();
+                else
+                    return this.GetEntity().Where(entityFilterExpression)
+                        .GetPaggedData(pageIndex, pageCount).Project().To<TModel>();
             }
             catch (Exception ex)
             {
@@ -218,15 +223,24 @@ namespace InplayBet.Web.Data.Implementation.Base
         {
             try
             {
-                Expression<Func<TEntity, bool>> entityFilterExpression = filter.RemapForType<TModel, TEntity, bool>();
-                Expression<Func<TEntity, KProperty>> entityOrderExpression = orderByExpression.RemapForType<TModel, TEntity, KProperty>();
+                Expression<Func<TEntity, bool>> entityFilterExpression = (filter == null)
+                    ? null : filter.RemapForType<TModel, TEntity, bool>();
 
-                var entities = this.GetEntity().Where(entityFilterExpression);
+                Expression<Func<TEntity, KProperty>> entityOrderExpression = (orderByExpression == null)
+                    ? null : orderByExpression.RemapForType<TModel, TEntity, KProperty>();
 
-                if (ascending)
-                    return entities.OrderBy(entityOrderExpression).Project().To<TModel>();
+                var entities = (entityFilterExpression == null)
+                    ? this.GetEntity() : this.GetEntity().Where(entityFilterExpression);
+
+                if (orderByExpression != null)
+                {
+                    if (ascending)
+                        return entities.OrderBy(entityOrderExpression).Project().To<TModel>();
+                    else
+                        return entities.OrderByDescending(entityOrderExpression).Project().To<TModel>();
+                }
                 else
-                    return entities.OrderByDescending(entityOrderExpression).Project().To<TModel>();
+                    return entities.Project().To<TModel>();
             }
             catch (Exception ex)
             {
@@ -249,15 +263,26 @@ namespace InplayBet.Web.Data.Implementation.Base
         {
             try
             {
-                Expression<Func<TEntity, bool>> entityFilterExpression = filter.RemapForType<TModel, TEntity, bool>();
-                Expression<Func<TEntity, KProperty>> entityOrderExpression = orderByExpression.RemapForType<TModel, TEntity, KProperty>();
+                Expression<Func<TEntity, bool>> entityFilterExpression = (filter == null)
+                    ? null : filter.RemapForType<TModel, TEntity, bool>();
 
-                var entities = this.GetEntity().Where(entityFilterExpression);
+                Expression<Func<TEntity, KProperty>> entityOrderExpression = (orderByExpression == null)
+                    ? null : orderByExpression.RemapForType<TModel, TEntity, KProperty>();
 
-                if (ascending)
-                    return entities.OrderBy(entityOrderExpression).GetPaggedData(pageIndex, pageCount).Project().To<TModel>();
+                var entities = (entityFilterExpression == null)
+                    ? this.GetEntity() : this.GetEntity().Where(entityFilterExpression);
+
+                if (orderByExpression != null)
+                {
+                    if (ascending)
+                        return entities.OrderBy(entityOrderExpression)
+                            .GetPaggedData(pageIndex, pageCount).Project().To<TModel>();
+                    else
+                        return entities.OrderByDescending(entityOrderExpression)
+                            .GetPaggedData(pageIndex, pageCount).Project().To<TModel>();
+                }
                 else
-                    return entities.OrderByDescending(entityOrderExpression).GetPaggedData(pageIndex, pageCount).Project().To<TModel>();
+                    return entities.GetPaggedData(pageIndex, pageCount).Project().To<TModel>();
             }
             catch (Exception ex)
             {
@@ -280,13 +305,22 @@ namespace InplayBet.Web.Data.Implementation.Base
         {
             try
             {
-                Expression<Func<TEntity, KProperty>> entityOrderExpression = orderByExpression.RemapForType<TModel, TEntity, KProperty>();
+                Expression<Func<TEntity, KProperty>> entityOrderExpression = (orderByExpression == null)
+                    ? null : orderByExpression.RemapForType<TModel, TEntity, KProperty>();
+
                 var entities = this.GetEntity();
 
-                if (ascending)
-                    return entities.OrderBy(entityOrderExpression).GetPaggedData(pageIndex, pageCount).Project().To<TModel>();
+                if (entityOrderExpression!=null)
+                {
+                    if (ascending)
+                        return entities.OrderBy(entityOrderExpression)
+                            .GetPaggedData(pageIndex, pageCount).Project().To<TModel>();
+                    else
+                        return entities.OrderByDescending(entityOrderExpression)
+                            .GetPaggedData(pageIndex, pageCount).Project().To<TModel>(); 
+                }
                 else
-                    return entities.OrderByDescending(entityOrderExpression).GetPaggedData(pageIndex, pageCount).Project().To<TModel>();
+                    return entities.GetPaggedData(pageIndex, pageCount).Project().To<TModel>();
             }
             catch (Exception ex)
             {
@@ -310,7 +344,7 @@ namespace InplayBet.Web.Data.Implementation.Base
             }
             catch (Exception ex)
             {
-                ex.ExceptionValueTracker();
+                ex.ExceptionValueTracker(filter);
             }
             return false;
         }
@@ -327,7 +361,7 @@ namespace InplayBet.Web.Data.Implementation.Base
             try
             {
                 Expression<Func<TEntity, bool>> entityFilterExpression = null;
-                if(filter!=null)
+                if (filter != null)
                     entityFilterExpression = filter.RemapForType<TModel, TEntity, bool>();
                 Expression<Func<TEntity, double>> entitySumExpression = sumExpression.RemapForType<TModel, TEntity, double>();
 

@@ -2,21 +2,22 @@
 
 namespace InplayBet.Web.Controllers
 {
-    using InplayBet.Web.Controllers.Base;
-    using InplayBet.Web.Models.Base;
-    using InplayBet.Web.Models;
-    using InplayBet.Web.Data.Interface;
-    using InplayBet.Web.Utilities;
-    using System.Web.Mvc;
     using System;
-    using System.Linq;
     using System.Collections.Generic;
+    using System.Linq;
+    using System.Web.Mvc;
+    using InplayBet.Web.Controllers.Base;
+    using InplayBet.Web.Data.Interface;
+    using InplayBet.Web.Models;
+    using InplayBet.Web.Models.Base;
+    using InplayBet.Web.Utilities;
     using MoreLinq;
 
     public class LatestWinnersController : BaseController
     {
         private readonly IChallengeDataRepository _challengeDataRepository;
         private readonly IUserRankDataRepository _userRankDataRepository;
+        private readonly int _defaultWiningMemberPegSize;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LatestWinnersController"/> class.
@@ -28,34 +29,41 @@ namespace InplayBet.Web.Controllers
         {
             this._challengeDataRepository = challengeDataRepository;
             this._userRankDataRepository = userRankDataRepository;
+            this._defaultWiningMemberPegSize = CommonUtility.GetConfigData<int>("DefaultWiningMemberPegSize");
         }
 
+        /// <summary>
+        /// Indexes this instance.
+        /// </summary>
+        /// <returns></returns>
+        [AcceptVerbs(HttpVerbs.Get),
+        OutputCache(NoStore = true, Duration = 0, VaryByHeader = "*")]
         public ActionResult Index()
         {
             List<WinnerViewModel> winners = new List<WinnerViewModel>();
             try
             {
                 List<ChallengeModel> challenges =
-                this._challengeDataRepository.GetList(1, 10, x => x.StatusId.Equals((int)StatusCode.Active)
-                    && x.ChallengeStatus.Equals(StatusCode.Won.ToString()), x => x.UpdatedOn, false).ToList();
+                this._challengeDataRepository.GetList(1, this._defaultWiningMemberPegSize,
+                    x => x.StatusId.Equals((int)StatusCode.Active)
+                        && x.ChallengeStatus.Equals(StatusCode.Won.ToString()),
+                        x => x.UpdatedOn, false).ToList();
 
                 if (!challenges.IsEmptyCollection())
                 {
-                    List<ChallengeModel> result =
-                    challenges.GroupBy(x => x.UserKey, (key, g) => new
-                    {
-                        UserKey = key,
-                        Challenge = g.MaxBy(m => m.UpdatedOn)
-                    }).Select(y => y.Challenge).ToList<ChallengeModel>();
+                    List<ChallengeModel> result = challenges.AsParallel()
+                        .GroupBy(x => x.UserKey, (key, g) => new
+                        {
+                            UserKey = key,
+                            Challenge = g.MaxBy(m => m.UpdatedOn)
+                        }).Select(y => y.Challenge).ToList<ChallengeModel>();
 
-                    result.ForEach(x =>
+                    winners = result.AsParallel()
+                        .Select(x => new WinnerViewModel
                     {
-                        WinnerViewModel winnerViewModel = new WinnerViewModel();
-                        winnerViewModel.WonChallenge = x;
-                        winnerViewModel.User = this._userRankDataRepository
-                            .GetList(y => y.UserKey.Equals(x.UserKey)).FirstOrDefaultCustom();
-                        winners.Add(winnerViewModel);
-                    });
+                        WonChallenge = x,
+                        User = this._userRankDataRepository.Get(x.UserKey)
+                    }).ToList();
                 }
             }
             catch (Exception ex)

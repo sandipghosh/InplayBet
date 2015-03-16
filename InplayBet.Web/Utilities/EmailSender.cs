@@ -107,7 +107,7 @@ namespace InplayBet.Web.Utilities
             }
             catch (Exception ex)
             {
-                ex.ExceptionValueTracker(message);
+                ex.ExceptionValueTracker(message, callback);
             }
         }
 

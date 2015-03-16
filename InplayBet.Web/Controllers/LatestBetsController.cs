@@ -2,19 +2,20 @@
 
 namespace InplayBet.Web.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Web.Mvc;
     using InplayBet.Web.Controllers.Base;
     using InplayBet.Web.Data.Interface;
     using InplayBet.Web.Models;
     using InplayBet.Web.Models.Base;
     using InplayBet.Web.Utilities;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Web.Mvc;
 
     public class LatestBetsController : BaseController
     {
         private readonly IBetDataRepository _betDataRepository;
+        private readonly int _defaultWiningBetPegSize;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RankingController"/> class.
@@ -23,6 +24,7 @@ namespace InplayBet.Web.Controllers
         public LatestBetsController(IBetDataRepository betDataRepository)
         {
             this._betDataRepository = betDataRepository;
+            this._defaultWiningBetPegSize = CommonUtility.GetConfigData<int>("DefaultWiningBetPegSize");
         }
 
         /// <summary>
@@ -36,7 +38,8 @@ namespace InplayBet.Web.Controllers
             try
             {
                 List<BetModel> bets = this._betDataRepository
-                    .GetList(1, 50, x => x.StatusId.Equals((int)StatusCode.Active),
+                    .GetList(1, this._defaultWiningBetPegSize,
+                        x => x.StatusId.Equals((int)StatusCode.Active),
                         x => x.CreatedOn, true).ToList();
 
                 return View(bets);
