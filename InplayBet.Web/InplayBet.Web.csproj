@@ -323,6 +323,7 @@
     <Compile Include="Utilities\MapperExtension.cs" />
     <Compile Include="Utilities\OptimizationExtensions.cs" />
     <Compile Include="Utilities\SessionVeriables.cs" />
+    <Compile Include="Utilities\SharedFunctionality.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\FilterConfig.cs" />

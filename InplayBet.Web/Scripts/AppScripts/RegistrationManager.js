@@ -118,7 +118,7 @@
                 }
             }
             else {
-                $('#frmSignUp').html($(data).find('#frmSignUp').html());
+                $('#frmSignUp').html(data);
                 $.validator.unobtrusive.parse($('#frmSignUp'));
             }
         } catch (ex) {

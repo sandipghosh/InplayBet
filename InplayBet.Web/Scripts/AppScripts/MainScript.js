@@ -10,7 +10,11 @@
                 $('body').css({ 'overflow': '' });
             });
         });
-
+        $('input[readonly]').on('keydown', function (e) {
+            if (e.which === 8) {
+                e.preventDefault();
+            }
+        });
         ManageTopNavigation();
     });
 
@@ -57,12 +61,6 @@
             log(ex.message);
         }
     };
-
-    $('input[readonly]').on('keydown', function (e) {
-        if (e.which === 8) {
-            e.preventDefault();
-        }
-    });
 
     $.ajaxSetup({
         beforeSend: function (jqXHR, settings) {

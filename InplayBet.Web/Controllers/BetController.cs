@@ -211,6 +211,16 @@ namespace InplayBet.Web.Controllers
                         using (TransactionScope scope = new TransactionScope
                             (TransactionScopeOption.RequiresNew, options))
                         {
+                            //if (bet.TeamAId == 0)
+                            //{
+
+                            //}
+                            //if (bet.TeamAId == 0)
+                            //{
+
+                            //}
+
+
                             ChallengeModel challenge = bet.Challenge;
                             challenge.ChallengeStatus = challenge.ChallengeStatus.AsString();
                             this._challengeDataRepository.Insert(challenge);

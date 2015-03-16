@@ -106,7 +106,7 @@ namespace InplayBet.Web.Controllers
                 Func<UserModel, ActionResult> process = (u) =>
                 {
                     GenerateAdditionalData();
-                    return View("Index", u);
+                    return PartialView("_SignUp", u);
                 };
                 if (ModelState.IsValid)
                 {
