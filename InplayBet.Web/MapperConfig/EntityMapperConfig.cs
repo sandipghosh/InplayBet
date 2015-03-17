@@ -53,6 +53,12 @@ namespace InplayBet.Web.MapperConfig
                 Mapper.CreateMap<User, UserModel>().IgnoreAllNonExisting();
                 Mapper.CreateMap<UserModel, User>().IgnoreAllNonExisting();
 
+                Mapper.CreateMap<Contact, ContactModel>().IgnoreAllNonExisting();
+                Mapper.CreateMap<ContactModel, Contact>().IgnoreAllNonExisting();
+
+                Mapper.CreateMap<Follow, FollowModel>().IgnoreAllNonExisting();
+                Mapper.CreateMap<FollowModel, Follow>().IgnoreAllNonExisting();
+
                 Mapper.CreateMap<Bet, BetModel>()
                     .ForMember(dest => dest.TeamA, opt => opt.MapFrom(src => src.Team))
                     .ForMember(dest => dest.TeamB, opt => opt.MapFrom(src => src.Team1))
@@ -74,7 +80,6 @@ namespace InplayBet.Web.MapperConfig
                 Mapper.CreateMap<Report, ReportModel>().IgnoreAllNonExisting();
                 Mapper.CreateMap<ReportModel, Report>().IgnoreAllNonExisting();
 
-
                 Mapper.CreateMap<UserRank, UserRankViewModel>()
                     //.ForMember(dest => dest.Won, opt => opt.MapFrom(src => src.Won.Value))
                     //.ForMember(dest => dest.Placed, opt => opt.MapFrom(src => src.Placed.Value))
@@ -82,7 +87,6 @@ namespace InplayBet.Web.MapperConfig
                     //.ForMember(dest => dest.Rank, opt => opt.MapFrom(src => src.Rank.Value))
                     .IgnoreAllNonExisting();
                 Mapper.CreateMap<UserRankViewModel, UserRank>().IgnoreAllNonExisting();
-
 
                 Mapper.AssertConfigurationIsValid();
             }

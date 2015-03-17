@@ -620,5 +620,23 @@ namespace InplayBet.Web.Utilities
                 .AllKeys.Where(x => !x.Contains(":"))
                 .ToDictionary(key => key, key => ConfigurationManager.AppSettings[key]));
         }
+
+        public static bool IsFollowing(int userKey)
+        {
+            try
+            {
+                int loggedInUser = SessionVeriables.GetSessionData<int>(SessionVeriables.UserKey);
+                if (loggedInUser > 0 && loggedInUser != userKey)
+                {
+                    SharedFunctionality shared = new SharedFunctionality();
+                    return shared.IsFollowing(loggedInUser, userKey);
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.ExceptionValueTracker(userKey);
+            }
+            return true;
+        }
     }
 }

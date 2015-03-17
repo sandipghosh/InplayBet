@@ -36,9 +36,21 @@ namespace InplayBet.Web.Controllers
         {
             try
             {
-                List<UserRankViewModel> user = this._userRankDataRepository
-                    .GetList(1, this._defaultLeaderboardPegSize, 
-                        x => !string.IsNullOrEmpty(x.WinningBets), x => x.Rank, true).ToList();
+                List<UserRankViewModel> user = new List<UserRankViewModel>();
+                int loggedInUser = SessionVeriables.GetSessionData<int>(SessionVeriables.UserKey);
+
+                if (loggedInUser > 0)
+                {
+                    user = this._userRankDataRepository
+                   .GetList(1, this._defaultLeaderboardPegSize,
+                       x => !string.IsNullOrEmpty(x.WinningBets) && x.UserKey != loggedInUser, x => x.Rank, true).ToList();
+                }
+                else
+                {
+                    user = this._userRankDataRepository
+                   .GetList(1, this._defaultLeaderboardPegSize,
+                       x => !string.IsNullOrEmpty(x.WinningBets), x => x.Rank, true).ToList();
+                }
 
                 return View(user);
             }

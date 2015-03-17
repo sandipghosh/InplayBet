@@ -16,6 +16,7 @@ namespace InplayBet.Web.Models
         public string CurrencySymbol { get; set; }
         public int BookMakerId { get; set; }
         public string BookMakerName { get; set; }
+        public int Followers { get; set; }
         public int BetWins { get; set; }
         public int Wins { get; set; }
         public int Losses { get; set; }

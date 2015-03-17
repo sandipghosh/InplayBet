@@ -5,6 +5,7 @@
 @{
     Layout = null;
     int lastElement = (int)(ViewBag.LastElement ?? ViewData["LastElement"]);
+    int loggedInUser = SessionVeriables.GetSessionData<int>(SessionVeriables.UserKey);
 }
 @functions {
     string getClassName(int index, int lastIndex)
@@ -30,6 +31,7 @@
 <ul class="leadbroad-block">
     @foreach (UserRankViewModel user in Model)
     {
+        var id = Model.IndexOf(user);
         <li onclick="RedirevtToUserProfile('@user.UserId')" @getClassName(Model.IndexOf(user), lastElement)>
             <div class="position">@getStringFromIndex(Model.IndexOf(user))</div>
             <div class="leaderblock">
@@ -41,6 +43,15 @@
                     <p class="join">Ranking: @user.Rank</p>
                     <div class="clear"></div>
                     <div class="points">
+                        <p class="left">Followers : <i id="@id">@user.Followers</i></p>
+                        <p class="right">
+                            @if (!CommonUtility.IsFollowing(user.UserKey))
+                            {
+                                <a href="javascript:void()" onclick="Follow(this, event, @loggedInUser, @user.UserKey, '#@id')">Follow</a>
+                            }
+                        </p>
+                    </div>
+                    <div class="points">
                         <p class="left">Wins - @user.Wins</p>
                         <p class="right">Losses - @user.Losses</p>
                     </div>
@@ -50,7 +61,7 @@
                     </div>
                     <div class="points points-botm">
                         <p class="left">Winning Bets</p>
-                        <p class="right">@user.WinningBets</p>
+                        <p class="right">@user.BetWins</p>
                     </div>
                 </div>
             </div>

@@ -162,6 +162,9 @@ namespace InplayBet.Web.Controllers
         {
             try
             {
+                challenge.CreatedOn = (challenge.CreatedOn.Year == 1) 
+                    ? DateTime.Now : challenge.CreatedOn;
+
                 BetModel bet = new BetModel()
                 {
                     Challenge = challenge,
@@ -199,49 +202,41 @@ namespace InplayBet.Web.Controllers
         {
             try
             {
-                if (ModelState.IsValid)
+                if (bet.ChallengeId == 0)
                 {
-                    if (bet.ChallengeId == 0)
+                    TransactionOptions options = new TransactionOptions()
                     {
-                        TransactionOptions options = new TransactionOptions()
-                        {
-                            IsolationLevel = IsolationLevel.ReadCommitted,
-                            Timeout = new TimeSpan(0, 1, 0)
-                        };
-                        using (TransactionScope scope = new TransactionScope
-                            (TransactionScopeOption.RequiresNew, options))
-                        {
-                            //if (bet.TeamAId == 0)
-                            //{
-
-                            //}
-                            //if (bet.TeamAId == 0)
-                            //{
-
-                            //}
-
-
-                            ChallengeModel challenge = bet.Challenge;
-                            challenge.ChallengeStatus = challenge.ChallengeStatus.AsString();
-                            this._challengeDataRepository.Insert(challenge);
-
-                            bet.ChallengeId = challenge.ChallengeId;
-                            bet.BetStatus = bet.BetStatus.AsString();
-                            bet.Challenge = null;
-                            this._betDataRepository.Insert(bet);
-
-                            scope.Complete();
-                        }
-                    }
-                    else
+                        IsolationLevel = IsolationLevel.ReadCommitted,
+                        Timeout = new TimeSpan(0, 1, 0)
+                    };
+                    using (TransactionScope scope = new TransactionScope
+                        (TransactionScopeOption.RequiresNew, options))
                     {
+                        ChallengeModel challenge = bet.Challenge;
+                        challenge.ChallengeStatus = challenge.ChallengeStatus.AsString();
+                        challenge.CreatedOn = DateTime.Now;
+                        this._challengeDataRepository.Insert(challenge);
+                        if (challenge.ChallengeId > 0) CommonUtility.LogToFileWithStack("1. Challenge has been created");
+
+                        bet.ChallengeId = challenge.ChallengeId;
                         bet.BetStatus = bet.BetStatus.AsString();
+                        bet.CreatedOn = DateTime.Now;
                         bet.Challenge = null;
-                        this._betDataRepository.Insert(bet);
-                    }
 
-                    return new JsonActionResult(bet);
+                        this._betDataRepository.Insert(bet);
+                        if (bet.BetId > 0) CommonUtility.LogToFileWithStack("1. Bet has been created");
+                        if (bet.BetId == 0) scope.Dispose(); else scope.Complete();
+                    }
                 }
+                else
+                {
+                    bet.BetStatus = bet.BetStatus.AsString();
+                    bet.Challenge = null;
+                    this._betDataRepository.Insert(bet);
+                    if (bet.BetId > 0) CommonUtility.LogToFileWithStack("2. Bet has been created");
+                }
+
+                return new JsonActionResult(bet);
             }
             catch (Exception ex)
             {

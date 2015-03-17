@@ -11,6 +11,7 @@ namespace InplayBet.Web.Utilities
     using System.Linq.Expressions;
     using System.Reflection;
     using System.Text.RegularExpressions;
+    using System.Web.Mvc;
 
     public static class Extensions
     {
@@ -566,5 +567,27 @@ namespace InplayBet.Web.Utilities
         }
 
         #endregion
+    }
+
+    public class TypeCastModelBinder<T> : IModelBinder
+    {
+        public object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
+        {
+            ValueProviderResult valueResult = bindingContext.ValueProvider.GetValue(bindingContext.ModelName);
+            ModelState modelState = new ModelState { Value = valueResult };
+            object actualValue = null;
+            try
+            {
+                actualValue = Convert.ChangeType(valueResult.AttemptedValue, typeof(T), CultureInfo.CurrentCulture);
+                //actualValue = Convert.ToDecimal(valueResult.AttemptedValue, CultureInfo.CurrentCulture);
+            }
+            catch (FormatException e)
+            {
+                modelState.Errors.Add(e);
+            }
+
+            bindingContext.ModelState.Add(bindingContext.ModelName, modelState);
+            return actualValue;
+        }
     }
 }

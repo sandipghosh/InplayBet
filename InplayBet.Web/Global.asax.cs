@@ -27,7 +27,7 @@ namespace InplayBet.Web
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-
+            //ModelBinders.Binders.Add(typeof(DateTime), new TypeCastModelBinder<DateTime>());
             //AntiForgeryConfig.SuppressXFrameOptionsHeader = true;
         }
 

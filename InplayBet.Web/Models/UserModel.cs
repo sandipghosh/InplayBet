@@ -66,6 +66,8 @@ namespace InplayBet.Web.Models
 
         public DateTime? UpdatedOn { get; set; }
 
+        public int Followers { get; set; }
+
         public virtual BookMakerModel BookMaker { get; set; }
         public virtual CurrencyModel Currency { get; set; }
         public virtual IEnumerable<ChallengeModel> Challenges { get; set; }

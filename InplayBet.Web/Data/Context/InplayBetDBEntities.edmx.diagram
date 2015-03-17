@@ -9,12 +9,10 @@
         <EntityTypeShape EntityType="InplayBetModel.BookMaker" Width="1.5" PointX="3" PointY="23.375" />
         <EntityTypeShape EntityType="InplayBetModel.Challenge" Width="1.5" PointX="7.5" PointY="14.875" />
         <EntityTypeShape EntityType="InplayBetModel.Currency" Width="1.5" PointX="3" PointY="19.5" />
-        <EntityTypeShape EntityType="InplayBetModel.Legue" Width="1.5" PointX="3" PointY="6.25" />
         <EntityTypeShape EntityType="InplayBetModel.Report" Width="1.5" PointX="9.75" PointY="14.75" />
         <EntityTypeShape EntityType="InplayBetModel.Status" Width="1.5" PointX="0.75" PointY="11.75" />
         <EntityTypeShape EntityType="InplayBetModel.Team" Width="1.5" PointX="3" PointY="15.75" />
         <AssociationConnector Association="InplayBetModel.FK_Bet_Challenge" />
-        <AssociationConnector Association="InplayBetModel.FK_Bet_Legue" />
         <AssociationConnector Association="InplayBetModel.FK_Bet_Status" />
         <AssociationConnector Association="InplayBetModel.FK_Bet_TeamA" />
         <AssociationConnector Association="InplayBetModel.FK_Bet_TeamB" />
@@ -22,7 +20,6 @@
         <AssociationConnector Association="InplayBetModel.FK_Challenge_Status" />
         <AssociationConnector Association="InplayBetModel.FK_Report_Challenge" />
         <AssociationConnector Association="InplayBetModel.FK_Currency_Status" />
-        <AssociationConnector Association="InplayBetModel.FK_Legue_Status" />
         <AssociationConnector Association="InplayBetModel.FK_Report_Status" />
         <AssociationConnector Association="InplayBetModel.FK_Team_Status" />
         <EntityTypeShape EntityType="InplayBetModel.User" Width="1.5" PointX="5.25" PointY="16.25" />
@@ -32,7 +29,12 @@
         <AssociationConnector Association="InplayBetModel.FK_Report_To_User" />
         <AssociationConnector Association="InplayBetModel.FK_Report_User" />
         <AssociationConnector Association="InplayBetModel.FK_User_Status" />
-        <EntityTypeShape EntityType="InplayBetModel.UserRank" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="InplayBetModel.Follow" Width="2" PointX="2.625" PointY="0.75" />
+        <EntityTypeShape EntityType="InplayBetModel.Contact" Width="1.5" PointX="5.375" PointY="0.75" />
+        <EntityTypeShape EntityType="InplayBetModel.Legue" Width="1.5" PointX="3" PointY="11.875" />
+        <AssociationConnector Association="InplayBetModel.FK_Bet_Legue" />
+        <AssociationConnector Association="InplayBetModel.FK_Legue_Status" />
+        <EntityTypeShape EntityType="InplayBetModel.UserRank" Width="1.5" PointX="0.75" PointY="4.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

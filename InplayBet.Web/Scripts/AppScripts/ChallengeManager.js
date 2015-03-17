@@ -97,6 +97,11 @@
                     });
                 }
             }
+            else
+            {
+                ShowModal(null, '<p>Unable to save. please try it again.</p>', '400px',
+                    null, null, null);
+            }
 
         } catch (ex) {
             log(ex.message);

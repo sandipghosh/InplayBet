@@ -4,6 +4,7 @@
 @model UserRankViewModel
 @{
     ViewBag.Title = "Member Profile";
+    int loggedInUser = SessionVeriables.GetSessionData<int>(SessionVeriables.UserKey);
 }
 @section PageScript {
     @Html.RenderScripts("~/Scripts/ChallengeScript")
@@ -19,18 +20,24 @@
                     <p class="member">Member Since: @Model.MemberSince.ToString("d", (new CultureInfo(Model.CultureCode)))</p>
                     <p class="join">Ranking: @Model.Rank</p>
                     <p class="bookmarker">Bookmarker - @Model.BookMakerName.ToString()</p>
-                    @if (Model.UserKey == SessionVeriables.GetSessionData<int>(SessionVeriables.UserKey))
+                    <p class="bookmarker">Consecutive Bet Wins: 0</p>
+                    <p class="bookmarker">Followers: <i id="counter">@Model.Followers</i></p>
+                    @if (Model.UserKey == loggedInUser)
                     {
                         @Html.ActionLink("Edit Profile", "Update", "RegisterUser", new { userKey = Model.UserKey }, null)
                     }
+
+                    @if (!CommonUtility.IsFollowing(Model.UserKey))
+                    { <p><a href="javascript:void()" onclick="Follow(this, event, @loggedInUser, @Model.UserKey, '#counter')">Follow</a></p> }
+
                 </div>
                 <div class="detail-block">
-                    <p class="left">Total Wins @Model.Wins</p>
-                    <p class="left">Total Lost @Model.Losses</p>
+                    <p class="left">Challenges Won @Model.Wins</p>
+                    <p class="left">Challenges Lost @Model.Losses</p>
                     <p class="left">Winning Bets @Model.BetWins</p>
                     <p class="left">Won @Model.Won</p>
                     <p class="left">Placed -@Model.Placed.ToString("C", (new CultureInfo(Model.CultureCode)))</p>
-                    <p class="left">Profit @Model.Profit.ToString("C", (new CultureInfo(Model.CultureCode)))</p>
+                    <p class="left">Profit @((Model.Profit < 1 ? 0 : Model.Profit).ToString("C", (new CultureInfo(Model.CultureCode))))</p>
                 </div>
             </div>
             @Html.Action("GetChallengesByUser", "Bet", new { userKey = Model.UserKey })

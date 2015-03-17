@@ -73,6 +73,7 @@ namespace InplayBet.Web.Controllers
 
                 if (user != null)
                 {
+                    SharedFunctionality shared = new SharedFunctionality();
                     return View("Index", user);
                 }
             }

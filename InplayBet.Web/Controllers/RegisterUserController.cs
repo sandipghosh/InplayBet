@@ -248,6 +248,10 @@ namespace InplayBet.Web.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        /// <summary>
+        /// Shows the image cropper.
+        /// </summary>
+        /// <returns></returns>
         [AcceptVerbs(HttpVerbs.Get),
         OutputCache(NoStore = true, Duration = 0, VaryByHeader = "*")]
         public ActionResult ShowImageCropper()

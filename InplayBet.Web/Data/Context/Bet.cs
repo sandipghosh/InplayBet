@@ -33,9 +33,9 @@ namespace InplayBet.Web.Data.Context
         public Nullable<System.DateTime> UpdatedOn { get; set; }
     
         public virtual Challenge Challenge { get; set; }
-        public virtual Legue Legue { get; set; }
         public virtual Status Status { get; set; }
         public virtual Team Team { get; set; }
         public virtual Team Team1 { get; set; }
+        public virtual Legue Legue { get; set; }
     }
 }

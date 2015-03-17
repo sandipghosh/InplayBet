@@ -18,6 +18,37 @@
         ManageTopNavigation();
     });
 
+    this.Follow = function (element, event, folowBy, folowTo, updateElement) {
+        try {
+            event.preventDefault();
+            event.stopPropagation();
+
+            var $self = $(element);
+            $.ajax({
+                url: '{0}Follow/Set'.format(VirtualDirectory),
+                type: 'GET',
+                dataType: "json",
+                contentType: "application/json",
+                data: { "followBy": folowBy, "followTo": folowTo },
+                success: function (result, textStatus, jqXHR) {
+                    if (result) {
+                        if (result.followCount > 0) {
+                            $self.remove();
+                            $(updateElement).text(result.followCount);
+                            return false;
+                        }
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert(textStatus);
+                }
+            });
+            return false;
+        } catch (ex) {
+            log(ex.message);
+        }
+    };
+
     this.ManageTopNavigation = function () {
         try {
             $('ul.nav li').removeClass('active');

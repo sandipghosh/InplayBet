@@ -191,6 +191,7 @@
     <Compile Include="Controllers\ContactUsController.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Controllers\FollowController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HowToPlayController.cs">
       <SubType>Code</SubType>
@@ -215,7 +216,13 @@
     <Compile Include="Data\Context\Challenge.cs">
       <DependentUpon>InplayBetDBEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\Context\Contact.cs">
+      <DependentUpon>InplayBetDBEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\Context\Currency.cs">
+      <DependentUpon>InplayBetDBEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Context\Follow.cs">
       <DependentUpon>InplayBetDBEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\Context\InplayBetDBEntities.Context.cs">
@@ -258,7 +265,9 @@
     <Compile Include="Data\Implementation\BetDataRepository.cs" />
     <Compile Include="Data\Implementation\BookMakerDataRepository.cs" />
     <Compile Include="Data\Implementation\ChallengeDataRepository.cs" />
+    <Compile Include="Data\Implementation\ContactDataRepository.cs" />
     <Compile Include="Data\Implementation\CurrencyDataRepository.cs" />
+    <Compile Include="Data\Implementation\FollowDataRepository.cs" />
     <Compile Include="Data\Implementation\LegueDataRepository.cs" />
     <Compile Include="Data\Implementation\ReportDataRepository.cs" />
     <Compile Include="Data\Implementation\TeamDataRepository.cs" />
@@ -272,7 +281,9 @@
     <Compile Include="Data\Interface\IBetDataRepository.cs" />
     <Compile Include="Data\Interface\IBookMakerDataRepository.cs" />
     <Compile Include="Data\Interface\IChallengeDataRepository.cs" />
+    <Compile Include="Data\Interface\IContactDataRepository.cs" />
     <Compile Include="Data\Interface\ICurrencyDataRepository.cs" />
+    <Compile Include="Data\Interface\IFollowDataRepository.cs" />
     <Compile Include="Data\Interface\ILegueDataRepository.cs" />
     <Compile Include="Data\Interface\IReportDataRepository.cs" />
     <Compile Include="Data\Interface\ITeamDataRepository.cs" />
@@ -295,7 +306,9 @@
     <Compile Include="Models\BetModel.cs" />
     <Compile Include="Models\BookMakerModel.cs" />
     <Compile Include="Models\ChallengeModel.cs" />
+    <Compile Include="Models\ContactModel.cs" />
     <Compile Include="Models\CurrencyModel.cs" />
+    <Compile Include="Models\FollowModel.cs" />
     <Compile Include="Models\LegueModel.cs" />
     <Compile Include="Models\ReportModel.cs" />
     <Compile Include="Models\SignInModel.cs" />

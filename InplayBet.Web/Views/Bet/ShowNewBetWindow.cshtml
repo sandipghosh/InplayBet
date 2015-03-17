@@ -12,7 +12,6 @@
     using (Ajax.BeginForm("InsertNewBet", "Bet", new AjaxOptions
     {
         HttpMethod = "POST",
-        //OnBegin = "return InsertBetBeforeSend(this)",
         OnSuccess = "InsertUpdateBetSuccessHandler(data, this)"
     }, new { id = "frmInsertBet" }))
     {
@@ -36,7 +35,7 @@
                     </div>
                 </li>
                 <li>
-                    <label><strong>league:</strong></label>
+                    <label><strong>League:</strong></label>
                     <div class="input-full-outer">
                         @Html.HiddenFor(m => m.LegueId)
                         <input type="text" name="" id="txtLegue" class="full" value="">
@@ -62,6 +61,7 @@
                 <li>
                     <input type="submit" value="submit" name="">
                 </li>
+                <li>(Please click the "+" button to add your text to our preditctive text database)</li>
             </ul>
         </div>
 
@@ -98,17 +98,17 @@ else
                 </li>
                 <li>
                     <label><strong>Team Names:</strong></label>
-                    @Html.Label(Model.TeamA.TeamName)
+                    <label class="right" style="width:30%;">@Model.TeamA.TeamName</label>
                     <label class="vs"><strong>vs</strong></label>
-                    @Html.Label(Model.TeamB.TeamName)
+                    <label class="right" style="width:30%; text-align:center;">@Model.TeamB.TeamName</label>
                 </li>
                 <li>
-                    <label><strong>league:</strong></label>
-                    @Html.Label(Model.Legue.LegueName, new { @class = "right" })
+                    <label><strong>League:</strong></label>
+                    <label class="right">@Model.Legue.LegueName</label>
                 </li>
                 <li>
                     <label><strong>Bet Type:</strong></label>
-                    @Html.Label(Model.BetType, new { @class = "right" })
+                    <label class="right">@Model.BetType</label>
                 </li>
                 <li>
                     <label><strong>Odds:</strong></label>
@@ -128,7 +128,7 @@ else
                 {
                     <li>
                         <label><strong>Bet Submited On:</strong></label>
-                        <label class="right">@Model.CreatedOn.ToString("dd/MM/yyyy hh:mm tt", (new CultureInfo(cultureCode)))</label>
+                        <label class="right">@Model.CreatedOn.ToString("hh:mm tt", (new CultureInfo(cultureCode)))</label>
                     </li>
                     <li>
                         <input type="submit" value="@StatusCode.Won.ToString()" name="BetStatus" />
@@ -137,10 +137,6 @@ else
                 }
                 else if (betDisplayMode == BetDisplayType.Read.ToString())
                 {
-                    <li>
-                        <label><strong>Bet Submited On:</strong></label>
-                        <label class="right">@Model.CreatedOn.ToString("dd/MM/yyyy hh:mm tt", (new CultureInfo(cultureCode)))</label>
-                    </li>
                     <li>
                         <label><strong>Bet @Model.BetStatus On:</strong></label>
                         <label class="right">@Model.UpdatedOn.Value.ToString("dd/MM/yyyy hh:mm tt", (new CultureInfo(cultureCode)))</label>

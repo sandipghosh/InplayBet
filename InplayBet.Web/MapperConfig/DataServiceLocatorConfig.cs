@@ -47,6 +47,8 @@ namespace InplayBet.Web.MapperConfig
                 container.Register<IReportDataRepository, ReportDataRepository>();
 
                 container.Register<IUserRankDataRepository, UserRankDataRepository>();
+                container.Register<IContactDataRepository, ContactDataRepository>();
+                container.Register<IFollowDataRepository, FollowDataRepository>();
             }
             catch (Exception ex)
             {
