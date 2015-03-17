@@ -4,22 +4,127 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="InplayBetModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+    <Schema Namespace="InplayBetModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="InplayBetModelStoreContainer">
+          <EntitySet Name="Bet" EntityType="InplayBetModel.Store.Bet" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="BookMaker" EntityType="InplayBetModel.Store.BookMaker" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Challenge" EntityType="InplayBetModel.Store.Challenge" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Currency" EntityType="InplayBetModel.Store.Currency" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Legue" EntityType="InplayBetModel.Store.Legue" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Report" EntityType="InplayBetModel.Store.Report" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Status" EntityType="InplayBetModel.Store.Status" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Team" EntityType="InplayBetModel.Store.Team" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="User" EntityType="InplayBetModel.Store.User" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="UserRank" EntityType="InplayBetModel.Store.UserRank" store:Type="Views" store:Schema="dbo" store:Name="UserRank">
+            <DefiningQuery>SELECT 
+      [UserRank].[UserKey] AS [UserKey], 
+      [UserRank].[UserId] AS [UserId], 
+      [UserRank].[UserName] AS [UserName], 
+      [UserRank].[AvatarPath] AS [AvatarPath], 
+      [UserRank].[MemberSince] AS [MemberSince], 
+      [UserRank].[CurrencyId] AS [CurrencyId], 
+      [UserRank].[CultureCode] AS [CultureCode], 
+      [UserRank].[CurrencySymbol] AS [CurrencySymbol], 
+      [UserRank].[BookMakerId] AS [BookMakerId], 
+      [UserRank].[BookMakerName] AS [BookMakerName], 
+      [UserRank].[BetWins] AS [BetWins], 
+      [UserRank].[Wins] AS [Wins], 
+      [UserRank].[Losses] AS [Losses], 
+      [UserRank].[Won] AS [Won], 
+      [UserRank].[Placed] AS [Placed], 
+      [UserRank].[Profit] AS [Profit], 
+      [UserRank].[Rank] AS [Rank], 
+      [UserRank].[WinningBets] AS [WinningBets]
+      FROM [dbo].[UserRank] AS [UserRank]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_Bet_Challenge" Association="InplayBetModel.Store.FK_Bet_Challenge">
+            <End Role="Challenge" EntitySet="Challenge" />
+            <End Role="Bet" EntitySet="Bet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Bet_Legue" Association="InplayBetModel.Store.FK_Bet_Legue">
+            <End Role="Legue" EntitySet="Legue" />
+            <End Role="Bet" EntitySet="Bet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Bet_Status" Association="InplayBetModel.Store.FK_Bet_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Bet" EntitySet="Bet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Bet_TeamA" Association="InplayBetModel.Store.FK_Bet_TeamA">
+            <End Role="Team" EntitySet="Team" />
+            <End Role="Bet" EntitySet="Bet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Bet_TeamB" Association="InplayBetModel.Store.FK_Bet_TeamB">
+            <End Role="Team" EntitySet="Team" />
+            <End Role="Bet" EntitySet="Bet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BookMaker_Status" Association="InplayBetModel.Store.FK_BookMaker_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="BookMaker" EntitySet="BookMaker" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Challenge_Status" Association="InplayBetModel.Store.FK_Challenge_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Challenge" EntitySet="Challenge" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Challenge_User" Association="InplayBetModel.Store.FK_Challenge_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Challenge" EntitySet="Challenge" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Currency_Status" Association="InplayBetModel.Store.FK_Currency_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Currency" EntitySet="Currency" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Legue_Status" Association="InplayBetModel.Store.FK_Legue_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Legue" EntitySet="Legue" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Report_Challenge" Association="InplayBetModel.Store.FK_Report_Challenge">
+            <End Role="Challenge" EntitySet="Challenge" />
+            <End Role="Report" EntitySet="Report" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Report_Status" Association="InplayBetModel.Store.FK_Report_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Report" EntitySet="Report" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Report_To_User" Association="InplayBetModel.Store.FK_Report_To_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Report" EntitySet="Report" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Report_User" Association="InplayBetModel.Store.FK_Report_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Report" EntitySet="Report" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Team_Status" Association="InplayBetModel.Store.FK_Team_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Team" EntitySet="Team" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_BookMaker" Association="InplayBetModel.Store.FK_User_BookMaker">
+            <End Role="BookMaker" EntitySet="BookMaker" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Currency" Association="InplayBetModel.Store.FK_User_Currency">
+            <End Role="Currency" EntitySet="Currency" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Status" Association="InplayBetModel.Store.FK_User_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="Bet">
           <Key>
             <PropertyRef Name="BetId" />
           </Key>
-          <Property Name="BetId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BetId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="BetNumber" Type="int" Nullable="false" />
           <Property Name="TeamAId" Type="int" Nullable="false" />
           <Property Name="TeamBId" Type="int" Nullable="false" />
           <Property Name="LegueId" Type="int" Nullable="false" />
           <Property Name="ChallengeId" Type="int" Nullable="false" />
-          <Property Name="BetType" Type="nvarchar" MaxLength="200" Nullable="false" />
-          <Property Name="Odds" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="BetPlaced" Type="decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="WiningTotal" Type="decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="LoosingTotal" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="BetType" Type="nvarchar" Nullable="false" MaxLength="200" />
+          <Property Name="Odds" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="BetPlaced" Type="decimal" Nullable="false" Scale="2" />
+          <Property Name="WiningTotal" Type="decimal" Nullable="false" Scale="2" />
+          <Property Name="LoosingTotal" Type="decimal" Nullable="false" Scale="2" />
           <Property Name="BetStatus" Type="nvarchar" MaxLength="50" />
           <Property Name="StatusId" Type="int" Nullable="false" />
           <Property Name="CreatedBy" Type="int" Nullable="false" />
@@ -31,8 +136,8 @@
           <Key>
             <PropertyRef Name="BookMakerId" />
           </Key>
-          <Property Name="BookMakerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="BookMakerName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="BookMakerId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="BookMakerName" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="StatusId" Type="int" Nullable="false" />
           <Property Name="CreatedBy" Type="int" Nullable="false" />
           <Property Name="CreatedOn" Type="datetime" Nullable="false" />
@@ -43,11 +148,11 @@
           <Key>
             <PropertyRef Name="ChallengeId" />
           </Key>
-          <Property Name="ChallengeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ChallengeId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="ChallengeNumber" Type="int" Nullable="false" />
           <Property Name="UserKey" Type="int" Nullable="false" />
-          <Property Name="WiningPrice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="ChallengeStatus" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="WiningPrice" Type="decimal" Nullable="false" Scale="2" />
+          <Property Name="ChallengeStatus" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="StatusId" Type="int" Nullable="false" />
           <Property Name="CreatedBy" Type="int" Nullable="false" />
           <Property Name="CreatedOn" Type="datetime" Nullable="false" />
@@ -58,10 +163,10 @@
           <Key>
             <PropertyRef Name="CurrencyId" />
           </Key>
-          <Property Name="CurrencyId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="CurrencyName" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="CurrencySymbol" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="CultureCode" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CurrencyId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="CurrencyName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="CurrencySymbol" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="CultureCode" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="StatusId" Type="int" Nullable="false" />
           <Property Name="CreatedBy" Type="int" Nullable="false" />
           <Property Name="CreatedOn" Type="datetime" Nullable="false" />
@@ -72,8 +177,8 @@
           <Key>
             <PropertyRef Name="LegueId" />
           </Key>
-          <Property Name="LegueId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="LegueName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LegueId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="LegueName" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="StatusId" Type="int" Nullable="false" />
           <Property Name="CreatedBy" Type="int" Nullable="false" />
           <Property Name="CreatedOn" Type="datetime" Nullable="false" />
@@ -84,7 +189,7 @@
           <Key>
             <PropertyRef Name="ReportId" />
           </Key>
-          <Property Name="ReportId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ReportId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="ReportedBy" Type="int" Nullable="false" />
           <Property Name="ReportedUserId" Type="int" Nullable="false" />
           <Property Name="ReportedChallengeId" Type="int" Nullable="false" />
@@ -101,14 +206,14 @@
             <PropertyRef Name="StatusId" />
           </Key>
           <Property Name="StatusId" Type="int" Nullable="false" />
-          <Property Name="StatusName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="StatusName" Type="nvarchar" Nullable="false" MaxLength="50" />
         </EntityType>
         <EntityType Name="Team">
           <Key>
             <PropertyRef Name="TeamId" />
           </Key>
-          <Property Name="TeamId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="TeamName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="TeamId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="TeamName" Type="nvarchar" Nullable="false" MaxLength="100" />
           <Property Name="StatusId" Type="int" Nullable="false" />
           <Property Name="CreatedBy" Type="int" Nullable="false" />
           <Property Name="CreatedOn" Type="datetime" Nullable="false" />
@@ -119,17 +224,17 @@
           <Key>
             <PropertyRef Name="UserKey" />
           </Key>
-          <Property Name="UserKey" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="UserId" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="UserKey" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="CurrencyId" Type="int" Nullable="false" />
-          <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="EmailId" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Password" Type="nvarchar" MaxLength="20" Nullable="false" />
-          <Property Name="Sex" Type="nvarchar" MaxLength="1" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="LastName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="EmailId" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Password" Type="nvarchar" Nullable="false" MaxLength="20" />
+          <Property Name="Sex" Type="nvarchar" Nullable="false" MaxLength="1" />
           <Property Name="DateOfBirth" Type="datetime" Nullable="false" />
           <Property Name="BookMakerId" Type="int" Nullable="false" />
-          <Property Name="AvatarPath" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="AvatarPath" Type="nvarchar" Nullable="false" MaxLength="500" />
           <Property Name="IsAdmin" Type="bit" Nullable="false" />
           <Property Name="StatusId" Type="int" Nullable="false" />
           <Property Name="CreatedBy" Type="int" Nullable="false" />
@@ -138,7 +243,8 @@
           <Property Name="UpdatedOn" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'InplayBet.dbo.UserRank' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+      warning 6002: The table/view 'InplayBet.dbo.UserRank' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
         <EntityType Name="UserRank">
           <Key>
             <PropertyRef Name="UserKey" />
@@ -151,6 +257,7 @@ warning 6002: The table/view 'InplayBet.dbo.UserRank' does not have a primary ke
             <PropertyRef Name="CurrencySymbol" />
             <PropertyRef Name="BookMakerId" />
             <PropertyRef Name="BookMakerName" />
+            <PropertyRef Name="BetWins" />
             <PropertyRef Name="Wins" />
             <PropertyRef Name="Losses" />
             <PropertyRef Name="Won" />
@@ -160,26 +267,27 @@ warning 6002: The table/view 'InplayBet.dbo.UserRank' does not have a primary ke
             <PropertyRef Name="WinningBets" />
           </Key>
           <Property Name="UserKey" Type="int" Nullable="false" />
-          <Property Name="UserId" Type="nvarchar" MaxLength="10" Nullable="false" />
-          <Property Name="UserName" Type="nvarchar" MaxLength="101" Nullable="false" />
-          <Property Name="AvatarPath" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="UserName" Type="nvarchar" Nullable="false" MaxLength="101" />
+          <Property Name="AvatarPath" Type="nvarchar" Nullable="false" MaxLength="500" />
           <Property Name="MemberSince" Type="datetime" Nullable="false" />
           <Property Name="CurrencyId" Type="int" Nullable="false" />
-          <Property Name="CultureCode" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="CurrencySymbol" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CultureCode" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="CurrencySymbol" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="BookMakerId" Type="int" Nullable="false" />
-          <Property Name="BookMakerName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="BookMakerName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="BetWins" Type="int" Nullable="false" />
           <Property Name="Wins" Type="int" Nullable="false" />
           <Property Name="Losses" Type="int" Nullable="false" />
-          <Property Name="Won" Type="decimal" Precision="11" Scale="2" Nullable="false" />
-          <Property Name="Placed" Type="decimal" Precision="11" Scale="2" Nullable="false" />
-          <Property Name="Profit" Type="decimal" Precision="11" Scale="2" Nullable="false" />
+          <Property Name="Won" Type="decimal" Nullable="false" Precision="11" Scale="2" />
+          <Property Name="Placed" Type="decimal" Nullable="false" Precision="11" Scale="2" />
+          <Property Name="Profit" Type="decimal" Nullable="false" Precision="11" Scale="2" />
           <Property Name="Rank" Type="bigint" Nullable="false" />
-          <Property Name="WinningBets" Type="varchar" MaxLength="6" Nullable="false" />
+          <Property Name="WinningBets" Type="varchar" Nullable="false" MaxLength="6" />
         </EntityType>
         <Association Name="FK_Bet_Challenge">
-          <End Role="Challenge" Type="Self.Challenge" Multiplicity="1" />
-          <End Role="Bet" Type="Self.Bet" Multiplicity="*" />
+          <End Role="Challenge" Type="InplayBetModel.Store.Challenge" Multiplicity="1" />
+          <End Role="Bet" Type="InplayBetModel.Store.Bet" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Challenge">
               <PropertyRef Name="ChallengeId" />
@@ -190,8 +298,8 @@ warning 6002: The table/view 'InplayBet.dbo.UserRank' does not have a primary ke
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Bet_Legue">
-          <End Role="Legue" Type="Self.Legue" Multiplicity="1" />
-          <End Role="Bet" Type="Self.Bet" Multiplicity="*" />
+          <End Role="Legue" Type="InplayBetModel.Store.Legue" Multiplicity="1" />
+          <End Role="Bet" Type="InplayBetModel.Store.Bet" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Legue">
               <PropertyRef Name="LegueId" />
@@ -202,8 +310,8 @@ warning 6002: The table/view 'InplayBet.dbo.UserRank' does not have a primary ke
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Bet_Status">
-          <End Role="Status" Type="Self.Status" Multiplicity="1" />
-          <End Role="Bet" Type="Self.Bet" Multiplicity="*" />
+          <End Role="Status" Type="InplayBetModel.Store.Status" Multiplicity="1" />
+          <End Role="Bet" Type="InplayBetModel.Store.Bet" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Status">
               <PropertyRef Name="StatusId" />
@@ -214,8 +322,8 @@ warning 6002: The table/view 'InplayBet.dbo.UserRank' does not have a primary ke
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Bet_TeamA">
-          <End Role="Team" Type="Self.Team" Multiplicity="1" />
-          <End Role="Bet" Type="Self.Bet" Multiplicity="*" />
+          <End Role="Team" Type="InplayBetModel.Store.Team" Multiplicity="1" />
+          <End Role="Bet" Type="InplayBetModel.Store.Bet" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Team">
               <PropertyRef Name="TeamId" />
@@ -226,8 +334,8 @@ warning 6002: The table/view 'InplayBet.dbo.UserRank' does not have a primary ke
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Bet_TeamB">
-          <End Role="Team" Type="Self.Team" Multiplicity="1" />
-          <End Role="Bet" Type="Self.Bet" Multiplicity="*" />
+          <End Role="Team" Type="InplayBetModel.Store.Team" Multiplicity="1" />
+          <End Role="Bet" Type="InplayBetModel.Store.Bet" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Team">
               <PropertyRef Name="TeamId" />
@@ -238,8 +346,8 @@ warning 6002: The table/view 'InplayBet.dbo.UserRank' does not have a primary ke
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_BookMaker_Status">
-          <End Role="Status" Type="Self.Status" Multiplicity="1" />
-          <End Role="BookMaker" Type="Self.BookMaker" Multiplicity="*" />
+          <End Role="Status" Type="InplayBetModel.Store.Status" Multiplicity="1" />
+          <End Role="BookMaker" Type="InplayBetModel.Store.BookMaker" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Status">
               <PropertyRef Name="StatusId" />
@@ -250,8 +358,8 @@ warning 6002: The table/view 'InplayBet.dbo.UserRank' does not have a primary ke
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Challenge_Status">
-          <End Role="Status" Type="Self.Status" Multiplicity="1" />
-          <End Role="Challenge" Type="Self.Challenge" Multiplicity="*" />
+          <End Role="Status" Type="InplayBetModel.Store.Status" Multiplicity="1" />
+          <End Role="Challenge" Type="InplayBetModel.Store.Challenge" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Status">
               <PropertyRef Name="StatusId" />
@@ -262,8 +370,8 @@ warning 6002: The table/view 'InplayBet.dbo.UserRank' does not have a primary ke
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Challenge_User">
-          <End Role="User" Type="Self.User" Multiplicity="1" />
-          <End Role="Challenge" Type="Self.Challenge" Multiplicity="*" />
+          <End Role="User" Type="InplayBetModel.Store.User" Multiplicity="1" />
+          <End Role="Challenge" Type="InplayBetModel.Store.Challenge" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="User">
               <PropertyRef Name="UserKey" />
@@ -274,8 +382,8 @@ warning 6002: The table/view 'InplayBet.dbo.UserRank' does not have a primary ke
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Currency_Status">
-          <End Role="Status" Type="Self.Status" Multiplicity="1" />
-          <End Role="Currency" Type="Self.Currency" Multiplicity="*" />
+          <End Role="Status" Type="InplayBetModel.Store.Status" Multiplicity="1" />
+          <End Role="Currency" Type="InplayBetModel.Store.Currency" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Status">
               <PropertyRef Name="StatusId" />
@@ -286,8 +394,8 @@ warning 6002: The table/view 'InplayBet.dbo.UserRank' does not have a primary ke
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Legue_Status">
-          <End Role="Status" Type="Self.Status" Multiplicity="1" />
-          <End Role="Legue" Type="Self.Legue" Multiplicity="*" />
+          <End Role="Status" Type="InplayBetModel.Store.Status" Multiplicity="1" />
+          <End Role="Legue" Type="InplayBetModel.Store.Legue" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Status">
               <PropertyRef Name="StatusId" />
@@ -298,8 +406,8 @@ warning 6002: The table/view 'InplayBet.dbo.UserRank' does not have a primary ke
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Report_Challenge">
-          <End Role="Challenge" Type="Self.Challenge" Multiplicity="1" />
-          <End Role="Report" Type="Self.Report" Multiplicity="*" />
+          <End Role="Challenge" Type="InplayBetModel.Store.Challenge" Multiplicity="1" />
+          <End Role="Report" Type="InplayBetModel.Store.Report" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Challenge">
               <PropertyRef Name="ChallengeId" />
@@ -310,8 +418,8 @@ warning 6002: The table/view 'InplayBet.dbo.UserRank' does not have a primary ke
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Report_Status">
-          <End Role="Status" Type="Self.Status" Multiplicity="1" />
-          <End Role="Report" Type="Self.Report" Multiplicity="*" />
+          <End Role="Status" Type="InplayBetModel.Store.Status" Multiplicity="1" />
+          <End Role="Report" Type="InplayBetModel.Store.Report" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Status">
               <PropertyRef Name="StatusId" />
@@ -322,8 +430,8 @@ warning 6002: The table/view 'InplayBet.dbo.UserRank' does not have a primary ke
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Report_To_User">
-          <End Role="User" Type="Self.User" Multiplicity="1" />
-          <End Role="Report" Type="Self.Report" Multiplicity="*" />
+          <End Role="User" Type="InplayBetModel.Store.User" Multiplicity="1" />
+          <End Role="Report" Type="InplayBetModel.Store.Report" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="User">
               <PropertyRef Name="UserKey" />
@@ -334,8 +442,8 @@ warning 6002: The table/view 'InplayBet.dbo.UserRank' does not have a primary ke
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Report_User">
-          <End Role="User" Type="Self.User" Multiplicity="1" />
-          <End Role="Report" Type="Self.Report" Multiplicity="*" />
+          <End Role="User" Type="InplayBetModel.Store.User" Multiplicity="1" />
+          <End Role="Report" Type="InplayBetModel.Store.Report" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="User">
               <PropertyRef Name="UserKey" />
@@ -346,8 +454,8 @@ warning 6002: The table/view 'InplayBet.dbo.UserRank' does not have a primary ke
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Team_Status">
-          <End Role="Status" Type="Self.Status" Multiplicity="1" />
-          <End Role="Team" Type="Self.Team" Multiplicity="*" />
+          <End Role="Status" Type="InplayBetModel.Store.Status" Multiplicity="1" />
+          <End Role="Team" Type="InplayBetModel.Store.Team" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Status">
               <PropertyRef Name="StatusId" />
@@ -358,8 +466,8 @@ warning 6002: The table/view 'InplayBet.dbo.UserRank' does not have a primary ke
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_User_BookMaker">
-          <End Role="BookMaker" Type="Self.BookMaker" Multiplicity="1" />
-          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <End Role="BookMaker" Type="InplayBetModel.Store.BookMaker" Multiplicity="1" />
+          <End Role="User" Type="InplayBetModel.Store.User" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="BookMaker">
               <PropertyRef Name="BookMakerId" />
@@ -370,8 +478,8 @@ warning 6002: The table/view 'InplayBet.dbo.UserRank' does not have a primary ke
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_User_Currency">
-          <End Role="Currency" Type="Self.Currency" Multiplicity="1" />
-          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <End Role="Currency" Type="InplayBetModel.Store.Currency" Multiplicity="1" />
+          <End Role="User" Type="InplayBetModel.Store.User" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Currency">
               <PropertyRef Name="CurrencyId" />
@@ -382,8 +490,8 @@ warning 6002: The table/view 'InplayBet.dbo.UserRank' does not have a primary ke
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_User_Status">
-          <End Role="Status" Type="Self.Status" Multiplicity="1" />
-          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <End Role="Status" Type="InplayBetModel.Store.Status" Multiplicity="1" />
+          <End Role="User" Type="InplayBetModel.Store.User" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Status">
               <PropertyRef Name="StatusId" />
@@ -393,110 +501,6 @@ warning 6002: The table/view 'InplayBet.dbo.UserRank' does not have a primary ke
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="InplayBetModelStoreContainer">
-          <EntitySet Name="Bet" EntityType="Self.Bet" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="BookMaker" EntityType="Self.BookMaker" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Challenge" EntityType="Self.Challenge" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Currency" EntityType="Self.Currency" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Legue" EntityType="Self.Legue" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Report" EntityType="Self.Report" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Team" EntityType="Self.Team" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="UserRank" EntityType="Self.UserRank" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-[UserRank].[UserKey] AS [UserKey], 
-[UserRank].[UserId] AS [UserId], 
-[UserRank].[UserName] AS [UserName], 
-[UserRank].[AvatarPath] AS [AvatarPath], 
-[UserRank].[MemberSince] AS [MemberSince], 
-[UserRank].[CurrencyId] AS [CurrencyId], 
-[UserRank].[CultureCode] AS [CultureCode], 
-[UserRank].[CurrencySymbol] AS [CurrencySymbol], 
-[UserRank].[BookMakerId] AS [BookMakerId], 
-[UserRank].[BookMakerName] AS [BookMakerName], 
-[UserRank].[Wins] AS [Wins], 
-[UserRank].[Losses] AS [Losses], 
-[UserRank].[Won] AS [Won], 
-[UserRank].[Placed] AS [Placed], 
-[UserRank].[Profit] AS [Profit], 
-[UserRank].[Rank] AS [Rank], 
-[UserRank].[WinningBets] AS [WinningBets]
-FROM [dbo].[UserRank] AS [UserRank]</DefiningQuery>
-          </EntitySet>
-          <AssociationSet Name="FK_Bet_Challenge" Association="Self.FK_Bet_Challenge">
-            <End Role="Challenge" EntitySet="Challenge" />
-            <End Role="Bet" EntitySet="Bet" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Bet_Legue" Association="Self.FK_Bet_Legue">
-            <End Role="Legue" EntitySet="Legue" />
-            <End Role="Bet" EntitySet="Bet" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Bet_Status" Association="Self.FK_Bet_Status">
-            <End Role="Status" EntitySet="Status" />
-            <End Role="Bet" EntitySet="Bet" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Bet_TeamA" Association="Self.FK_Bet_TeamA">
-            <End Role="Team" EntitySet="Team" />
-            <End Role="Bet" EntitySet="Bet" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Bet_TeamB" Association="Self.FK_Bet_TeamB">
-            <End Role="Team" EntitySet="Team" />
-            <End Role="Bet" EntitySet="Bet" />
-          </AssociationSet>
-          <AssociationSet Name="FK_BookMaker_Status" Association="Self.FK_BookMaker_Status">
-            <End Role="Status" EntitySet="Status" />
-            <End Role="BookMaker" EntitySet="BookMaker" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Challenge_Status" Association="Self.FK_Challenge_Status">
-            <End Role="Status" EntitySet="Status" />
-            <End Role="Challenge" EntitySet="Challenge" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Challenge_User" Association="Self.FK_Challenge_User">
-            <End Role="User" EntitySet="User" />
-            <End Role="Challenge" EntitySet="Challenge" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Currency_Status" Association="Self.FK_Currency_Status">
-            <End Role="Status" EntitySet="Status" />
-            <End Role="Currency" EntitySet="Currency" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Legue_Status" Association="Self.FK_Legue_Status">
-            <End Role="Status" EntitySet="Status" />
-            <End Role="Legue" EntitySet="Legue" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Report_Challenge" Association="Self.FK_Report_Challenge">
-            <End Role="Challenge" EntitySet="Challenge" />
-            <End Role="Report" EntitySet="Report" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Report_Status" Association="Self.FK_Report_Status">
-            <End Role="Status" EntitySet="Status" />
-            <End Role="Report" EntitySet="Report" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Report_To_User" Association="Self.FK_Report_To_User">
-            <End Role="User" EntitySet="User" />
-            <End Role="Report" EntitySet="Report" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Report_User" Association="Self.FK_Report_User">
-            <End Role="User" EntitySet="User" />
-            <End Role="Report" EntitySet="Report" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Team_Status" Association="Self.FK_Team_Status">
-            <End Role="Status" EntitySet="Status" />
-            <End Role="Team" EntitySet="Team" />
-          </AssociationSet>
-          <AssociationSet Name="FK_User_BookMaker" Association="Self.FK_User_BookMaker">
-            <End Role="BookMaker" EntitySet="BookMaker" />
-            <End Role="User" EntitySet="User" />
-          </AssociationSet>
-          <AssociationSet Name="FK_User_Currency" Association="Self.FK_User_Currency">
-            <End Role="Currency" EntitySet="Currency" />
-            <End Role="User" EntitySet="User" />
-          </AssociationSet>
-          <AssociationSet Name="FK_User_Status" Association="Self.FK_User_Status">
-            <End Role="Status" EntitySet="Status" />
-            <End Role="User" EntitySet="User" />
-          </AssociationSet>
-        </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -558,7 +562,6 @@ FROM [dbo].[UserRank] AS [UserRank]</DefiningQuery>
             <End Role="Status" EntitySet="Status" />
             <End Role="Team" EntitySet="Teams" />
           </AssociationSet>
-          <EntitySet Name="UserRanks" EntityType="InplayBetModel.UserRank" />
           <EntitySet Name="Users" EntityType="InplayBetModel.User" />
           <AssociationSet Name="FK_User_BookMaker" Association="InplayBetModel.FK_User_BookMaker">
             <End Role="BookMaker" EntitySet="BookMakers" />
@@ -584,6 +587,7 @@ FROM [dbo].[UserRank] AS [UserRank]</DefiningQuery>
             <End Role="Status" EntitySet="Status" />
             <End Role="User" EntitySet="Users" />
           </AssociationSet>
+          <EntitySet Name="UserRanks" EntityType="InplayBetModel.UserRank" />
         </EntityContainer>
         <EntityType Name="Bet">
           <Key>
@@ -869,44 +873,6 @@ FROM [dbo].[UserRank] AS [UserRank]</DefiningQuery>
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="UserRank">
-          <Key>
-            <PropertyRef Name="UserKey" />
-            <PropertyRef Name="UserId" />
-            <PropertyRef Name="UserName" />
-            <PropertyRef Name="AvatarPath" />
-            <PropertyRef Name="MemberSince" />
-            <PropertyRef Name="CurrencyId" />
-            <PropertyRef Name="CultureCode" />
-            <PropertyRef Name="CurrencySymbol" />
-            <PropertyRef Name="BookMakerId" />
-            <PropertyRef Name="BookMakerName" />
-            <PropertyRef Name="Wins" />
-            <PropertyRef Name="Losses" />
-            <PropertyRef Name="Won" />
-            <PropertyRef Name="Placed" />
-            <PropertyRef Name="Profit" />
-            <PropertyRef Name="Rank" />
-            <PropertyRef Name="WinningBets" />
-          </Key>
-          <Property Name="UserKey" Type="Int32" Nullable="false" />
-          <Property Name="UserId" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="UserName" Type="String" Nullable="false" MaxLength="101" FixedLength="false" Unicode="true" />
-          <Property Name="AvatarPath" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="MemberSince" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="CurrencyId" Type="Int32" Nullable="false" />
-          <Property Name="CultureCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CurrencySymbol" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="BookMakerId" Type="Int32" Nullable="false" />
-          <Property Name="BookMakerName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Wins" Type="Int32" Nullable="false" />
-          <Property Name="Losses" Type="Int32" Nullable="false" />
-          <Property Name="Won" Type="Decimal" Nullable="false" Precision="11" Scale="2" />
-          <Property Name="Placed" Type="Decimal" Nullable="false" Precision="11" Scale="2" />
-          <Property Name="Profit" Type="Decimal" Nullable="false" Precision="11" Scale="2" />
-          <Property Name="Rank" Type="Int64" Nullable="false" />
-          <Property Name="WinningBets" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="UserKey" />
@@ -1007,6 +973,46 @@ FROM [dbo].[UserRank] AS [UserRank]</DefiningQuery>
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="UserRank">
+          <Key>
+            <PropertyRef Name="UserKey" />
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="UserName" />
+            <PropertyRef Name="AvatarPath" />
+            <PropertyRef Name="MemberSince" />
+            <PropertyRef Name="CurrencyId" />
+            <PropertyRef Name="CultureCode" />
+            <PropertyRef Name="CurrencySymbol" />
+            <PropertyRef Name="BookMakerId" />
+            <PropertyRef Name="BookMakerName" />
+            <PropertyRef Name="BetWins" />
+            <PropertyRef Name="Wins" />
+            <PropertyRef Name="Losses" />
+            <PropertyRef Name="Won" />
+            <PropertyRef Name="Placed" />
+            <PropertyRef Name="Profit" />
+            <PropertyRef Name="Rank" />
+            <PropertyRef Name="WinningBets" />
+          </Key>
+          <Property Type="Int32" Name="UserKey" Nullable="false" />
+          <Property Type="String" Name="UserId" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="UserName" Nullable="false" MaxLength="101" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="AvatarPath" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="MemberSince" Nullable="false" Precision="3" />
+          <Property Type="Int32" Name="CurrencyId" Nullable="false" />
+          <Property Type="String" Name="CultureCode" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="CurrencySymbol" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="BookMakerId" Nullable="false" />
+          <Property Type="String" Name="BookMakerName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="BetWins" Nullable="false" />
+          <Property Type="Int32" Name="Wins" Nullable="false" />
+          <Property Type="Int32" Name="Losses" Nullable="false" />
+          <Property Type="Decimal" Name="Won" Nullable="false" Precision="11" Scale="2" />
+          <Property Type="Decimal" Name="Placed" Nullable="false" Precision="11" Scale="2" />
+          <Property Type="Decimal" Name="Profit" Nullable="false" Precision="11" Scale="2" />
+          <Property Type="Int64" Name="Rank" Nullable="false" />
+          <Property Type="String" Name="WinningBets" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1131,29 +1137,6 @@ FROM [dbo].[UserRank] AS [UserRank]</DefiningQuery>
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="UserRanks">
-            <EntityTypeMapping TypeName="InplayBetModel.UserRank">
-              <MappingFragment StoreEntitySet="UserRank">
-                <ScalarProperty Name="WinningBets" ColumnName="WinningBets" />
-                <ScalarProperty Name="Rank" ColumnName="Rank" />
-                <ScalarProperty Name="Profit" ColumnName="Profit" />
-                <ScalarProperty Name="Placed" ColumnName="Placed" />
-                <ScalarProperty Name="Won" ColumnName="Won" />
-                <ScalarProperty Name="Losses" ColumnName="Losses" />
-                <ScalarProperty Name="Wins" ColumnName="Wins" />
-                <ScalarProperty Name="BookMakerName" ColumnName="BookMakerName" />
-                <ScalarProperty Name="BookMakerId" ColumnName="BookMakerId" />
-                <ScalarProperty Name="CurrencySymbol" ColumnName="CurrencySymbol" />
-                <ScalarProperty Name="CultureCode" ColumnName="CultureCode" />
-                <ScalarProperty Name="CurrencyId" ColumnName="CurrencyId" />
-                <ScalarProperty Name="MemberSince" ColumnName="MemberSince" />
-                <ScalarProperty Name="AvatarPath" ColumnName="AvatarPath" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="UserKey" ColumnName="UserKey" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="InplayBetModel.User">
               <MappingFragment StoreEntitySet="User">
@@ -1172,6 +1155,30 @@ FROM [dbo].[UserRank] AS [UserRank]</DefiningQuery>
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="CurrencyId" ColumnName="CurrencyId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="UserKey" ColumnName="UserKey" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserRanks">
+            <EntityTypeMapping TypeName="InplayBetModel.UserRank">
+              <MappingFragment StoreEntitySet="UserRank">
+                <ScalarProperty Name="WinningBets" ColumnName="WinningBets" />
+                <ScalarProperty Name="Rank" ColumnName="Rank" />
+                <ScalarProperty Name="Profit" ColumnName="Profit" />
+                <ScalarProperty Name="Placed" ColumnName="Placed" />
+                <ScalarProperty Name="Won" ColumnName="Won" />
+                <ScalarProperty Name="Losses" ColumnName="Losses" />
+                <ScalarProperty Name="Wins" ColumnName="Wins" />
+                <ScalarProperty Name="BetWins" ColumnName="BetWins" />
+                <ScalarProperty Name="BookMakerName" ColumnName="BookMakerName" />
+                <ScalarProperty Name="BookMakerId" ColumnName="BookMakerId" />
+                <ScalarProperty Name="CurrencySymbol" ColumnName="CurrencySymbol" />
+                <ScalarProperty Name="CultureCode" ColumnName="CultureCode" />
+                <ScalarProperty Name="CurrencyId" ColumnName="CurrencyId" />
+                <ScalarProperty Name="MemberSince" ColumnName="MemberSince" />
+                <ScalarProperty Name="AvatarPath" ColumnName="AvatarPath" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="UserKey" ColumnName="UserKey" />
               </MappingFragment>
