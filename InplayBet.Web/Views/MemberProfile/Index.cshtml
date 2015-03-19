@@ -23,7 +23,7 @@
                     <p class="join">Ranking: @Model.Rank</p>
                     <p class="bookmarker">Bookmarker - @Model.BookMakerName.ToString()</p>
                     <p class="bookmarker">Consecutive Bet Wins: 0</p>
-                    <p class="bookmarker">Followers: <i id="counter">@Model.Followers</i></p>
+                    <p class="bookmarker">Followers: <i class="follow-count" id="counter">@Model.Followers</i></p>
                     @if (Model.UserKey == loggedInUser)
                     {
                         @Html.ActionLink("Edit Profile", "Update", "RegisterUser", new { userKey = Model.UserKey }, null)

@@ -315,7 +315,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#545455', end
 .loading-overlay{position:fixed;height:100%;width:100%;background-color:#e7e7e7;z-index:9999}
 .loading-overlay img{display:block;margin:0 auto;max-height:100%;max-width:100%;top: 50%;position: absolute; left: 50%;}
 /*------------------------- Popup CSS End---------------------------------*/
-.follow-link {display:block;float:left;width:26px;height:26px;background-repeat:no-repeat;}
+.follow-link {display:block;float:left;width:26px;height:29px;background-repeat:no-repeat;}
+.follow-count{display: block;float: right;background: #1BB539;padding: 1px 8px;border: 1px solid #02891D;border-radius: 7px;color: #fff;font-style: normal;}
 
 .yellow-box .popup-border {border:2px solid #d4be00; width:526px; margin-right:10px; min-height:320px;}
 ul.popup li input[type="submit"] {float:left; margin:0 10px 0 0;}
