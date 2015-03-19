@@ -46,6 +46,7 @@ namespace InplayBet.Web.Controllers
                 {
                     ViewBag.TotalRecord = this._userRankDataRepository.GetCount(exp);
                     ViewBag.PageSize = this._defaultRankPageSize;
+                    ViewBag.PagingUrl = Url.Content("~/Ranking/GetRankByPage");
                     return View(user);
                 }
             }
@@ -69,7 +70,7 @@ namespace InplayBet.Web.Controllers
             try
             {
                 Expression<Func<UserRankViewModel, bool>> exp = (x) => !string.IsNullOrEmpty(x.WinningBets);
-                int recordsToPick = (this._defaultRankPageSize * pageIndex);
+                int recordsToPick = pageIndex; //(this._defaultRankPageSize * pageIndex);
 
                 if (!string.IsNullOrEmpty(filter))
                 {
@@ -84,6 +85,7 @@ namespace InplayBet.Web.Controllers
                 if (user != null)
                 {
                     ViewBag.TotalRecord = this._userRankDataRepository.GetCount(exp);
+                    ViewBag.LastElement = 3;
                     return PartialView("_UserRank", user);
                 }
             }

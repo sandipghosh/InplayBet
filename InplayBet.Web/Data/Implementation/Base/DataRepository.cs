@@ -136,8 +136,11 @@ namespace InplayBet.Web.Data.Implementation.Base
         {
             try
             {
-                Expression<Func<TEntity, bool>> entityFilterExpression = filter.RemapForType<TModel, TEntity, bool>();
-                return this.GetEntity().Where(entityFilterExpression).Count();
+                Expression<Func<TEntity, bool>> entityFilterExpression = (filter == null)
+                    ? null : filter.RemapForType<TModel, TEntity, bool>();
+
+                return (entityFilterExpression == null) ? this.GetEntity().Count() :
+                    this.GetEntity().Where(entityFilterExpression).Count();
             }
             catch (Exception ex)
             {
@@ -310,14 +313,14 @@ namespace InplayBet.Web.Data.Implementation.Base
 
                 var entities = this.GetEntity();
 
-                if (entityOrderExpression!=null)
+                if (entityOrderExpression != null)
                 {
                     if (ascending)
                         return entities.OrderBy(entityOrderExpression)
                             .GetPaggedData(pageIndex, pageCount).Project().To<TModel>();
                     else
                         return entities.OrderByDescending(entityOrderExpression)
-                            .GetPaggedData(pageIndex, pageCount).Project().To<TModel>(); 
+                            .GetPaggedData(pageIndex, pageCount).Project().To<TModel>();
                 }
                 else
                     return entities.GetPaggedData(pageIndex, pageCount).Project().To<TModel>();

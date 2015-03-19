@@ -10,7 +10,23 @@
                 itemsOnPage: parseInt($('#PageSize').val()),
                 cssStyle: 'light-theme',
                 onPageClick: function (pageNumber, event) {
-
+                    $.ajax({
+                        url: $('#PagingUrl').val(),
+                        type: 'GET',
+                        contentType: "application/json",
+                        data: {
+                            "pageIndex": pageNumber,
+                            "filter": ""
+                        },
+                        success: function (result, textStatus, jqXHR) {
+                            if (result) {
+                                $('.leadbroad-block').html($(result).filter('.leadbroad-block').html());
+                            }
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            alert(textStatus);
+                        }
+                    });
                 },
                 onInit: function () {
                     PagerInitiation(parseInt($('#PageSize').val()));
@@ -20,14 +36,14 @@
             log(ex.message);
         }
     });
-    
+
     this.PagerInitiation = function (selectedOption) {
         var $list = $('<select>');
         var $items = [10, 20, 50, 100];
         $.each($items, function (index, item) {
             $list.append(new Option(item, item, (selectedOption == item)));
         });
-        
+
         $list.change(function () {
             var optionSelected = parseInt($("option:selected", this).val());
             $('.rank-pagger').pagination('updateItemsOnPage', optionSelected);

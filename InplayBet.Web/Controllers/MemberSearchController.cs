@@ -44,6 +44,7 @@ namespace InplayBet.Web.Controllers
                 {
                     ViewBag.TotalRecord = this._userRankDataRepository.GetCount();
                     ViewBag.PageSize = this._defaultMemberPageSize;
+                    ViewBag.PagingUrl = Url.Content("~/MemberSearch/GetMemberByPage");
                     return View(user);
                 }
             }
@@ -67,7 +68,7 @@ namespace InplayBet.Web.Controllers
             try
             {
                 Expression<Func<UserRankViewModel, bool>> exp = null;
-                int recordsToPick = (this._defaultMemberPageSize * pageIndex);
+                int recordsToPick = pageIndex;  //(this._defaultMemberPageSize * pageIndex);
 
                 if (!string.IsNullOrEmpty(filter))
                     exp = CommonUtility.GetLamdaExpressionFromFilter<UserRankViewModel>(filter);
@@ -78,7 +79,8 @@ namespace InplayBet.Web.Controllers
                 if (user != null)
                 {
                     ViewBag.TotalRecord = this._userRankDataRepository.GetCount(exp);
-                    return PartialView(user);
+                    ViewBag.LastElement = 2;
+                    return PartialView("_UserRank", user);
                 }
             }
             catch (Exception ex)

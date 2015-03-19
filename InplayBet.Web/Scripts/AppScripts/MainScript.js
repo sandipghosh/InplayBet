@@ -31,21 +31,11 @@
             if (typeof $elm == 'undefined') {
                 $('a.follow-link[data-status]').each(function (index, element) {
                     processLink($(element));
-                    //var status = $(element).data('status');
-                    //$(element).attr('title', (status == 1 ? 'Follow the user' : 'Un-follow the user'));
-                    //$(element).css('background-image', (status == 1 ? 'url({0}Styles/images/thumb-up-32.png)'
-                    //    : 'url({0}Styles/images/thumb-down-32)').format(VirtualDirectory));
                 });
             }
             else {
                 processLink($elm);
-                //var status = $elm.data('status');
-                //$elm.attr('title', (status == 1 ? 'Follow the user' : 'Un-follow the user'));
-                //$elm.css('background-image', (status == 1 ? 'url({0}Styles/images/thumb-up-32.png)'
-                //    : 'url({0}Styles/images/thumb-down-32)').format(VirtualDirectory));
             }
-
-            
 
         } catch (ex) {
             log(ex.message);
@@ -60,7 +50,7 @@
             var $self = $(element);
             var status = $self.data('status');
             $.ajax({
-                url: '{0}Follow/Set'.format(VirtualDirectory),
+                url: $('#PagingUrl').val(),
                 type: 'GET',
                 dataType: "json",
                 contentType: "application/json",

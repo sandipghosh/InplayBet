@@ -33,6 +33,7 @@
             { 
                 @Html.Hidden("TotalRecord", (int)ViewBag.TotalRecord, new { id = "TotalRecord" })
                 @Html.Hidden("PageSize", (int)ViewBag.PageSize, new { id = "PageSize" })
+                @Html.Hidden("PagingUrl", (string)ViewBag.PagingUrl, new { id = "PagingUrl" })
                 <div class="rank-pagger"></div>
                 @Html.Partial("_UserRank", Model, new ViewDataDictionary { { "LastElement", 2 } })
                 <div class="rank-pagger"></div>
