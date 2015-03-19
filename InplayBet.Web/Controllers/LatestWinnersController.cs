@@ -51,15 +51,14 @@ namespace InplayBet.Web.Controllers
 
                 if (!challenges.IsEmptyCollection())
                 {
-                    List<ChallengeModel> result = challenges.AsParallel()
+                    List<ChallengeModel> result = challenges
                         .GroupBy(x => x.UserKey, (key, g) => new
                         {
                             UserKey = key,
                             Challenge = g.MaxBy(m => m.UpdatedOn)
                         }).Select(y => y.Challenge).ToList<ChallengeModel>();
 
-                    winners = result.AsParallel()
-                        .Select(x => new WinnerViewModel
+                    winners = result.Select(x => new WinnerViewModel
                     {
                         WonChallenge = x,
                         User = this._userRankDataRepository

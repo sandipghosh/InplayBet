@@ -1,6 +1,7 @@
-﻿@{Layout = null;}
-@using InplayBet.Web.Models
+﻿@using InplayBet.Web.Models
 @using InplayBet.Web.Utilities
+@using System.Globalization
+@{Layout = null;}
 @model List<BetModel>
 @functions {
     string getClassName(int index, int lastIndex)
@@ -10,12 +11,17 @@
 }
 @foreach (BetModel bet in Model)
 {
-    <div class="latest-bets-block @getClassName(Model.IndexOf(bet),4)">
+    <div class="latest-bets-block @getClassName(Model.IndexOf(bet),3)">
         <h3>bet @bet.BetNumber</h3>
         <p>
-            <strong>Date:</strong> @bet.CreatedOn.ToString("d")<br>
-            <strong>Time:</strong> @bet.CreatedOn.ToString("hh:mm:ss tt")<br>
-            <strong>Place:</strong> @bet.BetType
+            <strong>Team Names :</strong> @Html.Raw(string.Format("{0} <strong>vs</strong> {1}", bet.TeamA.TeamName.AsString(), bet.TeamB.TeamName.AsString()))<br />
+            <strong>League :</strong> @bet.Legue.LegueName.AsString()<br />
+            <strong>Bet Type :</strong> @bet.BetType<br />
+            <strong>Odds :</strong> @bet.Odds<br />
+            <strong>Amount Placed :</strong> @bet.BetPlaced.ToString("C", new CultureInfo(bet.Challenge.User.Currency.CultureCode))<br />
+            <strong>Winning Total :</strong> @bet.WiningTotal.ToString("C", new CultureInfo(bet.Challenge.User.Currency.CultureCode))<br />
+            <strong>Bet Submited On :</strong> @bet.CreatedOn.ToString("d", new CultureInfo(bet.Challenge.User.Currency.CultureCode))<br />
+            <strong>Status :</strong> @bet.BetStatus<br />
         </p>
     </div>
 }

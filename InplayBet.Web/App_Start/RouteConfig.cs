@@ -20,7 +20,7 @@ namespace InplayBet.Web
                 new { controller = "RegisterUser", action = "ActivateUser", timestamp = UrlParameter.Optional, userkey=UrlParameter.Optional });
 
             routes.MapRoute("ViewProfile", "MemberProfile/ViewProfile/{userId}",
-                new { controller = "MemberProfile", action = "ViewProfile", userId = UrlParameter.Optional });
+                new { controller = "MemberProfile", action = "ViewProfile" });
 
             routes.MapRoute(
                 name: "Default",

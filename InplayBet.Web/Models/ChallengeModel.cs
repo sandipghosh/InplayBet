@@ -4,8 +4,9 @@ namespace InplayBet.Web.Models
     using System;
     using System.Collections.Generic;
     using InplayBet.Web.Models.Base;
+    using AutoMapper;
 
-    public class ChallengeModel:BaseModel
+    public class ChallengeModel : BaseModel
     {
         public int ChallengeId { get; set; }
         public int ChallengeNumber { get; set; }
@@ -19,5 +20,8 @@ namespace InplayBet.Web.Models
         public DateTime? UpdatedOn { get; set; }
 
         public virtual IEnumerable<BetModel> Bets { get; set; }
+
+        [IgnoreMap]
+        public UserModel User { get; set; }
     }
 }

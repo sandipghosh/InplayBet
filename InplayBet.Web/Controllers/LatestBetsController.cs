@@ -15,15 +15,21 @@ namespace InplayBet.Web.Controllers
     public class LatestBetsController : BaseController
     {
         private readonly IBetDataRepository _betDataRepository;
+        private readonly IUserDataRepository _userDataRepository;
+        private readonly IChallengeDataRepository _challengeDataRepository;
         private readonly int _defaultWiningBetPegSize;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RankingController"/> class.
         /// </summary>
         /// <param name="userRankDataRepository">The user rank data repository.</param>
-        public LatestBetsController(IBetDataRepository betDataRepository)
+        public LatestBetsController(IBetDataRepository betDataRepository,
+            IUserDataRepository userDataRepository,
+            IChallengeDataRepository challengeDataRepository)
         {
             this._betDataRepository = betDataRepository;
+            this._userDataRepository = userDataRepository;
+            this._challengeDataRepository = challengeDataRepository;
             this._defaultWiningBetPegSize = CommonUtility.GetConfigData<int>("DefaultWiningBetPegSize");
         }
 
@@ -42,6 +48,15 @@ namespace InplayBet.Web.Controllers
                         x => x.StatusId.Equals((int)StatusCode.Active),
                         x => x.CreatedOn, true).ToList();
 
+
+                if (!bets.IsEmptyCollection())
+                {
+                    bets.ForEach(x =>
+                    {
+                        x.Challenge = this._challengeDataRepository.Get(x.ChallengeId);
+                        if (x.Challenge != null) x.Challenge.User = this._userDataRepository.Get(x.Challenge.UserKey);
+                    });
+                }
                 return View(bets);
             }
             catch (Exception ex)

@@ -16,8 +16,10 @@
             @foreach (BetModel bet in Model.Bets)
             {
                 <p>
-                    <strong><strong>@string.Format("Bet {0} - {1} vs {2}", bet.BetNumber, bet.TeamA.TeamName, bet.TeamB.TeamName)</strong></strong><br>
+                    <strong><strong>@string.Format("Bet {0}", bet.BetNumber)</strong></strong><br>
+                    <strong><strong>@string.Format("{0} vs {1}",bet.TeamA.TeamName, bet.TeamB.TeamName)</strong></strong><br>
                     @bet.BetType.AsString()<br />
+                    Odds @bet.Odds<br />
                     @string.Format((new CultureInfo(caltureCore)), "{0:C} - {1:C}", bet.BetPlaced, bet.WiningTotal)<br />
                     @bet.BetStatus.AsString()
                 </p>

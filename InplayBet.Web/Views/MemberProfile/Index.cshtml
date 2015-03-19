@@ -1,10 +1,12 @@
 ﻿@using InplayBet.Web.Utilities
 @using InplayBet.Web.Models
+@using InplayBet.Web.Models.Base
 @using System.Globalization
 @model UserRankViewModel
 @{
     ViewBag.Title = "Member Profile";
     int loggedInUser = SessionVeriables.GetSessionData<int>(SessionVeriables.UserKey);
+    var follow = CommonUtility.IsFollowing(Model.UserKey);
 }
 @section PageScript {
     @Html.RenderScripts("~/Scripts/ChallengeScript")
@@ -27,15 +29,19 @@
                         @Html.ActionLink("Edit Profile", "Update", "RegisterUser", new { userKey = Model.UserKey }, null)
                     }
 
-                    @if (!CommonUtility.IsFollowing(Model.UserKey))
-                    { <p><a href="javascript:void()" onclick="Follow(this, event, @loggedInUser, @Model.UserKey, '#counter')">Follow</a></p> }
-
+                    @if (follow > 0)
+                    {
+                        <p>
+                            <a href="javascript:void()" class="follow-link" data-status="@follow"
+                               onclick="Follow(this, event, @loggedInUser, @Model.UserKey, '#counter')"></a>
+                        </p>
+                    }
                 </div>
                 <div class="detail-block">
                     <p class="left">Challenges Won @Model.Wins</p>
                     <p class="left">Challenges Lost @Model.Losses</p>
                     <p class="left">Winning Bets @Model.BetWins</p>
-                    <p class="left">Won @Model.Won</p>
+                    <p class="left">Won @Model.Won.ToString("C", (new CultureInfo(Model.CultureCode)))</p>
                     <p class="left">Placed -@Model.Placed.ToString("C", (new CultureInfo(Model.CultureCode)))</p>
                     <p class="left">Profit @((Model.Profit < 1 ? 0 : Model.Profit).ToString("C", (new CultureInfo(Model.CultureCode))))</p>
                 </div>

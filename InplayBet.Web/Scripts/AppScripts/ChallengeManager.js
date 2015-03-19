@@ -88,7 +88,6 @@
                             if (result) {
                                 $('.yellow-box .scroll .outer').html(result);
                                 SetAutoSuggession($('.yellow-box .scroll .outer'));
-                                //validationSetup();
                             }
                         },
                         error: function (jqXHR, textStatus, errorThrown) {

@@ -138,8 +138,8 @@ else
                 else if (betDisplayMode == BetDisplayType.Read.ToString())
                 {
                     <li>
-                        <label><strong>Bet @Model.BetStatus On:</strong></label>
-                        <label class="right">@Model.UpdatedOn.Value.ToString("dd/MM/yyyy hh:mm tt", (new CultureInfo(cultureCode)))</label>
+                        <label><strong>Bet Submited On:</strong></label>
+                        <label class="right">@Model.CreatedOn.ToString("dd/MM/yyyy hh:mm tt", (new CultureInfo(cultureCode)))</label>
                     </li>
                     <li>
                         <label><strong>Status:</strong></label>

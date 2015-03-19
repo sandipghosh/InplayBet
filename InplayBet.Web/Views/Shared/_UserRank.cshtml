@@ -1,5 +1,6 @@
 ﻿@using InplayBet.Web.Utilities
 @using InplayBet.Web.Models
+@using InplayBet.Web.Models.Base
 @using System.Globalization
 @model List<UserRankViewModel>
 @{
@@ -32,6 +33,7 @@
     @foreach (UserRankViewModel user in Model)
     {
         var id = Model.IndexOf(user);
+        var follow = CommonUtility.IsFollowing(user.UserKey);
         <li onclick="RedirevtToUserProfile('@user.UserId')" @getClassName(Model.IndexOf(user), lastElement)>
             <div class="position">@getStringFromIndex(Model.IndexOf(user))</div>
             <div class="leaderblock">
@@ -39,15 +41,16 @@
                 <div class="block-top">
                     <img width="115" src='@Url.Content(user.AvatarPath)' alt="">
                     <h4>@user.UserId</h4>
-                    <p class="member">Member Since: @user.MemberSince.ToString(new CultureInfo(user.CultureCode))</p>
+                    <p class="member">Member Since: @user.MemberSince.ToString("d", new CultureInfo(user.CultureCode))</p>
                     <p class="join">Ranking: @user.Rank</p>
                     <div class="clear"></div>
                     <div class="points">
                         <p class="left">Followers : <i id="@id">@user.Followers</i></p>
                         <p class="right">
-                            @if (!CommonUtility.IsFollowing(user.UserKey))
+                            @if (follow > 0)
                             {
-                                <a href="javascript:void()" onclick="Follow(this, event, @loggedInUser, @user.UserKey, '#@id')">Follow</a>
+                                <a href="javascript:void()" class="follow-link" data-status="@follow"
+                                   onclick="Follow(this, event, @loggedInUser, @user.UserKey, '#@id')"></a>
                             }
                         </p>
                     </div>
@@ -57,7 +60,7 @@
                     </div>
                     <div class="points">
                         <p class="left">Won - @user.Won.ToString("C", new CultureInfo(user.CultureCode))</p>
-                        <p class="right">Lost - @user.Placed.ToString("C", new CultureInfo(user.CultureCode))</p>
+                        <p class="right">Placed - @user.Placed.ToString("C", new CultureInfo(user.CultureCode))</p>
                     </div>
                     <div class="points points-botm">
                         <p class="left">Winning Bets</p>

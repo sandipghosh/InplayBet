@@ -19,6 +19,7 @@ namespace InplayBet.Web.Utilities
     using System.Web.Mvc;
     using System.Web.Routing;
     using System.Text.RegularExpressions;
+    using InplayBet.Web.Models.Base;
 
     public static class CommonUtility
     {
@@ -578,14 +579,6 @@ namespace InplayBet.Web.Utilities
                                 return urlData;
                             }
                         }
-
-                        //using (Image returnImage = Image.FromStream(ms))
-                        //{
-                        //    returnImage.Save(imagePath, ImageFormat.Jpeg);
-                        //    returnImage.Dispose();
-                        //}
-                        //ms.Close();
-                        //ms.Dispose();
                     }
 
                     return imageRelativePath;
@@ -621,7 +614,12 @@ namespace InplayBet.Web.Utilities
                 .ToDictionary(key => key, key => ConfigurationManager.AppSettings[key]));
         }
 
-        public static bool IsFollowing(int userKey)
+        /// <summary>
+        /// Determines whether the specified user key is following.
+        /// </summary>
+        /// <param name="userKey">The user key.</param>
+        /// <returns></returns>
+        public static int IsFollowing(int userKey)
         {
             try
             {
@@ -629,14 +627,15 @@ namespace InplayBet.Web.Utilities
                 if (loggedInUser > 0 && loggedInUser != userKey)
                 {
                     SharedFunctionality shared = new SharedFunctionality();
-                    return shared.IsFollowing(loggedInUser, userKey);
+                    return shared.IsFollowing(loggedInUser, userKey)
+                        ? (int)FollowType.UnFollow : (int)FollowType.Follow;
                 }
             }
             catch (Exception ex)
             {
                 ex.ExceptionValueTracker(userKey);
             }
-            return true;
+            return (int)FollowType.NotApplicable;
         }
     }
 }

@@ -3,34 +3,36 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @{Html.RenderPartial("_PageTitle", new ViewDataDictionary { { "Caption", "Contact Us" } });}
-<div class="container">
-    <div class="query-left">
-        <h2 class="query-heading">Query Form</h2>
+<div class="main-container">
+    <div class="container">
+        <div class="query-left">
+            <h2 class="query-heading">Query Form</h2>
 
-        <ul class="query-list">
-            <li>
-                <label>Your Name:</label>
-                <input name="" value="" type="text">
-            </li>
-            <li>
-                <label>Your Email Address:</label>
-                <input name="" value="" type="text">
-            </li>
-            <li>
-                <label>Your Phone Number:</label>
-                <input name="" value="" type="text">
-            </li>
-            <li>
-                <label>Your Message:</label>
-                <textarea name=""></textarea>
-            </li>
-            <li>
-                <input name="" value="submit" type="submit">
-            </li>
-        </ul>
+            <ul class="query-list">
+                <li>
+                    <label>Your Name:</label>
+                    <input name="" value="" type="text">
+                </li>
+                <li>
+                    <label>Your Email Address:</label>
+                    <input name="" value="" type="text">
+                </li>
+                <li>
+                    <label>Your Phone Number:</label>
+                    <input name="" value="" type="text">
+                </li>
+                <li>
+                    <label>Your Message:</label>
+                    <textarea name=""></textarea>
+                </li>
+                <li>
+                    <input name="" value="submit" type="submit">
+                </li>
+            </ul>
+        </div>
+        <div class="contact-img">
+            <img src='@Url.Content("~/Styles/images/contact-icon.jpg")' alt="">
+        </div>
+        @{Html.RenderPartial("_PromoBanner");}
     </div>
-    <div class="contact-img">
-        <img src='@Url.Content("~/Styles/images/contact-icon.jpg")' alt="">
-    </div>
-    @{Html.RenderPartial("_PromoBanner");}
 </div>

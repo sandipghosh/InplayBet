@@ -67,6 +67,20 @@ namespace InplayBet.Web.Utilities
                         return GetFollowers(followTo);
                     }
                 }
+                else
+                {
+                    FollowModel follow = this._followDataRepository.GetList(x => x.StatusId.Equals((int)StatusCode.Active)
+                        && x.FollowBy.Equals(followBy) && x.FollowTo.Equals(followTo)).FirstOrDefaultCustom();
+
+                    if (follow != null)
+                    {
+                        follow.StatusId = (int)StatusCode.Inative;
+                        follow.UpdatedBy = followBy;
+                        follow.UpdatedOn = DateTime.Now;
+                        this._followDataRepository.Update(follow);
+                        return GetFollowers(followTo);
+                    }
+                }
             }
             catch (Exception ex)
             {

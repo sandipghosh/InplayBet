@@ -58,8 +58,8 @@
         </li>
         <li>
             <label>Currency:</label>
-            @Html.ValidationMessageFor(x => x.CurrencyId)
-            @Html.DropDownListFor(m => m.CurrencyId, (IEnumerable<SelectListItem>)ViewBag.Currencies, "Select Currency", null)
+            <div class="iam">@Html.ValidationMessageFor(x => x.CurrencyId)
+            @Html.DropDownListFor(m => m.CurrencyId, (IEnumerable<SelectListItem>)ViewBag.Currencies, "Select Currency", null)</div>
         </li>
         <li>
             <div class="password">
@@ -75,19 +75,19 @@
         </li>
         <li>
             <label>I am:</label>
-            @Html.ValidationMessageFor(m => m.Sex)
-            @Html.DropDownListFor(m => m.Sex, (IEnumerable<SelectListItem>)ViewBag.Sex, "Select Sex", null)
+            <div class="iam">@Html.ValidationMessageFor(m => m.Sex)
+            @Html.DropDownListFor(m => m.Sex, (IEnumerable<SelectListItem>)ViewBag.Sex, "Select Sex", null)</div>
         </li>
         <li>
             <label>Date of birth:</label>
-            @Html.ValidationMessageFor(m => m.DobMonth)
-            @Html.DropDownListFor(m => m.DobMonth, (IEnumerable<SelectListItem>)ViewBag.Months, "Select Month", null)
+            <div class="dob">@Html.ValidationMessageFor(m => m.DobMonth)
+            @Html.DropDownListFor(m => m.DobMonth, (IEnumerable<SelectListItem>)ViewBag.Months, "Select Month", null)</div>
 
-            @Html.ValidationMessageFor(m => m.DobDay)
-            @Html.DropDownListFor(m => m.DobDay, (IEnumerable<SelectListItem>)ViewBag.Days, "Select Date", null)
+            <div class="dob">@Html.ValidationMessageFor(m => m.DobDay)
+            @Html.DropDownListFor(m => m.DobDay, (IEnumerable<SelectListItem>)ViewBag.Days, "Select Date", null)</div>
 
-            @Html.ValidationMessageFor(m => m.DobYear)
-            @Html.DropDownListFor(m => m.DobYear, (IEnumerable<SelectListItem>)ViewBag.Years, "Select Year", null)
+            <div class="dob">@Html.ValidationMessageFor(m => m.DobYear)
+            @Html.DropDownListFor(m => m.DobYear, (IEnumerable<SelectListItem>)ViewBag.Years, "Select Year", null)</div>
         </li>
         <li>
             <label>Bookmaker:</label>

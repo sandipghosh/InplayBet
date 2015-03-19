@@ -5,16 +5,17 @@
 <div class="top">
     <img width="134" src='@Url.Content(Model.AvatarPath)' alt="">
     <div class="name-block">
-        <h4><span>Name:</span>@Model.UserId</h4>
-        <p class="member">Member Since: @Model.MemberSince.ToString("dd/MM/yyyy hh:mm tt", (new CultureInfo(Model.CultureCode)))</p>
+        <h4><span>Name: </span>@Model.UserId</h4>
+        <p class="member">Member Since: @Model.MemberSince.ToString("d", (new CultureInfo(Model.CultureCode)))</p>
         <p class="join">Ranking: @Model.Rank</p>
         <p class="bookmarker">Bookmarker - @Model.BookMakerName</p>
+        <p class="bookmarker">Followers - @Model.Followers</p>
     </div>
     <div class="detail-block">
         <p class="left">Wins @Model.Wins</p>
         <p class="left">Losses @Model.Losses</p>
-        <p class="left">Winning Bets @Model.WinningBets</p>
-        <p class="left">Won @Model.Won</p>
+        <p class="left">Winning Bets @Model.BetWins</p>
+        <p class="left">Won @Model.Won.ToString("C", (new CultureInfo(Model.CultureCode)))</p>
         <p class="left">Placed -@Model.Placed.ToString("C", (new CultureInfo(Model.CultureCode)))</p>
         <p class="left">Profit @Model.Profit.ToString("C", (new CultureInfo(Model.CultureCode)))</p>
     </div>

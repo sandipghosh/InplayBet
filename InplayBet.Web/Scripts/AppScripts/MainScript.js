@@ -15,8 +15,42 @@
                 e.preventDefault();
             }
         });
+        SetFollowingImage();
         ManageTopNavigation();
     });
+
+    this.SetFollowingImage = function ($elm) {
+        try {
+            var processLink = function ($e) {
+                var status = $e.data('status');
+                $e.attr('title',(status == 1 ? 'Follow the user': 'Un-follow the user'));
+                $e.css('background-image',(status == 1 ? 'url({0}Styles/images/thumb-up-32.png)'
+                    : 'url({0}Styles/images/thumb-down-32.png)').format(VirtualDirectory));
+            };
+
+            if (typeof $elm == 'undefined') {
+                $('a.follow-link[data-status]').each(function (index, element) {
+                    processLink($(element));
+                    //var status = $(element).data('status');
+                    //$(element).attr('title', (status == 1 ? 'Follow the user' : 'Un-follow the user'));
+                    //$(element).css('background-image', (status == 1 ? 'url({0}Styles/images/thumb-up-32.png)'
+                    //    : 'url({0}Styles/images/thumb-down-32)').format(VirtualDirectory));
+                });
+            }
+            else {
+                processLink($elm);
+                //var status = $elm.data('status');
+                //$elm.attr('title', (status == 1 ? 'Follow the user' : 'Un-follow the user'));
+                //$elm.css('background-image', (status == 1 ? 'url({0}Styles/images/thumb-up-32.png)'
+                //    : 'url({0}Styles/images/thumb-down-32)').format(VirtualDirectory));
+            }
+
+            
+
+        } catch (ex) {
+            log(ex.message);
+        }
+    };
 
     this.Follow = function (element, event, folowBy, folowTo, updateElement) {
         try {
@@ -24,19 +58,21 @@
             event.stopPropagation();
 
             var $self = $(element);
+            var status = $self.data('status');
             $.ajax({
                 url: '{0}Follow/Set'.format(VirtualDirectory),
                 type: 'GET',
                 dataType: "json",
                 contentType: "application/json",
-                data: { "followBy": folowBy, "followTo": folowTo },
+                data: {
+                    "followBy": folowBy, "followTo": folowTo
+                },
                 success: function (result, textStatus, jqXHR) {
                     if (result) {
-                        if (result.followCount > 0) {
-                            $self.remove();
-                            $(updateElement).text(result.followCount);
-                            return false;
-                        }
+                        $self.data('status', status == 1 ? 2 : 1);
+                        $(updateElement).text(result.followCount);
+                        SetFollowingImage($self);
+                        return false;
                     }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
@@ -98,18 +134,23 @@
             if (!settings.url.contains('Keepalive')) {
                 loadingCounter += 1;
                 $(document).css('cursor', 'wait !important');
-                try { $.blockUI({ message: $("#dataloading") }); } catch (ex) { }
+                try {
+                    $.blockUI({ message: $("#dataloading") });
+                } catch (ex) { }
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
             alert('error');
         },
         complete: function (jqXHR, textStatus) {
-            if (loadingCounter > 1)
-            { loadingCounter -= 1 }
+            if (loadingCounter > 1) {
+                loadingCounter -= 1
+            }
             else {
                 loadingCounter = 0;
-                try { $.unblockUI(); } catch (ex) { }
+                try {
+                    $.unblockUI();
+                } catch (ex) { }
             }
             $(document).css('cursor', 'default !important');
         }
@@ -174,7 +215,9 @@
                             url: settings.getUrl,
                             dataType: "json",
                             contentType: "application/json",
-                            data: { 'filter': request.term },
+                            data: {
+                                'filter': request.term
+                            },
                             success: function (data) {
                                 if (data) {
                                     var re = $.ui.autocomplete.escapeRegex(request.term);

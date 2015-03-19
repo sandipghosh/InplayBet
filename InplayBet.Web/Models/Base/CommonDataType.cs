@@ -17,5 +17,10 @@ namespace InplayBet.Web.Models.Base
         Read = 3
     }
 
-
+    public enum FollowType
+    {
+        NotApplicable = 0,
+        Follow = 1,
+        UnFollow = 2
+    }
 }

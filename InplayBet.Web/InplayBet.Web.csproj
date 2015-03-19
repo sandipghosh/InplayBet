@@ -205,6 +205,7 @@
     <Compile Include="Controllers\RegisterUserController.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Controllers\ReportingController.cs" />
     <Compile Include="Controllers\TeamController.cs" />
     <Compile Include="Data\Context\BaseData.cs" />
     <Compile Include="Data\Context\Bet.cs">
@@ -397,6 +398,8 @@
     <Content Include="Styles\images\profile-img.jpg" />
     <Content Include="Styles\images\t-icon.png" />
     <Content Include="Images\Users\Default.jpg" />
+    <Content Include="Styles\images\thumb-down-32.png" />
+    <Content Include="Styles\images\thumb-up-32.png" />
     <Content Include="Styles\images\welcome.gif" />
     <Content Include="Scripts\AppScripts\Common.js" />
     <Content Include="Scripts\AppScripts\MainScript.js" />
@@ -475,6 +478,7 @@
     <Content Include="Views\Bet\ShowChallengeStatusMessage.cshtml" />
     <Content Include="Views\Bet\ShowReportWindow.cshtml" />
     <Content Include="Views\Shared\_ImageCroper.cshtml" />
+    <Content Include="Views\Reporting\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

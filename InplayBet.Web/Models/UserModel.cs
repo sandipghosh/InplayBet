@@ -15,20 +15,23 @@ namespace InplayBet.Web.Models
         RegularExpression(@"^[a-zA-Z0-9!@#$%&.]{8,}$", ErrorMessage = "User Id must be alphe numeric only")]
         public string UserId { get; set; }
 
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Please fillup First Name")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Please enter First Name")]
         public string FirstName { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "Please enter Last Name")]
         public string LastName { get; set; }
 
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Please enter email address")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Please Enter Email Address"),
+        RegularExpression(@"^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}" +
+         @"\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\" +
+         @".)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$", ErrorMessage = "Please Enter a Valid Email Address")]
         public string EmailId { get; set; }
 
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Please enter password"),
-        RegularExpression(@"^[a-zA-Z\d]{8,}$", ErrorMessage = "Please enter a valid password")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Please Enter Password"),
+        RegularExpression(@"^[a-zA-Z\d]{8,}$", ErrorMessage = "Please Enter a Valid Password")]
         public string Password { get; set; }
 
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Please enter cpnfirm password"),
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Please Enter Confirm Password"),
         Compare("Password", ErrorMessage = "Please enter correct cpnfirm password")]
         public string ConfirmPassword { get; set; }
 
@@ -50,6 +53,7 @@ namespace InplayBet.Web.Models
         [Required(AllowEmptyStrings = false, ErrorMessage = "Please enter date of book maker")]
         public int BookMakerId { get; set; }
 
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Please enter currency")]
         public int CurrencyId { get; set; }
 
         public string AvatarPath { get; set; }
