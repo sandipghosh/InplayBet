@@ -27,7 +27,6 @@ namespace InplayBet.Web.Data.Implementation.Base
         /// <param name="parameters">The parameters.</param>
         /// <returns></returns>
         public IEnumerable<TModel> ExecuteQuery<TModel>(string sqlQuery, params object[] parameters)
-            where TModel : BaseModel
         {
             int commandTimeoutAppSetting = int.Parse(CommonUtility.GetConfigData<string>("CommandTimeout"));
             ((IObjectContextAdapter)_dbContext).ObjectContext.CommandTimeout = commandTimeoutAppSetting;

@@ -16,13 +16,13 @@
     <div class="container">
         <div class="mp-block">
             <div class="top">
-                <img width="150" src='@Url.Content(Model.AvatarPath)' alt="">
+                <div class="top-profile-img"><img src='@Url.Content(Model.AvatarPath)' alt=""></div>
                 <div class="name-block">
                     <h4><span>Name:</span> @Model.UserId</h4>
                     <p class="member">Member Since: @Model.MemberSince.ToString("d", (new CultureInfo(Model.CultureCode)))</p>
                     <p class="join">Ranking: @Model.Rank</p>
                     <p class="bookmarker">Bookmarker - @Model.BookMakerName.ToString()</p>
-                    <p class="bookmarker">Consecutive Bet Wins: 0</p>
+                    <p class="bookmarker">Consecutive Bet Wins: @ViewBag.ConsicutiveWonBets</p>
                     <p class="bookmarker">Followers: <i class="follow-count" id="counter">@Model.Followers</i></p>
                     @if (Model.UserKey == loggedInUser)
                     {
@@ -37,13 +37,13 @@
                         </p>
                     }
                 </div>
-                <div class="detail-block">
+                <div class="detail-block member-profile">
                     <p class="left">Challenges Won @Model.Wins</p>
                     <p class="left">Challenges Lost @Model.Losses</p>
                     <p class="left">Winning Bets @Model.BetWins</p>
                     <p class="left">Won @Model.Won.ToString("C", (new CultureInfo(Model.CultureCode)))</p>
                     <p class="left">Placed -@Model.Placed.ToString("C", (new CultureInfo(Model.CultureCode)))</p>
-                    <p class="left">Profit @((Model.Profit < 1 ? 0 : Model.Profit).ToString("C", (new CultureInfo(Model.CultureCode))))</p>
+                    <p class="left">Profit @Model.Profit.ToString("C", (new CultureInfo(Model.CultureCode)))</p>
                 </div>
             </div>
             @Html.Action("GetChallengesByUser", "Bet", new { userKey = Model.UserKey })

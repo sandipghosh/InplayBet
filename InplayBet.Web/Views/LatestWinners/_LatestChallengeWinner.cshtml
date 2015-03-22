@@ -3,7 +3,7 @@
 @model UserRankViewModel
 @{Layout = null;}
 <div class="top">
-    <img width="134" src='@Url.Content(Model.AvatarPath)' alt="">
+    <div class="top-profile-img"><img src='@Url.Content(Model.AvatarPath)' alt=""></div>
     <div class="name-block">
         <h4><span>Name: </span>@Model.UserId</h4>
         <p class="member">Member Since: @Model.MemberSince.ToString("d", (new CultureInfo(Model.CultureCode)))</p>

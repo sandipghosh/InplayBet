@@ -23,5 +23,31 @@
             }
             <li id="lnkContactUs">@Html.ActionLink("Contact Us", "Index", "ContactUs", new { area = "" }, null)</li>
         </ul>
+		<div class="grid_24">
+                        <div class="main-mobile-menu">
+                            <div class="wrap-title">
+                                <h4>Navigation </h4>
+                                <span class="open-mobile"></span>
+                            </div>
+                            <ul class="menu-mobile" style="display: none;">
+                                <li id="lnkHome" class="active"><a href="@Url.Content("~/")Home">Home</a></li>
+            <li id="lnkHowToPlay">@Html.ActionLink("How To Play", "Index", "HowToPlay", new { area = "" }, null)</li>
+            <li id="lnkRanking">@Html.ActionLink("Ranking", "Index", "Ranking", new { area = "" }, null)</li>
+            <li id="lnkLatestBets">@Html.ActionLink("Latest Bets", "Index", "LatestBets", new { area = "" }, null)</li>
+            <li id="lnkLatestWinners">@Html.ActionLink("Latest Winners", "Index", "LatestWinners", new { area = "" }, null)</li>
+            <li id="lnkMemberSearch">@Html.ActionLink("Member Search", "Index", "MemberSearch", new { area = "" }, null)</li>
+            <li id="lnkReporting">@Html.ActionLink("Reporting", "Index", "Reporting", new { area = "" }, null)</li>
+            @if (isLoggedInUser > 0)
+            {
+                <li id="lnkMemberProfile">@Html.ActionLink("My Profile", "Index", "MemberProfile", new { area = "" }, null)</li>
+            }
+            else
+            {
+                <li id="lnkRegisterUser">@Html.ActionLink("Sign Up", "Index", "RegisterUser", new { area = "" }, null)</li>
+            }
+            <li id="lnkContactUs">@Html.ActionLink("Contact Us", "Index", "ContactUs", new { area = "" }, null)</li>
+                            </ul>
+                        </div>
+                    </div>
     </div>
 </div>

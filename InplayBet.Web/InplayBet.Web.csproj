@@ -270,6 +270,7 @@
     <Compile Include="Data\Implementation\CurrencyDataRepository.cs" />
     <Compile Include="Data\Implementation\FollowDataRepository.cs" />
     <Compile Include="Data\Implementation\LegueDataRepository.cs" />
+    <Compile Include="Data\Implementation\QueryDataRepository.cs" />
     <Compile Include="Data\Implementation\ReportDataRepository.cs" />
     <Compile Include="Data\Implementation\TeamDataRepository.cs" />
     <Compile Include="Data\Implementation\UserDataRepository.cs" />
@@ -368,9 +369,13 @@
     <Content Include="Scripts\AppScripts\ChallengeManager.js" />
     <Content Include="Scripts\AppScripts\RankingManager.js" />
     <Content Include="Scripts\AppScripts\RegistrationManager.js" />
+    <Content Include="Scripts\AppScripts\UIScripts.js" />
+    <Content Include="Scripts\css3-mediaqueries.js" />
+    <Content Include="Scripts\easyTooltip.js" />
     <Content Include="Scripts\jquery.blockUI.js" />
     <Content Include="Scripts\jquery.fs.boxer.min.js" />
     <Content Include="Scripts\jquery.simplePagination.js" />
+    <Content Include="Scripts\jquery.ui.touch-punch.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Styles\cropstyle.css" />

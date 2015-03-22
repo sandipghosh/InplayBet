@@ -39,7 +39,10 @@ namespace InplayBet.Web
                     "~/Scripts/jquery.unobtrusive-ajax.min.js",
                     "~/Scripts/jquery.blockUI.js",
                     "~/Scripts/jquery.fs.boxer.min.js",
-                    "~/Scripts/consolelog.min.js"
+                    "~/Scripts/consolelog.min.js",
+                    "~/Scripts/css3-mediaqueries.js",
+                    "~/Scripts/easyTooltip.js",
+                    "~/Scripts/AppScripts/UIScripts.js"
                 );
                 BundleTable.Bundles.Add(scriptBundle);
 
@@ -87,7 +90,7 @@ namespace InplayBet.Web
             {
                 Bundle styleBundle = new Bundle("~/Styles/CommonStyle", new CssMinify());
                 styleBundle.Include("~/Styles/jquery-ui.min.css", 
-                    "~/Styles/jquery.fs.boxer.css", 
+                    "~/Styles/jquery.fs.boxer.css",
                     "~/Styles/style.css",
                     "~/Styles/cropstyle.css");
                 BundleTable.Bundles.Add(styleBundle);

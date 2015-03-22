@@ -15,6 +15,7 @@
                 e.preventDefault();
             }
         });
+
         SetFollowingImage();
         ManageTopNavigation();
     });
@@ -23,8 +24,8 @@
         try {
             var processLink = function ($e) {
                 var status = $e.data('status');
-                $e.attr('title',(status == 1 ? 'Follow the user': 'Un-follow the user'));
-                $e.css('background-image',(status == 1 ? 'url({0}Styles/images/thumb-up-32.png)'
+                $e.attr('title', (status == 1 ? 'Follow the user' : 'Un-follow the user'));
+                $e.css('background-image', (status == 1 ? 'url({0}Styles/images/thumb-up-32.png)'
                     : 'url({0}Styles/images/thumb-down-32.png)').format(VirtualDirectory));
             };
 
@@ -233,6 +234,7 @@
                     },
                     focus: function (event, ui) {
                         event.preventDefault();
+                        $idField.val(ui.item.value).change();
                         this.value = ui.item.label;
                         return false;
                     },
@@ -275,5 +277,27 @@
         }
     };
 
+    this.HotFixAutocomplete = function () {
+        $('.ui-autocomplete').on('touchstart', 'li.ui-menu-item', function () {
+            var $container = $(this).closest('.ui-autocomplete'),
+                $item = $(this);
+
+            //if we haven't closed the result box like we should have, simulate a click on the element they tapped on.
+            function fixitifitneedsit() {
+                if ($container.is(':visible') && $item.hasClass('ui-state-focus')) {
+
+                    $item.trigger('click');
+                    return true; // it needed it
+                }
+                return false; // it didn't
+            }
+
+            setTimeout(function () {
+                if (!fixitifitneedsit()) {
+                    setTimeout(fixitifitneedsit, 600);
+                }
+            }, 600);
+        });
+    };
 }(jQuery));
 

@@ -6,6 +6,8 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width; initial-scale=1.0" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>@ViewBag.Title</title>
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,500,700,900,100italic,300italic,400italic,500italic,700italic,900italic,100' rel='stylesheet' type='text/css' />
@@ -19,8 +21,11 @@
     </script>
     @Html.RenderStyles("~/Styles/CommonStyle")
     @RenderSection("PageStyle", false)
-
     @Html.RenderScripts("~/Scripts/CommonScript")
+    @if (CommonUtility.fBrowserIsMobile())
+    {
+        <script type="text/javascript" src='@Url.Content("~/Scripts/jquery.ui.touch-punch.min.js")'></script>
+    }
     @if (HttpContext.Current.Request.Url.AbsolutePath.Contains("MemberProfile")
         && SessionVeriables.GetSessionData<int>(SessionVeriables.UserKey) > 0)
     { @Html.RenderScripts("~/Scripts/NormalValidation");

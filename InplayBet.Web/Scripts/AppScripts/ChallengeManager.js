@@ -35,6 +35,7 @@
                 var isValid = $('#frmInsertBet').valid();
                 return isValid;
             });
+            HotFixAutocomplete();
         } catch (ex) { log(ex.message); }
     });
 

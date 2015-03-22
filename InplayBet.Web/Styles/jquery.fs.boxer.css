@@ -23,7 +23,7 @@
 .model-content {
     border-radius: 8px;
     background: #fff;
-    padding: 20px;
+    padding: 3%;
     float: left;
     width: 94.5%;
 }
@@ -35,6 +35,6 @@
     height: 26px;
     display: block;
     text-indent: -9999px;
-    top: 6px;
-    right: -12px;
+    top: 0;
+    right: 0;
 }

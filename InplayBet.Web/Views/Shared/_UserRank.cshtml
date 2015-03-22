@@ -39,7 +39,7 @@
             <div class="leaderblock">
                 <h3 class="blue-heading">Member Profile</h3>
                 <div class="block-top">
-                    <img width="115" src='@Url.Content(user.AvatarPath)' alt="">
+                    <div class="prof-short-img"><img src='@Url.Content(user.AvatarPath)' alt=""></div>
                     <h4>@user.UserId</h4>
                     <p class="member">Member Since: @user.MemberSince.ToString("d", new CultureInfo(user.CultureCode))</p>
                     <p class="join">Ranking: @user.Rank</p>

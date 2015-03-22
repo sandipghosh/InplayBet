@@ -47,6 +47,7 @@ namespace InplayBet.Web.Controllers
 
                 if (user != null)
                 {
+                    ViewBag.ConsicutiveWonBets = _betDataRepository.GetConsicutiveBetWins(user.UserKey);
                     return View(user);
                 }
             }
@@ -73,6 +74,7 @@ namespace InplayBet.Web.Controllers
 
                 if (user != null)
                 {
+                    ViewBag.ConsicutiveWonBets = _betDataRepository.GetConsicutiveBetWins(user.UserKey);
                     SharedFunctionality shared = new SharedFunctionality();
                     return View("Index", user);
                 }

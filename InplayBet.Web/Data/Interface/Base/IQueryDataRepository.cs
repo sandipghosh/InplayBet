@@ -15,8 +15,7 @@ namespace InplayBet.Web.Data.Interface.Base
         /// <param name="sqlQuery">The SQL query.</param>
         /// <param name="parameters">The parameters.</param>
         /// <returns></returns>
-        IEnumerable<TModel> ExecuteQuery<TModel>(string sqlQuery, params object[] parameters)
-             where TModel : BaseModel;
+        IEnumerable<TModel> ExecuteQuery<TModel>(string sqlQuery, params object[] parameters);
 
         /// <summary>
         /// Executes the command.
