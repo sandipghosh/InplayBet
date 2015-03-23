@@ -18,8 +18,15 @@
 
         SetFollowingImage();
         ManageTopNavigation();
+        ImageError();
     });
 
+    this.ImageError = function () {
+        $('img').on("error", function () {
+            $self = $(this);
+            $self.attr('src', '{0}Images/Users/Default.jpg'.format(VirtualDirectory));
+        });
+    }
     this.SetFollowingImage = function ($elm) {
         try {
             var processLink = function ($e) {
@@ -51,7 +58,7 @@
             var $self = $(element);
             var status = $self.data('status');
             $.ajax({
-                url: $('#PagingUrl').val(),
+                url: '{0}Follow/Set'.format(VirtualDirectory),
                 type: 'GET',
                 dataType: "json",
                 contentType: "application/json",
@@ -75,6 +82,43 @@
             log(ex.message);
         }
     };
+
+    this.ShowFollowingUsers = function (element, event, userid, followers) {
+        try {
+            event.preventDefault();
+            event.stopPropagation();
+
+            if (followers>0) {
+                ShowModal('{0}Follow/ShowFollowingUsers?followedTo={1}'.format(VirtualDirectory, userid),
+                    null, null, null, function ($modal) {
+                        ImageError();
+                    });
+            }
+
+        } catch (ex) {
+            log(ex);
+        }
+    }
+
+    this.ShowSignupMessage = function (element, event) {
+        try {
+            var $popupContainer = $('.popup-container');
+            $popupContainer.find('.popup-title').text('Signup');
+            $popupContainer.find('.popup-body').text('Please sign in to follow this member.');
+            var $ok = $('<a href="{0}RegisterUser/Index">Ok</a>'.format(VirtualDirectory));
+            var $cancel = $('<a href="javascript:void(0)" onclick="modal.close()">Cancel</a>');
+            $popupContainer.find('.popup-action').empty().append($ok).append($cancel);
+
+            ShowModal(null, $popupContainer, null, null, function ($modal) {
+                $modal.find('.popup-container').show();
+            });
+
+            event.preventDefault();
+            event.stopPropagation();
+        } catch (ex) {
+            log(ex);
+        }
+    }
 
     this.ManageTopNavigation = function () {
         try {

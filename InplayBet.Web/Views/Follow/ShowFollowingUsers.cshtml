@@ -1,0 +1,23 @@
+﻿@using InplayBet.Web.Models
+@model List<UserModel>
+@{
+    Layout = null;
+}
+<div class="popup-outer" style="width:auto;">
+    <div class="popup-border" style="width:auto;">
+        <h2>Followers of @ViewBag.FollowTo</h2>
+        <ul class="challenger-popup">
+            @foreach (UserModel user in Model)
+            {
+                <li @(Model.IndexOf(user) == (Model.Count - 1) ? "class=last" : "")>
+                    <div class="ch-img">
+                        <img alt="" src='@Url.Content(user.AvatarPath)'>
+                    </div>
+                    <p>
+                        @Html.ActionLink(user.UserId, "ViewProfile", "MemberProfile", new { userId = user.UserId }, null)
+                    </p>
+                </li>
+            }
+        </ul>
+    </div>
+</div>

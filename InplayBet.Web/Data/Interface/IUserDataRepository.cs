@@ -6,5 +6,6 @@ namespace InplayBet.Web.Data.Interface
 
     public interface IUserDataRepository : IRepository<UserModel>
     {
+        void ResetAccount(int userKey);
     }
 }

@@ -38,3 +38,10 @@
     top: 0;
     right: 0;
 }
+
+.popup-container{float:left; display:block; width:100%;}
+.popup-container div{float:left; display:block;width:100%;}
+.popup-container .popup-title{padding:1%;  font-size: 23px;font-weight: bold;}
+.popup-container .popup-body{padding:1%;font-size: 16px;}
+.popup-container .popup-action{padding:1%;}
+.popup-container .popup-action a{display: block;text-align: center;background: #63b222;padding: 3px 14px;text-decoration: none;color: #fff;margin: 2% 2% 0 0;width: 18%;float: left;font-size: 15px;font-weight: bold;}

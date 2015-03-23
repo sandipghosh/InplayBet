@@ -85,5 +85,26 @@ namespace InplayBet.Web.Controllers
             }
             return null;
         }
+
+        /// <summary>
+        /// Resets the account.
+        /// </summary>
+        /// <param name="userKey">The user key.</param>
+        /// <returns></returns>
+        [AcceptVerbs(HttpVerbs.Get),
+        OutputCache(NoStore = true, Duration = 0, VaryByHeader = "*")]
+        public ActionResult ResetAccount(int userKey)
+        {
+            try
+            {
+                this._userDataRepository.ResetAccount(userKey);
+            }
+            catch (Exception ex)
+            {
+                ex.ExceptionValueTracker(userKey);
+            }
+            return RedirectToActionPermanent("Index");
+        }
+
     }
 }

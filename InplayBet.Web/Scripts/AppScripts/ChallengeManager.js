@@ -71,7 +71,7 @@
             var url = '{0}Bet/ShowChallengeStatusMessage?status={{0}}'.format(VirtualDirectory);
             if (data && data.BetId > 0) {
                 if (data.BetStatus.toLowerCase() == 'won' &&
-                    data.WiningTotal > parseFloat(appData.WiningBetAmount)) {
+                    data.WiningTotal >= parseFloat(appData.WiningBetAmount)) {
 
                     ShowModal(url.format('Won'), null, '400px',
                         null, null, function () { win.location.reload(); });

@@ -25,7 +25,7 @@
 }
 
 .cropcontainer {
-    width: 400px;
+    width: 100%;
 }
 
     .cropcontainer .action {
@@ -75,7 +75,7 @@
 
     .cropcontainer .imageBox {
         position: relative;
-        height: 400px;
+        height: 250px;
         width: 100%;
         border: 1px solid #aaa;
         background: #fff;

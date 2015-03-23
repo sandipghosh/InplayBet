@@ -45,11 +45,17 @@
                     <p class="join">Ranking: @user.Rank</p>
                     <div class="clear"></div>
                     <div class="points">
-                        <p class="left">Followers : <i class="follow-count" id="@id">@user.Followers</i></p>
+                        <p class="left">Followers : <i class="follow-count" id="@id" onclick="ShowFollowingUsers(this, event, @user.UserKey, @user.Followers)">@user.Followers</i></p>
                         <p class="right">
-                            @if (follow > 0)
+                            @if (loggedInUser == 0)
                             {
-                                <a href="javascript:void()" class="follow-link" data-status="@follow"
+                                <a href="javascript:void(0)" class="follow-link" title="Follow the user"
+                                   style="background-image:url('@Url.Content("~/Styles/images/thumb-up-32.png")')"
+                                   onclick="ShowSignupMessage(this, event)"></a>
+                            }
+                            else if (follow > 0)
+                            {
+                                <a href="javascript:void(0)" class="follow-link" data-status="@follow"
                                    onclick="Follow(this, event, @loggedInUser, @user.UserKey, '#@id')"></a>
                             }
                         </p>
