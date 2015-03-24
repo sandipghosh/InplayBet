@@ -44,9 +44,7 @@ namespace InplayBet.Web.Data.Implementation.Base
         }
         #endregion
 
-        #region IRepository Members
-
-
+        #region IRepository Members IQueryable
         /// <summary>
         /// Gets the unit of work.
         /// </summary>
@@ -640,6 +638,176 @@ namespace InplayBet.Web.Data.Implementation.Base
             return null;
         }
 
+        #endregion
+
+        #region IRepository Members IEnumerable
+        #region GetList overloaded functions
+        public virtual IEnumerable<TModel> GetListCompiled()
+        {
+            try
+            {
+                return Mapper.Map<IEnumerable<TEntity>, IEnumerable<TModel>>(this.GetEntity());
+            }
+            catch (Exception ex)
+            {
+                ex.ExceptionValueTracker();
+            }
+            return GetList();
+        }
+        /// <summary>
+        /// Gets the filtered.
+        /// </summary>
+        /// <param name="filter">The filter.</param>
+        /// <returns></returns>
+        public virtual IEnumerable<TModel> GetListCompiled(Expression<Func<TModel, bool>> filter)
+        {
+            try
+            {
+                Expression<Func<TEntity, bool>> entityFilterExpression = filter.RemapForType<TModel, TEntity, bool>();
+                return Mapper.Map<IEnumerable<TEntity>, IEnumerable<TModel>>
+                    (this.GetEntity().Where(entityFilterExpression.Compile()));
+            }
+            catch (Exception ex)
+            {
+                ex.ExceptionValueTracker(filter);
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Gets the list.
+        /// </summary>
+        /// <param name="pageIndex">Index of the page.</param>
+        /// <param name="pageCount">The page count.</param>
+        /// <param name="filter">The filter.</param>
+        /// <returns></returns>
+        public virtual IEnumerable<TModel> GetListCompiled(int pageIndex, int pageCount, Expression<Func<TModel, bool>> filter)
+        {
+            try
+            {
+                Expression<Func<TEntity, bool>> entityFilterExpression = (filter == null)
+                    ? null : filter.RemapForType<TModel, TEntity, bool>();
+
+                if (entityFilterExpression == null)
+                    return Mapper.Map<IEnumerable<TEntity>, IEnumerable<TModel>>
+                        (this.GetEntity().GetPaggedDataCompiled(pageIndex, pageCount));
+                else
+                    return Mapper.Map<IEnumerable<TEntity>, IEnumerable<TModel>>
+                        (this.GetEntity().Where(entityFilterExpression.Compile())
+                        .GetPaggedDataCompiled(pageIndex, pageCount));
+            }
+            catch (Exception ex)
+            {
+                ex.ExceptionValueTracker(pageIndex, pageCount, filter);
+            }
+            return GetListCompiled();
+        }
+
+        /// <summary>
+        /// Gets the list.
+        /// </summary>
+        /// <param name="filter">The filter.</param>
+        /// <param name="orderByExpression">The order by expression.</param>
+        /// <param name="ascending">The ascending.</param>
+        /// <returns></returns>
+        public virtual IEnumerable<TModel> GetListCompiled<KProperty>(Expression<Func<TModel, bool>> filter,
+            Expression<Func<TModel, KProperty>> orderByExpression, bool ascending)
+        {
+            try
+            {
+                Expression<Func<TEntity, bool>> entityFilterExpression = (filter == null)
+                    ? null : filter.RemapForType<TModel, TEntity, bool>();
+
+                Expression<Func<TEntity, KProperty>> entityOrderExpression = (orderByExpression == null)
+                    ? null : orderByExpression.RemapForType<TModel, TEntity, KProperty>();
+
+                var entities = (entityFilterExpression == null)
+                    ? this.GetEntity() : this.GetEntity().Where(entityFilterExpression.Compile());
+
+                if (orderByExpression != null)
+                {
+                    if (ascending)
+                        return Mapper.Map<IEnumerable<TEntity>, IEnumerable<TModel>>
+                            (entities.OrderBy(entityOrderExpression.Compile()));
+                    else
+                        return Mapper.Map<IEnumerable<TEntity>, IEnumerable<TModel>>
+                            (entities.OrderByDescending(entityOrderExpression.Compile()));
+                }
+                else
+                    return Mapper.Map<IEnumerable<TEntity>, IEnumerable<TModel>>(entities);
+            }
+            catch (Exception ex)
+            {
+                ex.ExceptionValueTracker(filter, orderByExpression, ascending);
+            }
+            return GetListCompiled();
+        }
+
+        /// <summary>
+        /// Gets the list.
+        /// </summary>
+        /// <param name="pageIndex">Index of the page.</param>
+        /// <param name="pageCount">The page count.</param>
+        /// <param name="filter">The filter.</param>
+        /// <param name="orderByExpression">The order by expression.</param>
+        /// <param name="ascending">The ascending.</param>
+        /// <returns></returns>
+        public virtual IEnumerable<TModel> GetListCompiled<KProperty>(int pageIndex, int pageCount, Expression<Func<TModel, bool>> filter,
+            Expression<Func<TModel, KProperty>> orderByExpression, bool ascending)
+        {
+            try
+            {
+                Expression<Func<TEntity, bool>> entityFilterExpression = (filter == null)
+                    ? null : filter.RemapForType<TModel, TEntity, bool>();
+
+                Expression<Func<TEntity, KProperty>> entityOrderExpression = (orderByExpression == null)
+                    ? null : orderByExpression.RemapForType<TModel, TEntity, KProperty>();
+
+                var entities = (entityFilterExpression == null)
+                    ? this.GetEntity() : this.GetEntity().Where(entityFilterExpression.Compile());
+
+                if (orderByExpression != null)
+                {
+                    if (ascending)
+                        return Mapper.Map<IEnumerable<TEntity>, IEnumerable<TModel>>
+                            (entities.OrderBy(entityOrderExpression.Compile()).GetPaggedDataCompiled(pageIndex, pageCount));
+                    else
+                        return Mapper.Map<IEnumerable<TEntity>, IEnumerable<TModel>>
+                            (entities.OrderByDescending(entityOrderExpression.Compile()).GetPaggedDataCompiled(pageIndex, pageCount));
+                }
+                else
+                    return Mapper.Map<IEnumerable<TEntity>, IEnumerable<TModel>>
+                        (entities.GetPaggedDataCompiled(pageIndex, pageCount));
+            }
+            catch (Exception ex)
+            {
+                ex.ExceptionValueTracker(pageIndex, pageCount, filter, orderByExpression, ascending);
+            }
+            return GetListCompiled();
+        }
+
+        /// <summary>
+        /// Gets the count of an Entity.
+        /// </summary>
+        /// <param name="filter">The filter.</param>
+        /// <returns></returns>
+        public virtual int GetCountCompiled(Expression<Func<TModel, bool>> filter)
+        {
+            try
+            {
+                Expression<Func<TEntity, bool>> entityFilterExpression = (filter == null)
+                    ? null : filter.RemapForType<TModel, TEntity, bool>();
+
+                return (entityFilterExpression == null) ? this.GetEntity().Count() :
+                    this.GetEntity().Where(entityFilterExpression.Compile()).Count();
+            }
+            catch (Exception ex)
+            {
+                ex.ExceptionValueTracker(filter);
+            }
+            return 0;
+        }
+        #endregion
         #endregion
 
         #region Private Methods

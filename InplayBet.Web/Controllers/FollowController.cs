@@ -61,19 +61,13 @@ namespace InplayBet.Web.Controllers
         {
             try
             {
-                var followers = this._followDataRepository.GetList(x => x.StatusId.Equals((int)StatusCode.Active)
-                    && x.FollowTo.Equals(followedTo)).ToList();
-                if (!followers.IsEmptyCollection())
-                {
-                    List<int> ids = followers.Select(y => y.FollowBy).ToList();
-                    var users = this._userDataRepository.GetList(x => x.StatusId.Equals((int)StatusCode.Active)
-                        && ids.Contains(x.UserKey)).ToList();
+                SharedFunctionality shared = new SharedFunctionality();
+                var users = shared.GetFollowingUsers(followedTo);
 
-                    if (!users.IsEmptyCollection())
-                    {
-                        ViewBag.FollowTo = _userDataRepository.Get(followedTo).UserId;
-                        return PartialView(users);
-                    }
+                if (!users.IsEmptyCollection())
+                {
+                    ViewBag.FollowTo = _userDataRepository.Get(followedTo).UserId;
+                    return PartialView(users);
                 }
             }
             catch (Exception ex)

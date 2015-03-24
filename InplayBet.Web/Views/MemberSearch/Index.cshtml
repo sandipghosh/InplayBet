@@ -16,16 +16,17 @@
         <div class="left-panel">
             <h2 class="left-heading">member search</h2>
             <p>Member name:</p>
-            <input value="" name="" type="text">
+            <input id="UserIdSearch" value="" name="" type="text">
 
             <ul class="search-filter">
-                <li><a href="#">Date Joined</a></li>
-                <li><a href="#">Ranking</a></li>
-                <li><a href="#">Wins</a></li>
-                <li><a href="#">Losses</a></li>
-                <li><a href="#">Winning Bets</a></li>
-                <li><a href="#">Highest Profit</a></li>
-                <li><a href="#">Bookmaker</a></li>
+                <li><a href="javascript:SearchMember(1,'')">Simple Search</a></li>
+                <li><a href="javascript:SearchMember(1,'MemberSince')">Date Joined</a></li>
+                <li><a href="javascript:SearchMember(1,'Rank')">Ranking</a></li>
+                <li><a href="javascript:SearchMember(1,'Wins')">Wins</a></li>
+                <li><a href="javascript:SearchMember(1,'Losses')">Losses</a></li>
+                <li><a href="javascript:SearchMember(1,'BetWins')">Winning Bets</a></li>
+                <li><a href="javascript:SearchMember(1,'Profit')">Highest Profit</a></li>
+                <li><a href="javascript:SearchMember(1,'BookMakerName')">Bookmaker</a></li>
             </ul>
         </div>
         <div class="right-block">

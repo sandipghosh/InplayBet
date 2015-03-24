@@ -55,7 +55,6 @@
     this.SetAutoSuggession = function (container) {
         $(container).find('#txtTesmA, #txtTesmB').GenericAutocomplete({
             getUrl: '{0}Team/GetTeams'.format(VirtualDirectory),
-            postUrl: '{0}Team/SetTeams'.format(VirtualDirectory),
             userKey: $('#CurrentUserKey').val()
         });
 

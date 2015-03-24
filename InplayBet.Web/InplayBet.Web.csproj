@@ -380,6 +380,7 @@
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Styles\cropstyle.css" />
     <Content Include="Styles\images\close.png" />
+    <Content Include="Styles\images\Edit.png" />
     <Content Include="Styles\images\loadingAnimation.gif" />
     <Content Include="Styles\images\banner.jpg" />
     <Content Include="Styles\images\bet-promo-bnr.jpg" />
@@ -401,6 +402,7 @@
     <Content Include="Styles\images\nav-devider.gif" />
     <Content Include="Styles\images\pisition-bg.png" />
     <Content Include="Styles\images\profile-img.jpg" />
+    <Content Include="Styles\images\Reset.png" />
     <Content Include="Styles\images\t-icon.png" />
     <Content Include="Images\Users\Default.jpg" />
     <Content Include="Styles\images\thumb-down-32.png" />

@@ -7,6 +7,8 @@
     Layout = null;
     int lastElement = (int)(ViewBag.LastElement ?? ViewData["LastElement"]);
     int loggedInUser = SessionVeriables.GetSessionData<int>(SessionVeriables.UserKey);
+    int totalRecord = (int)(ViewBag.TotalRecord ?? 0);
+    int pageSize = (int)(ViewBag.PageSize ?? 0);
 }
 @functions {
     string getClassName(int index, int lastIndex)
@@ -28,7 +30,8 @@
         }
     }
 }
-
+@Html.Hidden("extTotalRecord", totalRecord, new { id = "extTotalRecord" })
+@Html.Hidden("extPageSize", pageSize, new { id = "extPageSize" })
 <ul class="leadbroad-block">
     @foreach (UserRankViewModel user in Model)
     {
@@ -67,6 +70,14 @@
                     <div class="points">
                         <p class="left">Won - @user.Won.ToString("C", new CultureInfo(user.CultureCode))</p>
                         <p class="right">Placed - @user.Placed.ToString("C", new CultureInfo(user.CultureCode))</p>
+                    </div>
+                    <div class="points">
+                        <p class="left">Profit</p>
+                        <p class="right">@user.Profit.ToString("C", new CultureInfo(user.CultureCode))</p>
+                    </div>
+                    <div class="points">
+                        <p class="left">Book Maker</p>
+                        <p class="right">@user.BookMakerName</p>
                     </div>
                     <div class="points points-botm">
                         <p class="left">Winning Bets</p>

@@ -46,7 +46,7 @@ namespace InplayBet.Web.Data.Interface.Base
 
         #endregion
 
-        #region GetList overloaded functions
+        #region GetList overloaded functions IQueryable
         /// <summary>
         /// Get all elements of type TEntity in repository
         /// </summary>
@@ -101,6 +101,55 @@ namespace InplayBet.Web.Data.Interface.Base
         /// <returns>List of selected elements</returns>
         IQueryable<TModel> GetList<KProperty>(int pageIndex, int pageCount,
             Expression<Func<TModel, KProperty>> orderByExpression, bool ascending);
+        #endregion
+
+        #region GetList overloaded functions IEnumerable
+        IEnumerable<TModel> GetListCompiled();
+
+        /// <summary>
+        /// Get  elements of type TEntity in repository
+        /// </summary>
+        /// <param name="filter">Filter that each element do match</param>
+        /// <returns>List of selected elements</returns>
+        IEnumerable<TModel> GetListCompiled(Expression<Func<TModel, bool>> filter);
+
+        /// <summary>
+        /// Gets the list.
+        /// </summary>
+        /// <param name="pageIndex">Index of the page.</param>
+        /// <param name="pageCount">The page count.</param>
+        /// <param name="filter">The filter.</param>
+        /// <returns></returns>
+        IEnumerable<TModel> GetListCompiled(int pageIndex, int pageCount, Expression<Func<TModel, bool>> filter);
+
+        /// <summary>
+        /// Gets the list.
+        /// </summary>
+        /// <param name="filter">The filter.</param>
+        /// <param name="orderByExpression">The order by expression.</param>
+        /// <param name="ascending">The ascending.</param>
+        /// <returns></returns>
+        IEnumerable<TModel> GetListCompiled<KProperty>(Expression<Func<TModel, bool>> filter,
+            Expression<Func<TModel, KProperty>> orderByExpression, bool ascending);
+
+        /// <summary>
+        /// Gets the list.
+        /// </summary>
+        /// <param name="pageIndex">Index of the page.</param>
+        /// <param name="pageCount">The page count.</param>
+        /// <param name="filter">The filter.</param>
+        /// <param name="orderByExpression">The order by expression.</param>
+        /// <param name="ascending">The ascending.</param>
+        /// <returns></returns>
+        IEnumerable<TModel> GetListCompiled<KProperty>(int pageIndex, int pageCount, Expression<Func<TModel, bool>> filter,
+            Expression<Func<TModel, KProperty>> orderByExpression, bool ascending);
+
+        /// <summary>
+        /// Gets the count of an Entity.
+        /// </summary>
+        /// <param name="filter">The filter.</param>
+        /// <returns></returns>
+        int GetCountCompiled(Expression<Func<TModel, bool>> filter);
         #endregion
 
         /// <summary>

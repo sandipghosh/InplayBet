@@ -26,7 +26,12 @@
                     <p class="bookmarker">Followers: <i class="follow-count" id="counter" onclick="ShowFollowingUsers(this, event, @Model.UserKey, @Model.Followers)">@Model.Followers</i></p>
                     @if (Model.UserKey == loggedInUser)
                     {
-                        @Html.ActionLink("Edit Profile", "Update", "RegisterUser", new { userKey = Model.UserKey }, null)
+                        <p class="bookmarker">
+                            <a href='@Url.Action("Update", "RegisterUser", new { userKey = Model.UserKey })'
+                               class="edit-link" title="Edit Account"></a>
+                            <a href='@Url.Action("ResetAccount", "MemberProfile", new { userKey = Model.UserKey })'
+                               class="reset-link" title="Reset Account"></a>
+                        </p>
                     }
 
                     @if (loggedInUser == 0)
@@ -43,11 +48,6 @@
                             <a href="javascript:void(0)" class="follow-link" data-status="@follow"
                                onclick="Follow(this, event, @loggedInUser, @Model.UserKey, '#counter')"></a>
                         </p>
-                    }
-
-                    @if (loggedInUser != 0)
-                    {
-                        @Html.ActionLink("Reset Account", "ResetAccount", "MemberProfile", new { userKey = Model.UserKey }, null)
                     }
                 </div>
                 <div class="detail-block member-profile">

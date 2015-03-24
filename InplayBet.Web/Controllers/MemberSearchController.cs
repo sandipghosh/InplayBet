@@ -63,22 +63,43 @@ namespace InplayBet.Web.Controllers
         /// <returns></returns>
         [AcceptVerbs(HttpVerbs.Get),
         OutputCache(NoStore = true, Duration = 0, VaryByHeader = "*")]
-        public ActionResult GetMemberByPage(int pageIndex, string filter = null)
+        public ActionResult GetMemberByPage(int pageIndex, string filter = "", string orderBy = "")
         {
             try
             {
+                List<UserRankViewModel> user = new List<UserRankViewModel>();
                 Expression<Func<UserRankViewModel, bool>> exp = null;
-                int recordsToPick = pageIndex;  //(this._defaultMemberPageSize * pageIndex);
+                int recordsToPick = pageIndex;
 
                 if (!string.IsNullOrEmpty(filter))
                     exp = CommonUtility.GetLamdaExpressionFromFilter<UserRankViewModel>(filter);
 
-                List<UserRankViewModel> user = this._userRankDataRepository
-                    .GetList(recordsToPick, this._defaultMemberPageSize, null, x => x.Rank, true).ToList();
+                if (orderBy == "MemberSince")
+                    user = this._userRankDataRepository
+                    .GetListCompiled(recordsToPick, this._defaultMemberPageSize, exp, x => x.MemberSince, false).ToList();
+                else if (orderBy == "Wins")
+                    user = this._userRankDataRepository
+                    .GetListCompiled(recordsToPick, this._defaultMemberPageSize, exp, x => x.Wins, false).ToList();
+                else if (orderBy == "Losses")
+                    user = this._userRankDataRepository
+                    .GetListCompiled(recordsToPick, this._defaultMemberPageSize, exp, x => x.Losses, false).ToList();
+                else if (orderBy == "BetWins")
+                    user = this._userRankDataRepository
+                    .GetListCompiled(recordsToPick, this._defaultMemberPageSize, exp, x => x.BetWins, false).ToList();
+                else if (orderBy == "Profit")
+                    user = this._userRankDataRepository
+                    .GetListCompiled(recordsToPick, this._defaultMemberPageSize, exp, x => x.Profit, false).ToList();
+                else if (orderBy == "BookMakerName")
+                    user = this._userRankDataRepository
+                    .GetListCompiled(recordsToPick, this._defaultMemberPageSize, exp, x => x.BookMakerName, true).ToList();
+                else
+                    user = this._userRankDataRepository
+                    .GetListCompiled(recordsToPick, this._defaultMemberPageSize, exp, x => x.Rank, true).ToList();
 
                 if (user != null)
                 {
-                    ViewBag.TotalRecord = this._userRankDataRepository.GetCount(exp);
+                    ViewBag.TotalRecord = this._userRankDataRepository.GetCountCompiled(exp);
+                    ViewBag.PageSize = this._defaultMemberPageSize;
                     ViewBag.LastElement = 2;
                     return PartialView("_UserRank", user);
                 }
@@ -89,5 +110,7 @@ namespace InplayBet.Web.Controllers
             }
             return null;
         }
+
+
     }
 }

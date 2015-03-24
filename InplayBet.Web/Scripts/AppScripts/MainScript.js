@@ -27,6 +27,7 @@
             $self.attr('src', '{0}Images/Users/Default.jpg'.format(VirtualDirectory));
         });
     }
+
     this.SetFollowingImage = function ($elm) {
         try {
             var processLink = function ($e) {
@@ -88,7 +89,7 @@
             event.preventDefault();
             event.stopPropagation();
 
-            if (followers>0) {
+            if (followers > 0) {
                 ShowModal('{0}Follow/ShowFollowingUsers?followedTo={1}'.format(VirtualDirectory, userid),
                     null, null, null, function ($modal) {
                         ImageError();
@@ -102,12 +103,20 @@
 
     this.ShowSignupMessage = function (element, event) {
         try {
-            var $popupContainer = $('.popup-container');
-            $popupContainer.find('.popup-title').text('Signup');
-            $popupContainer.find('.popup-body').text('Please sign in to follow this member.');
-            var $ok = $('<a href="{0}RegisterUser/Index">Ok</a>'.format(VirtualDirectory));
-            var $cancel = $('<a href="javascript:void(0)" onclick="modal.close()">Cancel</a>');
-            $popupContainer.find('.popup-action').empty().append($ok).append($cancel);
+            var $popupContainer = GeneratePopupContent({
+                Title: 'Signup',
+                Body: 'Please sign in to follow this member.',
+                Buttons: [
+                    {
+                        Caption: 'Ok',
+                        Link: '{0}RegisterUser/Index'.format(VirtualDirectory)
+                    },
+                    {
+                        Caption: 'Cancel',
+                        Action: function () { modal.close(); }
+                    }
+                ]
+            })
 
             ShowModal(null, $popupContainer, null, null, function ($modal) {
                 $modal.find('.popup-container').show();
@@ -115,6 +124,42 @@
 
             event.preventDefault();
             event.stopPropagation();
+        } catch (ex) {
+            log(ex);
+        }
+    }
+
+    this.GeneratePopupContent = function (options) {
+        try {
+            var settings = $.extend({
+                Title: '',
+                Body: '',
+                Buttons: [{
+                    Caption: 'Ok',
+                    Link: '',
+                    Action: function () { modal.close(); }
+                }]
+            }, options);
+            var $popupContainer = $('<div class="popup-container"></div>');
+            $('<div class="popup-title">{0}</div>'.format(settings.Title)).appendTo($popupContainer);
+            $('<div class="popup-body">{0}</div>'.format(settings.Body)).appendTo($popupContainer);
+            var $popupAction = $('<div class="popup-action"></div>');
+
+            $.each(settings.Buttons, function (index, element) {
+                var link = (typeof element.Link == 'undefined' || element.Link == '') ?
+                    'javascript:void(0)' : element.Link;
+
+                var $action = $('<a href="{0}">{1}</a>'.format(link, element.Caption));
+                if (typeof element.Action != 'undefined') {
+                    $action.on('click', function () {
+                        element.Action();
+                        return false;
+                    });
+                }
+                $popupAction.append($action);
+            });
+            $popupContainer.append($popupAction);
+            return $popupContainer;
         } catch (ex) {
             log(ex);
         }
@@ -240,9 +285,14 @@
 
             return $self.each(function () {
                 var $item = $(this);
-                var $addbtn = $item.next('a.btn');
-                var $idField = $item.prev('input[type=hidden]');
-                $addbtn.hide();
+                var $addbtn = null;
+                var $idField = null;
+
+                if (typeof settings.postUrl != 'undefined' || settings.postUrl != '') {
+                    var $addbtn = $item.next('a.btn');
+                    var $idField = $item.prev('input[type=hidden]');
+                    $addbtn.hide();
+                }
 
                 $item.autocomplete({
                     source: function (request, response) {
@@ -278,43 +328,45 @@
                     },
                     focus: function (event, ui) {
                         event.preventDefault();
-                        $idField.val(ui.item.value).change();
+                        if ($idField != null) $idField.val(ui.item.value).change();
                         this.value = ui.item.label;
                         return false;
                     },
                     select: function (event, ui) {
                         event.preventDefault();
-                        $idField.val(ui.item.value).change();
+                        if ($idField != null) $idField.val(ui.item.value).change();
                         this.value = ui.item.label;
                         return false;
                     }
                 });
 
-                $addbtn.on("click", function (event) {
-                    try {
-                        event.preventDefault();
-                        var $self = $(this);
-                        $.ajax({
-                            url: settings.postUrl,
-                            type: "POST",
-                            dataType: "json",
-                            contentType: "application/json",
-                            data: JSON.stringify({ searchName: $self.data('searchtext'), userId: settings.userKey }),
-                            success: function (data) {
-                                if (data) {
-                                    $item.val(data.label);
-                                    $idField.val(data.value);
+                if ($addbtn != null) {
+                    $addbtn.on("click", function (event) {
+                        try {
+                            event.preventDefault();
+                            var $self = $(this);
+                            $.ajax({
+                                url: settings.postUrl,
+                                type: "POST",
+                                dataType: "json",
+                                contentType: "application/json",
+                                data: JSON.stringify({ searchName: $self.data('searchtext'), userId: settings.userKey }),
+                                success: function (data) {
+                                    if (data) {
+                                        $item.val(data.label);
+                                        $idField.val(data.value);
+                                    }
+                                },
+                                error: function (jqXHR, textStatus, errorThrown) {
+                                    log(errorThrown);
                                 }
-                            },
-                            error: function (jqXHR, textStatus, errorThrown) {
-                                log(errorThrown);
-                            }
-                        });
-                        $self.hide();
-                    } catch (ex) {
-                        log(ex.message);
-                    }
-                });
+                            });
+                            $self.hide();
+                        } catch (ex) {
+                            log(ex.message);
+                        }
+                    });
+                }
             });
         } catch (ex) {
             log(ex.message);

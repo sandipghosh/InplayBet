@@ -18,6 +18,11 @@ namespace InplayBet.Web.Data
         {
             return data.Skip(pageCount * (pageIndex - 1)).Take(pageCount);
         }
+        public static IEnumerable<T> GetPaggedDataCompiled<T>(this IEnumerable<T> data, int pageIndex, int pageCount)
+            where T : BaseData
+        {
+            return data.Skip(pageCount * (pageIndex - 1)).Take(pageCount);
+        }
     }
     public static class QueryableExtensions
     {

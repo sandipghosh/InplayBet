@@ -2,16 +2,19 @@
 
 namespace InplayBet.Web.Utilities
 {
-    using System;
     using InplayBet.Web.Data.Implementation;
     using InplayBet.Web.Data.Interface;
-    using InplayBet.Web.Models.Base;
     using InplayBet.Web.Models;
+    using InplayBet.Web.Models.Base;
     using SimpleInjector;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
     public class SharedFunctionality
     {
         private readonly IFollowDataRepository _followDataRepository;
+        private readonly IUserDataRepository _userDataRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SharedFunctionality"/> class.
@@ -39,6 +42,36 @@ namespace InplayBet.Web.Utilities
                 ex.ExceptionValueTracker(userKey);
             }
             return 0;
+        }
+
+        /// <summary>
+        /// Gets the following users.
+        /// </summary>
+        /// <param name="followedTo">The followed to.</param>
+        /// <returns></returns>
+        public List<UserModel> GetFollowingUsers(int followedTo)
+        {
+            try
+            {
+                var followers = this._followDataRepository.GetList(x => x.StatusId.Equals((int)StatusCode.Active)
+                    && x.FollowTo.Equals(followedTo)).ToList();
+                if (!followers.IsEmptyCollection())
+                {
+                    List<int> ids = followers.Select(y => y.FollowBy).ToList();
+                    var users = this._userDataRepository.GetList(x => x.StatusId.Equals((int)StatusCode.Active)
+                        && ids.Contains(x.UserKey)).ToList();
+
+                    if (!users.IsEmptyCollection())
+                    {
+                        return users;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.ExceptionValueTracker(followedTo);
+            }
+            return new List<UserModel>();
         }
 
         /// <summary>
@@ -107,6 +140,25 @@ namespace InplayBet.Web.Utilities
                 ex.ExceptionValueTracker(followBy, followTo);
             }
             return false;
+        }
+
+        /// <summary>
+        /// Masses the mailing.
+        /// </summary>
+        /// <param name="mailIds">The mail ids.</param>
+        /// <param name="content">The content.</param>
+        /// <param name="subjects">The subjects.</param>
+        public void MassMailing(List<string> mailIds, string content, string subjects)
+        {
+            System.Threading.Tasks.Parallel.ForEach(mailIds, x => {
+                EmailSender email = new EmailSender { 
+                    To = x,
+                    From=CommonUtility.GetConfigData<string>("MAIL_SENDER_UID"),
+                    FromSenderName = CommonUtility.GetConfigData<string>("MAIL_SENDER_FROM"),
+                    Subject=subjects
+                };
+                email.SendMailAsync(content);
+            });
         }
     }
 }

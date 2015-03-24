@@ -82,6 +82,12 @@ namespace InplayBet.Web.Controllers
                     user.AvatarPath = CommonUtility.SaveImageFromDataUrl(user.AvatarPath, user.UserKey, user.UserId);
 
                     GenerateAdditionalData();
+
+                    foreach (var data in (IEnumerable<SelectListItem>)ViewBag.Sex)
+                    {
+                        data.Selected = (data.Value == user.Sex);
+                    }
+
                     return View("Index", user);
                 }
             }
@@ -268,6 +274,29 @@ namespace InplayBet.Web.Controllers
         }
 
         /// <summary>
+        /// Gets the users.
+        /// </summary>
+        /// <param name="filter">The filter.</param>
+        /// <returns></returns>
+        [AcceptVerbs(HttpVerbs.Get),
+        OutputCache(NoStore = true, Duration = 0, VaryByHeader = "*")]
+        public JsonActionResult GetUsers(string filter)
+        {
+            try
+            {
+                var teams = this._userDataRepository.GetList(x => x.StatusId.Equals((int)StatusCode.Active)
+                    && x.UserId.StartsWith(filter), x => x.UserId, true)
+                    .Select(x => new { label = x.UserId, value = x.UserKey });
+                return new JsonActionResult(teams.ToList());
+            }
+            catch (Exception ex)
+            {
+                ex.ExceptionValueTracker(filter);
+            }
+            return null;
+        }
+
+        /// <summary>
         /// Generates the additional data.
         /// </summary>
         private void GenerateAdditionalData()
@@ -294,7 +323,7 @@ namespace InplayBet.Web.Controllers
                 ViewBag.Sex = (new string[] { "Male", "Female" }).Select(x => new SelectListItem()
                 {
                     Text = x,
-                    Value = x.First().ToString()
+                    Value = x.Substring(0, 1)
                 });
                 ViewBag.Currencies = this._currencyDataRepository
                     .GetList(x => x.StatusId.Equals((int)StatusCode.Active)).ToList()

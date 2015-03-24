@@ -86,27 +86,31 @@
 
     this.SignUpSuccessHandler = function (data, context) {
         try {
-            var redirectionUrl = '{0}Home/Index'.format(VirtualDirectory);
-            var msgTemplate = '<div style="display:block; float:left;">{0}{1}{2}</div>'.format(
-                '<span style="display:block; float:left;font-weight: bold;font-size: 18px;margin-bottom: 10px;">Congratulation!</span>',
-                '<p style="float: left;font-size: 14px;">{0}</p>',
-                '<div style="display:block; float:left;"><a style="display: block;text-align: center;background: #63b222;padding: 3px 14px;text-decoration: none;color: #fff;margin-top: 10px;" href="javascript:window.location.assign(\'{1}\')">Close</a><div>');
-            var msg = msgTemplate.format('You ara successfully register into inplay bet.<br/>Please visit your mail account to activate your inplay account.', redirectionUrl);
+            var popupContainersettings = {
+                Title: 'Congratulation!',
+                Body: 'You ara successfully register into inplay bet.<br/>Please visit your mail account to activate your inplay account.',
+                Buttons: [
+                    {
+                        Caption: 'Ok',
+                        Link: '{0}Home/Index'.format(VirtualDirectory)
+                    }
+                ]
+            };
 
             if (typeof data.UserKey != 'undefined') {
                 if (data.UserKey > 0) {
                     if (typeof data.UpdatedBy != 'undefined') {
-                        redirectionUrl = '{0}MemberProfile/Index'.format(VirtualDirectory);
-                        msg = msgTemplate.format('Your profile has been successfully updated.<br/>Keep betting.', redirectionUrl);
+                        popupContainersettings.Buttons[0].Link = '{0}MemberProfile/Index'.format(VirtualDirectory);
+                        popupContainersettings.Body = 'Your profile has been successfully updated.<br/>Keep betting.';
                     }
                     else {
                         if (data.StatusId == 1) {
-                            redirectionUrl = '{0}MemberProfile/Index'.format(VirtualDirectory);
-                            msg = msgTemplate.format('You are successfully register into inplay bet.<br/>Start betting.', redirectionUrl);
+                            popupContainersettings.Buttons[0].Link = '{0}MemberProfile/Index'.format(VirtualDirectory);
+                            popupContainersettings.Body = 'You are successfully register into inplay bet.<br/>Start betting.';
                         }
                     }
                     modal.open({
-                        content: msg,
+                        content: GeneratePopupContent(popupContainersettings),
                         width: '400px',
                         openCallBack: function () {
                             $('.modal-close').unbind("click");
