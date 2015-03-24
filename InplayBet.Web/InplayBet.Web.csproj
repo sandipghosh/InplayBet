@@ -183,6 +183,8 @@
     </Compile>
     <Compile Include="App_Start\MapperInitializer.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\CheatReportController.cs" />
+    <Compile Include="Areas\Admin\Controllers\SummaryReportController.cs" />
     <Compile Include="Controllers\Base\BaseController.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -302,6 +304,7 @@
     <Compile Include="MapperConfig\Converter\NullableDateTimeConverter.cs" />
     <Compile Include="Models\Base\BaseModel.cs" />
     <Compile Include="Models\Base\CommonDataType.cs" />
+    <Compile Include="Models\Base\GridModelSchema.cs" />
     <Compile Include="Models\Base\SafeDisposableBaseClass.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -344,6 +347,13 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Content Include="Areas\Admin\Scripts\grid-intregration.js" />
+    <Content Include="Areas\Admin\Scripts\grid.locale-en.js" />
+    <Content Include="Areas\Admin\Scripts\jquery.jqGrid.min.js" />
+    <Content Include="Areas\Admin\Scripts\jquery.linq-2.2.0.2.min.js" />
+    <None Include="Areas\Admin\Scripts\jquery.linq-vsdoc.js" />
+    <Content Include="Areas\Admin\Styles\AdminStyle.css" />
+    <Content Include="Areas\Admin\Styles\ui.jqgrid.css" />
     <Content Include="DBScript\MoreLinqDoc.txt" />
     <Content Include="DBScript\SQLQuery.sql" />
     <Content Include="Global.asax" />
@@ -364,6 +374,9 @@
       <DependentUpon>InplayBetDBEntities.edmx</DependentUpon>
       <LastGenOutput>InplayBetDBEntities.cs</LastGenOutput>
     </Content>
+    <Content Include="Areas\Admin\Views\Shared\_GridGlobalMaster.cshtml" />
+    <Content Include="Areas\Admin\Views\CheatReport\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\SummaryReport\Index.cshtml" />
     <None Include="Properties\PublishProfiles\Publish.pubxml" />
     <None Include="Scripts\jquery-2.1.3.intellisense.js" />
     <Content Include="Scripts\AppScripts\ChallengeManager.js" />
@@ -491,9 +504,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Admin\Controllers\" />
     <Folder Include="Areas\Admin\Models\" />
-    <Folder Include="Areas\Admin\Views\Shared\" />
     <Folder Include="ErrorLogs\" />
   </ItemGroup>
   <ItemGroup>

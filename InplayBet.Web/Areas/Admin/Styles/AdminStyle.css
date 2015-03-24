@@ -1,0 +1,61 @@
+﻿
+.grid-command {
+    display: block;
+    float: left;
+    cursor: pointer;
+    margin: 1px;
+}
+
+.grid-command-hover {
+    border: 1px solid #eeeeee;
+    margin: 0px;
+}
+
+.command_edit {
+    width: 16px;
+    height: 16px;
+    background: url('images/icon-set2.png') no-repeat 0 -72px;
+}
+
+.command_save {
+    width: 16px !important;
+    height: 16px;
+    background: url('images/icon-set2.png') no-repeat 0 -126px;
+}
+
+.command_cancel {
+    width: 16px;
+    height: 16px;
+    background: url('images/icon-set2.png') no-repeat 0 -378px;
+}
+
+.command_delete {
+    width: 16px;
+    height: 16px;
+    background: url('images/icon-set2.png') no-repeat 0 -198px;
+}
+
+.command_add {
+    width: 16px;
+    height: 16px;
+    background: url('images/icon-set2.png') no-repeat 0 -18px !important;
+}
+
+/*.command_excel_export {width:16px; height:16px; background: url('images/icon-set2.png') no-repeat 0 -897px;}*/
+.command_excel_export {
+    width: 16px;
+    height: 16px;
+    background: url('images/doc-excel.png') no-repeat !important;
+}
+
+.command_download_pdf {
+    width: 16px;
+    height: 16px;
+    background: url('images/doc_pdf.png') no-repeat;
+}
+
+.command_download_zip {
+    width: 16px;
+    height: 16px;
+    background: url('images/white_zip.png') no-repeat;
+}

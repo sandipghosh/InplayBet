@@ -73,6 +73,13 @@ namespace InplayBet.Web
                 scriptBundle = new Bundle("~/Scripts/NormalValidation", new JsMinify());
                 scriptBundle.Include("~/Scripts/jquery.validate.min.js");
                 BundleTable.Bundles.Add(scriptBundle);
+
+                scriptBundle = new Bundle("~/Scripts/Admin", new JsMinify());
+                scriptBundle.Include("~/Areas/Admin/Scripts/jquery.jqGrid.min.js",
+                    "~/Areas/Admin/Scripts/grid.locale-en.js",
+                    "~/Areas/Admin/Scripts/jquery.linq-2.2.0.2.min.js",
+                    "~/Areas/Admin/Scripts/grid-intregration.js");
+                BundleTable.Bundles.Add(scriptBundle);
             }
             catch (Exception ex)
             {
@@ -97,6 +104,11 @@ namespace InplayBet.Web
 
                 styleBundle = new Bundle("~/Styles/Ranking", new CssMinify());
                 styleBundle.Include("~/Styles/simplePagination.css");
+                BundleTable.Bundles.Add(styleBundle);
+
+                styleBundle = new Bundle("~/Styles/Admin", new CssMinify());
+                styleBundle.Include("~/Areas/Admin/Styles/ui.jqgrid.css",
+                    "~/Areas/Admin/Styles/AdminStyle.css");
                 BundleTable.Bundles.Add(styleBundle);
             }
             catch (Exception ex)
