@@ -7,7 +7,7 @@ namespace Keystone.Web.Models.Base
     using System.ComponentModel;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
-    using Keystone.Web.Utilities;
+    using InplayBet.Web.Utilities;
     public class GridDataModel
     {
         public int totalpages { get; set; }
@@ -307,7 +307,7 @@ namespace Keystone.Web.Models.Base
         /// In this case the function should return a value. If no values is returned in this case a error is raised. \
         /// In case the data is read from the grid in order to set it in the form the operation parameter has a value 'set' and the grid value is passed as a third parameter. 
         /// This way we can modify the grid value before it is displayed in the form. See the example above.</value>
-        [JsonConverter(typeof(Keystone.Web.Utilities.JsFunctionConverter))]
+        [JsonConverter(typeof(InplayBet.Web.Utilities.JsFunctionConverter))]
         public string custom_value { get; set; }
 
         public string onchange { get; set; }

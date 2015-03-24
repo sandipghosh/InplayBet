@@ -337,6 +337,7 @@
     <Compile Include="Utilities\Expression\TypeUtils.cs" />
     <Compile Include="Utilities\Extension.cs" />
     <Compile Include="Utilities\FileLogger.cs" />
+    <Compile Include="Utilities\JsFunctionConverter.cs" />
     <Compile Include="Utilities\JsonActionResult.cs" />
     <Compile Include="Utilities\MapperExtension.cs" />
     <Compile Include="Utilities\OptimizationExtensions.cs" />
