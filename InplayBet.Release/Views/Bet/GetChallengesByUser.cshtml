@@ -1,0 +1,61 @@
+﻿@using InplayBet.Web.Models
+@using InplayBet.Web.Models.Base
+@using InplayBet.Web.Utilities
+@model List<ChallengeModel>
+@{
+    Layout = null;
+    int userKey = (int)(ViewBag.UserKey ?? ViewData["UserKey"]);
+}
+@functions {
+    public static string SetChallengeColor(ChallengeModel challenge)
+    {
+        string challangeStatus = challenge.ChallengeStatus.AsString();
+        if (string.IsNullOrEmpty(challangeStatus))
+            return "yellow-box";
+        else if (challangeStatus == StatusCode.Lost.ToString())
+            return "red-box";
+        else if (challangeStatus == StatusCode.Won.ToString())
+            return "green-box";
+        else
+            return string.Empty;
+    }
+}
+@helper PopulateChallenge(ChallengeModel challenge, bool showPromo, bool showInplay)
+{
+    int userKey = (int)(ViewBag.UserKey ?? ViewData["UserKey"]);
+    <div class='@((challenge == null || challenge.ChallengeId == 0) ? "yellow-box" : SetChallengeColor(challenge))'>
+        <div class="blk-bg">
+            <h3 class="blk-heading">Challenge @((challenge == null) ? "1" : challenge.ChallengeNumber.AsString()) @(showInplay ? "- Inplay" : "")</h3>
+            @if (userKey != SessionVeriables.GetSessionData<int>(SessionVeriables.UserKey)
+                && SessionVeriables.GetSessionData<int>(SessionVeriables.UserKey) > 0
+                && !string.IsNullOrEmpty(challenge.ChallengeStatus))
+            {
+                <a href="javascript:ShowReportWindow(@userKey, @challenge.ChallengeId, '@challenge.ChallengeStatus')" class="report-btn">report</a>
+                @*@Url.Action("ShowReportWindow", "Bet", new { reportToUserKey = userKey, challengeId = challenge.ChallengeId })*@
+            }
+        </div>
+        <div class="scroll">
+            <div class="outer">
+                @Html.Partial("GetBetsByChallenge", ((challenge == null || challenge.ChallengeId == 0) ? (new List<BetModel>()) : challenge.Bets),
+                    new ViewDataDictionary(this.ViewBag) { { "CurrentChallenge", challenge }, { "UserKey", userKey }, { "CultureCode", ViewBag.CultureCode } })
+            </div>
+        </div>
+    </div>
+    if (showPromo)
+    {
+        Html.Partial("_PromoBanner");
+    }
+}
+
+@foreach (ChallengeModel challenge in Model)
+{
+    @PopulateChallenge(challenge, false, (Model.IndexOf(challenge) == 0))
+    if (Model.IndexOf(challenge) == 1)
+    {
+        Html.Partial("_PromoBanner");
+    }
+}
+@if (Model.IsEmptyCollection())
+{
+    @PopulateChallenge(null, true, true);
+}

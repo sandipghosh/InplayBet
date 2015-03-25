@@ -1,0 +1,45 @@
+﻿@using InplayBet.Web.Models
+@{
+    ViewBag.Title = "Contact Us";
+}
+@model ContactModel
+@{Html.RenderPartial("_PageTitle", new ViewDataDictionary { { "Caption", "Contact Us" } });}
+<div class="main-container">
+    <div class="container">
+        <div class="query-left">
+            <h2 class="query-heading">Query Form</h2>
+            @using (Html.BeginForm("InsertNewBet", "Bet", new { id = "frmContactUs" }))
+            {
+                <ul class="query-list">
+                    <li>
+                        @Html.DisplayFor(m => m.Name)
+                        @Html.EditorFor(m => m.Name)
+                        @Html.ValidationMessageFor(m => m.Name)
+                    </li>
+                    <li>
+                        @Html.DisplayFor(m => m.EmailId)
+                        @Html.EditorFor(m => m.EmailId)
+                        @Html.ValidationMessageFor(m => m.EmailId)
+                    </li>
+                    <li>
+                        @Html.DisplayFor(m => m.PhoneNumber)
+                        @Html.EditorFor(m => m.PhoneNumber)
+                        @Html.ValidationMessageFor(m => m.PhoneNumber)
+                    </li>
+                    <li>
+                        @Html.DisplayFor(m => m.Massage)
+                        @Html.TextAreaFor(m => m.Massage)
+                        @Html.ValidationMessageFor(m => m.Massage)
+                    </li>
+                    <li>
+                        <input name="" value="submit" type="submit">
+                    </li>
+                </ul>
+            }
+        </div>
+        <div class="contact-img">
+            <img src='@Url.Content("~/Styles/images/contact-icon.jpg")' alt="">
+        </div>
+        @{Html.RenderPartial("_PromoBanner");}
+    </div>
+</div>

@@ -1,0 +1,53 @@
+﻿@using InplayBet.Web.Models
+@using InplayBet.Web.Models.Base
+@using InplayBet.Web.Utilities
+@model List<BetModel>
+@{
+    Layout = null;
+    ChallengeModel currentChallenge = (ChallengeModel)(ViewBag.CurrentChallenge ?? ViewData["CurrentChallenge"]);
+    int userKey = (int)(ViewBag.UserKey ?? ViewData["UserKey"]);
+    string cultureCode = (string)(ViewBag.CultureCode ?? ViewData["CultureCode"]);
+    List<BetModel> bets = Model.OrderByDescending(x => x.BetId).ToList();
+}
+@functions{
+    string GetBetDisplayType(BetModel bet)
+    {
+        int userKey = (int)(ViewBag.UserKey ?? ViewData["UserKey"]);
+        if (userKey != SessionVeriables.GetSessionData<int>(SessionVeriables.UserKey))
+        { return BetDisplayType.Read.ToString(); }
+        else
+        {
+            if (string.IsNullOrEmpty(bet.BetStatus))
+                return BetDisplayType.Update.ToString();
+            else
+                return BetDisplayType.Read.ToString();
+        }
+    }
+
+    bool IsEnableForNewBet(ChallengeModel challenge, int userKey)
+    {
+        return (string.IsNullOrEmpty(challenge.ChallengeStatus)
+            && userKey == SessionVeriables.GetSessionData<int>(SessionVeriables.UserKey));
+    }
+}
+@foreach (BetModel bet in bets)
+{
+    string betDisplayMode = GetBetDisplayType(bet);
+
+    if (bets.IndexOf(bet) == 0 && betDisplayMode == BetDisplayType.Read.ToString()
+        && IsEnableForNewBet(currentChallenge, userKey))
+    {
+        @Html.Action("ShowNewBetWindow", "Bet", new { userKey = userKey })
+    }
+
+    @Html.Partial("ShowNewBetWindow", bet,
+        new ViewDataDictionary(this.ViewData) { { "BetDisplayMode", betDisplayMode } })
+}
+@if (currentChallenge == null)
+{
+    @Html.Action("ShowNewBetWindow", "Bet", new { userKey = userKey })
+}
+else if (currentChallenge.ChallengeId == 0)
+{
+    @Html.Action("ShowNewBetWindowOverwride", "Bet", currentChallenge)
+}

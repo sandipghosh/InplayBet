@@ -1,0 +1,62 @@
+﻿@using InplayBet.Web.Models
+@model BetModel
+@using (Ajax.BeginForm("InsertNewBet", "Bet", new AjaxOptions { HttpMethod = "POST" }, new { id = "frmBet" }))
+{
+    <div class="popup-border">
+        <h2>Bet Challenge form</h2>
+        <p>Bet @Model.BetNumber.ToString()</p>
+        <ul class="popup">
+            <li>
+                <label>Team Names:</label>+
+                @Html.HiddenFor(m => m.TeamAId)
+                <input type="text" name="" id="txtTesmA" value="">
+                <a href="#" class="btn">+</a>
+                <span>vs</span>
+                @Html.HiddenFor(m => m.TeamBId)
+                <input type="text" name="" id="txtTesmB" value="">
+                <a href="#" class="btn">+</a>
+            </li>
+            <li>
+                <label>league:</label>
+                @Html.HiddenFor(m => m.LegueId)
+                <input type="text" name="" id="txtLegue" class="full" value="">
+                <a href="#" class="btn">+</a>
+            </li>
+            <li>
+                <label>Bet Type:</label>
+                @Html.TextBoxFor(m => m.BetType, new { @class = "full" })
+            </li>
+            <li>
+                <label>Odds:</label>
+                @Html.TextBoxFor(m => m.Odds, new { @class = "full" })
+            </li>
+            <li>
+                <label>Amount Placed:</label>
+                @Html.TextBoxFor(m => m.BetPlaced, new { @class = "full" })
+            </li>
+            <li>
+                <label>Winning Total:</label>
+                @Html.TextBoxFor(m => m.WiningTotal, new { @class = "full" })
+            </li>
+            @*<li>
+                <label>Winning Total:</label>
+                <input name="" type="radio" value="" />Won
+                <input name="" type="radio" value="" />Lost
+            </li>*@
+            <li>
+                <input type="submit" value="submit" name="">
+            </li>
+        </ul>
+    </div>
+    @Html.HiddenFor(m => m.BetId)
+    @Html.HiddenFor(m => m.BetNumber)
+    @Html.HiddenFor(m => m.StatusId)
+    @Html.HiddenFor(m => m.CreatedBy)
+    @Html.HiddenFor(m => m.CreatedOn)
+
+    @Html.HiddenFor(m => m.Challenge.ChallengeId)
+    @Html.HiddenFor(m => m.Challenge.ChallengeNumber)
+    @Html.HiddenFor(m => m.Challenge.ChallengeStatus)
+    @Html.HiddenFor(m => m.Challenge.CreatedBy)
+    @Html.HiddenFor(m => m.Challenge.CreatedOn)
+}

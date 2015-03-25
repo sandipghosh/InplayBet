@@ -1,0 +1,42 @@
+﻿@{
+    ViewBag.Title = "How TO Play";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{Html.RenderPartial("_PageTitle", new ViewDataDictionary { { "Caption", "How TO Play" } });}
+<div class="main-container">
+    <div class="container">
+        <p>The £20-£1000 challenge consists of placing a £20 bet during any inplay football match. Should the bet win, then the winning amount from the bet is rolled over to the next bet. This is repeated until the winning amount exceeds £1000. Sounds easy?</p>
+        <h3 class="sub-heading">Example -</h3>
+        <div class="example-block">
+            <h5>Bet 1</h5>
+            <p>
+                <strong>Stoke vs Chelsea</strong><br>
+                Over 0.5 goals<br>
+                Odds 1/2<br>
+                Bet - £20<br>
+                Winnings - £30
+            </p>
+        </div>
+        <div class="example-block example-blockright">
+            <h5>Bet 1</h5>
+            <p>
+                <strong>Liverpool vs Everton</strong><br>
+                Everton next goal<br>
+                Odds 1/4<br>
+                Bet £30<br>
+                Winnings - £37.50
+            </p>
+        </div>
+        <div class="clear"></div>
+        <p>This then carries on until the bet reaches £1000 or loses. Our system keeps a track on each members winnings and losses. It also ranks each player, so we can really see who is the best at inplay betting.</p>
+        <h3 class="sub-heading">Using a betting company</h3>
+        <p>To use our system and generate odds and winnings, you need to have a betting account with a bookmaker. We recommend this sing Bet365, as they have the best inplay odds and range of matches but you can also use other companies like William Hill, Paddy Power, Coral etc.</p>
+        <p>You will need to use our system simultaneously with your betting account. You open your betting software and look through the matches and inplay bets. Once you find your perfect bet, you record your bet data in your challenge page and wait to see if it's wins or loses. If it wins, then you repeat this.</p>
+        <p>Whether you place real money on your bets is at your discretion. Our system can be used with, or without, placing real money.</p>
+        <h3 class="sub-heading">Not wanting to complete the challenge</h3>
+        <p>If you don't want to play our challenge then our system can be used another way. It allows you to follow other people trying the challenge. This can give you valuable inplay tips and our latest bets page shows all the current inplay bets in order. It provides a great tipping service for your own inplay bets.</p>
+        <p>Once you are following a certain member, our system will track their bets for you email you once they place their latest bet. This then allows you to keep up to date on their latest inplay bets.</p>
+        <div class="video"><img src='@Url.Content("~/Styles/images/betting-video.jpg")' alt=""></div>
+        @{Html.RenderPartial("_PromoBanner");}
+    </div>
+</div>
