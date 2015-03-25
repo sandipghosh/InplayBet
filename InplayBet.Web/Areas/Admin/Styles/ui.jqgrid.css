@@ -8,13 +8,13 @@
         left: 0;
         top: 0;
         padding: 0;
-        font-size: 11px;
+        font-size: 14px;
     }
     /* caption*/
     .ui-jqgrid .ui-jqgrid-titlebar {
         padding: .3em .2em .2em .3em;
         position: relative;
-        font-size: 12px;
+        font-size: 14px;
         border-left: 0 none;
         border-right: 0 none;
         border-top: 0 none;
@@ -309,7 +309,7 @@ border-bottom-style: solid;
     height: 25px;
     white-space: nowrap;
     overflow: hidden;
-    font-size: 11px;
+    font-size: 14px;
 }
 
 .ui-jqgrid .ui-pager-control {
@@ -475,7 +475,7 @@ border-bottom-style: solid;
     font-weight: bold;
     display: none;
     border-width: 2px !important;
-    font-size: 11px;
+    font-size: 14px;
 }
 
 .ui-jqgrid .jqgrid-overlay {
@@ -504,7 +504,7 @@ border-bottom-style: solid;
     width: 300px;
     position: absolute;
     padding: .2em;
-    font-size: 11px;
+    font-size: 14px;
     overflow: visible;
 }
 
@@ -809,7 +809,7 @@ a.g-menu-item, a.soptclass, a.clearsearchclass {
 .ui-jqgrid .ui-jqgrid-view select,
 .ui-jqgrid .ui-jqgrid-view textarea,
 .ui-jqgrid .ui-jqgrid-view button {
-    font-size: 11px;
+    font-size: 14px;
     
 }
 

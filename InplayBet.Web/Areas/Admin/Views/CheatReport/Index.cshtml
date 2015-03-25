@@ -1,6 +1,21 @@
-﻿@{
-    ViewBag.Title = "Index";
+﻿@using InplayBet.Web.Utilities
+@{
+    ViewBag.Title = "Cheat Report";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h2>Index</h2>
+@section PageScript{
+    @Html.RenderScripts("~/Scripts/Admin");
+    <script type="text/javascript">
+        @(Html.JsMinify(@<text>
+        $(document).ready(function () {
+            CheatReportGridInitialization($('#SchemaData').val(), $('#SchemaSubData').val());
+        });
+        </text>))
+    </script>
+}
+@section PageStyle{
+    @Html.RenderStyles("~/Styles/Admin");
+}
+@Html.Hidden("SchemaData", (string)ViewBag.SchemaData)
+@Html.Hidden("SchemaSubData", (string)ViewBag.SchemaSubData)
+@Html.Partial("_GridGlobalMaster")

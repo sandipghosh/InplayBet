@@ -23,4 +23,16 @@ namespace InplayBet.Web.Models.Base
         Follow = 1,
         UnFollow = 2
     }
+
+    public enum DisplayProperty
+    {
+        Name,
+        Description
+    }
+
+    public enum SexType
+    { 
+        Male,
+        Female
+    }
 }

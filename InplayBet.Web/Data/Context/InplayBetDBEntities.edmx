@@ -55,7 +55,7 @@
           <Property Name="UpdatedOn" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'InplayServerCopy.dbo.Contact' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'InplayBet.dbo.Contact' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Contact">
           <Key>
             <PropertyRef Name="CotactUsId" />
@@ -110,7 +110,7 @@ warning 6002: The table/view 'InplayServerCopy.dbo.Contact' does not have a prim
             <PropertyRef Name="LegueId" />
           </Key>
           <Property Name="LegueId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="LegueName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="LegueName" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="StatusId" Type="int" Nullable="false" />
           <Property Name="CreatedBy" Type="int" Nullable="false" />
           <Property Name="CreatedOn" Type="datetime" Nullable="false" />
@@ -145,7 +145,7 @@ warning 6002: The table/view 'InplayServerCopy.dbo.Contact' does not have a prim
             <PropertyRef Name="TeamId" />
           </Key>
           <Property Name="TeamId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="TeamName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="TeamName" Type="nvarchar" MaxLength="300" Nullable="false" />
           <Property Name="StatusId" Type="int" Nullable="false" />
           <Property Name="CreatedBy" Type="int" Nullable="false" />
           <Property Name="CreatedOn" Type="datetime" Nullable="false" />
@@ -175,7 +175,7 @@ warning 6002: The table/view 'InplayServerCopy.dbo.Contact' does not have a prim
           <Property Name="UpdatedOn" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'InplayServerCopy.dbo.UserRank' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'InplayBet.dbo.UserRank' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="UserRank">
           <Key>
             <PropertyRef Name="UserKey" />
@@ -183,6 +183,7 @@ warning 6002: The table/view 'InplayServerCopy.dbo.UserRank' does not have a pri
             <PropertyRef Name="UserName" />
             <PropertyRef Name="AvatarPath" />
             <PropertyRef Name="MemberSince" />
+            <PropertyRef Name="Sex" />
             <PropertyRef Name="CurrencyId" />
             <PropertyRef Name="CultureCode" />
             <PropertyRef Name="CurrencySymbol" />
@@ -190,6 +191,8 @@ warning 6002: The table/view 'InplayServerCopy.dbo.UserRank' does not have a pri
             <PropertyRef Name="BookMakerName" />
             <PropertyRef Name="Followers" />
             <PropertyRef Name="BetWins" />
+            <PropertyRef Name="TotalBets" />
+            <PropertyRef Name="TotalChallenges" />
             <PropertyRef Name="Wins" />
             <PropertyRef Name="Losses" />
             <PropertyRef Name="Won" />
@@ -197,12 +200,14 @@ warning 6002: The table/view 'InplayServerCopy.dbo.UserRank' does not have a pri
             <PropertyRef Name="Profit" />
             <PropertyRef Name="Rank" />
             <PropertyRef Name="WinningBets" />
+            <PropertyRef Name="TotalCheatReported" />
           </Key>
           <Property Name="UserKey" Type="int" Nullable="false" />
           <Property Name="UserId" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="UserName" Type="nvarchar" MaxLength="101" Nullable="false" />
           <Property Name="AvatarPath" Type="nvarchar" MaxLength="500" Nullable="false" />
           <Property Name="MemberSince" Type="datetime" Nullable="false" />
+          <Property Name="Sex" Type="nvarchar" MaxLength="1" Nullable="false" />
           <Property Name="CurrencyId" Type="int" Nullable="false" />
           <Property Name="CultureCode" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="CurrencySymbol" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -210,6 +215,8 @@ warning 6002: The table/view 'InplayServerCopy.dbo.UserRank' does not have a pri
           <Property Name="BookMakerName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Followers" Type="int" Nullable="false" />
           <Property Name="BetWins" Type="int" Nullable="false" />
+          <Property Name="TotalBets" Type="int" Nullable="false" />
+          <Property Name="TotalChallenges" Type="int" Nullable="false" />
           <Property Name="Wins" Type="int" Nullable="false" />
           <Property Name="Losses" Type="int" Nullable="false" />
           <Property Name="Won" Type="decimal" Precision="11" Scale="2" Nullable="false" />
@@ -217,6 +224,7 @@ warning 6002: The table/view 'InplayServerCopy.dbo.UserRank' does not have a pri
           <Property Name="Profit" Type="decimal" Precision="11" Scale="2" Nullable="false" />
           <Property Name="Rank" Type="bigint" Nullable="false" />
           <Property Name="WinningBets" Type="varchar" MaxLength="6" Nullable="false" />
+          <Property Name="TotalCheatReported" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FK_Bet_Challenge">
           <End Role="Challenge" Type="Self.Challenge" Multiplicity="1" />
@@ -466,6 +474,7 @@ FROM [dbo].[Contact] AS [Contact]</DefiningQuery>
 [UserRank].[UserName] AS [UserName], 
 [UserRank].[AvatarPath] AS [AvatarPath], 
 [UserRank].[MemberSince] AS [MemberSince], 
+[UserRank].[Sex] AS [Sex], 
 [UserRank].[CurrencyId] AS [CurrencyId], 
 [UserRank].[CultureCode] AS [CultureCode], 
 [UserRank].[CurrencySymbol] AS [CurrencySymbol], 
@@ -473,13 +482,16 @@ FROM [dbo].[Contact] AS [Contact]</DefiningQuery>
 [UserRank].[BookMakerName] AS [BookMakerName], 
 [UserRank].[Followers] AS [Followers], 
 [UserRank].[BetWins] AS [BetWins], 
+[UserRank].[TotalBets] AS [TotalBets], 
+[UserRank].[TotalChallenges] AS [TotalChallenges], 
 [UserRank].[Wins] AS [Wins], 
 [UserRank].[Losses] AS [Losses], 
 [UserRank].[Won] AS [Won], 
 [UserRank].[Placed] AS [Placed], 
 [UserRank].[Profit] AS [Profit], 
 [UserRank].[Rank] AS [Rank], 
-[UserRank].[WinningBets] AS [WinningBets]
+[UserRank].[WinningBets] AS [WinningBets], 
+[UserRank].[TotalCheatReported] AS [TotalCheatReported]
 FROM [dbo].[UserRank] AS [UserRank]</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="FK_Bet_Challenge" Association="Self.FK_Bet_Challenge">
@@ -761,7 +773,7 @@ FROM [dbo].[UserRank] AS [UserRank]</DefiningQuery>
             <PropertyRef Name="TeamId" />
           </Key>
           <Property Name="TeamId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TeamName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="TeamName" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
           <Property Name="StatusId" Type="Int32" Nullable="false" />
           <Property Name="CreatedBy" Type="Int32" Nullable="false" />
           <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
@@ -1031,7 +1043,7 @@ FROM [dbo].[UserRank] AS [UserRank]</DefiningQuery>
             <PropertyRef Name="LegueId" />
           </Key>
           <Property Name="LegueId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="LegueName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="LegueName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="StatusId" Type="Int32" Nullable="false" />
           <Property Name="CreatedBy" Type="Int32" Nullable="false" />
           <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
@@ -1071,6 +1083,7 @@ FROM [dbo].[UserRank] AS [UserRank]</DefiningQuery>
             <PropertyRef Name="UserName" />
             <PropertyRef Name="AvatarPath" />
             <PropertyRef Name="MemberSince" />
+            <PropertyRef Name="Sex" />
             <PropertyRef Name="CurrencyId" />
             <PropertyRef Name="CultureCode" />
             <PropertyRef Name="CurrencySymbol" />
@@ -1078,6 +1091,8 @@ FROM [dbo].[UserRank] AS [UserRank]</DefiningQuery>
             <PropertyRef Name="BookMakerName" />
             <PropertyRef Name="Followers" />
             <PropertyRef Name="BetWins" />
+            <PropertyRef Name="TotalBets" />
+            <PropertyRef Name="TotalChallenges" />
             <PropertyRef Name="Wins" />
             <PropertyRef Name="Losses" />
             <PropertyRef Name="Won" />
@@ -1085,12 +1100,14 @@ FROM [dbo].[UserRank] AS [UserRank]</DefiningQuery>
             <PropertyRef Name="Profit" />
             <PropertyRef Name="Rank" />
             <PropertyRef Name="WinningBets" />
+            <PropertyRef Name="TotalCheatReported" />
           </Key>
           <Property Name="UserKey" Type="Int32" Nullable="false" />
           <Property Name="UserId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="UserName" Type="String" Nullable="false" MaxLength="101" FixedLength="false" Unicode="true" />
           <Property Name="AvatarPath" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="MemberSince" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Sex" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="true" />
           <Property Name="CurrencyId" Type="Int32" Nullable="false" />
           <Property Name="CultureCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CurrencySymbol" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -1098,6 +1115,8 @@ FROM [dbo].[UserRank] AS [UserRank]</DefiningQuery>
           <Property Name="BookMakerName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Followers" Type="Int32" Nullable="false" />
           <Property Name="BetWins" Type="Int32" Nullable="false" />
+          <Property Name="TotalBets" Type="Int32" Nullable="false" />
+          <Property Name="TotalChallenges" Type="Int32" Nullable="false" />
           <Property Name="Wins" Type="Int32" Nullable="false" />
           <Property Name="Losses" Type="Int32" Nullable="false" />
           <Property Name="Won" Type="Decimal" Nullable="false" Precision="11" Scale="2" />
@@ -1105,6 +1124,7 @@ FROM [dbo].[UserRank] AS [UserRank]</DefiningQuery>
           <Property Name="Profit" Type="Decimal" Nullable="false" Precision="11" Scale="2" />
           <Property Name="Rank" Type="Int64" Nullable="false" />
           <Property Name="WinningBets" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="TotalCheatReported" Type="Int32" Nullable="false" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -1286,6 +1306,7 @@ FROM [dbo].[UserRank] AS [UserRank]</DefiningQuery>
           <EntitySetMapping Name="UserRanks">
             <EntityTypeMapping TypeName="InplayBetModel.UserRank">
               <MappingFragment StoreEntitySet="UserRank">
+                <ScalarProperty Name="TotalCheatReported" ColumnName="TotalCheatReported" />
                 <ScalarProperty Name="WinningBets" ColumnName="WinningBets" />
                 <ScalarProperty Name="Rank" ColumnName="Rank" />
                 <ScalarProperty Name="Profit" ColumnName="Profit" />
@@ -1293,6 +1314,8 @@ FROM [dbo].[UserRank] AS [UserRank]</DefiningQuery>
                 <ScalarProperty Name="Won" ColumnName="Won" />
                 <ScalarProperty Name="Losses" ColumnName="Losses" />
                 <ScalarProperty Name="Wins" ColumnName="Wins" />
+                <ScalarProperty Name="TotalChallenges" ColumnName="TotalChallenges" />
+                <ScalarProperty Name="TotalBets" ColumnName="TotalBets" />
                 <ScalarProperty Name="BetWins" ColumnName="BetWins" />
                 <ScalarProperty Name="Followers" ColumnName="Followers" />
                 <ScalarProperty Name="BookMakerName" ColumnName="BookMakerName" />
@@ -1300,6 +1323,7 @@ FROM [dbo].[UserRank] AS [UserRank]</DefiningQuery>
                 <ScalarProperty Name="CurrencySymbol" ColumnName="CurrencySymbol" />
                 <ScalarProperty Name="CultureCode" ColumnName="CultureCode" />
                 <ScalarProperty Name="CurrencyId" ColumnName="CurrencyId" />
+                <ScalarProperty Name="Sex" ColumnName="Sex" />
                 <ScalarProperty Name="MemberSince" ColumnName="MemberSince" />
                 <ScalarProperty Name="AvatarPath" ColumnName="AvatarPath" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />

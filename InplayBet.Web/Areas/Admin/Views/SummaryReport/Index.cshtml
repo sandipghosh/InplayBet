@@ -1,6 +1,20 @@
-﻿@{
-    ViewBag.Title = "Index";
+﻿@using InplayBet.Web.Utilities
+@{
+    ViewBag.Title = "Summary Report";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h2>Index</h2>
+@section PageScript{
+    @Html.RenderScripts("~/Scripts/Admin");
+    <script type="text/javascript">
+        @(Html.JsMinify(@<text>
+        $(document).ready(function () {
+            SummaryReportGridInitialization($('#SchemaData').val());
+        });
+        </text>))
+    </script>
+}
+@section PageStyle{
+    @Html.RenderStyles("~/Styles/Admin");
+}
+@Html.Hidden("SchemaData", (string)ViewBag.SchemaData)
+@Html.Partial("_GridGlobalMaster")

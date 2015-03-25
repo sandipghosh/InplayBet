@@ -9,6 +9,7 @@ namespace InplayBet.Web.Utilities
         private static string _UserKey = "USERKEY";
         private static string _UserId = "USERID";
         private static string _UserName = "USERNAME";
+        private static string _IsAdmin = "ISADMIN";
 
         /// <summary>
         /// Gets the user key.
@@ -47,6 +48,14 @@ namespace InplayBet.Web.Utilities
             get
             {
                 return _UserName;
+            }
+        }
+
+        public static string IsAdmin
+        {
+            get
+            {
+                return _IsAdmin;
             }
         }
 

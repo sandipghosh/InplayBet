@@ -1,4 +1,10 @@
-﻿
+﻿.editor-grid {
+    float: left;
+    display: block;
+    width: 90%;
+    padding:1% 0;
+}
+
 .grid-command {
     display: block;
     float: left;

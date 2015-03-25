@@ -221,7 +221,10 @@ namespace InplayBet.Web.Controllers
                     if (user != null)
                     {
                         SetSessionData(user);
-                        return new JsonActionResult(new { Status = true, Url = Url.Action("Index", "MemberProfile") });
+                        if (user.IsAdmin)
+                            return new JsonActionResult(new { Status = true, Url = Url.Action("Index", "Home") }); 
+                        else
+                            return new JsonActionResult(new { Status = true, Url = Url.Action("Index", "MemberProfile") }); 
                     }
                     else
                     {
@@ -421,6 +424,7 @@ namespace InplayBet.Web.Controllers
         {
             SessionVeriables.SetSessionData<int>(SessionVeriables.UserKey, user.UserKey);
             SessionVeriables.SetSessionData<string>(SessionVeriables.UserId, user.UserId);
+            SessionVeriables.SetSessionData<bool>(SessionVeriables.IsAdmin, user.IsAdmin);
             SessionVeriables.SetSessionData<string>(SessionVeriables.UserName,
                 string.Format("{0} {1}", user.FirstName, user.LastName));
         }

@@ -437,8 +437,8 @@ ul.challenger-popup li.last {border-bottom:0; margin-bottom:0;}
 .report-container ul li div textarea{width:100%;padding: 2%; font-size: 16px;}
 .report-container ul li input[type=submit]{  width: auto; padding: 7px 10px; font-size: 15px; background: #63b222; color: #fff; border: 0; margin-right: 0; -webkit-transition: all 0.4s ease; -moz-transition: all 0.4s ease; transition: all 0.4s ease; display: inline-block; text-transform: uppercase; cursor: pointer;}
 
-.edit-link {float:left; width:32px; height:32px; display:block; background:url(/Styles/images/Edit.png) no-repeat;}
-.reset-link {float:left; width:32px; height:32px; display:block; background:url(/Styles/images/Reset.png) no-repeat;}
+.edit-link {float:left; width:32px; height:32px; display:block; background:url(images/Edit.png) no-repeat;}
+.reset-link {float:left; width:32px; height:32px; display:block; background:url(images/Reset.png) no-repeat;}
 
 /*------------------------- Responsive CSS -------------------------*/
 

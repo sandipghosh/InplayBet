@@ -1,5 +1,5 @@
 ﻿
-namespace Keystone.Web.Models.Base
+namespace InplayBet.Web.Models.Base
 {
     using System;
     using System.Linq;
@@ -114,7 +114,7 @@ namespace Keystone.Web.Models.Base
         public string firstsortorder { get; set; }
         public bool? hidden { get; set; }
         public string index { get; set; }
-        public string key { get; set; }
+        public bool key { get; set; }
 
         /// <summary>
         /// Gets or sets the label.

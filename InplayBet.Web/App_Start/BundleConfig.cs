@@ -78,7 +78,8 @@ namespace InplayBet.Web
                 scriptBundle.Include("~/Areas/Admin/Scripts/jquery.jqGrid.min.js",
                     "~/Areas/Admin/Scripts/grid.locale-en.js",
                     "~/Areas/Admin/Scripts/jquery.linq-2.2.0.2.min.js",
-                    "~/Areas/Admin/Scripts/grid-intregration.js");
+                    "~/Areas/Admin/Scripts/grid-intregration.js",
+                    "~/Areas/Admin/Scripts/AdminScript.js");
                 BundleTable.Bundles.Add(scriptBundle);
             }
             catch (Exception ex)
@@ -96,7 +97,7 @@ namespace InplayBet.Web
             try
             {
                 Bundle styleBundle = new Bundle("~/Styles/CommonStyle", new CssMinify());
-                styleBundle.Include("~/Styles/jquery-ui.min.css", 
+                styleBundle.Include("~/Styles/jquery-ui.min.css",
                     "~/Styles/jquery.fs.boxer.css",
                     "~/Styles/style.css",
                     "~/Styles/cropstyle.css");

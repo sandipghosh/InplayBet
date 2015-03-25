@@ -6,6 +6,7 @@ namespace InplayBet.Web.Utilities
     using System;
     using System.Collections.Generic;
     using System.Collections.Specialized;
+    using System.ComponentModel.DataAnnotations;
     using System.Configuration;
     using System.Diagnostics;
     using System.Drawing;
@@ -193,6 +194,12 @@ namespace InplayBet.Web.Utilities
             else
                 return typeof(string);
         }
+
+        /// <summary>
+        /// Gets the expression.
+        /// </summary>
+        /// <param name="propertyName">Name of the property.</param>
+        /// <returns></returns>
         public static Expression<Func<TSource, TProp>> GetExpression<TSource, TProp>(string propertyName)
         {
             var param = System.Linq.Expressions.Expression.Parameter(typeof(TSource), "x");
@@ -300,6 +307,51 @@ namespace InplayBet.Web.Utilities
             {
                 ex.ExceptionValueTracker(source, context);
             }
+        }
+
+        /// <summary>
+        /// Gets the display name.
+        /// </summary>
+        /// <typeparam name="TModel">The type of the model.</typeparam>
+        /// <typeparam name="TField">The type of the field.</typeparam>
+        /// <param name="selector">The selector.</param>
+        /// <param name="involveAlnnotation">if set to <c>true</c> [involve alnnotation].</param>
+        /// <param name="displayProperty">The display property.</param>
+        /// <returns></returns>
+        public static string GetDisplayName<TModel, TField>
+            (Expression<Func<TModel, TField>> selector, bool involveAlnnotation = false,
+            DisplayProperty displayProperty = DisplayProperty.Name)
+        {
+            try
+            {
+                System.Linq.Expressions.Expression body = selector;
+                if (body is LambdaExpression)
+                {
+                    body = ((LambdaExpression)body).Body;
+                }
+
+                if (body.NodeType == ExpressionType.MemberAccess)
+                {
+                    PropertyInfo propInfo = (PropertyInfo)((MemberExpression)body).Member;
+                    if (involveAlnnotation)
+                    {
+                        DisplayAttribute attribute = propInfo.GetCustomAttributes(typeof(DisplayAttribute), true)
+                            .Select(prop => (DisplayAttribute)prop).FirstOrDefault();
+
+                        if (attribute != null)
+                            return attribute.GetType().GetProperty(displayProperty.ToString())
+                                .GetValue(attribute, null).ToString();
+                        else
+                            return propInfo.Name;
+                    }
+                    return propInfo.Name;
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.ExceptionValueTracker(selector, involveAlnnotation);
+            }
+            return string.Empty;
         }
 
         /// <summary>
@@ -483,7 +535,7 @@ namespace InplayBet.Web.Utilities
             }
             catch (Exception exception)
             {
-                exception.ExceptionValueTracker(base64String);
+                //exception.ExceptionValueTracker(base64String);
             }
             return false;
         }

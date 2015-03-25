@@ -172,7 +172,7 @@
                     GetGridColumnNames(obj.modelSchema.colModel) : obj.modelSchema.colNames),
                 colModel: obj.modelSchema.colModel,
                 onSelectRow: function (id) {
-                    if (id && id !== lastSelId && lastSelId != undefined) {
+                    if (id && id !== lastSelId && lastSelId != undefined && obj.editable) {
                         $gridElement.jqGrid('restoreRow', lastSelId, function (rowid) {
                             if (obj.afterRestore_Func != null)
                                 obj.afterRestore_Func(rowid)
@@ -217,8 +217,6 @@
                 subGrid: obj.subGrid,
                 subGridOptions: obj.subGridOptions,
                 subGridRowExpanded: obj.subGridRowExpanded,
-
-                //width: ($(this).parent().width() - 500),
                 gridComplete: function () {
                     if (obj.editable == true) {
                         var ids = $gridElement.jqGrid('getDataIDs');
@@ -228,8 +226,16 @@
                     }
                     if (obj.gridComplete_Func != null)
                         obj.gridComplete_Func();
+
+                    if (typeof obj.delete_func != 'undefined') {
+                        var ids = $gridElement.jqGrid('getDataIDs');
+                        for (var i = 0; i < ids.length; i++) {
+                            SetDeleteButtonEachRow($gridElement, { rowid: ids[i], deletefunc: obj.delete_func })
+                        }
+                    }
                 }
-            }).setGridWidth($(this).parent().width());
+            });
+            $gridElement.jqGrid('setGridWidth', ($(window).width()-25));
 
             /*Configure grid navigation panel -- disable all command 
             except refresh and enable cloneToTop property*/
@@ -458,6 +464,19 @@
             }
         }
         return parent;
+    };
+
+    var SetDeleteButtonEachRow = function ($grid, params) {
+        try {
+            if (typeof params.deletefunc != 'undefined') {
+                var $deleteCommand = $('<span class="grid-command command_delete" title="Delete" onclick="deleteGridRow({0})"></span>'.format(params.rowid));
+                $grid.jqGrid('setRowData', params.rowid, {
+                    Actions: $deleteCommand[0].outerHTML
+                }, 'normal-mode');
+            }
+        } catch (ex) {
+
+        }
     };
 
     var SetAddButtonOnTopAndButtom = function ($grid, params) {

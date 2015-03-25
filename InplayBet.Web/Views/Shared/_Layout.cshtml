@@ -36,7 +36,7 @@
     @Html.RenderScripts("~/Scripts/MainScript")
     @RenderSection("PageScript", false)
 
-    <script type="text/javascript" src='@Url.Action("AppConfigData", "Base")'></script>
+    <script type="text/javascript" src='@Url.Action("AppConfigData", "Base", new { area=""})'></script>
 </head>
 <body>
     @Html.Partial("_SimpleMessage")

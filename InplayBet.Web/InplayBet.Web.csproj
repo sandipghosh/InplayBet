@@ -309,6 +309,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Models\BetModel.cs" />
+    <Compile Include="Models\BetNotificationViewModel.cs" />
     <Compile Include="Models\BookMakerModel.cs" />
     <Compile Include="Models\ChallengeModel.cs" />
     <Compile Include="Models\ContactModel.cs" />
@@ -348,12 +349,23 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Content Include="Areas\Admin\Scripts\AdminScript.js" />
     <Content Include="Areas\Admin\Scripts\grid-intregration.js" />
     <Content Include="Areas\Admin\Scripts\grid.locale-en.js" />
     <Content Include="Areas\Admin\Scripts\jquery.jqGrid.min.js" />
     <Content Include="Areas\Admin\Scripts\jquery.linq-2.2.0.2.min.js" />
     <None Include="Areas\Admin\Scripts\jquery.linq-vsdoc.js" />
     <Content Include="Areas\Admin\Styles\AdminStyle.css" />
+    <Content Include="Areas\Admin\Styles\Images\1399169240_hire-me.png" />
+    <Content Include="Areas\Admin\Styles\Images\CustomerManager.png" />
+    <Content Include="Areas\Admin\Styles\Images\Dashboard.png" />
+    <Content Include="Areas\Admin\Styles\Images\doc-excel.png" />
+    <Content Include="Areas\Admin\Styles\Images\doc_pdf.png" />
+    <Content Include="Areas\Admin\Styles\Images\icon-set2.png" />
+    <Content Include="Areas\Admin\Styles\Images\OrderManager.png" />
+    <Content Include="Areas\Admin\Styles\Images\PaymentManager.png" />
+    <Content Include="Areas\Admin\Styles\Images\TestimonialManager.png" />
+    <Content Include="Areas\Admin\Styles\Images\white_zip.png" />
     <Content Include="Areas\Admin\Styles\ui.jqgrid.css" />
     <Content Include="DBScript\MoreLinqDoc.txt" />
     <Content Include="DBScript\SQLQuery.sql" />
@@ -502,6 +514,8 @@
     <Content Include="Views\Reporting\Index.cshtml" />
     <Content Include="Views\Shared\_SimpleMessage.cshtml" />
     <Content Include="Views\Follow\ShowFollowingUsers.cshtml" />
+    <Content Include="Views\Shared\_BetSubmissionMailNotification.cshtml" />
+    <Content Include="Views\Shared\_UserActivationMailNotification.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

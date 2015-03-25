@@ -22,7 +22,7 @@ namespace InplayBet.Web.Models
         Required(AllowEmptyStrings = false, ErrorMessage = "Please enter Phone Number")]
         public string PhoneNumber { get; set; }
         [Display(Name = "Your Message"),
-        Required(AllowEmptyStrings = false, ErrorMessage = "Please enter Phone Number"),
+        Required(AllowEmptyStrings = false, ErrorMessage = "Please enter your Message"),
         StringLength(500, MinimumLength = 100, ErrorMessage = "Massage lenght must be 100 to 500 cheracters")]
         public string Massage { get; set; }
         public int StatusId { get; set; }
