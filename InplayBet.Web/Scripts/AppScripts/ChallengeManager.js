@@ -199,8 +199,8 @@
                 if (data.ReportId > 0) {
                     modal.close({
                         closeCallBack: function () {
-                            ShowModal(null, "<p>Your report has been successfully submitted.<p>", '400px', null, function () {
-                                setTimeout(modal.close({}), 3000);
+                            ShowModal(null, '<p style="font-size:16px;">Your report has been successfully submitted.<p>', '400px', null, function () {
+                                //setTimeout(modal.close({}), 3000);
                             });
                         }
                     });
