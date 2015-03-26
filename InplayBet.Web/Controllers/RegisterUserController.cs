@@ -11,6 +11,7 @@ namespace InplayBet.Web.Controllers
     using System.Globalization;
     using System.Linq;
     using System.Web.Mvc;
+    using System.Threading.Tasks;
 
     public class RegisterUserController : BaseController
     {
@@ -140,7 +141,11 @@ namespace InplayBet.Web.Controllers
                             if (CommonUtility.GetConfigData<string>("EnableUserMailActivation").AsString() == "true")
                             {
                                 this._userDataRepository.Insert(user);
-                                SentConfirmationMail(user);
+                                if (user.UserKey > 0)
+                                {
+                                    var asyncSendNotification = Task.Factory.StartNew(() => SentConfirmationMail(user), TaskCreationOptions.LongRunning);
+                                    asyncSendNotification.ContinueWith(task => { });
+                                }
                             }
                             else
                             {
@@ -222,9 +227,9 @@ namespace InplayBet.Web.Controllers
                     {
                         SetSessionData(user);
                         if (user.IsAdmin)
-                            return new JsonActionResult(new { Status = true, Url = Url.Action("Index", "Home") }); 
+                            return new JsonActionResult(new { Status = true, Url = Url.Action("Index", "Home") });
                         else
-                            return new JsonActionResult(new { Status = true, Url = Url.Action("Index", "MemberProfile") }); 
+                            return new JsonActionResult(new { Status = true, Url = Url.Action("Index", "MemberProfile") });
                     }
                     else
                     {
@@ -300,6 +305,32 @@ namespace InplayBet.Web.Controllers
         }
 
         /// <summary>
+        /// Deletes the user.
+        /// </summary>
+        /// <param name="userKey">The user key.</param>
+        /// <returns></returns>
+        [AcceptVerbs(HttpVerbs.Get),
+        OutputCache(NoStore = true, Duration = 0, VaryByHeader = "*")]
+        public JsonActionResult DeleteUser(int userKey)
+        {
+            try
+            {
+                UserModel user = this._userDataRepository.Get(userKey);
+                if (user != null)
+                {
+                    user.StatusId = (int)StatusCode.Discontinue;
+                    this._userDataRepository.Update(user);
+                    return new JsonActionResult(new { Status = "success" });
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.ExceptionValueTracker(userKey);
+            }
+            return new JsonActionResult(new { Status = "failed" });
+        }
+
+        /// <summary>
         /// Generates the additional data.
         /// </summary>
         private void GenerateAdditionalData()
@@ -370,7 +401,7 @@ namespace InplayBet.Web.Controllers
                     ("_RagistrationMailTemplate", user, this,
                     new Dictionary<string, object>() { { "ActivationUrl", url } });
 
-                email.SendMail(mailBody);
+                email.SendMailAsync(mailBody);
             }
             catch (Exception ex)
             {

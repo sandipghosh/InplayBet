@@ -22,8 +22,8 @@ namespace InplayBet.Web.Data.Context
             this.Currencies = new HashSet<Currency>();
             this.Reports = new HashSet<Report>();
             this.Teams = new HashSet<Team>();
-            this.Users = new HashSet<User>();
             this.Legues = new HashSet<Legue>();
+            this.Users = new HashSet<User>();
         }
     
         public int StatusId { get; set; }
@@ -35,7 +35,7 @@ namespace InplayBet.Web.Data.Context
         public virtual ICollection<Currency> Currencies { get; set; }
         public virtual ICollection<Report> Reports { get; set; }
         public virtual ICollection<Team> Teams { get; set; }
-        public virtual ICollection<User> Users { get; set; }
         public virtual ICollection<Legue> Legues { get; set; }
+        public virtual ICollection<User> Users { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿@using InplayBet.Web.Models
 @model UserModel
+@{Layout = null;}
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -7,10 +8,14 @@
     <title>Home</title>
 </head>
 
-<body style="margin:0; padding:0;">
+<body style="margin: 0; padding: 0;">
     <table width="100%" border="0" cellspacing="0" cellpadding="0">
         <tr>
-            <td style="background:#010205; padding:10px; border:0;"><a href="#"><img src="http://79.170.44.202/inplay20.co.uk/Styles/images/logo.png" width="237" height="66" alt="" border="0" /></a></td>
+            <td style="background: #010205; padding: 10px; border: 0;">
+                <a href="#">
+                    <img src="http://79.170.44.202/inplay20.co.uk/Styles/images/logo.png" width="237" height="66" alt="" border="0" />
+                </a>
+            </td>
         </tr>
         <tr>
             <td>&nbsp;</td>
@@ -19,29 +24,29 @@
             <td>
                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
                     <tr>
-                        <td bgcolor="ebebeb" colspan="2" style="font-size:30px; font-weight:bold; color:#000; padding:5px; font-family:Arial, Helvetica, sans-serif;">Member Verification</td>
+                        <td bgcolor="ebebeb" colspan="2" style="font-size: 30px; font-weight: bold; color: #000; padding: 5px; font-family: Arial, Helvetica, sans-serif;">Member Verification</td>
                     </tr>
                     <tr>
                         <td>&nbsp;</td>
                         <td>&nbsp;</td>
                     </tr>
                     <tr>
-                        <td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#000; padding:5px;"><strong>Username:</strong></td>
-                        <td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#000; padding:5px;">
+                        <td style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; color: #000; padding: 5px;"><strong>Username:</strong></td>
+                        <td style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; color: #000; padding: 5px;">
                             <label></label>
                             @Model.UserId
                         </td>
                     </tr>
                     <tr>
-                        <td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#000; padding:5px;" width="20%"><strong>Names:</strong></td>
-                        <td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#000; padding:5px;">
+                        <td style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; color: #000; padding: 5px;" width="20%"><strong>Names:</strong></td>
+                        <td style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; color: #000; padding: 5px;">
                             <label></label>
                             @string.Format("{0} {1}", Model.FirstName, Model.LastName)
                         </td>
                     </tr>
                     <tr>
-                        <td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#000; padding:5px;"><strong>Email Address:</strong></td>
-                        <td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#000; padding:5px;">@Model.EmailId</td>
+                        <td style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; color: #000; padding: 5px;"><strong>Email Address:</strong></td>
+                        <td style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; color: #000; padding: 5px;">@Model.EmailId</td>
                     </tr>
                 </table>
             </td>
@@ -50,10 +55,10 @@
             <td>&nbsp;</td>
         </tr>
         <tr>
-            <td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#000; padding:5px;">Thank you for joining <a href="#">www.inplay20.com</a>. Please click on the link below to verify your account.</td>
+            <td style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; color: #000; padding: 5px;">Thank you for joining <a href="#">www.inplay20.com</a>. Please click on the link below to verify your account.</td>
         </tr>
         <tr>
-            <td style="font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#000; padding:5px;"><a href="@TempData["ActivationUrl"]">verify link goes here...</a></td>
+            <td style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; color: #000; padding: 5px;"><a href="@TempData["ActivationUrl"]">verify link goes here...</a></td>
         </tr>
         <tr>
             <td>&nbsp;</td>

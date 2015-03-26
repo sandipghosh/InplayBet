@@ -62,6 +62,7 @@ namespace InplayBet.Web
 
                 scriptBundle = new Bundle("~/Scripts/Ranking", new JsMinify());
                 scriptBundle.Include("~/Scripts/jquery.simplePagination.js",
+                    "~/Scripts/jquery-ui-slider-pips.min.js",
                     "~/Scripts/AppScripts/RankingManager.js");
                 BundleTable.Bundles.Add(scriptBundle);
 
@@ -104,7 +105,8 @@ namespace InplayBet.Web
                 BundleTable.Bundles.Add(styleBundle);
 
                 styleBundle = new Bundle("~/Styles/Ranking", new CssMinify());
-                styleBundle.Include("~/Styles/simplePagination.css");
+                styleBundle.Include("~/Areas/Admin/Styles/jquery-ui-slider-pips.css",
+                    "~/Styles/simplePagination.css");
                 BundleTable.Bundles.Add(styleBundle);
 
                 styleBundle = new Bundle("~/Styles/Admin", new CssMinify());

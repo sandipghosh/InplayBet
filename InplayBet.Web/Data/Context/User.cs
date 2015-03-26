@@ -38,6 +38,7 @@ namespace InplayBet.Web.Data.Context
         public System.DateTime CreatedOn { get; set; }
         public Nullable<int> UpdatedBy { get; set; }
         public Nullable<System.DateTime> UpdatedOn { get; set; }
+        public string Address { get; set; }
     
         public virtual BookMaker BookMaker { get; set; }
         public virtual ICollection<Challenge> Challenges { get; set; }

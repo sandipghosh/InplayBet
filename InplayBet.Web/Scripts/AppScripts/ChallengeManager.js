@@ -211,4 +211,15 @@
         }
     }
 
+    this.ResetUserAccount = function (url) {
+        try {
+            var r = confirm("Are you sure to reset your account?");
+            if (r == true) {
+                window.location.assign(Base64Decode(url));
+            }
+        } catch (ex) {
+            log(ex.message);
+        }
+    }
+
 }(jQuery, window));

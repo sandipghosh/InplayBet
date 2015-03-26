@@ -20,8 +20,6 @@
                         renderURL: '{0}Admin/SummaryReport/GetUserSummary'.format(VirtualDirectory),
                         recordtext: 'Total Orders {2}',
                         searchOperators: true,
-                        //autowidth: false,
-                        //shrinkToFit: false,
                         insertMode: 'none',
                         delete_func: function (rowid) {
                             deleteGridRow(rowid);
@@ -61,8 +59,8 @@
                         searchOperators: true,
                         grouping: true,
                         subGrid: true,
-                        //subGridOptions: defaultSubGridOptions,
-                        //subGridRowExpanded: subGridHandler.handler,
+                        subGridOptions: defaultSubGridOptions,
+                        subGridRowExpanded: subGridHandler.handler,
                         insertMode: 'none'
                     });
                 }
@@ -73,6 +71,24 @@
     };
 
     this.deleteGridRow = function (rowid) {
-        alert(rowid);
+        var r = confirm("Are you sure to delete or discontinue this user");
+        if (r == true) {
+            $.ajax({
+                url: '{0}RegisterUser/DeleteUser'.format(VirtualDirectory),
+                contentType: "application/json",
+                dataType: "json",
+                data: { 'userKey': rowid },
+                success: function (result) {
+                    if (result) {
+                        if (result.Status == 'success') {
+                            $('#grid').jqGrid('delRowData', rowid);
+                        }
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    log(errorThrown);
+                }
+            });
+        }
     };
 }(jQuery, window));

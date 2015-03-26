@@ -29,8 +29,10 @@
                         <p class="bookmarker">
                             <a href='@Url.Action("Update", "RegisterUser", new { userKey = Model.UserKey })'
                                class="edit-link" title="Edit Account"></a>
-                            <a href='@Url.Action("ResetAccount", "MemberProfile", new { userKey = Model.UserKey })'
+                            <a href="javascript:ResetUserAccount('@((Url.Action("ResetAccount","MemberProfile",new{area="", userKey = Model.UserKey})).ToBase64Encode())')"
                                class="reset-link" title="Reset Account"></a>
+                            @*<a href='@Url.Action("ResetAccount", "MemberProfile", new { userKey = Model.UserKey })'
+                               class="reset-link" title="Reset Account"></a>*@
                         </p>
                     }
 

@@ -54,20 +54,11 @@
           <Property Name="UpdatedBy" Type="int" />
           <Property Name="UpdatedOn" Type="datetime" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'InplayBet.dbo.Contact' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Contact">
           <Key>
             <PropertyRef Name="CotactUsId" />
-            <PropertyRef Name="Name" />
-            <PropertyRef Name="EmailId" />
-            <PropertyRef Name="PhoneNumber" />
-            <PropertyRef Name="Massage" />
-            <PropertyRef Name="StatusId" />
-            <PropertyRef Name="CreatedBy" />
-            <PropertyRef Name="CreatedOn" />
           </Key>
-          <Property Name="CotactUsId" Type="int" Nullable="false" />
+          <Property Name="CotactUsId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="EmailId" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="PhoneNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -173,6 +164,7 @@ warning 6002: The table/view 'InplayBet.dbo.Contact' does not have a primary key
           <Property Name="CreatedOn" Type="datetime" Nullable="false" />
           <Property Name="UpdatedBy" Type="int" />
           <Property Name="UpdatedOn" Type="datetime" />
+          <Property Name="Address" Type="nvarchar" MaxLength="500" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'InplayBet.dbo.UserRank' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -181,6 +173,7 @@ warning 6002: The table/view 'InplayBet.dbo.UserRank' does not have a primary ke
             <PropertyRef Name="UserKey" />
             <PropertyRef Name="UserId" />
             <PropertyRef Name="UserName" />
+            <PropertyRef Name="Address" />
             <PropertyRef Name="AvatarPath" />
             <PropertyRef Name="MemberSince" />
             <PropertyRef Name="Sex" />
@@ -205,6 +198,7 @@ warning 6002: The table/view 'InplayBet.dbo.UserRank' does not have a primary ke
           <Property Name="UserKey" Type="int" Nullable="false" />
           <Property Name="UserId" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="UserName" Type="nvarchar" MaxLength="101" Nullable="false" />
+          <Property Name="Address" Type="nvarchar" MaxLength="500" Nullable="false" />
           <Property Name="AvatarPath" Type="nvarchar" MaxLength="500" Nullable="false" />
           <Property Name="MemberSince" Type="datetime" Nullable="false" />
           <Property Name="Sex" Type="nvarchar" MaxLength="1" Nullable="false" />
@@ -446,6 +440,7 @@ warning 6002: The table/view 'InplayBet.dbo.UserRank' does not have a primary ke
           <EntitySet Name="Bet" EntityType="Self.Bet" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BookMaker" EntityType="Self.BookMaker" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Challenge" EntityType="Self.Challenge" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Contact" EntityType="Self.Contact" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Currency" EntityType="Self.Currency" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Follow" EntityType="Self.Follow" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Legue" EntityType="Self.Legue" Schema="dbo" store:Type="Tables" />
@@ -453,25 +448,12 @@ warning 6002: The table/view 'InplayBet.dbo.UserRank' does not have a primary ke
           <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Team" EntityType="Self.Team" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Contact" EntityType="Self.Contact" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-[Contact].[CotactUsId] AS [CotactUsId], 
-[Contact].[Name] AS [Name], 
-[Contact].[EmailId] AS [EmailId], 
-[Contact].[PhoneNumber] AS [PhoneNumber], 
-[Contact].[Massage] AS [Massage], 
-[Contact].[StatusId] AS [StatusId], 
-[Contact].[CreatedBy] AS [CreatedBy], 
-[Contact].[CreatedOn] AS [CreatedOn], 
-[Contact].[UpdatedBy] AS [UpdatedBy], 
-[Contact].[UpdatedOn] AS [UpdatedOn]
-FROM [dbo].[Contact] AS [Contact]</DefiningQuery>
-          </EntitySet>
           <EntitySet Name="UserRank" EntityType="Self.UserRank" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
 [UserRank].[UserKey] AS [UserKey], 
 [UserRank].[UserId] AS [UserId], 
 [UserRank].[UserName] AS [UserName], 
+[UserRank].[Address] AS [Address], 
 [UserRank].[AvatarPath] AS [AvatarPath], 
 [UserRank].[MemberSince] AS [MemberSince], 
 [UserRank].[Sex] AS [Sex], 
@@ -619,6 +601,16 @@ FROM [dbo].[UserRank] AS [UserRank]</DefiningQuery>
             <End Role="Status" EntitySet="Status" />
             <End Role="Team" EntitySet="Teams" />
           </AssociationSet>
+          <EntitySet Name="Follows" EntityType="InplayBetModel.Follow" />
+          <EntitySet Name="Legues" EntityType="InplayBetModel.Legue" />
+          <AssociationSet Name="FK_Bet_Legue" Association="InplayBetModel.FK_Bet_Legue">
+            <End Role="Legue" EntitySet="Legues" />
+            <End Role="Bet" EntitySet="Bets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Legue_Status" Association="InplayBetModel.FK_Legue_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Legue" EntitySet="Legues" />
+          </AssociationSet>
           <EntitySet Name="Users" EntityType="InplayBetModel.User" />
           <AssociationSet Name="FK_User_BookMaker" Association="InplayBetModel.FK_User_BookMaker">
             <End Role="BookMaker" EntitySet="BookMakers" />
@@ -644,18 +636,8 @@ FROM [dbo].[UserRank] AS [UserRank]</DefiningQuery>
             <End Role="Status" EntitySet="Status" />
             <End Role="User" EntitySet="Users" />
           </AssociationSet>
-          <EntitySet Name="Follows" EntityType="InplayBetModel.Follow" />
-          <EntitySet Name="Contacts" EntityType="InplayBetModel.Contact" />
-          <EntitySet Name="Legues" EntityType="InplayBetModel.Legue" />
-          <AssociationSet Name="FK_Bet_Legue" Association="InplayBetModel.FK_Bet_Legue">
-            <End Role="Legue" EntitySet="Legues" />
-            <End Role="Bet" EntitySet="Bets" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Legue_Status" Association="InplayBetModel.FK_Legue_Status">
-            <End Role="Status" EntitySet="Status" />
-            <End Role="Legue" EntitySet="Legues" />
-          </AssociationSet>
           <EntitySet Name="UserRanks" EntityType="InplayBetModel.UserRank" />
+          <EntitySet Name="Contacts" EntityType="InplayBetModel.Contact" />
           </EntityContainer>
         <EntityType Name="Bet">
           <Key>
@@ -765,8 +747,8 @@ FROM [dbo].[UserRank] AS [UserRank]</DefiningQuery>
           <NavigationProperty Name="Currencies" Relationship="InplayBetModel.FK_Currency_Status" FromRole="Status" ToRole="Currency" />
           <NavigationProperty Name="Reports" Relationship="InplayBetModel.FK_Report_Status" FromRole="Status" ToRole="Report" />
           <NavigationProperty Name="Teams" Relationship="InplayBetModel.FK_Team_Status" FromRole="Status" ToRole="Team" />
-          <NavigationProperty Name="Users" Relationship="InplayBetModel.FK_User_Status" FromRole="Status" ToRole="User" />
           <NavigationProperty Name="Legues" Relationship="InplayBetModel.FK_Legue_Status" FromRole="Status" ToRole="Legue" />
+          <NavigationProperty Name="Users" Relationship="InplayBetModel.FK_User_Status" FromRole="Status" ToRole="User" />
         </EntityType>
         <EntityType Name="Team">
           <Key>
@@ -903,6 +885,57 @@ FROM [dbo].[UserRank] AS [UserRank]</DefiningQuery>
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Follow">
+          <Key>
+            <PropertyRef Name="FollowId" />
+          </Key>
+          <Property Name="FollowId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FollowBy" Type="Int32" Nullable="false" />
+          <Property Name="FollowTo" Type="Int32" Nullable="false" />
+          <Property Name="StatusId" Type="Int32" Nullable="false" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedBy" Type="Int32" />
+          <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="Legue">
+          <Key>
+            <PropertyRef Name="LegueId" />
+          </Key>
+          <Property Name="LegueId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LegueName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="StatusId" Type="Int32" Nullable="false" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedBy" Type="Int32" />
+          <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Bets" Relationship="InplayBetModel.FK_Bet_Legue" FromRole="Legue" ToRole="Bet" />
+          <NavigationProperty Name="Status" Relationship="InplayBetModel.FK_Legue_Status" FromRole="Legue" ToRole="Status" />
+        </EntityType>
+        <Association Name="FK_Bet_Legue">
+          <End Type="InplayBetModel.Legue" Role="Legue" Multiplicity="1" />
+          <End Type="InplayBetModel.Bet" Role="Bet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Legue">
+              <PropertyRef Name="LegueId" />
+            </Principal>
+            <Dependent Role="Bet">
+              <PropertyRef Name="LegueId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Legue_Status">
+          <End Type="InplayBetModel.Status" Role="Status" Multiplicity="1" />
+          <End Type="InplayBetModel.Legue" Role="Legue" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="StatusId" />
+            </Principal>
+            <Dependent Role="Legue">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="UserKey" />
@@ -924,6 +957,7 @@ FROM [dbo].[UserRank] AS [UserRank]</DefiningQuery>
           <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="UpdatedBy" Type="Int32" />
           <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
+          <Property Name="Address" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="BookMaker" Relationship="InplayBetModel.FK_User_BookMaker" FromRole="User" ToRole="BookMaker" />
           <NavigationProperty Name="Challenges" Relationship="InplayBetModel.FK_Challenge_User" FromRole="User" ToRole="Challenge" />
           <NavigationProperty Name="Currency" Relationship="InplayBetModel.FK_User_Currency" FromRole="User" ToRole="Currency" />
@@ -1003,84 +1037,12 @@ FROM [dbo].[UserRank] AS [UserRank]</DefiningQuery>
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Follow">
-          <Key>
-            <PropertyRef Name="FollowId" />
-          </Key>
-          <Property Name="FollowId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FollowBy" Type="Int32" Nullable="false" />
-          <Property Name="FollowTo" Type="Int32" Nullable="false" />
-          <Property Name="StatusId" Type="Int32" Nullable="false" />
-          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
-          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UpdatedBy" Type="Int32" />
-          <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
-        </EntityType>
-        <EntityType Name="Contact">
-          <Key>
-            <PropertyRef Name="CotactUsId" />
-            <PropertyRef Name="Name" />
-            <PropertyRef Name="EmailId" />
-            <PropertyRef Name="PhoneNumber" />
-            <PropertyRef Name="Massage" />
-            <PropertyRef Name="StatusId" />
-            <PropertyRef Name="CreatedBy" />
-            <PropertyRef Name="CreatedOn" />
-          </Key>
-          <Property Name="CotactUsId" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="EmailId" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="PhoneNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Massage" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="StatusId" Type="Int32" Nullable="false" />
-          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
-          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UpdatedBy" Type="Int32" />
-          <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
-        </EntityType>
-        <EntityType Name="Legue">
-          <Key>
-            <PropertyRef Name="LegueId" />
-          </Key>
-          <Property Name="LegueId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="LegueName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="StatusId" Type="Int32" Nullable="false" />
-          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
-          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UpdatedBy" Type="Int32" />
-          <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Bets" Relationship="InplayBetModel.FK_Bet_Legue" FromRole="Legue" ToRole="Bet" />
-          <NavigationProperty Name="Status" Relationship="InplayBetModel.FK_Legue_Status" FromRole="Legue" ToRole="Status" />
-        </EntityType>
-        <Association Name="FK_Bet_Legue">
-          <End Type="InplayBetModel.Legue" Role="Legue" Multiplicity="1" />
-          <End Type="InplayBetModel.Bet" Role="Bet" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Legue">
-              <PropertyRef Name="LegueId" />
-            </Principal>
-            <Dependent Role="Bet">
-              <PropertyRef Name="LegueId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Legue_Status">
-          <End Type="InplayBetModel.Status" Role="Status" Multiplicity="1" />
-          <End Type="InplayBetModel.Legue" Role="Legue" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Status">
-              <PropertyRef Name="StatusId" />
-            </Principal>
-            <Dependent Role="Legue">
-              <PropertyRef Name="StatusId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="UserRank">
           <Key>
             <PropertyRef Name="UserKey" />
             <PropertyRef Name="UserId" />
             <PropertyRef Name="UserName" />
+            <PropertyRef Name="Address" />
             <PropertyRef Name="AvatarPath" />
             <PropertyRef Name="MemberSince" />
             <PropertyRef Name="Sex" />
@@ -1105,6 +1067,7 @@ FROM [dbo].[UserRank] AS [UserRank]</DefiningQuery>
           <Property Name="UserKey" Type="Int32" Nullable="false" />
           <Property Name="UserId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="UserName" Type="String" Nullable="false" MaxLength="101" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="AvatarPath" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="MemberSince" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Sex" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="true" />
@@ -1125,6 +1088,21 @@ FROM [dbo].[UserRank] AS [UserRank]</DefiningQuery>
           <Property Name="Rank" Type="Int64" Nullable="false" />
           <Property Name="WinningBets" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
           <Property Name="TotalCheatReported" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Contact">
+          <Key>
+            <PropertyRef Name="CotactUsId" />
+          </Key>
+          <Property Name="CotactUsId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="EmailId" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Massage" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="StatusId" Type="Int32" Nullable="false" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedBy" Type="Int32" />
+          <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -1237,9 +1215,37 @@ FROM [dbo].[UserRank] AS [UserRank]</DefiningQuery>
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Follows">
+            <EntityTypeMapping TypeName="InplayBetModel.Follow">
+              <MappingFragment StoreEntitySet="Follow">
+                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="FollowTo" ColumnName="FollowTo" />
+                <ScalarProperty Name="FollowBy" ColumnName="FollowBy" />
+                <ScalarProperty Name="FollowId" ColumnName="FollowId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Legues">
+            <EntityTypeMapping TypeName="InplayBetModel.Legue">
+              <MappingFragment StoreEntitySet="Legue">
+                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="LegueName" ColumnName="LegueName" />
+                <ScalarProperty Name="LegueId" ColumnName="LegueId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="InplayBetModel.User">
               <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="Address" ColumnName="Address" />
                 <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
                 <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
                 <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
@@ -1257,49 +1263,6 @@ FROM [dbo].[UserRank] AS [UserRank]</DefiningQuery>
                 <ScalarProperty Name="CurrencyId" ColumnName="CurrencyId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="UserKey" ColumnName="UserKey" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Follows">
-            <EntityTypeMapping TypeName="InplayBetModel.Follow">
-              <MappingFragment StoreEntitySet="Follow">
-                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
-                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
-                <ScalarProperty Name="FollowTo" ColumnName="FollowTo" />
-                <ScalarProperty Name="FollowBy" ColumnName="FollowBy" />
-                <ScalarProperty Name="FollowId" ColumnName="FollowId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Contacts">
-            <EntityTypeMapping TypeName="InplayBetModel.Contact">
-              <MappingFragment StoreEntitySet="Contact">
-                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
-                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
-                <ScalarProperty Name="Massage" ColumnName="Massage" />
-                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
-                <ScalarProperty Name="EmailId" ColumnName="EmailId" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="CotactUsId" ColumnName="CotactUsId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Legues">
-            <EntityTypeMapping TypeName="InplayBetModel.Legue">
-              <MappingFragment StoreEntitySet="Legue">
-                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
-                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
-                <ScalarProperty Name="LegueName" ColumnName="LegueName" />
-                <ScalarProperty Name="LegueId" ColumnName="LegueId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1326,9 +1289,26 @@ FROM [dbo].[UserRank] AS [UserRank]</DefiningQuery>
                 <ScalarProperty Name="Sex" ColumnName="Sex" />
                 <ScalarProperty Name="MemberSince" ColumnName="MemberSince" />
                 <ScalarProperty Name="AvatarPath" ColumnName="AvatarPath" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="UserKey" ColumnName="UserKey" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Contacts">
+            <EntityTypeMapping TypeName="InplayBetModel.Contact">
+              <MappingFragment StoreEntitySet="Contact">
+                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="Massage" ColumnName="Massage" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="EmailId" ColumnName="EmailId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CotactUsId" ColumnName="CotactUsId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

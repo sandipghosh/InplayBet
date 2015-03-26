@@ -5,7 +5,7 @@ namespace InplayBet.Web.Controllers
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Linq.Expressions;
+    using System.Threading.Tasks;
     using System.Transactions;
     using System.Web.Mvc;
     using InplayBet.Web.Data.Interface;
@@ -13,7 +13,6 @@ namespace InplayBet.Web.Controllers
     using InplayBet.Web.Models.Base;
     using InplayBet.Web.Utilities;
     using MoreLinq;
-    using Newtonsoft.Json;
 
     public class BetController : Controller
     {
@@ -23,6 +22,7 @@ namespace InplayBet.Web.Controllers
         private readonly ILegueDataRepository _legueDataRepository;
         private readonly IChallengeDataRepository _challengeDataRepository;
         private readonly IReportDataRepository _reportDataRepository;
+        private readonly IUserRankDataRepository _userRankDataRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BetController" /> class.
@@ -37,7 +37,8 @@ namespace InplayBet.Web.Controllers
             ITeamDataRepository teamDataRepository,
             ILegueDataRepository legueDataRepository,
             IChallengeDataRepository challengeDataRepository,
-            IReportDataRepository reportDataRepository)
+            IReportDataRepository reportDataRepository,
+            IUserRankDataRepository userRankDataRepository)
         {
             this._userDataRepository = userDataRepository;
             this._betDataRepository = betDataRepository;
@@ -45,6 +46,7 @@ namespace InplayBet.Web.Controllers
             this._legueDataRepository = legueDataRepository;
             this._challengeDataRepository = challengeDataRepository;
             this._reportDataRepository = reportDataRepository;
+            this._userRankDataRepository = userRankDataRepository;
         }
 
         /// <summary>
@@ -162,7 +164,7 @@ namespace InplayBet.Web.Controllers
         {
             try
             {
-                challenge.CreatedOn = (challenge.CreatedOn.Year == 1) 
+                challenge.CreatedOn = (challenge.CreatedOn.Year == 1)
                     ? DateTime.Now : challenge.CreatedOn;
 
                 BetModel bet = new BetModel()
@@ -202,6 +204,7 @@ namespace InplayBet.Web.Controllers
         {
             try
             {
+                int userKey = bet.Challenge.UserKey;
                 if (bet.ChallengeId == 0)
                 {
                     TransactionOptions options = new TransactionOptions()
@@ -216,7 +219,6 @@ namespace InplayBet.Web.Controllers
                         challenge.ChallengeStatus = challenge.ChallengeStatus.AsString();
                         challenge.CreatedOn = DateTime.Now;
                         this._challengeDataRepository.Insert(challenge);
-                        if (challenge.ChallengeId > 0) CommonUtility.LogToFileWithStack("1. Challenge has been created");
 
                         bet.ChallengeId = challenge.ChallengeId;
                         bet.BetStatus = bet.BetStatus.AsString();
@@ -224,7 +226,6 @@ namespace InplayBet.Web.Controllers
                         bet.Challenge = null;
 
                         this._betDataRepository.Insert(bet);
-                        if (bet.BetId > 0) CommonUtility.LogToFileWithStack("1. Bet has been created");
                         if (bet.BetId == 0) scope.Dispose(); else scope.Complete();
                     }
                 }
@@ -236,6 +237,11 @@ namespace InplayBet.Web.Controllers
                     if (bet.BetId > 0) CommonUtility.LogToFileWithStack("2. Bet has been created");
                 }
 
+                if (bet.BetId > 0)
+                {
+                    var asyncSendNotification = Task.Factory.StartNew(() => BetSubmitNotification(userKey, bet), TaskCreationOptions.LongRunning);
+                    asyncSendNotification.ContinueWith(task => { });
+                }
                 return new JsonActionResult(bet);
             }
             catch (Exception ex)
@@ -371,7 +377,6 @@ namespace InplayBet.Web.Controllers
                 if (ModelState.IsValid)
                 {
                     this._reportDataRepository.Insert(report);
-
                 }
                 return new JsonActionResult(report);
             }
@@ -538,6 +543,11 @@ namespace InplayBet.Web.Controllers
             return null;
         }
 
+        /// <summary>
+        /// Gets the user calture code.
+        /// </summary>
+        /// <param name="userKey">The user key.</param>
+        /// <returns></returns>
         private string GetUserCaltureCode(int userKey)
         {
             try
@@ -554,6 +564,38 @@ namespace InplayBet.Web.Controllers
             }
             return string.Empty;
         }
+
+        /// <summary>
+        /// Bets the submit notification.
+        /// </summary>
+        /// <param name="userKey">The user key.</param>
+        /// <param name="currentBet">The current bet.</param>
+        private void BetSubmitNotification(int userKey, BetModel currentBet)
+        {
+            try
+            {
+                BetNotificationViewModel betViewModel = new BetNotificationViewModel
+                {
+                    Bet = currentBet,
+                    User = this._userRankDataRepository.Get(userKey)
+                };
+                int consicutiveWonBets = this._betDataRepository.GetConsicutiveBetWins(userKey);
+                string mailContent = CommonUtility.RenderViewToString("_BetSubmissionMailNotification", currentBet,
+                    this, new Dictionary<string, object>() { { "ConsicutiveWonBets", consicutiveWonBets } });
+
+                SharedFunctionality shared = new SharedFunctionality();
+                var followingUser = shared.GetFollowingUsers(userKey);
+                if (!followingUser.IsEmptyCollection())
+                {
+                    shared.MassMailing(followingUser.Select(x => x.EmailId).ToList(), mailContent, "Inplay Bet Submit Notification");
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.ExceptionValueTracker(userKey, currentBet);
+            }
+        }
+
         #endregion
     }
 }

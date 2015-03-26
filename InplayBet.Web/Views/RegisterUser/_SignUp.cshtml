@@ -44,6 +44,10 @@
             @Html.TextBoxFor(m => m.LastName)
         </li>
         <li>
+            <label>Address:</label>
+            @Html.TextAreaFor(m => m.Address)
+        </li>
+        <li>
             <label>Email Address:</label>
             @if (Model.UserKey > 0)
             {

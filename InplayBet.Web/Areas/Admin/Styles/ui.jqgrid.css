@@ -803,6 +803,8 @@ a.g-menu-item, a.soptclass, a.clearsearchclass {
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
+    border: 1px solid;
+    margin: 3% 0;
 }
 
 .ui-jqgrid .ui-jqgrid-view input,

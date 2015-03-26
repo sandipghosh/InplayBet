@@ -316,6 +316,7 @@
     <Compile Include="Models\CurrencyModel.cs" />
     <Compile Include="Models\FollowModel.cs" />
     <Compile Include="Models\LegueModel.cs" />
+    <Compile Include="Models\ReportCountViewModel.cs" />
     <Compile Include="Models\ReportModel.cs" />
     <Compile Include="Models\SignInModel.cs" />
     <Compile Include="Models\StatusModel.cs" />
@@ -398,6 +399,7 @@
     <Content Include="Scripts\AppScripts\UIScripts.js" />
     <Content Include="Scripts\css3-mediaqueries.js" />
     <Content Include="Scripts\easyTooltip.js" />
+    <Content Include="Scripts\jquery-ui-slider-pips.min.js" />
     <Content Include="Scripts\jquery.blockUI.js" />
     <Content Include="Scripts\jquery.fs.boxer.min.js" />
     <Content Include="Scripts\jquery.simplePagination.js" />
@@ -429,6 +431,16 @@
     <Content Include="Styles\images\pisition-bg.png" />
     <Content Include="Styles\images\profile-img.jpg" />
     <Content Include="Styles\images\Reset.png" />
+    <Content Include="Styles\images\step1.jpg" />
+    <Content Include="Styles\images\step10.jpg" />
+    <Content Include="Styles\images\step2.jpg" />
+    <Content Include="Styles\images\step3.jpg" />
+    <Content Include="Styles\images\step4.jpg" />
+    <Content Include="Styles\images\step5.jpg" />
+    <Content Include="Styles\images\step6.jpg" />
+    <Content Include="Styles\images\step7.jpg" />
+    <Content Include="Styles\images\step8.jpg" />
+    <Content Include="Styles\images\step9.jpg" />
     <Content Include="Styles\images\t-icon.png" />
     <Content Include="Images\Users\Default.jpg" />
     <Content Include="Styles\images\thumb-down-32.png" />
@@ -462,6 +474,7 @@
     <Content Include="Styles\images\ui-icons_ffd27a_256x240.png" />
     <Content Include="Styles\images\ui-icons_ffffff_256x240.png" />
     <Content Include="Styles\images\Won.png" />
+    <Content Include="Styles\jquery-ui-slider-pips.css" />
     <Content Include="Styles\jquery-ui.min.css" />
     <Content Include="Styles\jquery.fs.boxer.css" />
     <Content Include="Styles\simplePagination.css" />
@@ -516,6 +529,7 @@
     <Content Include="Views\Follow\ShowFollowingUsers.cshtml" />
     <Content Include="Views\Shared\_BetSubmissionMailNotification.cshtml" />
     <Content Include="Views\Shared\_UserActivationMailNotification.cshtml" />
+    <Content Include="Views\Shared\_EnquiryMailNotifiaction.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -32,10 +32,10 @@ namespace InplayBet.Web.Data.Context
         public DbSet<Report> Reports { get; set; }
         public DbSet<Status> Status { get; set; }
         public DbSet<Team> Teams { get; set; }
-        public DbSet<User> Users { get; set; }
         public DbSet<Follow> Follows { get; set; }
-        public DbSet<Contact> Contacts { get; set; }
         public DbSet<Legue> Legues { get; set; }
+        public DbSet<User> Users { get; set; }
         public DbSet<UserRank> UserRanks { get; set; }
+        public DbSet<Contact> Contacts { get; set; }
     }
 }

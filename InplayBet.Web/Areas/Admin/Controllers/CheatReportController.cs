@@ -16,16 +16,23 @@ namespace InplayBet.Web.Areas.Admin.Controllers
     public class CheatReportController : BaseController
     {
         private readonly IUserRankDataRepository _userRankDataRepository;
+        private readonly IReportDataRepository _reportDataRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SummaryReportController" /> class.
         /// </summary>
         /// <param name="userRankDataRepository">The user rank data repository.</param>
-        public CheatReportController(IUserRankDataRepository userRankDataRepository)
+        public CheatReportController(IUserRankDataRepository userRankDataRepository,
+            IReportDataRepository reportDataRepository)
         {
             this._userRankDataRepository = userRankDataRepository;
+            this._reportDataRepository = reportDataRepository;
         }
 
+        /// <summary>
+        /// Indexes this instance.
+        /// </summary>
+        /// <returns></returns>
         [AcceptVerbs(HttpVerbs.Get),
         OutputCache(NoStore = true, Duration = 0, VaryByHeader = "*")]
         public ActionResult Index()
@@ -35,6 +42,10 @@ namespace InplayBet.Web.Areas.Admin.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Gets the reported users.
+        /// </summary>
+        /// <returns></returns>
         [AcceptVerbs(HttpVerbs.Get),
         OutputCache(NoStore = true, Duration = 0, VaryByHeader = "*")]
         public ActionResult GetReportedUsers()
@@ -52,7 +63,8 @@ namespace InplayBet.Web.Areas.Admin.Controllers
                     if (requestSearchData._search)
                     {
                         string criteria = requestSearchData.filters.ToString();
-                        var searchCriteria = CommonUtility.GetLamdaExpressionFromFilter<UserRankViewModel>(criteria);
+                        var searchCriteria = CommonUtility.GetLamdaExpressionFromFilter<UserRankViewModel>(string.Format("TotalCheatReported > 0 and {0}", criteria));
+
                         totalRecords = this._userRankDataRepository.GetCountCompiled(searchCriteria);
                         users = this._userRankDataRepository.GetListCompiled(requestSearchData.page,
                             requestSearchData.rows, searchCriteria, x => x.UserId, false).ToList();
@@ -61,7 +73,7 @@ namespace InplayBet.Web.Areas.Admin.Controllers
                     {
                         totalRecords = this._userRankDataRepository.GetCount();
                         users = this._userRankDataRepository.GetList(requestSearchData.page, requestSearchData.rows,
-                            null, x => x.UserId, false).ToList();
+                            x => x.TotalCheatReported > 0, x => x.UserId, false).ToList();
                     }
 
                     return new JsonActionResult(new GridDataModel()
@@ -87,6 +99,31 @@ namespace InplayBet.Web.Areas.Admin.Controllers
             return null;
         }
 
+        /// <summary>
+        /// Gets the reporting users.
+        /// </summary>
+        /// <param name="UserKey">The user key.</param>
+        /// <returns></returns>
+        [AcceptVerbs(HttpVerbs.Get),
+        OutputCache(NoStore = true, Duration = 0, VaryByHeader = "*")]
+        public ActionResult GetReportingUsers(int UserKey)
+        {
+            try
+            {
+                var cheatReports = this._reportDataRepository.GetCheatCountByUser(UserKey).ToList();
+                return new JsonActionResult(cheatReports);
+            }
+            catch (Exception ex)
+            {
+                ex.ExceptionValueTracker();
+            }
+            return RedirectToAction("Index", "Error", new { area = "" });
+        }
+
+        /// <summary>
+        /// Gets the reported users model schema.
+        /// </summary>
+        /// <returns></returns>
         private string GetReportedUsersModelSchema()
         {
             GridModelSchema gridModelSchema = null;
@@ -198,6 +235,10 @@ namespace InplayBet.Web.Areas.Admin.Controllers
             return string.Empty;
         }
 
+        /// <summary>
+        /// Gets the reporting users model schema.
+        /// </summary>
+        /// <returns></returns>
         private string GetReportingUsersModelSchema()
         {
             GridModelSchema gridModelSchema = null;
@@ -206,8 +247,50 @@ namespace InplayBet.Web.Areas.Admin.Controllers
                 List<colModel> columnModel = new List<colModel>();
                 columnModel.Add(new colModel()
                 {
-                    name = CommonUtility.GetDisplayName((UserRankViewModel x) => x.UserId),
-                    caption = CommonUtility.GetDisplayName((UserRankViewModel x) => x.UserId, true),
+                    name = CommonUtility.GetDisplayName((ReportCountViewModel x) => x.UserId),
+                    caption = CommonUtility.GetDisplayName((ReportCountViewModel x) => x.UserId, true),
+                    align = Align.left.ToString(),
+                    width = 30,
+                    searchoptions = new SearchOptions
+                    {
+                        sopt = new string[] 
+                        {
+                            SearchOperator.eq.ToString(), 
+                            SearchOperator.ne.ToString(),
+                            SearchOperator.bw.ToString(),
+                            SearchOperator.bn.ToString(),
+                            SearchOperator.cn.ToString(),
+                            SearchOperator.nc.ToString(),
+                            SearchOperator.ew.ToString(),
+                            SearchOperator.en.ToString(),
+                        }
+                    }
+                });
+                columnModel.Add(new colModel()
+                {
+                    name = CommonUtility.GetDisplayName((ReportCountViewModel x) => x.UserName),
+                    caption = CommonUtility.GetDisplayName((ReportCountViewModel x) => x.UserName, true),
+                    align = Align.left.ToString(),
+                    width = 30,
+                    searchoptions = new SearchOptions
+                    {
+                        sopt = new string[] 
+                        {
+                            SearchOperator.eq.ToString(), 
+                            SearchOperator.ne.ToString(),
+                            SearchOperator.bw.ToString(),
+                            SearchOperator.bn.ToString(),
+                            SearchOperator.cn.ToString(),
+                            SearchOperator.nc.ToString(),
+                            SearchOperator.ew.ToString(),
+                            SearchOperator.en.ToString(),
+                        }
+                    }
+                });
+                columnModel.Add(new colModel()
+                {
+                    name = CommonUtility.GetDisplayName((ReportCountViewModel x) => x.ReportCount),
+                    caption = CommonUtility.GetDisplayName((ReportCountViewModel x) => x.ReportCount, true),
                     align = Align.left.ToString(),
                     width = 30,
                     searchoptions = new SearchOptions

@@ -403,6 +403,13 @@ body#index .main-mobile-menu ul{padding:13px 20px 10px 20px;}
 .main-mobile-menu ul li:first-child span.open-mobile-2 {display:none;}
 .grid_24{display:none; position:absolute; width:60%; z-index:2;}
 
+
+
+
+
+
+
+
 /*------------------------ Menu End ----------------------------*/
 
 
@@ -439,6 +446,14 @@ ul.challenger-popup li.last {border-bottom:0; margin-bottom:0;}
 
 .edit-link {float:left; width:32px; height:32px; display:block; background:url(images/Edit.png) no-repeat;}
 .reset-link {float:left; width:32px; height:32px; display:block; background:url(images/Reset.png) no-repeat;}
+
+
+.step-box {width:94%; float:left; border:2px solid #CCC; padding:2%; margin-bottom:10px;}
+.step-box h2 {color:#fff; font-size:22px; padding:10px; margin:0 0 10px; background:#63b222;}
+.step-box .img {float:left; margin:0 20px 0 0; width:49%;} 
+.step-box .img img {width:100%;}
+.step-box p {font-size:18px; line-height:30px;}
+
 
 /*------------------------- Responsive CSS -------------------------*/
 
@@ -560,6 +575,7 @@ ul.leadbroad-block li .block-top .points p.left {font-size:16px;}
 .registration-block .dob, .registration-block .iam {width:25%;}
 .mp-block .yellow-box .scroll {width:100%;}
 
+.step-box p {font-size:16px; line-height:26px;}
 
 	
 }
@@ -620,6 +636,9 @@ ul.popup li label {width:100%; margin:5px 0;}
 .red-box .popup-border {width:98%;}
 .green-box .popup-border {width:98%;}
 ul.popup li label {font-size:14px !important;}
+
+.step-box p {font-size:16px; line-height:26px; margin-top:10px;}
+.step-box .img {width:100%; margin-right:0;}
 	
 	
 	
@@ -712,6 +731,9 @@ ul.popup li label {font-size:14px !important;}
 .yellow-box .popup-border {width:91%; margin-right:0;}
 .mp-block .yellow-box .outer {width:100%;}
 .input-full-outer {width:87%;}
+
+.step-box p {font-size:16px; line-height:26px; margin-top:10px;}
+.step-box .img {width:100%; margin-right:0;}
 
 
 

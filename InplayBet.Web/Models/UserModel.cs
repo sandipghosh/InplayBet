@@ -21,6 +21,8 @@ namespace InplayBet.Web.Models
         [Required(AllowEmptyStrings = false, ErrorMessage = "Please enter Last Name")]
         public string LastName { get; set; }
 
+        public string Address { get; set; }
+
         [Required(AllowEmptyStrings = false, ErrorMessage = "Please Enter Email Address"),
         RegularExpression(@"^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}" +
          @"\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\" +

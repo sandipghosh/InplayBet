@@ -13,6 +13,7 @@ namespace InplayBet.Web.Models
         public string UserId { get; set; }
         [Display(Name = "Name")]
         public string UserName { get; set; }
+        public string Address { get; set; }
         public string AvatarPath { get; set; }
         [Display(Name = "Date Joined")]
         public DateTime MemberSince { get; set; }
@@ -33,7 +34,6 @@ namespace InplayBet.Web.Models
         public decimal Profit { get; set; }
         public long Rank { get; set; }
         public string WinningBets { get; set; }
-        public string Address { get; set; }
         public string Sex { get; set; }
         [Display(Name = "Total Bets")]
         public int TotalBets { get; set; }
