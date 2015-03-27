@@ -4,6 +4,9 @@
 @{
     ViewBag.Title = "Latest Winners";
 }
+@section PageScript {
+    @Html.RenderScripts("~/Scripts/ChallengeScript")
+}
 @{Html.RenderPartial("_PageTitle", new ViewDataDictionary { { "Caption", "Latest Winners" } });}
 <div class="main-container">
     <div class="container">
