@@ -19,17 +19,23 @@
             {
                 <h2 class="query-heading">Registration</h2>
             }
-            <h4 class="grn-heading">Inplay Betting Account</h4>
+            
+            <h4 class="grn-heading">£20-£1000 Challenge Account Registration -</h4>
+            <p>If you are waiting to sign up to our £20-£1000 system, please fill in the details below and create your account -</p>
+
+            @Html.Partial("_SignUp", Model)
+			<h4 class="grn-heading">Inplay Betting Account</h4>
             <p>
                 If you want to complete the £20-£1000 challenge with real money, you will need to create an inplay betting account.<br>
                 We recommend using Bet365 for your inplay bets, as they offer the most comprehensive inplay listing and the best odds.<br>
                 Please click on the Bet365 below and it will take you Bet365 to create an account -
             </p>
-            @{Html.RenderPartial("_PromoBanner");}
-            <h4 class="grn-heading">£20-£1000 Challenge Account Registration -</h4>
-            <p>If you are waiting to sign up to our £20-£1000 system, please fill in the details below and create your account -</p>
-
-            @Html.Partial("_SignUp", Model)
+			<div class="sh-bnr-l"><img src='@Url.Content("~/Styles/images/sh-bnr1.jpg")' alt="" /></div>
+			<div class="sh-bnr-r"><img src='@Url.Content("~/Styles/images/sh-bnr2.jpg")' alt="" /></div>
+			<div class="sh-bnr-l"><img src='@Url.Content("~/Styles/images/sh-bnr3.jpg")' alt="" /></div>
+			<div class="sh-bnr-r"><img src='@Url.Content("~/Styles/images/sh-bnr4.jpg")' alt="" /></div>
+			<div class="sh-bnr-l"><img src='@Url.Content("~/Styles/images/sh-bnr5.jpg")' alt="" /></div>
+			<div class="sh-bnr-r"><img src='@Url.Content("~/Styles/images/sh-bnr6.jpg")' alt="" /></div>
         </div>
     </div>
 </div>

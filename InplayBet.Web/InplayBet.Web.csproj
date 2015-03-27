@@ -431,6 +431,12 @@
     <Content Include="Styles\images\pisition-bg.png" />
     <Content Include="Styles\images\profile-img.jpg" />
     <Content Include="Styles\images\Reset.png" />
+    <Content Include="Styles\images\sh-bnr1.jpg" />
+    <Content Include="Styles\images\sh-bnr2.jpg" />
+    <Content Include="Styles\images\sh-bnr3.jpg" />
+    <Content Include="Styles\images\sh-bnr4.jpg" />
+    <Content Include="Styles\images\sh-bnr5.jpg" />
+    <Content Include="Styles\images\sh-bnr6.jpg" />
     <Content Include="Styles\images\step1.jpg" />
     <Content Include="Styles\images\step10.jpg" />
     <Content Include="Styles\images\step2.jpg" />

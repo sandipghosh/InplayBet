@@ -21,6 +21,7 @@
                     @bet.BetType.AsString()<br />
                     Odds @bet.Odds<br />
                     @string.Format((new CultureInfo(caltureCore)), "{0:C} - {1:C}", bet.BetPlaced, bet.WiningTotal)<br />
+                    Submitted On: @bet.UpdatedOn.Value.ToString("dd/MM/yyyy hh:mm:ss tt", new CultureInfo(caltureCore))<br />
                     @bet.BetStatus.AsString()
                 </p>
             }

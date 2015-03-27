@@ -1,7 +1,13 @@
 ﻿@using InplayBet.Web.Models
+@using InplayBet.Web.Utilities
 @using System.Globalization
 @model UserRankViewModel
-@{Layout = null;}
+@{
+    Layout = null;
+    SharedFunctionality shared = new SharedFunctionality();
+    int loggedInUser = SessionVeriables.GetSessionData<int>(SessionVeriables.UserKey);
+    var follow = CommonUtility.IsFollowing(Model.UserKey);
+}
 <div class="top">
     <div class="top-profile-img"><img src='@Url.Content(Model.AvatarPath)' alt=""></div>
     <div class="name-block">
@@ -9,7 +15,24 @@
         <p class="member">Member Since: @Model.MemberSince.ToString("d", (new CultureInfo(Model.CultureCode)))</p>
         <p class="join">Ranking: @Model.Rank</p>
         <p class="bookmarker">Bookmarker - @Model.BookMakerName</p>
-        <p class="bookmarker">Followers - @Model.Followers</p>
+        <p class="bookmarker">Consecutive Bet Wins: @shared.GetConsicutiveWinByUser(Model.UserKey)</p>
+        @*<p class="bookmarker">Followers - @Model.Followers</p>*@
+        <p class="bookmarker">Followers: <i class="follow-count" id="counter" onclick="ShowFollowingUsers(this, event, @Model.UserKey, @Model.Followers)">@Model.Followers</i></p>
+        @if (loggedInUser == 0)
+        {
+            <p class="bookmarker">
+                <a href="javascript:void(0)" class="follow-link" title="Follow the user"
+                   style="background-image:url('@Url.Content("~/Styles/images/thumb-up-32.png")')"
+                   onclick="ShowSignupMessage(this, event)"></a>
+            </p>
+        }
+        else if (follow > 0)
+        {
+            <p class="bookmarker">
+                <a href="javascript:void(0)" class="follow-link" data-status="@follow"
+                   onclick="Follow(this, event, @loggedInUser, @Model.UserKey, '#counter')"></a>
+            </p>
+        }
     </div>
     <div class="detail-block">
         <p class="left">Wins @Model.Wins</p>

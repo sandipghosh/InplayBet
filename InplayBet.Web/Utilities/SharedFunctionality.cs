@@ -15,6 +15,7 @@ namespace InplayBet.Web.Utilities
     {
         private readonly IFollowDataRepository _followDataRepository;
         private readonly IUserDataRepository _userDataRepository;
+        private readonly IBetDataRepository _betDataRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SharedFunctionality"/> class.
@@ -24,6 +25,7 @@ namespace InplayBet.Web.Utilities
             Container container = new Container();
             this._followDataRepository = container.GetInstance<FollowDataRepository>();
             this._userDataRepository = container.GetInstance<UserDataRepository>();
+            this._betDataRepository = container.GetInstance<BetDataRepository>();
         }
 
         /// <summary>
@@ -151,15 +153,31 @@ namespace InplayBet.Web.Utilities
         /// <param name="subjects">The subjects.</param>
         public void MassMailing(List<string> mailIds, string content, string subjects)
         {
-            System.Threading.Tasks.Parallel.ForEach(mailIds, x => {
-                EmailSender email = new EmailSender { 
+            System.Threading.Tasks.Parallel.ForEach(mailIds, x =>
+            {
+                EmailSender email = new EmailSender
+                {
                     To = x,
-                    From=CommonUtility.GetConfigData<string>("MAIL_SENDER_UID"),
+                    From = CommonUtility.GetConfigData<string>("MAIL_SENDER_UID"),
                     FromSenderName = CommonUtility.GetConfigData<string>("MAIL_SENDER_FROM"),
-                    Subject=subjects
+                    Subject = subjects
                 };
                 email.SendMailAsync(content);
             });
+        }
+
+        public int GetConsicutiveWinByUser(int userKey)
+        {
+            try
+            {
+                var rtn = _betDataRepository.GetConsicutiveBetWins(userKey);
+                return rtn;
+            }
+            catch (Exception ex)
+            {
+                ex.ExceptionValueTracker(userKey);
+            }
+            return 0;
         }
     }
 }
