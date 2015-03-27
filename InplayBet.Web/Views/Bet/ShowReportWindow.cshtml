@@ -1,7 +1,7 @@
 ﻿@using InplayBet.Web.Models
 @model ReportModel
 @{Layout = null;}
-@using (Ajax.BeginForm("SubmitReport", "Bet", null, new AjaxOptions
+@using (Ajax.BeginForm("SubmitReport", "Bet", new { area = "" }, new AjaxOptions
     {
         HttpMethod = "POST",
         OnSuccess = "SubmitReportSuccessHandler(data, this)"

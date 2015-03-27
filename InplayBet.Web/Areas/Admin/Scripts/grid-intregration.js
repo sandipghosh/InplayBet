@@ -44,15 +44,10 @@
                     $('#{0}'.format(subgrid_table_id)).SetupGrid({
                         modelSchema: options.modelData,
                         datatype: 'json',
-                        pagerid: pager_id,
+                        //pagerid: pager_id,
+                        topPager: false,
                         recordtext: options.recordtext,
                         renderURL: '{0}?{1}={2}'.format(options.renderURL, options.keyFieldName, keyValue)
-                        //editURL: '{0}/Admin/TestimonialManager/SetTestimonial'.format(virtualDirectory),
-                        //editable: true,
-                        //addCommandTitle: 'Add Testimonial',
-                        //insert_func: function () {
-                        //    insertGridRow();
-                        //}
                     });
                 }
             };
@@ -119,6 +114,9 @@
                 sortorder: 'desc',
                 recordtext: 'Total Records {2}',
                 recordpos: 'left',
+                pgbuttons: true,
+                pgtext: true,
+                pginput: true,
                 caption: null,
                 autowidth: true,
                 shrinkToFit: true,
@@ -235,7 +233,7 @@
                     }
                 }
             });
-            $gridElement.jqGrid('setGridWidth', ($(window).width()-25));
+            $gridElement.jqGrid('setGridWidth', ($(window).width() - 25));
 
             /*Configure grid navigation panel -- disable all command 
             except refresh and enable cloneToTop property*/

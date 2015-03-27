@@ -9,7 +9,7 @@
 }
 @if (betDisplayMode == BetDisplayType.Insert.ToString())
 {
-    using (Ajax.BeginForm("InsertNewBet", "Bet", new AjaxOptions
+    using (Ajax.BeginForm("InsertNewBet", "Bet", new { area = "" }, new AjaxOptions
     {
         HttpMethod = "POST",
         OnSuccess = "InsertUpdateBetSuccessHandler(data, this)"
@@ -85,7 +85,7 @@
 }
 else
 {
-    using (Ajax.BeginForm("UpdateBetStatus", "Bet", new AjaxOptions
+    using (Ajax.BeginForm("UpdateBetStatus", "Bet", new { area = "" }, new AjaxOptions
     {
         HttpMethod = "POST",
         OnSuccess = "InsertUpdateBetSuccessHandler(data, this)"

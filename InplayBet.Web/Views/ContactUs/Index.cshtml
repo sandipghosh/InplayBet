@@ -8,7 +8,7 @@
     <div class="container">
         <div class="query-left">
             <h2 class="query-heading">Query Form</h2>
-            @using (Html.BeginForm("UpdateContact", "ContactUs", new { id = "frmContactUs" }))
+            @using (Html.BeginForm("UpdateContact", "ContactUs", new { area = "" }, FormMethod.Post, new { id = "frmContactUs" }))
             {
                 <ul class="query-list">
                     <li>

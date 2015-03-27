@@ -3,7 +3,7 @@
 @{
     Layout = null;
 }
-@using (Ajax.BeginForm("SignUp", "RegisterUser", new AjaxOptions
+@using (Ajax.BeginForm("SignUp", "RegisterUser", new { area = "" }, new AjaxOptions
     {
         HttpMethod = "POST",
         OnBegin = "SignUpBeforeSendHandler(this)",

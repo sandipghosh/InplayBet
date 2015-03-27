@@ -32,7 +32,7 @@
 else
 {
     <div class="right" style="float: right; width: 40%;">
-        @using (Html.BeginForm("SignOut", "RegisterUser", FormMethod.Post, new { id = "frmSignOut" }))
+        @using (Html.BeginForm("SignOut", "RegisterUser", new { area = "" }, FormMethod.Post, new { id = "frmSignOut" }))
         {
             <div style="font-size: 22px;text-transform: uppercase;color: #fff; width: 70%; text-align: right;">
                 <i>@(SessionVeriables.GetSessionData<string>(SessionVeriables.UserName))</i>

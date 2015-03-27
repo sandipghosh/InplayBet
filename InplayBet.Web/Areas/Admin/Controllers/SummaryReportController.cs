@@ -106,7 +106,7 @@ namespace InplayBet.Web.Areas.Admin.Controllers
         private string UserSummaryModelSchema()
         {
             string strSchema = string.Empty;
-            GridModelSchema gridModelSchema = null;
+            GridModelSchema gridModelSchema = new GridModelSchema();
             try
             {
                 List<colModel> columnModel = new List<colModel>();
@@ -121,7 +121,6 @@ namespace InplayBet.Web.Areas.Admin.Controllers
                 columnModel.Add(new colModel()
                 {
                     name = CommonUtility.GetDisplayName((UserRankViewModel x) => x.UserId),
-                    caption = CommonUtility.GetDisplayName((UserRankViewModel x) => x.UserId, true),
                     align = Align.left.ToString(),
                     width = 30,
                     searchoptions = new SearchOptions
@@ -141,7 +140,6 @@ namespace InplayBet.Web.Areas.Admin.Controllers
                 });
                 columnModel.Add(new colModel()
                 {
-                    caption = CommonUtility.GetDisplayName((UserRankViewModel x) => x.MemberSince, true),
                     name = CommonUtility.GetDisplayName((UserRankViewModel x) => x.MemberSince),
                     formatoptions = new formatoptions { newformat = "d-m-Y" },
                     formatter = Formatter.date.ToString(),
@@ -162,7 +160,6 @@ namespace InplayBet.Web.Areas.Admin.Controllers
                 });
                 columnModel.Add(new colModel()
                 {
-                    caption = CommonUtility.GetDisplayName((UserRankViewModel x) => x.UserName, true),
                     name = CommonUtility.GetDisplayName((UserRankViewModel x) => x.UserName),
                     align = Align.left.ToString(),
                     width = 50,
@@ -184,7 +181,6 @@ namespace InplayBet.Web.Areas.Admin.Controllers
                 columnModel.Add(new colModel()
                 {
                     name = CommonUtility.GetDisplayName((UserRankViewModel x) => x.Address),
-                    caption = CommonUtility.GetDisplayName((UserRankViewModel x) => x.Address, true),
                     align = Align.left.ToString(),
                     width = 50,
                     searchoptions = new SearchOptions
@@ -205,7 +201,6 @@ namespace InplayBet.Web.Areas.Admin.Controllers
                 columnModel.Add(new colModel()
                 {
                     name = CommonUtility.GetDisplayName((UserRankViewModel x) => x.Sex),
-                    caption = CommonUtility.GetDisplayName((UserRankViewModel x) => x.Sex, true),
                     editable = true,
                     width = 20,
                     align = Align.center.ToString(),
@@ -226,7 +221,6 @@ namespace InplayBet.Web.Areas.Admin.Controllers
                 });
                 columnModel.Add(new colModel()
                 {
-                    caption = CommonUtility.GetDisplayName((UserRankViewModel x) => x.BookMakerName, true),
                     name = CommonUtility.GetDisplayName((UserRankViewModel x) => x.BookMakerName),
                     align = Align.left.ToString(),
                     width = 50,
@@ -247,7 +241,6 @@ namespace InplayBet.Web.Areas.Admin.Controllers
                 });
                 columnModel.Add(new colModel()
                 {
-                    caption = CommonUtility.GetDisplayName((UserRankViewModel x) => x.Wins, true),
                     name = CommonUtility.GetDisplayName((UserRankViewModel x) => x.Wins),
                     align = Align.right.ToString(),
                     width = 20,
@@ -267,7 +260,6 @@ namespace InplayBet.Web.Areas.Admin.Controllers
                 });
                 columnModel.Add(new colModel()
                 {
-                    caption = CommonUtility.GetDisplayName((UserRankViewModel x) => x.Losses, true),
                     name = CommonUtility.GetDisplayName((UserRankViewModel x) => x.Losses),
                     align = Align.right.ToString(),
                     width = 20,
@@ -287,7 +279,6 @@ namespace InplayBet.Web.Areas.Admin.Controllers
                 });
                 columnModel.Add(new colModel()
                 {
-                    caption = CommonUtility.GetDisplayName((UserRankViewModel x) => x.TotalBets, true),
                     name = CommonUtility.GetDisplayName((UserRankViewModel x) => x.TotalBets),
                     align = Align.right.ToString(),
                     width = 30,
@@ -315,6 +306,20 @@ namespace InplayBet.Web.Areas.Admin.Controllers
                 });
 
                 gridModelSchema = new GridModelSchema(columnModel);
+                var labels = new List<string>();
+                labels.Add(CommonUtility.GetDisplayName((UserRankViewModel x) => x.UserKey));
+                labels.Add(CommonUtility.GetDisplayName((UserRankViewModel x) => x.UserId, true));
+                labels.Add(CommonUtility.GetDisplayName((UserRankViewModel x) => x.MemberSince, true));
+                labels.Add(CommonUtility.GetDisplayName((UserRankViewModel x) => x.UserName, true));
+                labels.Add(CommonUtility.GetDisplayName((UserRankViewModel x) => x.Address, true));
+                labels.Add(CommonUtility.GetDisplayName((UserRankViewModel x) => x.Sex, true));
+                labels.Add(CommonUtility.GetDisplayName((UserRankViewModel x) => x.BookMakerName, true));
+                labels.Add(CommonUtility.GetDisplayName((UserRankViewModel x) => x.Wins, true));
+                labels.Add(CommonUtility.GetDisplayName((UserRankViewModel x) => x.Losses, true));
+                labels.Add(CommonUtility.GetDisplayName((UserRankViewModel x) => x.TotalBets, true));
+                labels.Add("Delete");
+                gridModelSchema.colNames = labels.ToArray();
+
                 return JsonConvert.SerializeObject(gridModelSchema, new JsonSerializerSettings
                 {
                     ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore,

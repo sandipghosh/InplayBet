@@ -23,6 +23,7 @@ namespace InplayBet.Web.Utilities
         {
             Container container = new Container();
             this._followDataRepository = container.GetInstance<FollowDataRepository>();
+            this._userDataRepository = container.GetInstance<UserDataRepository>();
         }
 
         /// <summary>

@@ -141,7 +141,7 @@ namespace InplayBet.Web.Areas.Admin.Controllers
                 columnModel.Add(new colModel()
                 {
                     name = CommonUtility.GetDisplayName((UserRankViewModel x) => x.UserId),
-                    caption = CommonUtility.GetDisplayName((UserRankViewModel x) => x.UserId, true),
+
                     align = Align.left.ToString(),
                     width = 30,
                     searchoptions = new SearchOptions
@@ -161,7 +161,7 @@ namespace InplayBet.Web.Areas.Admin.Controllers
                 });
                 columnModel.Add(new colModel()
                 {
-                    caption = CommonUtility.GetDisplayName((UserRankViewModel x) => x.UserName, true),
+
                     name = CommonUtility.GetDisplayName((UserRankViewModel x) => x.UserName),
                     align = Align.left.ToString(),
                     width = 50,
@@ -182,7 +182,7 @@ namespace InplayBet.Web.Areas.Admin.Controllers
                 });
                 columnModel.Add(new colModel()
                 {
-                    caption = CommonUtility.GetDisplayName((UserRankViewModel x) => x.TotalChallenges, true),
+
                     name = CommonUtility.GetDisplayName((UserRankViewModel x) => x.TotalChallenges),
                     align = Align.right.ToString(),
                     width = 30,
@@ -202,7 +202,7 @@ namespace InplayBet.Web.Areas.Admin.Controllers
                 });
                 columnModel.Add(new colModel()
                 {
-                    caption = CommonUtility.GetDisplayName((UserRankViewModel x) => x.TotalCheatReported, true),
+
                     name = CommonUtility.GetDisplayName((UserRankViewModel x) => x.TotalCheatReported),
                     align = Align.right.ToString(),
                     width = 30,
@@ -222,6 +222,13 @@ namespace InplayBet.Web.Areas.Admin.Controllers
                 });
 
                 gridModelSchema = new GridModelSchema(columnModel);
+                gridModelSchema.colNames = new string[] { 
+                     CommonUtility.GetDisplayName((UserRankViewModel x) => x.UserKey),
+                     CommonUtility.GetDisplayName((UserRankViewModel x) => x.UserId, true),
+                     CommonUtility.GetDisplayName((UserRankViewModel x) => x.UserName, true),
+                     CommonUtility.GetDisplayName((UserRankViewModel x) => x.TotalChallenges, true),
+                     CommonUtility.GetDisplayName((UserRankViewModel x) => x.TotalCheatReported, true)
+                };
                 return JsonConvert.SerializeObject(gridModelSchema, new JsonSerializerSettings
                 {
                     ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore,
@@ -248,7 +255,6 @@ namespace InplayBet.Web.Areas.Admin.Controllers
                 columnModel.Add(new colModel()
                 {
                     name = CommonUtility.GetDisplayName((ReportCountViewModel x) => x.UserId),
-                    caption = CommonUtility.GetDisplayName((ReportCountViewModel x) => x.UserId, true),
                     align = Align.left.ToString(),
                     width = 30,
                     searchoptions = new SearchOptions
@@ -269,7 +275,6 @@ namespace InplayBet.Web.Areas.Admin.Controllers
                 columnModel.Add(new colModel()
                 {
                     name = CommonUtility.GetDisplayName((ReportCountViewModel x) => x.UserName),
-                    caption = CommonUtility.GetDisplayName((ReportCountViewModel x) => x.UserName, true),
                     align = Align.left.ToString(),
                     width = 30,
                     searchoptions = new SearchOptions
@@ -290,7 +295,6 @@ namespace InplayBet.Web.Areas.Admin.Controllers
                 columnModel.Add(new colModel()
                 {
                     name = CommonUtility.GetDisplayName((ReportCountViewModel x) => x.ReportCount),
-                    caption = CommonUtility.GetDisplayName((ReportCountViewModel x) => x.ReportCount, true),
                     align = Align.left.ToString(),
                     width = 30,
                     searchoptions = new SearchOptions
@@ -310,6 +314,11 @@ namespace InplayBet.Web.Areas.Admin.Controllers
                 });
 
                 gridModelSchema = new GridModelSchema(columnModel);
+                gridModelSchema.colNames = new string[]{
+                    CommonUtility.GetDisplayName((ReportCountViewModel x) => x.UserId, true),
+                    CommonUtility.GetDisplayName((ReportCountViewModel x) => x.UserName, true),
+                    CommonUtility.GetDisplayName((ReportCountViewModel x) => x.ReportCount, true)
+                };
                 return JsonConvert.SerializeObject(gridModelSchema, new JsonSerializerSettings
                 {
                     ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore,
