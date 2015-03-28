@@ -310,7 +310,16 @@
                                     var result = $.grep(data, function (item) {
                                         return matcher.test(item.label);
                                     });
-                                    $addbtn.toggle(result.length <= 0);
+
+                                    if (result.length <= 0) {
+                                        $addbtn.show();
+                                        $idField.val(0);
+                                    }
+                                    else {
+                                        $addbtn.hide();
+                                    }
+
+                                    //$addbtn.toggle(result.length <= 0);
                                     $addbtn.data('searchtext', request.term);
                                     response($.map(data, function (item) {
                                         return item;

@@ -17,11 +17,15 @@
             return true;
         }, 'Must be greater than {1}.');
 
-        jQuery.validator.addMethod("notEqual", function (value, element, param) {
+        $.validator.addMethod("notEqual", function (value, element, param) {
             if (!/Invalid|NaN/.test(parseFloat(value))) {
                 return this.optional(element) || value != $(param).val();
             }
             return false
+        }, "Please specify a different team.");
+
+        $.validator.addMethod("notEqualStr", function (value, element, param) {
+            return this.optional(element) || value != $(param).val();
         }, "Please specify a different team.");
     };
 
@@ -30,11 +34,7 @@
             SetAutoSuggession($('.yellow-box .scroll .outer'));
             AddCustomValidationRules();
 
-            $('#frmInsertBet').submit(function () {
-                validationSetup();
-                var isValid = $('#frmInsertBet').valid();
-                return isValid;
-            });
+            BetFormSubmitHandler();
             HotFixAutocomplete();
         } catch (ex) { log(ex.message); }
     });
@@ -51,6 +51,18 @@
             log(ex.message);
         }
     })
+
+    this.BetFormSubmitHandler = function () {
+        try {
+            $('#frmInsertBet').on('submit', function () {
+                validationSetup();
+                var isValid = $('#frmInsertBet').valid();
+                return isValid;
+            });
+        } catch (ex) {
+            log(ex.message);
+        }
+    }
 
     this.SetAutoSuggession = function (container) {
         $(container).find('#txtTesmA, #txtTesmB').GenericAutocomplete({
@@ -88,6 +100,7 @@
                             if (result) {
                                 $('.yellow-box .scroll .outer').html(result);
                                 SetAutoSuggession($('.yellow-box .scroll .outer'));
+                                BetFormSubmitHandler();
                             }
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
@@ -96,8 +109,7 @@
                     });
                 }
             }
-            else
-            {
+            else {
                 ShowModal(null, '<p>Unable to save. please try it again.</p>', '400px',
                     null, null, null);
             }
@@ -113,16 +125,20 @@
                 debug: true,
                 ignore: 'input[name=""]',
                 rules: {
-                    TeamAId: { required: true, min: 1 },
+                    /*TeamAId: { required: true, min: 1 },
                     TeamBId: { required: true, notEqual: '#TeamAId' },
-                    LegueId: { required: true, min: 1 },
+                    LegueId: { required: true, min: 1 },*/
+                    TeamAName: { required: true },
+                    TeamBName: { required: true, notEqualStr: '#TeamAName' },
+                    LegueName: { required: true },
+
                     BetType: { required: true },
                     Odds: { required: true },
                     BetPlaced: { required: true, number: true },
                     WiningTotal: { required: true, number: true, greaterThan: ["#BetPlaced", "Bet placed"] }
                 },
                 messages: {
-                    TeamAId: {
+                    /*TeamAId: {
                         required: "Please select or create new left team",
                         min: "Please select or create new left team"
                     },
@@ -134,9 +150,19 @@
                     LegueId: {
                         required: "Please select or create new legue",
                         min: "Please select or create new legue"
+                    },*/
+                    TeamAName: {
+                        required: "Please select or create new left team"
+                    },
+                    TeamBName: {
+                        required: "Please select or create new right team",
+                        notEqual: "Please specify a different team."
+                    },
+                    LegueName: {
+                        required: "Please select or create new legue"
                     },
                     BetType: { required: "Bet type is required" },
-                    Odds: { required: "Bet type is required" },
+                    Odds: { required: "Odds is required" },
                     BetPlaced: {
                         required: "Bet placed is required",
                         number: "Bet placed must be numeric"
@@ -181,7 +207,7 @@
                 },
                 success: function (result) {
                     if (result) {
-                        ShowModal(null, result,'400px');
+                        ShowModal(null, result, '400px');
                     }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {

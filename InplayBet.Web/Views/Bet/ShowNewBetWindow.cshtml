@@ -24,13 +24,15 @@
                     <label><strong>Team Names:</strong></label>
                     <div class="left-input">
                         @Html.HiddenFor(m => m.TeamAId)
-                        <input type="text" name="" id="txtTesmA" value="">
+                        @Html.TextBoxFor(m => m.TeamAName, new { id = "txtTesmA" })
+                        @*<input type="text" name="" id="txtTesmA" value="">*@
                         <a href="javascript:void();" class="btn">+</a>
                     </div>
                     <span class="vs">vs</span>
                     <div class="left-input">
                         @Html.HiddenFor(m => m.TeamBId)
-                        <input type="text" name="" id="txtTesmB" value="">
+                        @Html.TextBoxFor(m => m.TeamBName, new { id = "txtTesmB" })
+                        @*<input type="text" name="" id="txtTesmB" value="">*@
                         <a href="javascript:void();" class="btn">+</a>
                     </div>
                 </li>
@@ -38,7 +40,8 @@
                     <label><strong>League:</strong></label>
                     <div class="input-full-outer">
                         @Html.HiddenFor(m => m.LegueId)
-                        <input type="text" name="" id="txtLegue" class="full" value="">
+                        @Html.TextBoxFor(m => m.LegueName, new { id = "txtLegue", @class="full" })
+                        @*<input type="text" name="" id="txtLegue" class="full" value="">*@
                         <a href="javascript:void();" class="btn">+</a>
                     </div>
                 </li>

@@ -13,6 +13,7 @@ namespace InplayBet.Web.Controllers
     using InplayBet.Web.Models.Base;
     using InplayBet.Web.Utilities;
     using MoreLinq;
+    using System.Web;
 
     public class BetController : Controller
     {
@@ -135,7 +136,11 @@ namespace InplayBet.Web.Controllers
                     StatusId = (int)StatusCode.Active,
                     CreatedBy = userKey,
                     CreatedOn = DateTime.Now,
-                    BetStatus = string.Empty
+                    BetStatus = string.Empty,
+
+                    TeamAName = "",
+                    TeamBName = "",
+                    LegueName = ""
                 };
                 bet.ChallengeId = bet.Challenge.ChallengeId;
                 bet.BetNumber = GetBetNumber(bet.ChallengeId);
@@ -173,7 +178,11 @@ namespace InplayBet.Web.Controllers
                     StatusId = (int)StatusCode.Active,
                     CreatedBy = challenge.UserKey,
                     CreatedOn = challenge.CreatedOn,
-                    BetStatus = string.Empty
+                    BetStatus = string.Empty,
+
+                    TeamAName = "",
+                    TeamBName = "",
+                    LegueName = ""
                 };
                 bet.ChallengeId = bet.Challenge.ChallengeId;
                 bet.BetNumber = (bet.ChallengeId == 0) ? 1 : GetBetNumber(bet.ChallengeId);
@@ -205,12 +214,20 @@ namespace InplayBet.Web.Controllers
             try
             {
                 int userKey = bet.Challenge.UserKey;
+                Action<BetModel> processTeamAndLegue = (b) =>
+                {
+                    var context = ControllerContext.HttpContext.Request;
+                    b.TeamAId = InsertTeam(b, "a", context);
+                    b.TeamBId = InsertTeam(b, "b", context);
+                    b.LegueId = InsertLegue(b, context);
+                };
+
                 if (bet.ChallengeId == 0)
                 {
                     TransactionOptions options = new TransactionOptions()
                     {
                         IsolationLevel = IsolationLevel.ReadCommitted,
-                        Timeout = new TimeSpan(0, 1, 0)
+                        Timeout = new TimeSpan(0, 5, 0)
                     };
                     using (TransactionScope scope = new TransactionScope
                         (TransactionScopeOption.RequiresNew, options))
@@ -225,6 +242,8 @@ namespace InplayBet.Web.Controllers
                         bet.CreatedOn = DateTime.Now;
                         bet.Challenge = null;
 
+                        processTeamAndLegue(bet);
+
                         this._betDataRepository.Insert(bet);
                         if (bet.BetId == 0) scope.Dispose(); else scope.Complete();
                     }
@@ -233,14 +252,18 @@ namespace InplayBet.Web.Controllers
                 {
                     bet.BetStatus = bet.BetStatus.AsString();
                     bet.Challenge = null;
+                    processTeamAndLegue(bet);
                     this._betDataRepository.Insert(bet);
-                    if (bet.BetId > 0) CommonUtility.LogToFileWithStack("2. Bet has been created");
                 }
 
                 if (bet.BetId > 0)
                 {
-                    var asyncSendNotification = Task.Factory.StartNew(() => BetSubmitNotification(userKey, bet), TaskCreationOptions.LongRunning);
-                    asyncSendNotification.ContinueWith(task => { });
+                    try
+                    {
+                        var asyncSendNotification = Task.Factory.StartNew(() => BetSubmitNotification(userKey, bet), TaskCreationOptions.LongRunning);
+                        asyncSendNotification.ContinueWith(task => { });
+                    }
+                    catch (Exception) { }
                 }
                 return new JsonActionResult(bet);
             }
@@ -577,7 +600,8 @@ namespace InplayBet.Web.Controllers
                 BetNotificationViewModel betViewModel = new BetNotificationViewModel
                 {
                     Bet = currentBet,
-                    User = this._userRankDataRepository.Get(userKey)
+                    User = this._userRankDataRepository
+                        .GetList(x => x.UserKey.Equals(userKey)).FirstOrDefault()
                 };
                 int consicutiveWonBets = this._betDataRepository.GetConsicutiveBetWins(userKey);
                 string mailContent = CommonUtility.RenderViewToString("_BetSubmissionMailNotification", currentBet,
@@ -587,7 +611,8 @@ namespace InplayBet.Web.Controllers
                 var followingUser = shared.GetFollowingUsers(userKey);
                 if (!followingUser.IsEmptyCollection())
                 {
-                    shared.MassMailing(followingUser.Select(x => x.EmailId).ToList(), mailContent, "Inplay Bet Submit Notification");
+                    shared.MassMailing(followingUser.Select(x => x.EmailId).ToList(), mailContent, 
+                        "Inplay Bet Submit Notification");
                 }
             }
             catch (Exception ex)
@@ -596,6 +621,100 @@ namespace InplayBet.Web.Controllers
             }
         }
 
+        /// <summary>
+        /// Inserts the team.
+        /// </summary>
+        /// <param name="bet">The bet.</param>
+        /// <param name="targetTeam">The target team.</param>
+        /// <param name="context">The context.</param>
+        /// <returns></returns>
+        private int InsertTeam(BetModel bet, string targetTeam, HttpRequestBase context)
+        {
+            try
+            {
+                Func<BetModel, int, string, int> insertionPrecess = (b, betTeamId, teamName) =>
+                {
+                    if (betTeamId > 0)
+                        return betTeamId;
+                    else
+                    {
+                        TeamModel team = new TeamModel();
+                        if (this._teamDataRepository.Exists(x => x.TeamName.Equals(teamName)
+                            && x.StatusId.Equals((int)StatusCode.Active)))
+                        {
+                            team = this._teamDataRepository.GetList(x => x.TeamName.Equals(teamName)
+                                && x.StatusId.Equals((int)StatusCode.Active)).FirstOrDefault();
+                            return team.TeamId;
+                        }
+                        else if (!string.IsNullOrEmpty(teamName))
+                        {
+                            team.TeamName = teamName;
+                            team.StatusId = (int)StatusCode.Active;
+                            team.CreatedOn = DateTime.Now;
+                            team.CreatedBy = b.CreatedBy;
+                            this._teamDataRepository.Insert(team);
+                            return (team.TeamId > 0) ? team.TeamId : 0;
+                        }
+                    }
+                    return 0;
+                };
+
+                if (targetTeam == "a")
+                {
+                    return insertionPrecess(bet, bet.TeamAId, context.Form["TeamAName"].AsString());
+                }
+                else if (targetTeam == "b")
+                {
+                    return insertionPrecess(bet, bet.TeamBId, context.Form["TeamBName"].AsString());
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.ExceptionValueTracker(bet, context);
+            }
+            return 0;
+        }
+
+        /// <summary>
+        /// Inserts the legue.
+        /// </summary>
+        /// <param name="bet">The bet.</param>
+        /// <param name="context">The context.</param>
+        /// <returns></returns>
+        private int InsertLegue(BetModel bet, HttpRequestBase context)
+        {
+            try
+            {
+                if (bet.LegueId > 0)
+                    return bet.LegueId;
+                else
+                {
+                    LegueModel legue = new LegueModel();
+                    string legueName = context.Form["LegueName"].AsString();
+                    if (this._legueDataRepository.Exists(x => x.LegueName.Equals(legueName)
+                        && x.StatusId.Equals((int)StatusCode.Active)))
+                    {
+                        legue = this._legueDataRepository.GetList(x => x.LegueName.Equals(legueName)
+                            && x.StatusId.Equals((int)StatusCode.Active)).FirstOrDefault();
+                        return legue.LegueId;
+                    }
+                    else if (!string.IsNullOrEmpty(legueName))
+                    {
+                        legue.LegueName = legueName;
+                        legue.StatusId = (int)StatusCode.Active;
+                        legue.CreatedOn = DateTime.Now;
+                        legue.CreatedBy = bet.CreatedBy;
+                        this._legueDataRepository.Insert(legue);
+                        return (legue.LegueId > 0) ? legue.LegueId : 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.ExceptionValueTracker(bet, context);
+            }
+            return 0;
+        }
         #endregion
     }
 }

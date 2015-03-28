@@ -12,10 +12,11 @@ namespace InplayBet.Web.Models
         public int BetId { get; set; }
         public int BetNumber { get; set; }
         public int TeamAId { get; set; }
-        public int TeamAName { get; set; }
+        public string TeamAName { get; set; }
         public int TeamBId { get; set; }
-        public int TeamBName { get; set; }
+        public string TeamBName { get; set; }
         public int LegueId { get; set; }
+        public string LegueName { get; set; }
         public int ChallengeId { get; set; }
         public string BetType { get; set; }
         public string Odds { get; set; }

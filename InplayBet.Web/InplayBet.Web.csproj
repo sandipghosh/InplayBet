@@ -182,6 +182,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="App_Start\MapperInitializer.cs" />
+    <Compile Include="App_Start\SaveMeFilter.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\CheatReportController.cs" />
     <Compile Include="Areas\Admin\Controllers\SummaryReportController.cs" />
