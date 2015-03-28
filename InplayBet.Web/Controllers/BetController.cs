@@ -260,8 +260,7 @@ namespace InplayBet.Web.Controllers
                 {
                     try
                     {
-                        var asyncSendNotification = Task.Factory.StartNew(() => BetSubmitNotification(userKey, bet), TaskCreationOptions.LongRunning);
-                        asyncSendNotification.ContinueWith(task => { });
+                        BetSubmitNotification(userKey, bet);
                     }
                     catch (Exception) { }
                 }
@@ -604,7 +603,7 @@ namespace InplayBet.Web.Controllers
                         .GetList(x => x.UserKey.Equals(userKey)).FirstOrDefault()
                 };
                 int consicutiveWonBets = this._betDataRepository.GetConsicutiveBetWins(userKey);
-                string mailContent = CommonUtility.RenderViewToString("_BetSubmissionMailNotification", currentBet,
+                string mailContent = CommonUtility.RenderViewToString("_BetSubmissionMailNotification", betViewModel,
                     this, new Dictionary<string, object>() { { "ConsicutiveWonBets", consicutiveWonBets } });
 
                 SharedFunctionality shared = new SharedFunctionality();

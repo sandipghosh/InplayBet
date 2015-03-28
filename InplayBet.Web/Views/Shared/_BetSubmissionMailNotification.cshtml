@@ -65,14 +65,14 @@
                         <td style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; color: #000; padding: 5px;" width="20%"><strong>Team Names:</strong></td>
                         <td style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; color: #000; padding: 5px;">
                             <label></label>
-                            @Model.Bet.TeamA.TeamName
+                            @((Model.Bet.TeamA != null) ? Model.Bet.TeamA.TeamName : Model.Bet.TeamAName)
                             <strong>vs</strong>
-                            @Model.Bet.TeamB.TeamName
+                            @((Model.Bet.TeamB != null) ? Model.Bet.TeamB.TeamName : Model.Bet.TeamBName)
                         </td>
                     </tr>
                     <tr>
                         <td style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; color: #000; padding: 5px;"><strong>League:</strong></td>
-                        <td style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; color: #000; padding: 5px;">@Model.Bet.Legue.LegueName</td>
+                        <td style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; color: #000; padding: 5px;">@((Model.Bet.Legue != null) ? Model.Bet.Legue.LegueName : Model.Bet.LegueName)</td>
                     </tr>
                     <tr>
                         <td style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; color: #000; padding: 5px;"><strong>Bet Type:</strong></td>
@@ -92,7 +92,7 @@
                     </tr>
                     <tr>
                         <td style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; color: #000; padding: 5px;"><strong>Bet Submited On:</strong></td>
-                        <td style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; color: #000; padding: 5px;">@Model.Bet.CreatedOn("d", new CultureInfo(Model.User.CultureCode))</td>
+                        <td style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; color: #000; padding: 5px;">@Model.Bet.CreatedOn.ToString("d", new CultureInfo(Model.User.CultureCode))</td>
                     </tr>
                     <tr>
                         <td style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; color: #000; padding: 5px;"><strong>Status:</strong></td>

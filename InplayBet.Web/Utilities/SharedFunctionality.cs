@@ -153,17 +153,20 @@ namespace InplayBet.Web.Utilities
         /// <param name="subjects">The subjects.</param>
         public void MassMailing(List<string> mailIds, string content, string subjects)
         {
-            System.Threading.Tasks.Parallel.ForEach(mailIds, x =>
+            if (CommonUtility.GetConfigData<bool>("MAIL_ENABLE"))
             {
-                EmailSender email = new EmailSender
-                {
-                    To = x,
-                    From = CommonUtility.GetConfigData<string>("MAIL_SENDER_UID"),
-                    FromSenderName = CommonUtility.GetConfigData<string>("MAIL_SENDER_FROM"),
-                    Subject = subjects
-                };
-                email.SendMailAsync(content);
-            });
+                System.Threading.Tasks.Parallel.ForEach(mailIds, x =>
+                    {
+                        EmailSender email = new EmailSender
+                        {
+                            To = x,
+                            From = CommonUtility.GetConfigData<string>("MAIL_SENDER_UID"),
+                            FromSenderName = CommonUtility.GetConfigData<string>("MAIL_SENDER_FROM"),
+                            Subject = subjects
+                        };
+                        email.SendMailAsync(content);
+                    }); 
+            }
         }
 
         public int GetConsicutiveWinByUser(int userKey)
