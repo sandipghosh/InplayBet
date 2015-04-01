@@ -12,22 +12,22 @@
             {
                 <ul class="query-list">
                     <li>
-                        @Html.DisplayFor(m => m.Name)
+                        @Html.LabelFor(m => m.Name)
                         @Html.EditorFor(m => m.Name)
                         @Html.ValidationMessageFor(m => m.Name)
                     </li>
                     <li>
-                        @Html.DisplayFor(m => m.EmailId)
+                        @Html.LabelFor(m => m.EmailId)
                         @Html.EditorFor(m => m.EmailId)
                         @Html.ValidationMessageFor(m => m.EmailId)
                     </li>
                     <li>
-                        @Html.DisplayFor(m => m.PhoneNumber)
+                        @Html.LabelFor(m => m.PhoneNumber)
                         @Html.EditorFor(m => m.PhoneNumber)
                         @Html.ValidationMessageFor(m => m.PhoneNumber)
                     </li>
                     <li>
-                        @Html.DisplayFor(m => m.Massage)
+                        @Html.LabelFor(m => m.Massage)
                         @Html.TextAreaFor(m => m.Massage)
                         @Html.ValidationMessageFor(m => m.Massage)
                     </li>
