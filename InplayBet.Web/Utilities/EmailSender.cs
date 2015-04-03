@@ -81,7 +81,8 @@ namespace InplayBet.Web.Utilities
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.ToString());
+                ex.ExceptionValueTracker(Message);
+                //throw new Exception(ex.ToString());
             }
         }
 
@@ -240,14 +241,16 @@ namespace InplayBet.Web.Utilities
             }
             set
             {
-                fromSenderName = value;
+                this.fromSenderName = value;
             }
         }
 
         public bool SSL
         {
-            get { return this.SSL_; }
-            set { this.SSL_ = value; }
+            get
+            {
+                return CommonUtility.GetConfigData<bool>("MAIL_SERVER_SSL");
+            }
         }
         #endregion
 

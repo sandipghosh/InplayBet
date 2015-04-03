@@ -318,6 +318,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#545455', end
 .loading-overlay{position:fixed;height:100%;width:100%;background-color:#e7e7e7;z-index:1001;}
 .loading-overlay img{display:block;margin:0 auto;max-height:100%;max-width:100%;top: 50%;position: absolute; left: 50%;}
 /*------------------------- Popup CSS End---------------------------------*/
+.follow-block{float:left;width:100%;margin: 4px 0;}
+.follow-block p{float:left;  margin-right: 10px !important;}
+.follow-block i{float:left;}
 .follow-link {display:block;float:left;width:26px;height:29px;background-repeat:no-repeat;}
 .follow-count{cursor:pointer; display: block;float: right;background: #1BB539;padding: 1px 8px;border: 1px solid #02891D;border-radius: 7px;color: #fff;font-style: normal;}
 .ui-autocomplete {position: absolute;cursor: default;height: 150px;overflow-y: scroll;overflow-x: hidden;-webkit-overflow-scrolling: touch;}

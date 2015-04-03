@@ -35,7 +35,7 @@ namespace InplayBet.Web.Data.Context
         public DbSet<Follow> Follows { get; set; }
         public DbSet<Legue> Legues { get; set; }
         public DbSet<User> Users { get; set; }
-        public DbSet<UserRank> UserRanks { get; set; }
         public DbSet<Contact> Contacts { get; set; }
+        public DbSet<UserRank> UserRanks { get; set; }
     }
 }

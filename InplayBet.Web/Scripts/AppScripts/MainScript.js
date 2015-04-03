@@ -84,13 +84,30 @@
         }
     };
 
-    this.ShowFollowingUsers = function (element, event, userid, followers) {
+    this.ShowFollowerUsers = function (element, event, userid, followers) {
         try {
             event.preventDefault();
             event.stopPropagation();
 
             if (followers > 0) {
-                ShowModal('{0}Follow/ShowFollowingUsers?followedTo={1}'.format(VirtualDirectory, userid),
+                ShowModal('{0}Follow/ShowFollowerUsers?followedTo={1}'.format(VirtualDirectory, userid),
+                    null, null, null, function ($modal) {
+                        ImageError();
+                    });
+            }
+
+        } catch (ex) {
+            log(ex);
+        }
+    }
+
+    this.ShowFollowingUsers = function (element, event, userid, followings) {
+        try {
+            event.preventDefault();
+            event.stopPropagation();
+
+            if (followings > 0) {
+                ShowModal('{0}Follow/ShowFollowingUsers?followedBy={1}'.format(VirtualDirectory, userid),
                     null, null, null, function ($modal) {
                         ImageError();
                     });

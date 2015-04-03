@@ -27,6 +27,7 @@ namespace InplayBet.Web.Data.Context
         public int BookMakerId { get; set; }
         public string BookMakerName { get; set; }
         public int Followers { get; set; }
+        public int Followings { get; set; }
         public int BetWins { get; set; }
         public int TotalBets { get; set; }
         public int TotalChallenges { get; set; }

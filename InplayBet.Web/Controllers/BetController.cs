@@ -607,10 +607,10 @@ namespace InplayBet.Web.Controllers
                     this, new Dictionary<string, object>() { { "ConsicutiveWonBets", consicutiveWonBets } });
 
                 SharedFunctionality shared = new SharedFunctionality();
-                var followingUser = shared.GetFollowingUsers(userKey);
-                if (!followingUser.IsEmptyCollection())
+                var followerUsers = shared.GetFollowerUsers(userKey);
+                if (!followerUsers.IsEmptyCollection())
                 {
-                    shared.MassMailing(followingUser.Select(x => x.EmailId).ToList(), mailContent, 
+                    shared.MassMailing(followerUsers.Select(x => x.EmailId).ToList(), mailContent, 
                         "Inplay Bet Submit Notification");
                 }
             }

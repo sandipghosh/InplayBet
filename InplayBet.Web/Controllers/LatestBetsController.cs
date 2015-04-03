@@ -46,7 +46,7 @@ namespace InplayBet.Web.Controllers
                 List<BetModel> bets = this._betDataRepository
                     .GetList(1, this._defaultWiningBetPegSize,
                         x => x.StatusId.Equals((int)StatusCode.Active),
-                        x => x.CreatedOn, true).ToList();
+                        x => x.CreatedOn, false).ToList();
 
 
                 if (!bets.IsEmptyCollection())

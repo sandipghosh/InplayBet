@@ -62,7 +62,7 @@ namespace InplayBet.Web.Controllers
                     SharedFunctionality shared = new SharedFunctionality();
                     shared.MassMailing(new List<string> { CommonUtility.GetConfigData<string>("MAIL_SENDER_RECIPIENT") }, mailContent, "Inplay Enquiry");
                 }
-                return View("Index");
+                return RedirectToActionPermanent("Index");
             }
             catch (System.Exception ex)
             {

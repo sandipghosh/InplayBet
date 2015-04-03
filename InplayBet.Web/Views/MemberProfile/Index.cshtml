@@ -23,7 +23,14 @@
                     <p class="join">Ranking: @Model.Rank</p>
                     <p class="bookmarker">Bookmarker - @Model.BookMakerName.ToString()</p>
                     <p class="bookmarker">Consecutive Bet Wins: @ViewBag.ConsicutiveWonBets</p>
-                    <p class="bookmarker">Followers: <i class="follow-count" id="counter" onclick="ShowFollowingUsers(this, event, @Model.UserKey, @Model.Followers)">@Model.Followers</i></p>
+                    <div class="follow-block">
+                        <p class="bookmarker">Followers:</p>
+                        <i class="follow-count" id="counter" onclick="ShowFollowerUsers(this, event, @Model.UserKey, @Model.Followers)">@Model.Followers</i>
+                    </div>
+                    <div class="follow-block">
+                        <p class="bookmarker">Following:</p>
+                        <i class="follow-count" id="counter" onclick="ShowFollowingUsers(this, event, @Model.UserKey, @Model.Followings)">@Model.Followings</i>
+                    </div>
                     @if (Model.UserKey == loggedInUser)
                     {
                         <p class="bookmarker">

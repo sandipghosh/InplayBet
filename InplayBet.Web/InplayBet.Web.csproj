@@ -537,6 +537,7 @@
     <Content Include="Views\Shared\_BetSubmissionMailNotification.cshtml" />
     <Content Include="Views\Shared\_UserActivationMailNotification.cshtml" />
     <Content Include="Views\Shared\_EnquiryMailNotifiaction.cshtml" />
+    <Content Include="Views\Follow\ShowFollowerUsers.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

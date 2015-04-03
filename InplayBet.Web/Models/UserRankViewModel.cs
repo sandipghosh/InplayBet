@@ -24,6 +24,7 @@ namespace InplayBet.Web.Models
         [Display(Name = "Bookmaker")]
         public string BookMakerName { get; set; }
         public int Followers { get; set; }
+        public int Followings { get; set; }
         public int BetWins { get; set; }
         [Display(Name = "Won")]
         public int Wins { get; set; }

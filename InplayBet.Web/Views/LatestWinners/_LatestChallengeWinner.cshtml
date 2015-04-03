@@ -16,8 +16,10 @@
         <p class="join">Ranking: @Model.Rank</p>
         <p class="bookmarker">Bookmarker - @Model.BookMakerName</p>
         <p class="bookmarker">Consecutive Bet Wins: @shared.GetConsicutiveWinByUser(Model.UserKey)</p>
-        @*<p class="bookmarker">Followers - @Model.Followers</p>*@
-        <p class="bookmarker">Followers: <i class="follow-count" id="counter" onclick="ShowFollowingUsers(this, event, @Model.UserKey, @Model.Followers)">@Model.Followers</i></p>
+        <div class="follow-block">
+            <p class="bookmarker">Followers:</p>
+            <i class="follow-count" id="counter" onclick="ShowFollowerUsers(this, event, @Model.UserKey, @Model.Followers)">@Model.Followers</i>
+        </div>
         @if (loggedInUser == 0)
         {
             <p class="bookmarker">

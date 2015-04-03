@@ -48,7 +48,7 @@
                     <p class="join">Ranking: @user.Rank</p>
                     <div class="clear"></div>
                     <div class="points">
-                        <p class="left">Followers : <i class="follow-count" id="@id" onclick="ShowFollowingUsers(this, event, @user.UserKey, @user.Followers)">@user.Followers</i></p>
+                        <p class="left">Followers : <i class="follow-count" id="@id" onclick="ShowFollowerUsers(this, event, @user.UserKey, @user.Followers)">@user.Followers</i></p>
                         <p class="right">
                             @if (loggedInUser == 0)
                             {

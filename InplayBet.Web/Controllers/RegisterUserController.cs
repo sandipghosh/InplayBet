@@ -138,13 +138,12 @@ namespace InplayBet.Web.Controllers
                             user.DateOfBirth = new DateTime(user.DobYear, user.DobMonth, user.DobDay);
                             user.AvatarPath = CommonUtility.SaveImageFromDataUrl(user.AvatarPath, user.UserKey, user.UserId);
 
-                            if (CommonUtility.GetConfigData<string>("EnableUserMailActivation").AsString() == "true")
+                            if (CommonUtility.GetConfigData<bool>("EnableUserMailActivation"))
                             {
                                 this._userDataRepository.Insert(user);
                                 if (user.UserKey > 0)
                                 {
-                                    var asyncSendNotification = Task.Factory.StartNew(() => SentConfirmationMail(user), TaskCreationOptions.LongRunning);
-                                    asyncSendNotification.ContinueWith(task => { });
+                                    SentConfirmationMail(user);
                                 }
                             }
                             else
@@ -193,6 +192,10 @@ namespace InplayBet.Web.Controllers
                     if (user != null)
                     {
                         user.StatusId = (int)StatusCode.Active;
+                        user.UpdatedOn = DateTime.Now;
+                        user.UpdatedBy = user.UserKey;
+                        this._userDataRepository.Update(user);
+
                         SetSessionData(user);
                         return RedirectToAction("Index", "MemberProfile");
                     }
@@ -390,15 +393,19 @@ namespace InplayBet.Web.Controllers
             {
                 EmailSender email = new EmailSender
                 {
-                    SSL = bool.Parse(CommonUtility.GetConfigData<string>("MAIL_SERVER_SSL")),
                     Subject = "Inplay Bet Registration Confirmation",
                     To = user.EmailId
                 };
 
-                var url = Url.Action("ActivateUser", "RegisterUser", new { area = "", timestamp = DateTime.Now.Ticks.ToString(), userid = user.UserKey });
+                var url = Url.Action("ActivateUser", "RegisterUser", new
+                {
+                    area = "",
+                    timestamp = DateTime.Now.Ticks.ToString(),
+                    userkey = user.UserKey
+                }, this.Request.Url.Scheme);
 
                 string mailBody = Utilities.CommonUtility.RenderViewToString
-                    ("_RagistrationMailTemplate", user, this,
+                    ("_UserActivationMailNotification", user, this,
                     new Dictionary<string, object>() { { "ActivationUrl", url } });
 
                 email.SendMailAsync(mailBody);

@@ -45,6 +45,7 @@
                     if (result) {
                         $('.leadbroad-block').html($(result).filter('.leadbroad-block').html());
                         ImageError();
+                        SetFollowingImage();
                         $('.rank-pagger').pagination('updateItems', parseInt($(result).filter('#extTotalRecord').val()));
                     }
                 },

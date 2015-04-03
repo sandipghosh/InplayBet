@@ -33,7 +33,7 @@ namespace InplayBet.Web.Utilities
         /// </summary>
         /// <param name="userKey">The user key.</param>
         /// <returns></returns>
-        public int GetFollowers(int userKey)
+        public int GetFollowerCount(int userKey)
         {
             try
             {
@@ -48,16 +48,36 @@ namespace InplayBet.Web.Utilities
         }
 
         /// <summary>
+        /// Gets the following count.
+        /// </summary>
+        /// <param name="userKey">The user key.</param>
+        /// <returns></returns>
+        public int GetFollowingCount(int userKey)
+        {
+            try
+            {
+                return this._followDataRepository.GetCount(x => x.FollowBy.Equals(userKey)
+                    && x.StatusId.Equals((int)StatusCode.Active));
+            }
+            catch (Exception ex)
+            {
+                ex.ExceptionValueTracker(userKey);
+            }
+            return 0;
+        }
+
+        /// <summary>
         /// Gets the following users.
         /// </summary>
         /// <param name="followedTo">The followed to.</param>
         /// <returns></returns>
-        public List<UserModel> GetFollowingUsers(int followedTo)
+        public List<UserModel> GetFollowerUsers(int followedTo)
         {
             try
             {
                 var followers = this._followDataRepository.GetList(x => x.StatusId.Equals((int)StatusCode.Active)
                     && x.FollowTo.Equals(followedTo)).ToList();
+
                 if (!followers.IsEmptyCollection())
                 {
                     List<int> ids = followers.Select(y => y.FollowBy).ToList();
@@ -65,14 +85,41 @@ namespace InplayBet.Web.Utilities
                         && ids.Contains(x.UserKey)).ToList();
 
                     if (!users.IsEmptyCollection())
-                    {
                         return users;
-                    }
                 }
             }
             catch (Exception ex)
             {
                 ex.ExceptionValueTracker(followedTo);
+            }
+            return new List<UserModel>();
+        }
+
+        /// <summary>
+        /// Gets the following users.
+        /// </summary>
+        /// <param name="followedBy">The followed by.</param>
+        /// <returns></returns>
+        public List<UserModel> GetFollowingUsers(int followedBy)
+        {
+            try
+            {
+                var following = this._followDataRepository.GetList(x => x.StatusId.Equals((int)StatusCode.Active)
+                    && x.FollowBy.Equals(followedBy)).Distinct().ToList();
+
+                if (!following.IsEmptyCollection())
+                {
+                    List<int> ids = following.Select(y => y.FollowTo).ToList();
+                    var users = this._userDataRepository.GetList(x => x.StatusId.Equals((int)StatusCode.Active)
+                        && ids.Contains(x.UserKey)).ToList();
+
+                    if (!users.IsEmptyCollection())
+                        return users;
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.ExceptionValueTracker(followedBy);
             }
             return new List<UserModel>();
         }
@@ -100,7 +147,7 @@ namespace InplayBet.Web.Utilities
                     this._followDataRepository.Insert(follow);
                     if (follow.FollowId > 1)
                     {
-                        return GetFollowers(followTo);
+                        return GetFollowerCount(followTo);
                     }
                 }
                 else
@@ -114,7 +161,7 @@ namespace InplayBet.Web.Utilities
                         follow.UpdatedBy = followBy;
                         follow.UpdatedOn = DateTime.Now;
                         this._followDataRepository.Update(follow);
-                        return GetFollowers(followTo);
+                        return GetFollowerCount(followTo);
                     }
                 }
             }
@@ -164,11 +211,16 @@ namespace InplayBet.Web.Utilities
                             FromSenderName = CommonUtility.GetConfigData<string>("MAIL_SENDER_FROM"),
                             Subject = subjects
                         };
-                        email.SendMailAsync(content);
-                    }); 
+                        email.SendMail(content);
+                    });
             }
         }
 
+        /// <summary>
+        /// Gets the consicutive win by user.
+        /// </summary>
+        /// <param name="userKey">The user key.</param>
+        /// <returns></returns>
         public int GetConsicutiveWinByUser(int userKey)
         {
             try
