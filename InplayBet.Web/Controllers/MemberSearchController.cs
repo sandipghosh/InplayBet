@@ -40,6 +40,8 @@ namespace InplayBet.Web.Controllers
                 List<UserRankViewModel> user = this._userRankDataRepository
                     .GetList(1, this._defaultMemberPageSize, null, x => x.Rank, true).ToList();
 
+                ViewBag.MaxBet = this._userRankDataRepository.GetList().Max(x => x.TotalBets);
+
                 if (user != null)
                 {
                     ViewBag.TotalRecord = this._userRankDataRepository.GetCount();

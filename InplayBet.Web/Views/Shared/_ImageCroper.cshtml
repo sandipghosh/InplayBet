@@ -6,14 +6,17 @@
         <div class="spinner" style="display: none">Loading...</div>
     </div>
     <div class="action">
-        <div class="fileUpload btn btn-success">
-            <span>Upload</span>
-            <input id="uploadBtn" type="file" class="upload" />
+        <div style="float:left;width:60%;">
+            <div class="fileUpload btn btn-success">
+                <span>Upload</span>
+                <input id="uploadBtn" type="file" class="upload" />
+            </div>
+            <input id="uploadFile" placeholder="Choose File" disabled="disabled" />
         </div>
-        <input id="uploadFile" placeholder="Choose File" disabled="disabled" />
-
-        <input class="btn btn-success" type="button" id="btnCrop" value="Crop" style="float: right">
-        <input class="btn btn-success" type="button" id="btnZoomIn" value="+" style="float: right">
-        <input class="btn btn-success" type="button" id="btnZoomOut" value="-" style="float: right">
+        <div style="float:left;width:40%">
+            <input class="btn btn-success" type="button" id="btnCrop" value="Crop" style="float: right">
+            <input class="btn btn-success" type="button" id="btnZoomIn" value="+" style="float: right">
+            <input class="btn btn-success" type="button" id="btnZoomOut" value="-" style="float: right">
+        </div>
     </div>
 </div>

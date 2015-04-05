@@ -62,7 +62,6 @@ namespace InplayBet.Web
 
                 scriptBundle = new Bundle("~/Scripts/Ranking", new JsMinify());
                 scriptBundle.Include("~/Scripts/jquery.simplePagination.js",
-                    "~/Scripts/jquery-ui-slider-pips.min.js",
                     "~/Scripts/AppScripts/RankingManager.js");
                 BundleTable.Bundles.Add(scriptBundle);
 
@@ -81,6 +80,10 @@ namespace InplayBet.Web
                     "~/Areas/Admin/Scripts/jquery.linq-2.2.0.2.min.js",
                     "~/Areas/Admin/Scripts/grid-intregration.js",
                     "~/Areas/Admin/Scripts/AdminScript.js");
+                BundleTable.Bundles.Add(scriptBundle);
+
+                scriptBundle = new Bundle("~/Scripts/RangeSlider", new JsMinify());
+                scriptBundle.Include("~/Scripts/ion.rangeSlider.min.js");
                 BundleTable.Bundles.Add(scriptBundle);
             }
             catch (Exception ex)
@@ -112,6 +115,16 @@ namespace InplayBet.Web
                 styleBundle = new Bundle("~/Styles/Admin", new CssMinify());
                 styleBundle.Include("~/Areas/Admin/Styles/ui.jqgrid.css",
                     "~/Areas/Admin/Styles/AdminStyle.css");
+                BundleTable.Bundles.Add(styleBundle);
+
+                styleBundle = new Bundle("~/Styles/RangeSliderWeb", new CssMinify());
+                styleBundle.Include("~/Styles/ion.rangeSlider.css",
+                    "~/Styles/ion.rangeSlider.skinModern.css");
+                BundleTable.Bundles.Add(styleBundle);
+
+                styleBundle = new Bundle("~/Styles/RangeSliderMobile", new CssMinify());
+                styleBundle.Include("~/Styles/ion.rangeSlider.css",
+                    "~/Styles/ion.rangeSlider.skinHTML5.css");
                 BundleTable.Bundles.Add(styleBundle);
             }
             catch (Exception ex)

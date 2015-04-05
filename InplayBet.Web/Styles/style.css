@@ -337,7 +337,7 @@ ul.popup li input[type="submit"] {float:left; margin:0 10px 0 0;}
 .cropped a:hover {color:#000; text-decoration:none;}
 
 .cropcontainer {float:left;}
-.cropcontainer .action input#uploadFile {width:140px;}
+.cropcontainer .action input#uploadFile {width:59%;}
 .cropcontainer .action input#btnCrop {width:70px; color:#fff;}
 .cropcontainer .action input#btnZoomIn {width:40px; color:#fff;}
 .cropcontainer .action input#btnZoomOut {width:40px; color:#fff;}

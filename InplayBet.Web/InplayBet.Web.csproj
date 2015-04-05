@@ -400,7 +400,11 @@
     <Content Include="Scripts\AppScripts\UIScripts.js" />
     <Content Include="Scripts\css3-mediaqueries.js" />
     <Content Include="Scripts\easyTooltip.js" />
-    <Content Include="Scripts\jquery-ui-slider-pips.min.js" />
+    <Content Include="Scripts\ion.rangeSlider.min.js" />
+    <Content Include="Styles\images\sprite-skin-modern.png" />
+    <Content Include="Styles\ion.rangeSlider.css" />
+    <Content Include="Styles\ion.rangeSlider.skinHTML5.css" />
+    <Content Include="Styles\ion.rangeSlider.skinModern.css" />
     <Content Include="Scripts\jquery.blockUI.js" />
     <Content Include="Scripts\jquery.fs.boxer.min.js" />
     <Content Include="Scripts\jquery.simplePagination.js" />

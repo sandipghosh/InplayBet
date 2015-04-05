@@ -6,9 +6,18 @@
 }
 @section PageScript{
     @Html.RenderScripts("~/Scripts/Ranking")
+    @Html.RenderScripts("~/Scripts/RangeSlider")
 }
 @section PageStyle{
     @Html.RenderStyles("~/Styles/Ranking")
+    @if (CommonUtility.fBrowserIsMobile())
+    {
+        @Html.RenderStyles("~/Styles/RangeSliderMobile")
+    }
+    else
+    {
+        @Html.RenderStyles("~/Styles/RangeSliderWeb")
+    }
 }
 @{Html.RenderPartial("_PageTitle", new ViewDataDictionary { { "Caption", "Member Search" } });}
 <div class="main-container">
@@ -27,11 +36,16 @@
                 <li><a href="javascript:SearchMember(1,'BetWins')">Winning Bets</a></li>
                 <li><a href="javascript:SearchMember(1,'Profit')">Highest Profit</a></li>
                 <li><a href="javascript:SearchMember(1,'BookMakerName')">Bookmaker</a></li>
+                <li><b>Bets Number Search</b></li>
+                <li>
+                    @Html.Hidden("maxBet", (int)ViewBag.MaxBet)
+                    @Html.TextBox("betRange", "")
+                </li>
             </ul>
         </div>
         <div class="right-block">
-            @if(!Model.IsEmptyCollection())
-            { 
+            @if (!Model.IsEmptyCollection())
+            {
                 @Html.Hidden("TotalRecord", (int)ViewBag.TotalRecord, new { id = "TotalRecord" })
                 @Html.Hidden("PageSize", (int)ViewBag.PageSize, new { id = "PageSize" })
                 @Html.Hidden("PagingUrl", (string)ViewBag.PagingUrl, new { id = "PagingUrl" })

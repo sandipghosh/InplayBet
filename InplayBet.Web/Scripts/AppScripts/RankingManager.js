@@ -8,6 +8,7 @@
     $(document).ready(function () {
         try {
             PagerInitialization(parseInt($('#PageSize').val()), parseInt($('#TotalRecord').val()));
+            InitiateBetRange(parseInt($('#maxBet').val()));
             $('#UserIdSearch').GenericAutocomplete({
                 getUrl: '{0}RegisterUser/GetUsers'.format(VirtualDirectory)
             });
@@ -63,8 +64,15 @@
     var GetSearchDataFilter = function (pageIndex, orderby) {
         try {
             var url = $('#PagingUrl').val();
+            var rangeData = $("#betRange").data('ionRangeSlider');
             var filter = ($('#UserIdSearch').val() != '') ?
-                Base64Encode('UserId.StartsWithSearchEx("{0}")'.format($('#UserIdSearch').val())) : '';
+                'UserId.StartsWithSearchEx("{0}")'.format($('#UserIdSearch').val()) : '';
+
+            if (filter != '')
+                filter = Base64Encode('{0} and (TotalBets >= {1} and TotalBets <= {2})'.format(filter, rangeData.old_from, rangeData.old_to));
+            else
+                filter = Base64Encode('(TotalBets >= {0} and TotalBets <= {1})'.format(rangeData.old_from, rangeData.old_to));
+
 
             if (url.contains("GetRankByPage")) {
                 return {
@@ -106,4 +114,27 @@
             log(ex.message);
         }
     };
+
+    this.InitiateBetRange = function (maxRange) {
+        try {
+            $("#betRange").ionRangeSlider({
+                type: "double",
+                min: 0,
+                max: maxRange,
+                grid: true,
+                force_edges: true,
+                onFinish: function (data) {
+                    /*var searchString = '(TotalBets >= {0} and TotalBets <= {1})'.format(data.from, data.to);
+                    if (orderByStr == '') {
+                        orderByStr = searchString;
+                    }
+                    else {
+                        orderByStr = '{0} and {1}'.format(orderByStr, searchString);
+                    }*/
+                }
+            });
+        } catch (ex) {
+            log(ex.message);
+        }
+    }
 }(jQuery, window));
