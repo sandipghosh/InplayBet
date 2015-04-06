@@ -371,6 +371,7 @@
     <Content Include="Areas\Admin\Styles\ui.jqgrid.css" />
     <Content Include="DBScript\MoreLinqDoc.txt" />
     <Content Include="DBScript\SQLQuery.sql" />
+    <Content Include="ErrorLogs\TextFile1.txt" />
     <Content Include="Global.asax" />
     <EntityDeploy Include="Data\Context\InplayBetDBEntities.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
@@ -546,7 +547,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
-    <Folder Include="ErrorLogs\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">

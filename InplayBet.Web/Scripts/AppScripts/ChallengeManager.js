@@ -9,8 +9,8 @@
     this.AddCustomValidationRules = function () {
         $.validator.addMethod("greaterThan", function (value, element, params) {
             if ($(params[0]).val() != '') {
-                if (!/Invalid|NaN/.test(parseFloat(value))) {
-                    return parseFloat(value) > parseFloat($(params[0]).val());
+                if (!/Invalid|NaN/.test(parseFloat(value.replace(/[^0-9-.]/g, '')))) {
+                    return parseFloat(value.replace(/[^0-9-.]/g, '')) > parseFloat($(params[0]).val().replace(/[^0-9-.]/g, ''));
                 }
                 return false;
             };
@@ -18,15 +18,30 @@
         }, 'Must be greater than {1}.');
 
         $.validator.addMethod("notEqual", function (value, element, param) {
-            if (!/Invalid|NaN/.test(parseFloat(value))) {
+            if (!/Invalid|NaN/.test(parseFloat(value).replace(/[^0-9-.]/g, ''))) {
                 return this.optional(element) || value != $(param).val();
             }
             return false
         }, "Please specify a different team.");
 
+        $.validator.addMethod("currency", function (value, element) {
+            return this.optional(element) || !/Invalid|NaN/.test(parseFloat(value.replace(/[^0-9-.]/g, '')));
+        }, "Must be numeric.");
+
         $.validator.addMethod("notEqualStr", function (value, element, param) {
             return this.optional(element) || value != $(param).val();
         }, "Please specify a different team.");
+
+        $.validator.addMethod("regexp", function (value, element) {
+            if (/^(([1-9]{1}|10)\/([1-9]{1}|10))$/ig.test(value)) {
+                var oddsData = value.split('/');
+                if (oddsData.length > 1) {
+                    return this.optional(element) || (parseInt(oddsData[0]) <= parseInt(oddsData[1]));
+                }
+            }
+            return false;
+
+        }, 'Invalid entry. (Allowed 1-10/1-10)');
     };
 
     $(document).ready(function () {
@@ -52,11 +67,27 @@
         }
     })
 
+    $(document).on('blur', '#Odds', function () {
+        if ($(this).val() != '') {
+            $('#WiningTotal').val(CalculateWinningAmount
+                (parseFloat($('#BetPlaced').val().replace(/[^0-9-.]/g, '')), $(this).val()))
+        }
+    });
+
     this.BetFormSubmitHandler = function () {
         try {
             $('#frmInsertBet').on('submit', function () {
                 validationSetup();
-                var isValid = $('#frmInsertBet').valid();
+                var isValid = $(this).valid();
+
+                if (isValid) {
+                    var betPlaced = $(this).find('#BetPlaced').val().replace(/[^0-9-.]/g, '');
+                    var winingTotal = $(this).find('#WiningTotal').val().replace(/[^0-9-.]/g, '');
+
+                    $(this).find('#BetPlaced').val(betPlaced);
+                    $(this).find('#WiningTotal').val(winingTotal);
+                }
+
                 return isValid;
             });
         } catch (ex) {
@@ -129,13 +160,13 @@
                     TeamBId: { required: true, notEqual: '#TeamAId' },
                     LegueId: { required: true, min: 1 },*/
                     TeamAName: { required: true },
-                    TeamBName: { required: true, notEqualStr: '#TeamAName' },
+                    TeamBName: { required: true, notEqualStr: '#txtTesmA' },
                     LegueName: { required: true },
 
                     BetType: { required: true },
-                    Odds: { required: true },
-                    BetPlaced: { required: true, number: true },
-                    WiningTotal: { required: true, number: true, greaterThan: ["#BetPlaced", "Bet placed"] }
+                    Odds: { required: true, regexp: true },
+                    BetPlaced: { required: true, currency: true },
+                    WiningTotal: { required: true, currency: true, greaterThan: ["#BetPlaced", "Bet placed"] }
                 },
                 messages: {
                     /*TeamAId: {
@@ -165,11 +196,11 @@
                     Odds: { required: "Odds is required" },
                     BetPlaced: {
                         required: "Bet placed is required",
-                        number: "Bet placed must be numeric"
+                        currency: "Bet placed must be numeric"
                     },
                     WiningTotal: {
                         required: "Wining total is required",
-                        number: "Wining total must be numeric"
+                        currency: "Wining total must be numeric"
                     }
                 },
                 errorElement: 'span',
@@ -246,6 +277,25 @@
         } catch (ex) {
             log(ex.message);
         }
+    }
+
+    this.CalculateWinningAmount = function (placesAmount, odds) {
+        try {
+            if (/^(([1-9]{1}|10)\/([1-9]{1}|10))$/ig.test(odds)) {
+                var oddsData = odds.split('/');
+                if (oddsData.length > 1 && (parseInt(oddsData[0]) < parseInt(oddsData[1]))) {
+                    var percentage = ((100 / parseInt(oddsData[1])) * parseInt(oddsData[0]));
+                    if (percentage > 0) {
+                        var profitAmount = ((percentage / 100) * placesAmount);
+                        return (placesAmount + profitAmount).formatMoney(2, $('#currencySymbol').val());
+
+                    }
+                }
+            }
+        } catch (ex) {
+            log(ex.message);
+        }
+        return (0).formatMoney(2, $('#currencySymbol').val());
     }
 
 }(jQuery, window));

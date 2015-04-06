@@ -6,6 +6,8 @@
     Layout = null;
     string cultureCode = (string)(ViewBag.CultureCode ?? ViewData["CultureCode"]);
     string betDisplayMode = (string)(ViewBag.BetDisplayMode ?? ViewData["BetDisplayMode"]);
+    string currencySymbol = (!string.IsNullOrEmpty(cultureCode)) ?
+        (new CultureInfo(cultureCode)).NumberFormat.CurrencySymbol : "";
 }
 @if (betDisplayMode == BetDisplayType.Insert.ToString())
 {
@@ -25,14 +27,12 @@
                     <div class="left-input">
                         @Html.HiddenFor(m => m.TeamAId)
                         @Html.TextBoxFor(m => m.TeamAName, new { id = "txtTesmA" })
-                        @*<input type="text" name="" id="txtTesmA" value="">*@
                         <a href="javascript:void();" class="btn">+</a>
                     </div>
                     <span class="vs">vs</span>
                     <div class="left-input">
                         @Html.HiddenFor(m => m.TeamBId)
                         @Html.TextBoxFor(m => m.TeamBName, new { id = "txtTesmB" })
-                        @*<input type="text" name="" id="txtTesmB" value="">*@
                         <a href="javascript:void();" class="btn">+</a>
                     </div>
                 </li>
@@ -40,8 +40,7 @@
                     <label><strong>League:</strong></label>
                     <div class="input-full-outer">
                         @Html.HiddenFor(m => m.LegueId)
-                        @Html.TextBoxFor(m => m.LegueName, new { id = "txtLegue", @class="full" })
-                        @*<input type="text" name="" id="txtLegue" class="full" value="">*@
+                        @Html.TextBoxFor(m => m.LegueName, new { id = "txtLegue", @class = "full" })
                         <a href="javascript:void();" class="btn">+</a>
                     </div>
                 </li>
@@ -55,11 +54,11 @@
                 </li>
                 <li>
                     <label><strong>Amount Placed:</strong></label>
-                    <div class="input-full-outer">@Html.TextBoxFor(m => m.BetPlaced, new { @class = "full", @readonly = true })</div>
+                    <div class="input-full-outer">@Html.TextBoxFor(m => m.BetPlaced, new { @class = "full", @readonly = true, Value = Model.BetPlaced.ToString("C", new CultureInfo(cultureCode)) })</div>
                 </li>
                 <li>
                     <label><strong>Winning Total:</strong></label>
-                    <div class="input-full-outer">@Html.TextBoxFor(m => m.WiningTotal, new { @class = "full" })</div>
+                    <div class="input-full-outer">@Html.TextBoxFor(m => m.WiningTotal, new { @class = "full", @readonly = true, Value = Model.WiningTotal.ToString("C", new CultureInfo(cultureCode)) })</div>
                 </li>
                 <li>
                     <input type="submit" value="submit" name="">
@@ -84,6 +83,7 @@
         @Html.HiddenFor(m => m.Challenge.CreatedBy)
         @Html.HiddenFor(m => m.Challenge.CreatedOn)
         @Html.HiddenFor(m => m.Challenge.StatusId)
+        @Html.Hidden("currencySymbol", currencySymbol)
     }
 }
 else
