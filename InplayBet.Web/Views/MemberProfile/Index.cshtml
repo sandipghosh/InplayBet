@@ -68,6 +68,13 @@
             </div>
             @Html.Action("GetChallengesByUser", "Bet", new { userKey = Model.UserKey })
         </div>
+		<div style="height:20px !important;"></div>
+		<div class="sh-bnr-l"><img src='@Url.Content("~/Styles/images/sh-bnr1.jpg")' alt="" /></div>
+			<div class="sh-bnr-r"><img src='@Url.Content("~/Styles/images/sh-bnr2.jpg")' alt="" /></div>
+			<div class="sh-bnr-l"><img src='@Url.Content("~/Styles/images/sh-bnr3.jpg")' alt="" /></div>
+			<div class="sh-bnr-r"><img src='@Url.Content("~/Styles/images/sh-bnr4.jpg")' alt="" /></div>
+			<div class="sh-bnr-l"><img src='@Url.Content("~/Styles/images/sh-bnr5.jpg")' alt="" /></div>
+			<div class="sh-bnr-r"><img src='@Url.Content("~/Styles/images/sh-bnr6.jpg")' alt="" /></div>
     </div>
 </div>
 @Html.Hidden("CurrentUserKey", SessionVeriables.GetSessionData<int>(SessionVeriables.UserKey), new { id = "CurrentUserKey" })
