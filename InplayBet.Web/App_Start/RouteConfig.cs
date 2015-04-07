@@ -22,6 +22,9 @@ namespace InplayBet.Web
             routes.MapRoute("ViewProfile", "MemberProfile/ViewProfile/{userId}",
                 new { controller = "MemberProfile", action = "ViewProfile" });
 
+            routes.MapRoute("MyProfile", "MemberProfile/{userId}",
+                new { controller = "MemberProfile", action = "MyProfile" });
+
             routes.MapRoute("FuckYou", "Base/FuckYou/{status}",
                 new { controller = "Base", action = "FuckYou" });
 

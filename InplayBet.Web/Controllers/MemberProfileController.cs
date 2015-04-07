@@ -58,6 +58,28 @@ namespace InplayBet.Web.Controllers
             return null;
         }
 
+        [AcceptVerbs(HttpVerbs.Get),
+        OutputCache(NoStore = true, Duration = 0, VaryByHeader = "*")]
+        public ActionResult MyProfile(string userId)
+        {
+            try
+            {
+                UserRankViewModel user = this._userRankDataRepository.GetList
+                    (x => x.UserId.Equals(userId)).FirstOrDefaultCustom();
+
+                if (user != null)
+                {
+                    ViewBag.ConsicutiveWonBets = _betDataRepository.GetConsicutiveBetWins(user.UserKey);
+                    return View("Index", user);
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.ExceptionValueTracker();
+            }
+            return null;
+        }
+
         /// <summary>
         /// Views the profile.
         /// </summary>

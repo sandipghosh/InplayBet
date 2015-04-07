@@ -14,7 +14,9 @@
     using (Ajax.BeginForm("InsertNewBet", "Bet", new { area = "" }, new AjaxOptions
     {
         HttpMethod = "POST",
-        OnSuccess = "InsertUpdateBetSuccessHandler(data, this)"
+        OnBegin="InsertUpdateBetBeginHandler()",
+        OnSuccess = "InsertUpdateBetSuccessHandler(data, this)",
+        OnComplete = "InsertUpdateBetCompleteHandler()"
     }, new { id = "frmInsertBet" }))
     {
         <div class="popup-border">
@@ -91,7 +93,9 @@ else
     using (Ajax.BeginForm("UpdateBetStatus", "Bet", new { area = "" }, new AjaxOptions
     {
         HttpMethod = "POST",
-        OnSuccess = "InsertUpdateBetSuccessHandler(data, this)"
+        OnBegin="InsertUpdateBetBeginHandler()",
+        OnSuccess = "InsertUpdateBetSuccessHandler(data, this)",
+        OnComplete = "InsertUpdateBetCompleteHandler()"
     }, new { id = "frmUpdateBet" }))
     {
         <div class="popup-border">

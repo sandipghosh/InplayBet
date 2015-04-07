@@ -346,7 +346,7 @@ ul.popup li input[type="submit"] {float:left; margin:0 10px 0 0;}
 .mp-block .top .name-block a:hover {text-decoration:underline; color:#000;}
 
  
- ul.popup li .left-input input[type="text"] {width:89%;}
+ ul.popup li .left-input input[type="text"] {  width: 96%;}
  ul.leadbroad-block li .block-top .points p.right a {text-decoration:none; color:#0099FF;}
  ul.leadbroad-block li .block-top .points p.right a:hover {text-decoration:none; color:#000;}
  

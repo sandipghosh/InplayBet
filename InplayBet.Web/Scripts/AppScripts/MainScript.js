@@ -232,7 +232,8 @@
                 loadingCounter += 1;
                 $(document).css('cursor', 'wait !important');
                 try {
-                    $.blockUI({ message: $("#dataloading") });
+                    if (!$("#dataloading").is(':visible'))
+                        $.blockUI({ message: $("#dataloading") });
                 } catch (ex) { }
             }
         },
@@ -246,7 +247,8 @@
             else {
                 loadingCounter = 0;
                 try {
-                    $.unblockUI();
+                    if ($("#dataloading").is(':visible'))
+                        $.unblockUI();
                 } catch (ex) { }
             }
             $(document).css('cursor', 'default !important');
@@ -295,7 +297,7 @@
             var settings = $.extend({
                 getUrl: '',
                 postUrl: '',
-                minLength: 2,
+                minLength: 5,
                 userKey: 0
             }, options);
             var $self = this;

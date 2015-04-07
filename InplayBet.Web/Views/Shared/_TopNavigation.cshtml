@@ -2,6 +2,7 @@
 @{
     Layout = null;
     int isLoggedInUser = SessionVeriables.GetSessionData<int>(SessionVeriables.UserKey);
+    string UserId = SessionVeriables.GetSessionData<string>(SessionVeriables.UserId);
     bool isAdminUser = SessionVeriables.GetSessionData<bool>(SessionVeriables.IsAdmin);
 }
 <div class="nav-container">
@@ -22,7 +23,8 @@
             }
             @if (isLoggedInUser > 0)
             {
-                <li id="lnkMemberProfile">@Html.ActionLink("My Profile", "Index", "MemberProfile", new { area = "" }, null)</li>
+                @*<li id="lnkMemberProfile">@Html.ActionLink("My Profile", "Index", "MemberProfile", new { area = "" }, null)</li>*@
+                <li id="lnkMemberProfile">@Html.ActionLink("My Profile", "MyProfile", "MemberProfile", new { area = "", userId = UserId }, null)</li>
             }
             else
             {
@@ -60,7 +62,8 @@
                     }
                     @if (isLoggedInUser > 0)
                     {
-                        <li id="lnkMemberProfile">@Html.ActionLink("My Profile", "Index", "MemberProfile", new { area = "" }, null)</li>
+                        @*<li id="lnkMemberProfile">@Html.ActionLink("My Profile", "Index", "MemberProfile", new { area = "" }, null)</li>*@
+                        <li id="lnkMemberProfile">@Html.ActionLink("My Profile", "MyProfile", "MemberProfile", new { area = "", userId = UserId }, null)</li>
                     }
                     else
                     {

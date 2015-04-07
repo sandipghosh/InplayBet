@@ -230,9 +230,10 @@ namespace InplayBet.Web.Controllers
                     {
                         SetSessionData(user);
                         if (user.IsAdmin)
-                            return new JsonActionResult(new { Status = true, Url = Url.Action("Index", "Home") });
+                            return new JsonActionResult(new { Status = true, Url = Url.Action("Index", "Home", new { area = "" }) });
                         else
-                            return new JsonActionResult(new { Status = true, Url = Url.Action("Index", "MemberProfile") });
+                            //return new JsonActionResult(new { Status = true, Url = Url.Action("Index", "MemberProfile") });
+                            return new JsonActionResult(new { Status = true, Url = Url.Action("MyProfile", "MemberProfile", new { area = "", userId = user.UserId }) });
                     }
                     else
                     {

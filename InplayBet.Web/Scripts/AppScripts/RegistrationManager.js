@@ -100,12 +100,14 @@
             if (typeof data.UserKey != 'undefined') {
                 if (data.UserKey > 0) {
                     if (typeof data.UpdatedBy != 'undefined') {
-                        popupContainersettings.Buttons[0].Link = '{0}MemberProfile/Index'.format(VirtualDirectory);
+                        //popupContainersettings.Buttons[0].Link = '{0}MemberProfile/Index'.format(VirtualDirectory);
+                        popupContainersettings.Buttons[0].Link = '{0}MemberProfile/{1}'.format(VirtualDirectory, data.UserId);
                         popupContainersettings.Body = 'Your profile has been successfully updated.<br/>Keep betting.';
                     }
                     else {
                         if (data.StatusId == 1) {
-                            popupContainersettings.Buttons[0].Link = '{0}MemberProfile/Index'.format(VirtualDirectory);
+                            //popupContainersettings.Buttons[0].Link = '{0}MemberProfile/Index'.format(VirtualDirectory);
+                            popupContainersettings.Buttons[0].Link = '{0}MemberProfile/{1}'.format(VirtualDirectory, data.UserId);
                             popupContainersettings.Body = 'You are successfully register into inplay bet.<br/>Start betting.';
                         }
                     }

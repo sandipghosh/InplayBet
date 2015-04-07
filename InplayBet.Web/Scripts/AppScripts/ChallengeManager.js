@@ -33,15 +33,8 @@
         }, "Please specify a different team.");
 
         $.validator.addMethod("regexp", function (value, element) {
-            if (/^(([1-9]{1}|10)\/([1-9]{1}|10))$/ig.test(value)) {
-                var oddsData = value.split('/');
-                if (oddsData.length > 1) {
-                    return this.optional(element) || (parseInt(oddsData[0]) <= parseInt(oddsData[1]));
-                }
-            }
-            return false;
-
-        }, 'Invalid entry. (Allowed 1-10/1-10)');
+            return this.optional(element) || /^(([1-9][0-9]*)\/([1-9][0-9]*))$/ig.test(value);
+        }, 'Invalid entry. (Allowed num/num)');
     };
 
     $(document).ready(function () {
@@ -67,7 +60,7 @@
         }
     })
 
-    $(document).on('blur', '#Odds', function () {
+    $(document).on('change', '#Odds', function () {
         if ($(this).val() != '') {
             $('#WiningTotal').val(CalculateWinningAmount
                 (parseFloat($('#BetPlaced').val().replace(/[^0-9-.]/g, '')), $(this).val()))
@@ -96,7 +89,8 @@
     }
 
     this.SetAutoSuggession = function (container) {
-        $(container).find('#txtTesmA, #txtTesmB').GenericAutocomplete({
+        $('a.btn').hide();
+        /*$(container).find('#txtTesmA, #txtTesmB').GenericAutocomplete({
             getUrl: '{0}Team/GetTeams'.format(VirtualDirectory),
             userKey: $('#CurrentUserKey').val()
         });
@@ -105,7 +99,7 @@
             getUrl: '{0}Legue/GetLegues'.format(VirtualDirectory),
             postUrl: '{0}Legue/SetLegues'.format(VirtualDirectory),
             userKey: $('#CurrentUserKey').val()
-        });
+        });*/
     };
 
     this.InsertUpdateBetSuccessHandler = function (data, context) {
@@ -149,6 +143,15 @@
             log(ex.message);
         }
     };
+
+    this.InsertUpdateBetBeginHandler = function () {
+        $.blockUI({ message: $("#dataloading") });
+    }
+
+    this.InsertUpdateBetCompleteHandler = function () {
+        if ($("#dataloading").is(':visible'))
+            $.unblockUI();
+    }
 
     this.validationSetup = function () {
         try {
@@ -281,14 +284,13 @@
 
     this.CalculateWinningAmount = function (placesAmount, odds) {
         try {
-            if (/^(([1-9]{1}|10)\/([1-9]{1}|10))$/ig.test(odds)) {
+            if (/^(([1-9][0-9]*)\/([1-9][0-9]*))$/ig.test(odds)) {
                 var oddsData = odds.split('/');
-                if (oddsData.length > 1 && (parseInt(oddsData[0]) < parseInt(oddsData[1]))) {
+                if (oddsData.length > 1) {
                     var percentage = ((100 / parseInt(oddsData[1])) * parseInt(oddsData[0]));
                     if (percentage > 0) {
                         var profitAmount = ((percentage / 100) * placesAmount);
                         return (placesAmount + profitAmount).formatMoney(2, $('#currencySymbol').val());
-
                     }
                 }
             }
