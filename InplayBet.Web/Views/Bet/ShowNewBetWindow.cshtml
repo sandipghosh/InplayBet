@@ -65,7 +65,7 @@
                 <li>
                     <input type="submit" value="submit" name="">
                 </li>
-                <li>(Please click the "+" button to add your text to our preditctive text database)</li>
+                @*<li>(Please click the "+" button to add your text to our preditctive text database)</li>*@
             </ul>
         </div>
 
@@ -134,7 +134,7 @@ else
                 @if (betDisplayMode == BetDisplayType.Update.ToString())
                 {
                     <li>
-                        <label><strong>Bet Submited On:</strong></label>
+                        <label><strong>Bet Submitted On:</strong></label>
                         <label class="right">@Model.CreatedOn.ToString("hh:mm tt", (new CultureInfo(cultureCode)))</label>
                     </li>
                     <li>
@@ -145,7 +145,7 @@ else
                 else if (betDisplayMode == BetDisplayType.Read.ToString())
                 {
                     <li>
-                        <label><strong>Bet Submited On:</strong></label>
+                        <label><strong>Bet Submitted On:</strong></label>
                         <label class="right">@Model.CreatedOn.ToString("dd/MM/yyyy hh:mm tt", (new CultureInfo(cultureCode)))</label>
                     </li>
                     <li>

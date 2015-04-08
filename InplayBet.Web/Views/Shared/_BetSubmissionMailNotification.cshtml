@@ -41,7 +41,7 @@
                             <h4>Name: @Model.User.UserId</h4>
                             <p>Member Since: @Model.User.MemberSince.ToString("d", new CultureInfo(Model.User.CultureCode)) </p>
                             <p>Ranking: @Model.User.Rank</p>
-                            <p>Bookmarker - @Model.User.BookMakerName</p>
+                            <p>Bookmaker - @Model.User.BookMakerName</p>
                             <p>Consecutive Bet Wins: @TempData["ConsicutiveWonBets"]</p>
                         </td>
                     </tr>
@@ -91,7 +91,7 @@
                         <td style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; color: #000; padding: 5px;">@Model.Bet.WiningTotal.ToString("C", new CultureInfo(Model.User.CultureCode))</td>
                     </tr>
                     <tr>
-                        <td style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; color: #000; padding: 5px;"><strong>Bet Submited On:</strong></td>
+                        <td style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; color: #000; padding: 5px;"><strong>Bet Submitted On:</strong></td>
                         <td style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; color: #000; padding: 5px;">@Model.Bet.CreatedOn.ToString("dd/MM/yyyy hh:mm:ss tt", new CultureInfo(Model.User.CultureCode))</td>
                     </tr>
                     @*<tr>
