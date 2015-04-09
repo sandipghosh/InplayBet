@@ -92,7 +92,7 @@
                 Buttons: [
                     {
                         Caption: 'Ok',
-                        Link: '{0}Home/Index'.format(VirtualDirectory)
+                        Link: '{0}'.format(VirtualDirectory)
                     }
                 ]
             };
