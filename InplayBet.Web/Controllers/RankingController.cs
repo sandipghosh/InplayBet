@@ -1,16 +1,15 @@
 ﻿
 namespace InplayBet.Web.Controllers
 {
+    using InplayBet.Web.Controllers.Base;
+    using InplayBet.Web.Data.Interface;
+    using InplayBet.Web.Models;
+    using InplayBet.Web.Utilities;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
     using System.Web.Mvc;
-    using InplayBet.Web.Controllers.Base;
-    using InplayBet.Web.Data.Interface;
-    using InplayBet.Web.Models;
-    using InplayBet.Web.Utilities;
-    using InplayBet.Web.Utilities.Expression;
 
     public class RankingController : BaseController
     {
@@ -40,7 +39,7 @@ namespace InplayBet.Web.Controllers
                 Expression<Func<UserRankViewModel, bool>> exp = (x) => !string.IsNullOrEmpty(x.WinningBets);
 
                 List<UserRankViewModel> user = this._userRankDataRepository
-                    .GetList(1, this._defaultRankPageSize, exp, x => x.Rank, true).ToList();
+                    .GetList(1, this._defaultRankPageSize, null, x => x.Rank, true).ToList();
 
                 if (user != null)
                 {
@@ -69,22 +68,31 @@ namespace InplayBet.Web.Controllers
         {
             try
             {
-                Expression<Func<UserRankViewModel, bool>> exp = (x) => !string.IsNullOrEmpty(x.WinningBets);
-                int recordsToPick = pageIndex; //(this._defaultRankPageSize * pageIndex);
+                //Expression<Func<UserRankViewModel, bool>> exp = (x) => !string.IsNullOrEmpty(x.WinningBets);
+                List<UserRankViewModel> user = new List<UserRankViewModel>();
+                int recordsToPick = pageIndex;
 
                 if (!string.IsNullOrEmpty(filter))
                 {
                     Expression<Func<UserRankViewModel, bool>> filterExp
                         = CommonUtility.GetLamdaExpressionFromFilter<UserRankViewModel>(filter);
-                    exp = exp.And(filterExp);
-                }
+                    //exp = exp.And(filterExp);
 
-                List<UserRankViewModel> user = this._userRankDataRepository
-                    .GetList(recordsToPick, this._defaultRankPageSize, exp, x => x.Rank, true).ToList();
+                    user = this._userRankDataRepository
+                       .GetList(recordsToPick, this._defaultRankPageSize, filterExp, x => x.Rank, true).ToList();
+
+                    ViewBag.TotalRecord = this._userRankDataRepository.GetCount(filterExp);
+                }
+                else
+                {
+                    user = this._userRankDataRepository
+                       .GetList(recordsToPick, this._defaultRankPageSize, x => x.Rank, true).ToList();
+
+                    ViewBag.TotalRecord = this._userRankDataRepository.GetCount();
+                }
 
                 if (user != null)
                 {
-                    ViewBag.TotalRecord = this._userRankDataRepository.GetCount(exp);
                     ViewBag.PageSize = this._defaultRankPageSize;
                     ViewBag.LastElement = 3;
                     return PartialView("_UserRank", user);

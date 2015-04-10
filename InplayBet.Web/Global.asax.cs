@@ -5,7 +5,6 @@ namespace InplayBet.Web
     using InplayBet.Web.Utilities;
     using System;
     using System.Collections.Generic;
-    using System.Configuration;
     using System.Web;
     using System.Web.Http;
     using System.Web.Mvc;
@@ -27,8 +26,30 @@ namespace InplayBet.Web
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            //ModelBinders.Binders.Add(typeof(DateTime), new TypeCastModelBinder<DateTime>());
-            //AntiForgeryConfig.SuppressXFrameOptionsHeader = true;
+        }
+
+        /// <summary>
+        /// Handles the BeginRequest event of the Application control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        protected void Application_BeginRequest(object sender, EventArgs e)
+        {
+            try
+            {
+                string reqPath = Request.Url.AbsolutePath;
+                if (reqPath.ToLower().Contains("home"))
+                {
+                    string newPath = string.Format("{0}{1}{2}", Request.Url.Scheme,
+                        Uri.SchemeDelimiter, Request.Url.Authority);
+                    Response.Redirect(newPath, false);
+                    Context.ApplicationInstance.CompleteRequest();
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.ExceptionValueTracker();
+            }
         }
 
         /// <summary>

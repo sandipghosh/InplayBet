@@ -58,6 +58,11 @@ namespace InplayBet.Web.Controllers
             return null;
         }
 
+        /// <summary>
+        /// Mies the profile.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns></returns>
         [AcceptVerbs(HttpVerbs.Get),
         OutputCache(NoStore = true, Duration = 0, VaryByHeader = "*")]
         public ActionResult MyProfile(string userId)

@@ -14,7 +14,7 @@
 
     $(document).ready(function () {
         try {
-            
+            $('#Sex').val($('#hdnSex').val());
         } catch (ex) {
             log(ex.message);
         }

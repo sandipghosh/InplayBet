@@ -25,6 +25,8 @@ namespace InplayBet.Web.Controllers
         private readonly IReportDataRepository _reportDataRepository;
         private readonly IUserRankDataRepository _userRankDataRepository;
 
+        private readonly InplayBet.Web.Data.Interface.Base.IUnitOfWork unitOfWork;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="BetController" /> class.
         /// </summary>
@@ -48,6 +50,8 @@ namespace InplayBet.Web.Controllers
             this._challengeDataRepository = challengeDataRepository;
             this._reportDataRepository = reportDataRepository;
             this._userRankDataRepository = userRankDataRepository;
+
+            this.unitOfWork = new InplayBet.Web.Data.Implementation.Base.UnitOfWork<InplayBet.Web.Data.Context.InplayBetDBEntities>();
         }
 
         /// <summary>
@@ -224,13 +228,16 @@ namespace InplayBet.Web.Controllers
 
                 if (bet.ChallengeId == 0)
                 {
-                    TransactionOptions options = new TransactionOptions()
+                    /*TransactionOptions options = new TransactionOptions()
                     {
                         IsolationLevel = IsolationLevel.ReadCommitted,
                         Timeout = new TimeSpan(0, 5, 0)
                     };
                     using (TransactionScope scope = new TransactionScope
                         (TransactionScopeOption.RequiresNew, options))
+                    {*/
+
+                    using (var transaction = this.unitOfWork.BeginTransaction())
                     {
                         ChallengeModel challenge = bet.Challenge;
                         challenge.ChallengeStatus = challenge.ChallengeStatus.AsString();
@@ -245,7 +252,8 @@ namespace InplayBet.Web.Controllers
                         processTeamAndLegue(bet);
 
                         this._betDataRepository.Insert(bet);
-                        if (bet.BetId == 0) scope.Dispose(); else scope.Complete();
+                        //if (bet.BetId == 0) scope.Dispose(); else scope.Complete();
+                        if (bet.BetId == 0) transaction.Rollback(); else transaction.Commit();
                     }
                 }
                 else
@@ -284,6 +292,7 @@ namespace InplayBet.Web.Controllers
         {
             try
             {
+
                 if (ModelState.IsValid)
                 {
                     Func<BetModel, ChallengeModel> getCurrentChallenge = (b) =>
@@ -298,13 +307,16 @@ namespace InplayBet.Web.Controllers
                     };
                     ChallengeModel challenge = getCurrentChallenge(bet);
 
-                    TransactionOptions options = new TransactionOptions()
+                    /*TransactionOptions options = new TransactionOptions()
                     {
                         IsolationLevel = IsolationLevel.ReadCommitted,
                         Timeout = new TimeSpan(0, 1, 0)
                     };
                     using (TransactionScope scope = new TransactionScope
                         (TransactionScopeOption.RequiresNew, options))
+                    {*/
+
+                    using (var transaction = this.unitOfWork.BeginTransaction())
                     {
                         bet.UpdatedOn = DateTime.Now;
                         bet.UpdatedBy = bet.CreatedBy;
@@ -321,7 +333,8 @@ namespace InplayBet.Web.Controllers
                             this._challengeDataRepository.Update(challenge);
                         }
 
-                        scope.Complete();
+                        //scope.Complete();
+                        transaction.Commit();
                         return new JsonActionResult(bet);
                     }
                 }
@@ -610,7 +623,7 @@ namespace InplayBet.Web.Controllers
                 var followerUsers = shared.GetFollowerUsers(userKey);
                 if (!followerUsers.IsEmptyCollection())
                 {
-                    shared.MassMailing(followerUsers.Select(x => x.EmailId).ToList(), mailContent, 
+                    shared.MassMailing(followerUsers.Select(x => x.EmailId).ToList(), mailContent,
                         "Inplay Bet Submit Notification");
                 }
             }

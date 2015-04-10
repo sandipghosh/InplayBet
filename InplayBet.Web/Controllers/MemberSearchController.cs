@@ -2,15 +2,15 @@
 
 namespace InplayBet.Web.Controllers
 {
+    using InplayBet.Web.Controllers.Base;
+    using InplayBet.Web.Data.Interface;
+    using InplayBet.Web.Models;
+    using InplayBet.Web.Utilities;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
     using System.Web.Mvc;
-    using InplayBet.Web.Controllers.Base;
-    using InplayBet.Web.Data.Interface;
-    using InplayBet.Web.Models;
-    using InplayBet.Web.Utilities;
 
     public class MemberSearchController : BaseController
     {

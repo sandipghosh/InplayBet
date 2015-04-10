@@ -2,14 +2,14 @@
 
 namespace InplayBet.Web.Controllers
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Web.Mvc;
     using InplayBet.Web.Controllers.Base;
     using InplayBet.Web.Data.Interface;
     using InplayBet.Web.Models;
     using InplayBet.Web.Utilities;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Web.Mvc;
 
     public class HomeController : BaseController
     {
@@ -43,13 +43,13 @@ namespace InplayBet.Web.Controllers
                 {
                     user = this._userRankDataRepository
                    .GetList(1, this._defaultLeaderboardPegSize,
-                       x => !string.IsNullOrEmpty(x.WinningBets) && x.UserKey != loggedInUser, x => x.Rank, true).ToList();
+                       x => /*!string.IsNullOrEmpty(x.WinningBets) &&*/ x.UserKey != loggedInUser, x => x.Rank, true).ToList();
                 }
                 else
                 {
                     user = this._userRankDataRepository
                    .GetList(1, this._defaultLeaderboardPegSize,
-                       x => !string.IsNullOrEmpty(x.WinningBets), x => x.Rank, true).ToList();
+                       /*x => !string.IsNullOrEmpty(x.WinningBets),*/ x => x.Rank, true).ToList();
                 }
 
                 return View(user);

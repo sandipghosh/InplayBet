@@ -8,6 +8,8 @@ namespace InplayBet.Web.Controllers.Base
     using System.Threading;
     using System.Web.Mvc;
     using System.IO;
+    using Lib.Web.Mvc;
+    using System.Web.Hosting;
 
     public class BaseController : Controller
     {
@@ -38,6 +40,11 @@ namespace InplayBet.Web.Controllers.Base
             return null;
         }
 
+        /// <summary>
+        /// Fucks you.
+        /// </summary>
+        /// <param name="status">if set to <c>true</c> [status].</param>
+        /// <returns></returns>
         [SaveMeFilterAccessAttribut(), AcceptVerbs(HttpVerbs.Get),
         OutputCache(NoStore = true, Duration = 0, VaryByHeader = "*")]
         public ActionResult FuckYou(bool status)
@@ -68,6 +75,51 @@ namespace InplayBet.Web.Controllers.Base
                 ex.ExceptionValueTracker();
             }
             return null;
+        }
+
+        /// <summary>
+        /// Gets the video.
+        /// </summary>
+        /// <param name="fileType">Type of the file.</param>
+        /// <returns></returns>
+        public ActionResult GetVideo(string fileType)
+        {
+            try
+            {
+                string fileName = this.GetFileName(fileType);
+                var videoFilePath = HostingEnvironment.MapPath(string.Format("~/Media/{0}", fileName));
+                var file = new FileInfo(videoFilePath);
+                if (file.Exists)
+                {
+                    var stream = file.OpenRead();
+                    var bytesinfile = new byte[stream.Length];
+                    stream.Read(bytesinfile, 0, (int)file.Length);
+                    return new RangeFileStreamResult(stream, fileType, fileName, file.LastWriteTime);
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.ExceptionValueTracker(fileType);
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Gets the name of the file.
+        /// </summary>
+        /// <param name="videoMimeType">Type of the video MIME.</param>
+        /// <returns></returns>
+        private string GetFileName(string videoMimeType)
+        {
+            switch (videoMimeType)
+            {
+                case "video/webm":
+                    return "Inplay20-HowTo_VP8.mp4";
+                case "video/ogg":
+                    return "Inplay20-HowTo_libtheora.mp4";
+                default:
+                    return "Inplay20-HowTo_x264.mp4";
+            }
         }
     }
 }

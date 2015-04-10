@@ -273,7 +273,7 @@
 
     this.ResetUserAccount = function (url) {
         try {
-            var r = confirm("Are you sure to reset your account?");
+            var r = confirm("Click ok to reset your challenges back to number 1.");
             if (r == true) {
                 window.location.assign(Base64Decode(url));
             }

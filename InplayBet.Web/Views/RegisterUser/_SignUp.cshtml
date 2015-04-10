@@ -74,7 +74,7 @@
             <div class="confirmpassword">
                 <label>Confirm Password</label>
                 @Html.ValidationMessageFor(m => m.ConfirmPassword)
-                @Html.TextBox("ConfirmPassword", "", new { type = "password" })
+                @Html.TextBox("ConfirmPassword", Model.Password, new { type = "password" })
             </div>
         </li>
         <li>
@@ -110,4 +110,6 @@
     @Html.HiddenFor(m => m.IsAdmin)
     @Html.HiddenFor(m => m.UpdatedBy)
     @Html.HiddenFor(m => m.UpdatedOn)
+    
+    @Html.Hidden("hdnSex", Model.Sex, new { id = "hdnSex" })
 }

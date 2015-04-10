@@ -379,202 +379,7 @@ namespace InplayBet.Web.Data.Implementation.Base
             return default(double);
         }
 
-        #region Insert/Update/Delete operation
-        /// <summary>
-        /// Adds the specified item.
-        /// </summary>
-        /// <param name="item">The item.</param>
-        /// <param name="doSaveChanges">if set to <c>true</c> [do save changes].</param>
-        public virtual void Insert(TModel item, bool doSaveChanges = true)
-        {
-            if (item != (TModel)null)
-            {
-                TEntity entity = Mapper.Map<TModel, TEntity>(item);
-                try
-                {
-                    this.GetEntity().Add(entity); // add new item in this set
-                    this._UnitOfWork.ChangeState(entity, System.Data.Entity.EntityState.Added);
-
-                    if (doSaveChanges)
-                    {
-                        this._UnitOfWork.CommitAndRefreshChanges();
-                        try
-                        {
-                            this.SetId(entity, item);
-                        }
-                        catch (Exception ex)
-                        {
-                            ex.ExceptionValueTracker(item, doSaveChanges);
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    this._UnitOfWork.RollbackChanges();
-                    ex.ExceptionValueTracker(item, doSaveChanges);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Adds the specified items.
-        /// </summary>
-        /// <param name="items">The items.</param>
-        public virtual void Insert(IEnumerable<TModel> items)
-        {
-            using (var transaction = this._UnitOfWork.BeginTransaction())
-            {
-                try
-                {
-                    foreach (TModel item in items)
-                        this.Insert(item, false);
-
-                    this._UnitOfWork.CommitAndRefreshChanges();
-                    transaction.Commit();
-                }
-                catch (Exception ex)
-                {
-                    this._UnitOfWork.RollbackChanges();
-                    transaction.Rollback();
-                    ex.ExceptionValueTracker(items);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Modifies the specified item.
-        /// </summary>
-        /// <param name="item">The item.</param>
-        /// <param name="doSaveChanges">if set to <c>true</c> [do save changes].</param>
-        public virtual void Update(TModel item, bool doSaveChanges = true)
-        {
-            if (item != (TModel)null)
-            {
-                TEntity entity = Mapper.Map<TModel, TEntity>(item);
-
-                try
-                {
-                    DbEntityEntry<TEntity> entry = this.TrackEntry(entity);
-
-                    if (entry.State == System.Data.Entity.EntityState.Detached)
-                    {
-                        var set = this.GetEntity();
-                        TEntity attachedEntity = set.Find(GetEntityKeyValue(entity));  // You need to have access to key
-
-                        if (attachedEntity != null)
-                        {
-                            var attachedEntry = this.TrackEntry(attachedEntity);
-                            this._UnitOfWork.ApplyCurrentValues(attachedEntity, entity);
-                        }
-                        else
-                            entry.State = System.Data.Entity.EntityState.Modified; // This should attach entity
-                    }
-
-                    if (doSaveChanges)
-                    {
-                        this._UnitOfWork.CommitAndRefreshChanges();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    this._UnitOfWork.RollbackChanges();
-                    ex.ExceptionValueTracker(item, doSaveChanges);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Modifies the specified items.
-        /// </summary>
-        /// <param name="items">The items.</param>
-        public virtual void Update(IEnumerable<TModel> items)
-        {
-            using (var transaction = this._UnitOfWork.BeginTransaction())
-            {
-                try
-                {
-                    foreach (TModel item in items)
-                        this.Update(item, false);
-
-                    this._UnitOfWork.CommitAndRefreshChanges();
-                    transaction.Commit();
-                }
-                catch (Exception ex)
-                {
-                    this._UnitOfWork.RollbackChanges();
-                    transaction.Rollback();
-                    ex.ExceptionValueTracker(items);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Removes the specified item.
-        /// </summary>
-        /// <param name="item">The item.</param>
-        /// <param name="doSaveChanges">if set to <c>true</c> [do save changes].</param>
-        public virtual void Delete(TModel item, bool doSaveChanges = true)
-        {
-            if (item != (TModel)null)
-            {
-                var entity = Mapper.Map<TModel, TEntity>(item);
-                try
-                {
-                    DbEntityEntry<TEntity> entry = this.TrackEntry(entity);
-
-                    if (entry.State == System.Data.Entity.EntityState.Detached)
-                    {
-                        var set = this.GetEntity();
-                        TEntity attachedEntity = set.Find(GetEntityKeyValue(entity));  // You need to have access to key
-
-                        if (attachedEntity != null)
-                        {
-                            var attachedEntry = this.TrackEntry(attachedEntity);
-                            attachedEntry.State = System.Data.Entity.EntityState.Deleted;
-                            GetEntity().Remove(attachedEntity);
-                        }
-                        else
-                            entry.State = System.Data.Entity.EntityState.Deleted; // This should attach entity
-                    }
-
-                    if (doSaveChanges)
-                    {
-                        this._UnitOfWork.CommitAndRefreshChanges();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    this._UnitOfWork.RollbackChanges();
-                    ex.ExceptionValueTracker(item, doSaveChanges);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Removes the specified items.
-        /// </summary>
-        /// <param name="items">The items.</param>
-        public virtual void Delete(IEnumerable<TModel> items)
-        {
-            using (var transaction = this._UnitOfWork.BeginTransaction())
-            {
-                try
-                {
-                    foreach (TModel item in items)
-                        this.Delete(item, false);
-
-                    this._UnitOfWork.CommitAndRefreshChanges();
-                    transaction.Commit();
-                }
-                catch (Exception ex)
-                {
-                    this._UnitOfWork.RollbackChanges();
-                    transaction.Rollback();
-                    ex.ExceptionValueTracker(items);
-                }
-            }
-        }
-        #endregion
+        
 
         /// <summary>
         /// Tracks the item.
@@ -808,6 +613,203 @@ namespace InplayBet.Web.Data.Implementation.Base
             return 0;
         }
         #endregion
+        #endregion
+
+        #region Insert/Update/Delete operation
+        /// <summary>
+        /// Adds the specified item.
+        /// </summary>
+        /// <param name="item">The item.</param>
+        /// <param name="doSaveChanges">if set to <c>true</c> [do save changes].</param>
+        public virtual void Insert(TModel item, bool doSaveChanges = true)
+        {
+            if (item != (TModel)null)
+            {
+                TEntity entity = Mapper.Map<TModel, TEntity>(item);
+                try
+                {
+                    this.GetEntity().Add(entity); // add new item in this set
+                    this._UnitOfWork.ChangeState(entity, System.Data.Entity.EntityState.Added);
+
+                    if (doSaveChanges)
+                    {
+                        this._UnitOfWork.CommitAndRefreshChanges();
+                        try
+                        {
+                            this.SetId(entity, item);
+                        }
+                        catch (Exception ex)
+                        {
+                            ex.ExceptionValueTracker(item, doSaveChanges);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    this._UnitOfWork.RollbackChanges();
+                    ex.ExceptionValueTracker(item, doSaveChanges);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Adds the specified items.
+        /// </summary>
+        /// <param name="items">The items.</param>
+        public virtual void Insert(IEnumerable<TModel> items)
+        {
+            using (var transaction = this._UnitOfWork.BeginTransaction())
+            {
+                try
+                {
+                    foreach (TModel item in items)
+                        this.Insert(item, false);
+
+                    this._UnitOfWork.CommitAndRefreshChanges();
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    this._UnitOfWork.RollbackChanges();
+                    transaction.Rollback();
+                    ex.ExceptionValueTracker(items);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Modifies the specified item.
+        /// </summary>
+        /// <param name="item">The item.</param>
+        /// <param name="doSaveChanges">if set to <c>true</c> [do save changes].</param>
+        public virtual void Update(TModel item, bool doSaveChanges = true)
+        {
+            if (item != (TModel)null)
+            {
+                TEntity entity = Mapper.Map<TModel, TEntity>(item);
+
+                try
+                {
+                    DbEntityEntry<TEntity> entry = this.TrackEntry(entity);
+
+                    if (entry.State == System.Data.Entity.EntityState.Detached)
+                    {
+                        var set = this.GetEntity();
+                        TEntity attachedEntity = set.Find(GetEntityKeyValue(entity));  // You need to have access to key
+
+                        if (attachedEntity != null)
+                        {
+                            var attachedEntry = this.TrackEntry(attachedEntity);
+                            this._UnitOfWork.ApplyCurrentValues(attachedEntity, entity);
+                        }
+                        else
+                            entry.State = System.Data.Entity.EntityState.Modified; // This should attach entity
+                    }
+
+                    if (doSaveChanges)
+                    {
+                        this._UnitOfWork.CommitAndRefreshChanges();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    this._UnitOfWork.RollbackChanges();
+                    ex.ExceptionValueTracker(item, doSaveChanges);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Modifies the specified items.
+        /// </summary>
+        /// <param name="items">The items.</param>
+        public virtual void Update(IEnumerable<TModel> items)
+        {
+            using (var transaction = this._UnitOfWork.BeginTransaction())
+            {
+                try
+                {
+                    foreach (TModel item in items)
+                        this.Update(item, false);
+
+                    this._UnitOfWork.CommitAndRefreshChanges();
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    this._UnitOfWork.RollbackChanges();
+                    transaction.Rollback();
+                    ex.ExceptionValueTracker(items);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Removes the specified item.
+        /// </summary>
+        /// <param name="item">The item.</param>
+        /// <param name="doSaveChanges">if set to <c>true</c> [do save changes].</param>
+        public virtual void Delete(TModel item, bool doSaveChanges = true)
+        {
+            if (item != (TModel)null)
+            {
+                var entity = Mapper.Map<TModel, TEntity>(item);
+                try
+                {
+                    DbEntityEntry<TEntity> entry = this.TrackEntry(entity);
+
+                    if (entry.State == System.Data.Entity.EntityState.Detached)
+                    {
+                        var set = this.GetEntity();
+                        TEntity attachedEntity = set.Find(GetEntityKeyValue(entity));  // You need to have access to key
+
+                        if (attachedEntity != null)
+                        {
+                            var attachedEntry = this.TrackEntry(attachedEntity);
+                            attachedEntry.State = System.Data.Entity.EntityState.Deleted;
+                            GetEntity().Remove(attachedEntity);
+                        }
+                        else
+                            entry.State = System.Data.Entity.EntityState.Deleted; // This should attach entity
+                    }
+
+                    if (doSaveChanges)
+                    {
+                        this._UnitOfWork.CommitAndRefreshChanges();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    this._UnitOfWork.RollbackChanges();
+                    ex.ExceptionValueTracker(item, doSaveChanges);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Removes the specified items.
+        /// </summary>
+        /// <param name="items">The items.</param>
+        public virtual void Delete(IEnumerable<TModel> items)
+        {
+            using (var transaction = this._UnitOfWork.BeginTransaction())
+            {
+                try
+                {
+                    foreach (TModel item in items)
+                        this.Delete(item, false);
+
+                    this._UnitOfWork.CommitAndRefreshChanges();
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    this._UnitOfWork.RollbackChanges();
+                    transaction.Rollback();
+                    ex.ExceptionValueTracker(items);
+                }
+            }
+        }
         #endregion
 
         #region Private Methods

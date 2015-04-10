@@ -8,6 +8,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width; initial-scale=1.0" />
+    <meta http-equiv-"x-ua-compatible"=http-equiv-"X-UA-Compatible" content="IE=edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>@ViewBag.Title</title>
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,500,700,900,100italic,300italic,400italic,500italic,700italic,900italic,100' rel='stylesheet' type='text/css' />
@@ -58,14 +59,14 @@
         <div class="center">
             <div class="header-top">
                 <ul class="social">
-                    <li><a href="#" class="facebook"></a></li>
-                    <li><a href="#" class="twitter"></a></li>
+                    <li><a href="https://www.facebook.com/pages/InPlay20/786672424772967" class="facebook"></a></li>
+                    <li><a href="https://twitter.com/Inplay20" class="twitter"></a></li>
                 </ul>
                 @{Html.RenderPartial("_SignIn", (new SignInModel()));}
             </div>
             <div class="header-botm">
                 <div class="logo">
-                    <a href="#">
+                    <a href="@Url.Action("Index","Home")">
                         <img src='@Url.Content("~/Styles/images/logo.png")' alt="" />
                     </a>
                 </div>

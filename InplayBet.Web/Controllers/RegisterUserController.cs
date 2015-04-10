@@ -11,7 +11,6 @@ namespace InplayBet.Web.Controllers
     using System.Globalization;
     using System.Linq;
     using System.Web.Mvc;
-    using System.Threading.Tasks;
 
     public class RegisterUserController : BaseController
     {
@@ -79,16 +78,10 @@ namespace InplayBet.Web.Controllers
                     user.DobDay = user.DateOfBirth.Day;
                     user.DobMonth = user.DateOfBirth.Month;
                     user.DobYear = user.DateOfBirth.Year;
-                    user.Password = string.Empty;
+                    //user.Password = string.Empty;
                     user.AvatarPath = CommonUtility.SaveImageFromDataUrl(user.AvatarPath, user.UserKey, user.UserId);
 
                     GenerateAdditionalData();
-
-                    foreach (var data in (IEnumerable<SelectListItem>)ViewBag.Sex)
-                    {
-                        data.Selected = (data.Value == user.Sex);
-                    }
-
                     return View("Index", user);
                 }
             }
