@@ -11,7 +11,7 @@
 }
 @foreach (BetModel bet in Model)
 {
-    <div class="latest-bets-block @getClassName(Model.IndexOf(bet),3)">
+    <div class="latest-bets-block @getClassName(Model.IndexOf(bet),3)" onclick="GoToProfile(@bet.CreatedBy)">
         <h3>bet @bet.BetNumber</h3>
         <p>
             <strong>Team Names :</strong> @Html.Raw(string.Format("{0} <strong>vs</strong> {1}", bet.TeamA.TeamName.AsString(), bet.TeamB.TeamName.AsString()))<br />

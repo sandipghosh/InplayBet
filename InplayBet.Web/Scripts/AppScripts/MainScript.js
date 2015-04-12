@@ -226,6 +226,32 @@
         }
     };
 
+    this.GoToProfile = function (userKey) {
+        try {
+            $.ajax({
+                url: '{0}LatestBets/GoToProfile'.format(VirtualDirectory),
+                type: 'GET',
+                dataType: "json",
+                contentType: "application/json",
+                data: {
+                    "userKey": userKey
+                },
+                success: function (result, textStatus, jqXHR) {
+                    if (result) {
+                        if (result.ProfileUrl) {
+                            window.location.assign(Base64Decode(result.ProfileUrl));
+                        }
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    log(textStatus);
+                }
+            });
+        } catch (ex) {
+            log(ex.message);
+        }
+    }
+
     $.ajaxSetup({
         beforeSend: function (jqXHR, settings) {
             if (!settings.url.contains('Keepalive')) {

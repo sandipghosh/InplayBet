@@ -65,5 +65,25 @@ namespace InplayBet.Web.Controllers
             }
             return null;
         }
+
+        [AcceptVerbs(HttpVerbs.Get),
+        OutputCache(NoStore = true, Duration = 0, VaryByHeader = "*")]
+        public ActionResult GoToProfile(int userKey)
+        {
+            try
+            {
+                UserModel user = this._userDataRepository.Get(userKey);
+                if (user != null)
+                {
+                    string profileUrl = Url.Action("ViewProfile", "MemberProfile", new { ares = "", userId = user.UserId });
+                    return Json(new { ProfileUrl = profileUrl.ToBase64Encode() }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.ExceptionValueTracker(userKey);
+            }
+            return null;
+        }
     }
 }
