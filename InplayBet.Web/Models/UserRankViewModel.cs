@@ -31,6 +31,7 @@ namespace InplayBet.Web.Models
         [Display(Name = "Lost")]
         public int Losses { get; set; }
         public decimal Won { get; set; }
+        public decimal ActualWon { get; set; }
         public decimal Placed { get; set; }
         public decimal Profit { get; set; }
         public long Rank { get; set; }

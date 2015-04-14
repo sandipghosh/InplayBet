@@ -2,10 +2,10 @@
 namespace InplayBet.Web.MapperConfig
 {
     using AutoMapper;
-    using InplayBet.Web.MapperConfig.Converter;
-    using InplayBet.Web.Utilities;
-    using InplayBet.Web.Models;
     using InplayBet.Web.Data.Context;
+    using InplayBet.Web.MapperConfig.Converter;
+    using InplayBet.Web.Models;
+    using InplayBet.Web.Utilities;
     using System;
 
     public class EntityMapperConfig : Profile

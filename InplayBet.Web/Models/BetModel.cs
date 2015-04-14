@@ -2,10 +2,12 @@
 
 namespace InplayBet.Web.Models
 {
-    using System;
     using AutoMapper;
     using InplayBet.Web.Models.Base;
+    using System;
     using System.ComponentModel.DataAnnotations;
+    using System.Web;
+    using System.Web.Mvc;
 
     public class BetModel : BaseModel
     {
@@ -40,5 +42,19 @@ namespace InplayBet.Web.Models
         public virtual LegueModel Legue { get; set; }
         public virtual TeamModel TeamA { get; set; }
         public virtual TeamModel TeamB { get; set; }
+
+        public string UserId { get; set; }
+        public string BetInfoUrl
+        {
+            get
+            {
+                var urlHelper = new UrlHelper(HttpContext.Current.Request.RequestContext);
+                return urlHelper.Action("Bet", "BetInfo", new
+                {
+                    userKey = this.CreatedBy,
+                    betId = this.BetId
+                }, HttpContext.Current.Request.Url.Scheme);
+            }
+        }
     }
 }

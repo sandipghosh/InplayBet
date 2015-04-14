@@ -9,6 +9,10 @@
         {
             <span style="font-size: 15px; float:left;">Congratulation! You have won the challenge. Please proceed to the next challenge.</span>
         }
+        else if ((string)ViewBag.Status == StatusCode.CashOut.ToString())
+        {
+            <span style="font-size: 15px; float:left;">Sorry! You have cashed out the current challenge. Please proceed to the next challenge.</span>
+        }
         else
         {
             <span style="font-size: 15px; float:left;">Sorry! You lost the challenge. Please proceed to the next challenge.</span>

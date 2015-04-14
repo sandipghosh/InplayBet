@@ -16,6 +16,8 @@
             return "red-box";
         else if (challangeStatus == StatusCode.Won.ToString())
             return "green-box";
+        else if (challangeStatus == StatusCode.CashOut.ToString())
+            return "blue-box";
         else
             return string.Empty;
     }
@@ -31,7 +33,6 @@
                 && !string.IsNullOrEmpty(challenge.ChallengeStatus))
             {
                 <a href="javascript:ShowReportWindow(@userKey, @challenge.ChallengeId, '@challenge.ChallengeStatus')" class="report-btn">report</a>
-                @*@Url.Action("ShowReportWindow", "Bet", new { reportToUserKey = userKey, challengeId = challenge.ChallengeId })*@
             }
         </div>
         <div class="scroll">

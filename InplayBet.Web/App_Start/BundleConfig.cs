@@ -1,8 +1,8 @@
 ﻿
 namespace InplayBet.Web
 {
-    using System;
     using InplayBet.Web.Utilities;
+    using System;
     using System.Web.Optimization;
 
     public class BundleConfig

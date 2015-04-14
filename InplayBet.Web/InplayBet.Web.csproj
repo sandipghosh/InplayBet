@@ -410,6 +410,7 @@
     <Content Include="Scripts\css3-mediaqueries.js" />
     <Content Include="Scripts\easyTooltip.js" />
     <Content Include="Scripts\ion.rangeSlider.min.js" />
+    <Content Include="Styles\images\CashOut.png" />
     <Content Include="Styles\images\sprite-skin-modern.png" />
     <Content Include="Styles\ion.rangeSlider.css" />
     <Content Include="Styles\ion.rangeSlider.skinHTML5.css" />

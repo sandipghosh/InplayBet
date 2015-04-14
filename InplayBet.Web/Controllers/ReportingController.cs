@@ -10,6 +10,5 @@ namespace InplayBet.Web.Controllers
         {
             return View();
         }
-
     }
 }

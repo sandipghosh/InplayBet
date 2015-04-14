@@ -2,18 +2,18 @@
 namespace InplayBet.Web.Data.Implementation.Base
 {
     #region Required Namespace(s)
-    using System.Data;
-    using System.Data.Common;
+    using InplayBet.Web.Data.Context;
     using InplayBet.Web.Data.Interface.Base;
     using InplayBet.Web.Utilities;
     using System;
     using System.Collections.Generic;
+    using System.Data;
+    using System.Data.Common;
     using System.Data.Entity;
     using System.Data.Entity.Core.Metadata.Edm;
+    using System.Data.Entity.Core.Objects;
     using System.Data.Entity.Infrastructure;
     using System.Linq;
-    using InplayBet.Web.Data.Context;
-    using System.Data.Entity.Core.Objects;
     #endregion
 
     public class UnitOfWork<TEntityModel> : IQueryableUnitOfWork

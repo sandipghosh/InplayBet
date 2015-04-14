@@ -3,10 +3,8 @@ namespace InplayBet.Web.Data.Implementation.Base
 {
     #region Required Namespace(s)
     using InplayBet.Web.Data.Interface.Base;
-    using InplayBet.Web.Models.Base;
     using InplayBet.Web.Utilities;
     using System.Collections.Generic;
-    using System.Configuration;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     #endregion

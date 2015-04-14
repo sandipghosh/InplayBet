@@ -2,18 +2,16 @@
 
 namespace InplayBet.Web.Controllers
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using System.Transactions;
-    using System.Web.Mvc;
     using InplayBet.Web.Data.Interface;
     using InplayBet.Web.Models;
     using InplayBet.Web.Models.Base;
     using InplayBet.Web.Utilities;
     using MoreLinq;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Web;
+    using System.Web.Mvc;
 
     public class BetController : Controller
     {
@@ -218,6 +216,10 @@ namespace InplayBet.Web.Controllers
             try
             {
                 int userKey = bet.Challenge.UserKey;
+                UserModel user = this._userDataRepository.Get(userKey);
+                if (user != null)
+                    bet.UserId = user.UserId;
+
                 Action<BetModel> processTeamAndLegue = (b) =>
                 {
                     var context = ControllerContext.HttpContext.Request;
@@ -326,6 +328,31 @@ namespace InplayBet.Web.Controllers
             return null;
         }
 
+        [AcceptVerbs(HttpVerbs.Post),
+        OutputCache(NoStore = true, Duration = 0, VaryByHeader = "*")]
+        public ActionResult ChashOutBet(int challengeId)
+        {
+            try
+            {
+                ChallengeModel challenge = this._challengeDataRepository.Get(challengeId);
+                if (challenge != null)
+                {
+                    challenge.UpdatedBy = challenge.CreatedBy;
+                    challenge.UpdatedOn = DateTime.Now;
+                    challenge.ChallengeStatus = StatusCode.CashOut.ToString();
+                    challenge.WiningPrice = challenge.Bets.Sum(x => x.WiningTotal);
+
+                    this._challengeDataRepository.Update(challenge);
+                    return Json(new { status = "success" }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.ExceptionValueTracker(challengeId);
+            }
+            return null;
+        }
+
         /// <summary>
         /// Shows the challenge status message.
         /// </summary>
@@ -402,6 +429,31 @@ namespace InplayBet.Web.Controllers
             return null;
         }
 
+        /// <summary>
+        /// Bets the info.
+        /// </summary>
+        /// <param name="betId">The bet id.</param>
+        /// <returns></returns>
+        [AcceptVerbs(HttpVerbs.Get),
+        OutputCache(NoStore = true, Duration = 0, VaryByHeader = "*")]
+        public ActionResult BetInfo(int userKey, int betId)
+        {
+            try
+            {
+                BetNotificationViewModel betViewModel = new BetNotificationViewModel
+                {
+                    Bet = this._betDataRepository.Get(betId),
+                    User = this._userRankDataRepository.GetList(x => x.UserKey.Equals(userKey)).FirstOrDefault()
+                };
+                TempData["ConsicutiveWonBets"] = this._betDataRepository.GetConsicutiveBetWins(userKey);
+                return View("_BetSubmissionMailNotification", betViewModel);
+            }
+            catch (Exception ex)
+            {
+                ex.ExceptionValueTracker(userKey, betId);
+            }
+            return null;
+        }
 
         #region Private Members
         /// <summary>

@@ -8,8 +8,8 @@ namespace InplayBet.Web.Data.Implementation
     using InplayBet.Web.Models;
     using InplayBet.Web.Utilities;
     using System;
-    using System.Linq;
     using System.Data.SqlClient;
+    using System.Linq;
 
     public class BetDataRepository : DataRepository<Bet, BetModel>, IBetDataRepository
     {

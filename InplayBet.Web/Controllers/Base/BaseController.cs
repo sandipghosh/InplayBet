@@ -3,13 +3,13 @@
 namespace InplayBet.Web.Controllers.Base
 {
     using InplayBet.Web.Utilities;
+    using Lib.Web.Mvc;
     using Microsoft.Ajax.Utilities;
     using System;
-    using System.Threading;
-    using System.Web.Mvc;
     using System.IO;
-    using Lib.Web.Mvc;
+    using System.Threading;
     using System.Web.Hosting;
+    using System.Web.Mvc;
 
     public class BaseController : Controller
     {

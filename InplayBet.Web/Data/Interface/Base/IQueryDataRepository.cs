@@ -2,7 +2,6 @@
 namespace InplayBet.Web.Data.Interface.Base
 {
     #region Required Namespace(s)
-    using InplayBet.Web.Models.Base;
     using System.Collections.Generic;
     #endregion
 

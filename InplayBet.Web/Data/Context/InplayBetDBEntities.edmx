@@ -190,6 +190,7 @@ warning 6002: The table/view 'InplayBet.dbo.UserRank' does not have a primary ke
             <PropertyRef Name="Wins" />
             <PropertyRef Name="Losses" />
             <PropertyRef Name="Won" />
+            <PropertyRef Name="ActualWon" />
             <PropertyRef Name="Placed" />
             <PropertyRef Name="Profit" />
             <PropertyRef Name="Rank" />
@@ -216,6 +217,7 @@ warning 6002: The table/view 'InplayBet.dbo.UserRank' does not have a primary ke
           <Property Name="Wins" Type="int" Nullable="false" />
           <Property Name="Losses" Type="int" Nullable="false" />
           <Property Name="Won" Type="decimal" Precision="11" Scale="2" Nullable="false" />
+          <Property Name="ActualWon" Type="decimal" Precision="11" Scale="2" Nullable="false" />
           <Property Name="Placed" Type="decimal" Precision="11" Scale="2" Nullable="false" />
           <Property Name="Profit" Type="decimal" Precision="11" Scale="2" Nullable="false" />
           <Property Name="Rank" Type="bigint" Nullable="false" />
@@ -472,6 +474,7 @@ warning 6002: The table/view 'InplayBet.dbo.UserRank' does not have a primary ke
 [UserRank].[Wins] AS [Wins], 
 [UserRank].[Losses] AS [Losses], 
 [UserRank].[Won] AS [Won], 
+[UserRank].[ActualWon] AS [ActualWon], 
 [UserRank].[Placed] AS [Placed], 
 [UserRank].[Profit] AS [Profit], 
 [UserRank].[Rank] AS [Rank], 
@@ -1077,6 +1080,7 @@ FROM [dbo].[UserRank] AS [UserRank]</DefiningQuery>
             <PropertyRef Name="Wins" />
             <PropertyRef Name="Losses" />
             <PropertyRef Name="Won" />
+            <PropertyRef Name="ActualWon" />
             <PropertyRef Name="Placed" />
             <PropertyRef Name="Profit" />
             <PropertyRef Name="Rank" />
@@ -1103,6 +1107,7 @@ FROM [dbo].[UserRank] AS [UserRank]</DefiningQuery>
           <Property Name="Wins" Type="Int32" Nullable="false" />
           <Property Name="Losses" Type="Int32" Nullable="false" />
           <Property Name="Won" Type="Decimal" Nullable="false" Precision="11" Scale="2" />
+          <Property Name="ActualWon" Type="Decimal" Nullable="false" Precision="11" Scale="2" />
           <Property Name="Placed" Type="Decimal" Nullable="false" Precision="11" Scale="2" />
           <Property Name="Profit" Type="Decimal" Nullable="false" Precision="11" Scale="2" />
           <Property Name="Rank" Type="Int64" Nullable="false" />
@@ -1295,6 +1300,7 @@ FROM [dbo].[UserRank] AS [UserRank]</DefiningQuery>
                 <ScalarProperty Name="Rank" ColumnName="Rank" />
                 <ScalarProperty Name="Profit" ColumnName="Profit" />
                 <ScalarProperty Name="Placed" ColumnName="Placed" />
+                <ScalarProperty Name="ActualWon" ColumnName="ActualWon" />
                 <ScalarProperty Name="Won" ColumnName="Won" />
                 <ScalarProperty Name="Losses" ColumnName="Losses" />
                 <ScalarProperty Name="Wins" ColumnName="Wins" />

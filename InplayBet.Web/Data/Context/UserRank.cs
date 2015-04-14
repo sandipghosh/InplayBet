@@ -34,6 +34,7 @@ namespace InplayBet.Web.Data.Context
         public int Wins { get; set; }
         public int Losses { get; set; }
         public decimal Won { get; set; }
+        public decimal ActualWon { get; set; }
         public decimal Placed { get; set; }
         public decimal Profit { get; set; }
         public long Rank { get; set; }

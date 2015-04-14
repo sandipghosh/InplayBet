@@ -17,7 +17,5 @@ namespace InplayBet.Web.Data.Implementation
             :base(unitOfWork)
         {
         }
-
-        
     }
 }

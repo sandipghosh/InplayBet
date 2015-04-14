@@ -7,13 +7,9 @@ namespace InplayBet.Web.Controllers
 
     public class HowToPlayController : BaseController
     {
-        //
-        // GET: /HowToPlay/
-
         public ActionResult Index()
         {
             return View();
         }
-
     }
 }

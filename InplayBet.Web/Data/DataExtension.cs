@@ -2,14 +2,14 @@
 
 namespace InplayBet.Web.Data
 {
+    using InplayBet.Web.Data.Context;
+    using InplayBet.Web.Utilities;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
     using System.Reflection;
     using System.Text.RegularExpressions;
-    using InplayBet.Web.Data.Context;
-    using InplayBet.Web.Utilities;
 
     public static class DataExtension
     {

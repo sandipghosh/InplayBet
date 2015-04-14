@@ -2,16 +2,16 @@
 
 namespace InplayBet.Web.Areas.Admin.Controllers
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Web.Mvc;
+    using InplayBet.Web.Controllers.Base;
     using InplayBet.Web.Data.Interface;
     using InplayBet.Web.Models;
     using InplayBet.Web.Models.Base;
     using InplayBet.Web.Utilities;
     using Newtonsoft.Json;
-    using InplayBet.Web.Controllers.Base;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Web.Mvc;
 
     public class CheatReportController : BaseController
     {

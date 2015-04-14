@@ -3,7 +3,6 @@
 /// <reference path="../consolelog.min.js" />
 /// <reference path="MainScript.js" />
 
-
 (function ($, win) {
 
     this.AddCustomValidationRules = function () {
@@ -102,6 +101,23 @@
         });*/
     };
 
+    this.ShareBetToSocialMedia = function (network, data) {
+        try {
+            hello.login(network, { scope: 'publish', display: 'none' }, function () {
+                hello.api('{0}:/me/share'.format(network), 'post', data, function (r) {
+                    if (!r || r.error) {
+                        alert("Whoops! " + r.error.message);
+                    }
+                    else {
+                        alert("Your message has been published to " + network);
+                    }
+                });
+            })
+        } catch (ex) {
+            log(ex.message);
+        }
+    }
+
     this.InsertUpdateBetSuccessHandler = function (data, context) {
         try {
             var url = '{0}Bet/ShowChallengeStatusMessage?status={{0}}'.format(VirtualDirectory);
@@ -149,7 +165,7 @@
     }
 
     this.InsertUpdateBetCompleteHandler = function () {
-        if ($("#dataloading").is(':visible'))
+        if ($("#dataloading").is(':visible') && loadingCounter == 0)
             $.unblockUI();
     }
 
@@ -298,6 +314,34 @@
             log(ex.message);
         }
         return (0).formatMoney(2, $('#currencySymbol').val());
+    }
+
+    this.CashOutBet = function (challengeId) {
+        try {
+            var r = confirm("Are you sure to cash out form the current challenge?");
+            if (r == true) {
+                $.ajax({
+                    url: '{0}Bet/ChashOutBet'.format(VirtualDirectory),
+                    method: 'POST',
+                    dataType: 'json',
+                    data: { "challengeId": challengeId },
+                    success: function (result) {
+                        if (result) {
+                            if (result.status == 'success') {
+                                var url = '{0}Bet/ShowChallengeStatusMessage?status={{0}}'.format(VirtualDirectory);
+                                ShowModal(url.format('CashOut'), null, '400px',
+                                    null, null, function () { win.location.reload(); });
+                            }
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        log(textStatus);
+                    }
+                });
+            }
+        } catch (ex) {
+            log(ex.message);
+        }
     }
 
 }(jQuery, window));

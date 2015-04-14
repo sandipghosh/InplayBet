@@ -7,7 +7,8 @@ namespace InplayBet.Web.Models.Base
         Inative = 2,
         Discontinue = 3,
         Won = 4,
-        Lost = 5
+        Lost = 5,
+        CashOut = 6
     }
 
     public enum BetDisplayType
@@ -31,7 +32,7 @@ namespace InplayBet.Web.Models.Base
     }
 
     public enum SexType
-    { 
+    {
         Male,
         Female
     }

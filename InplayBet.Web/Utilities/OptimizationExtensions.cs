@@ -3,7 +3,6 @@ namespace InplayBet.Web.Utilities
 {
     using Microsoft.Ajax.Utilities;
     using System;
-    using System.Configuration;
     using System.IO;
     using System.Text;
     using System.Web;

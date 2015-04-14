@@ -2,14 +2,14 @@
 
 namespace InplayBet.Web.Controllers
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Web.Mvc;
     using InplayBet.Web.Controllers.Base;
     using InplayBet.Web.Data.Interface;
     using InplayBet.Web.Models;
     using InplayBet.Web.Models.Base;
     using InplayBet.Web.Utilities;
+    using System;
+    using System.Collections.Generic;
+    using System.Web.Mvc;
 
     public class ContactUsController : BaseController
     {

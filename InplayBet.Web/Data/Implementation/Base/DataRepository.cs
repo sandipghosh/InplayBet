@@ -2,6 +2,12 @@
 namespace InplayBet.Web.Data.Implementation.Base
 {
     #region Required Namespace(s)
+    using AutoMapper;
+    using AutoMapper.QueryableExtensions;
+    using InplayBet.Web.Data.Context;
+    using InplayBet.Web.Data.Interface.Base;
+    using InplayBet.Web.Models.Base;
+    using InplayBet.Web.Utilities;
     using System;
     using System.Collections.Generic;
     using System.Data.Entity;
@@ -9,12 +15,6 @@ namespace InplayBet.Web.Data.Implementation.Base
     using System.Data.Entity.Infrastructure;
     using System.Linq;
     using System.Linq.Expressions;
-    using AutoMapper;
-    using AutoMapper.QueryableExtensions;
-    using InplayBet.Web.Data.Context;
-    using InplayBet.Web.Data.Interface.Base;
-    using InplayBet.Web.Models.Base;
-    using InplayBet.Web.Utilities;
     #endregion
 
     /// <summary>

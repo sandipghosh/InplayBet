@@ -2,11 +2,11 @@
 namespace InplayBet.Web.Data.Interface.Base
 {
     #region Required Namespace(s)
+    using InplayBet.Web.Data.Context;
     using System.Data.Entity;
     using System.Data.Entity.Core.Metadata.Edm;
     using System.Data.Entity.Core.Objects;
     using System.Data.Entity.Infrastructure;
-    using InplayBet.Web.Data.Context;
     #endregion
 
     /// <summary>
