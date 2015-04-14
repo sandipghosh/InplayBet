@@ -337,10 +337,11 @@ namespace InplayBet.Web.Controllers
                 ChallengeModel challenge = this._challengeDataRepository.Get(challengeId);
                 if (challenge != null)
                 {
+                    decimal lastWinningAmount = challenge.Bets.ToList().MaxBy(x => x.BetId).WiningTotal;
                     challenge.UpdatedBy = challenge.CreatedBy;
                     challenge.UpdatedOn = DateTime.Now;
                     challenge.ChallengeStatus = StatusCode.CashOut.ToString();
-                    challenge.WiningPrice = challenge.Bets.Sum(x => x.WiningTotal);
+                    challenge.WiningPrice = lastWinningAmount;
 
                     this._challengeDataRepository.Update(challenge);
                     return Json(new { status = "success" }, JsonRequestBehavior.AllowGet);
