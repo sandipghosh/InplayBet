@@ -36,7 +36,7 @@
                         <p class="bookmarker">
                             <a href='@Url.Action("Update", "RegisterUser", new { userKey = Model.UserKey })'
                                class="edit-link" title="Edit Account">Edit Profile</a>
-                            <a href="javascript:ResetUserAccount('@((Url.Action("ResetAccount","MemberProfile",new{area="", userKey = Model.UserKey})).ToBase64Encode())')"
+                            <a href="javascript:ResetUserAccount('@((Url.Action("ResetAccount","MemberProfile",new{area = "", userKey = Model.UserKey, userId = Model.UserId})).ToBase64Encode())')"
                                class="reset-link" title="Reset Account">Reset Challenges</a>
                         </p>
                     }

@@ -65,6 +65,9 @@ namespace InplayBet.Web.Controllers
                             .GetList(y => y.UserKey.Equals(x.UserKey))
                             .ToList().FirstOrDefaultCustom()
                     }).ToList();
+
+                    if (winners.Any(x => x.User == null || x.WonChallenge == null))
+                        winners = new List<WinnerViewModel>();
                 }
             }
             catch (Exception ex)

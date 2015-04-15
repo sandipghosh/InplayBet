@@ -119,7 +119,7 @@ namespace InplayBet.Web.Controllers
         /// <returns></returns>
         [AcceptVerbs(HttpVerbs.Get),
         OutputCache(NoStore = true, Duration = 0, VaryByHeader = "*")]
-        public ActionResult ResetAccount(int userKey)
+        public ActionResult ResetAccount(int userKey, string userId)
         {
             try
             {
@@ -129,7 +129,7 @@ namespace InplayBet.Web.Controllers
             {
                 ex.ExceptionValueTracker(userKey);
             }
-            return RedirectToActionPermanent("Index");
+            return RedirectToActionPermanent("MyProfile", new { userId = userId });
         }
 
     }
