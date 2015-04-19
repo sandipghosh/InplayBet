@@ -7,14 +7,14 @@
 @{Html.RenderPartial("_PageTitle", new ViewDataDictionary { { "Caption", "Latest Bets" } });}
 <div class="main-container">
     <div class="container">
-        <div class="mp-block">
+        <div class="mp-block" style="display: flex;-ms-flex-direction: row;flex-direction: row;-ms-flex-wrap: wrap;flex-wrap: wrap;">
             @{Html.RenderPartial("_RecentBets", Model);}
             <div class="sh-bnr-l"><img src='@Url.Content("~/Styles/images/sh-bnr1.jpg")' alt="" /></div>
-			<div class="sh-bnr-r"><img src='@Url.Content("~/Styles/images/sh-bnr2.jpg")' alt="" /></div>
-			<div class="sh-bnr-l"><img src='@Url.Content("~/Styles/images/sh-bnr3.jpg")' alt="" /></div>
-			<div class="sh-bnr-r"><img src='@Url.Content("~/Styles/images/sh-bnr4.jpg")' alt="" /></div>
-			<div class="sh-bnr-l"><img src='@Url.Content("~/Styles/images/sh-bnr5.jpg")' alt="" /></div>
-			<div class="sh-bnr-r"><img src='@Url.Content("~/Styles/images/sh-bnr6.jpg")' alt="" /></div>
+            <div class="sh-bnr-r"><img src='@Url.Content("~/Styles/images/sh-bnr2.jpg")' alt="" /></div>
+            <div class="sh-bnr-l"><img src='@Url.Content("~/Styles/images/sh-bnr3.jpg")' alt="" /></div>
+            <div class="sh-bnr-r"><img src='@Url.Content("~/Styles/images/sh-bnr4.jpg")' alt="" /></div>
+            <div class="sh-bnr-l"><img src='@Url.Content("~/Styles/images/sh-bnr5.jpg")' alt="" /></div>
+            <div class="sh-bnr-r"><img src='@Url.Content("~/Styles/images/sh-bnr6.jpg")' alt="" /></div>
         </div>
     </div>
 </div>
