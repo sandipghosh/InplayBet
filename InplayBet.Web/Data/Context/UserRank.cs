@@ -17,6 +17,7 @@ namespace InplayBet.Web.Data.Context
         public int UserKey { get; set; }
         public string UserId { get; set; }
         public string UserName { get; set; }
+        public string EmailId { get; set; }
         public string Address { get; set; }
         public string AvatarPath { get; set; }
         public System.DateTime MemberSince { get; set; }

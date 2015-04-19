@@ -66,8 +66,7 @@ namespace InplayBet.Web.Controllers
                             .ToList().FirstOrDefaultCustom()
                     }).ToList();
 
-                    if (winners.Any(x => x.User == null || x.WonChallenge == null))
-                        winners = new List<WinnerViewModel>();
+                    winners.RemoveAll(x => x.User == null || x.WonChallenge == null);
                 }
             }
             catch (Exception ex)
@@ -76,6 +75,5 @@ namespace InplayBet.Web.Controllers
             }
             return View(winners);
         }
-
     }
 }

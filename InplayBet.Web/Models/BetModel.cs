@@ -44,6 +44,8 @@ namespace InplayBet.Web.Models
         public virtual TeamModel TeamB { get; set; }
 
         public string UserId { get; set; }
+
+        public int ChallengeNumber { get; set; }
         public string BetInfoUrl
         {
             get

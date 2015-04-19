@@ -136,7 +136,7 @@
             <PropertyRef Name="TeamId" />
           </Key>
           <Property Name="TeamId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="TeamName" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="TeamName" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="StatusId" Type="int" Nullable="false" />
           <Property Name="CreatedBy" Type="int" Nullable="false" />
           <Property Name="CreatedOn" Type="datetime" Nullable="false" />
@@ -167,12 +167,13 @@
           <Property Name="Address" Type="nvarchar" MaxLength="500" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'InplayBet.dbo.UserRank' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'InplayServerCopy.dbo.UserRank' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="UserRank">
           <Key>
             <PropertyRef Name="UserKey" />
             <PropertyRef Name="UserId" />
             <PropertyRef Name="UserName" />
+            <PropertyRef Name="EmailId" />
             <PropertyRef Name="Address" />
             <PropertyRef Name="AvatarPath" />
             <PropertyRef Name="MemberSince" />
@@ -200,6 +201,7 @@ warning 6002: The table/view 'InplayBet.dbo.UserRank' does not have a primary ke
           <Property Name="UserKey" Type="int" Nullable="false" />
           <Property Name="UserId" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="UserName" Type="nvarchar" MaxLength="101" Nullable="false" />
+          <Property Name="EmailId" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Address" Type="nvarchar" MaxLength="500" Nullable="false" />
           <Property Name="AvatarPath" Type="nvarchar" MaxLength="500" Nullable="false" />
           <Property Name="MemberSince" Type="datetime" Nullable="false" />
@@ -457,6 +459,7 @@ warning 6002: The table/view 'InplayBet.dbo.UserRank' does not have a primary ke
 [UserRank].[UserKey] AS [UserKey], 
 [UserRank].[UserId] AS [UserId], 
 [UserRank].[UserName] AS [UserName], 
+[UserRank].[EmailId] AS [EmailId], 
 [UserRank].[Address] AS [Address], 
 [UserRank].[AvatarPath] AS [AvatarPath], 
 [UserRank].[MemberSince] AS [MemberSince], 
@@ -761,7 +764,7 @@ FROM [dbo].[UserRank] AS [UserRank]</DefiningQuery>
             <PropertyRef Name="TeamId" />
           </Key>
           <Property Name="TeamId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TeamName" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="TeamName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="StatusId" Type="Int32" Nullable="false" />
           <Property Name="CreatedBy" Type="Int32" Nullable="false" />
           <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
@@ -1063,6 +1066,7 @@ FROM [dbo].[UserRank] AS [UserRank]</DefiningQuery>
             <PropertyRef Name="UserKey" />
             <PropertyRef Name="UserId" />
             <PropertyRef Name="UserName" />
+            <PropertyRef Name="EmailId" />
             <PropertyRef Name="Address" />
             <PropertyRef Name="AvatarPath" />
             <PropertyRef Name="MemberSince" />
@@ -1090,6 +1094,7 @@ FROM [dbo].[UserRank] AS [UserRank]</DefiningQuery>
           <Property Name="UserKey" Type="Int32" Nullable="false" />
           <Property Name="UserId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="UserName" Type="String" Nullable="false" MaxLength="101" FixedLength="false" Unicode="true" />
+          <Property Name="EmailId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Address" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="AvatarPath" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="MemberSince" Type="DateTime" Nullable="false" Precision="3" />
@@ -1318,6 +1323,7 @@ FROM [dbo].[UserRank] AS [UserRank]</DefiningQuery>
                 <ScalarProperty Name="MemberSince" ColumnName="MemberSince" />
                 <ScalarProperty Name="AvatarPath" ColumnName="AvatarPath" />
                 <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="EmailId" ColumnName="EmailId" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="UserKey" ColumnName="UserKey" />

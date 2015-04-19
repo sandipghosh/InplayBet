@@ -63,6 +63,30 @@ namespace InplayBet.Web
         }
 
         /// <summary>
+        /// Handles the Start event of the Session control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        protected void Session_Start(object sender, EventArgs e)
+        {
+            // event is raised each time a new session is created
+            //CommonUtility.LogToFileWithStack(string.Format("New session has been started, Session ID {0}",
+            //    this.Session.SessionID.AsString()));
+        }
+
+        /// <summary>
+        /// Handles the End event of the Session control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        protected void Session_End(object sender, EventArgs e)
+        {
+            // event is raised when a session is abandoned or expires
+            //CommonUtility.LogToFileWithStack(string.Format("Current session has been expired, Session ID {0}",
+            //    this.Session.SessionID.AsString()));
+        }
+
+        /// <summary>
         /// Handles the Error event of the Application control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>

@@ -13,6 +13,8 @@ namespace InplayBet.Web.Models
         public string UserId { get; set; }
         [Display(Name = "Name")]
         public string UserName { get; set; }
+        [Display(Name = "Email")]
+        public string EmailId { get; set; }
         public string Address { get; set; }
         public string AvatarPath { get; set; }
         [Display(Name = "Date Joined")]

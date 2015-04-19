@@ -10,6 +10,8 @@ namespace InplayBet.Web.Controllers
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading;
+    using System.Threading.Tasks;
     using System.Web;
     using System.Web.Mvc;
 
@@ -215,52 +217,54 @@ namespace InplayBet.Web.Controllers
         {
             try
             {
-                int userKey = bet.Challenge.UserKey;
-                UserModel user = this._userDataRepository.Get(userKey);
-                if (user != null)
-                    bet.UserId = user.UserId;
+                //int userKey = bet.Challenge.UserKey;
+                //UserModel user = this._userDataRepository.Get(userKey);
+                //if (user != null)
+                //    bet.UserId = user.UserId;
 
-                Action<BetModel> processTeamAndLegue = (b) =>
-                {
-                    var context = ControllerContext.HttpContext.Request;
-                    b.TeamAId = InsertTeam(b, "a", context);
-                    b.TeamBId = InsertTeam(b, "b", context);
-                    b.LegueId = InsertLegue(b, context);
-                };
+                //Action<BetModel> processTeamAndLegue = (b) =>
+                //{
+                //    var context = ControllerContext.HttpContext.Request;
+                //    b.TeamAId = InsertTeam(b, "a", context);
+                //    b.TeamBId = InsertTeam(b, "b", context);
+                //    b.LegueId = InsertLegue(b, context);
+                //};
 
-                if (bet.ChallengeId == 0)
-                {
-                    //using (var transaction = this.unitOfWork.BeginTransaction())
-                    //{
-                    ChallengeModel challenge = bet.Challenge;
-                    challenge.ChallengeStatus = challenge.ChallengeStatus.AsString();
-                    challenge.CreatedOn = DateTime.Now;
-                    this._challengeDataRepository.Insert(challenge);
+                //if (bet.ChallengeId == 0)
+                //{
+                //    //using (var transaction = this.unitOfWork.BeginTransaction())
+                //    //{
+                //    ChallengeModel challenge = bet.Challenge;
+                //    challenge.ChallengeStatus = challenge.ChallengeStatus.AsString();
+                //    challenge.CreatedOn = DateTime.Now;
+                //    this._challengeDataRepository.Insert(challenge);
 
-                    bet.ChallengeId = challenge.ChallengeId;
-                    bet.BetStatus = bet.BetStatus.AsString();
-                    bet.CreatedOn = DateTime.Now;
-                    bet.Challenge = null;
+                //    bet.ChallengeId = challenge.ChallengeId;
+                //    bet.BetStatus = bet.BetStatus.AsString();
+                //    bet.CreatedOn = DateTime.Now;
+                //    bet.Challenge = null;
 
-                    processTeamAndLegue(bet);
+                //    processTeamAndLegue(bet);
 
-                    this._betDataRepository.Insert(bet);
-                    //    if (bet.BetId == 0) transaction.Rollback(); else transaction.Commit();
-                    //}
-                }
-                else
-                {
-                    bet.BetStatus = bet.BetStatus.AsString();
-                    bet.Challenge = null;
-                    processTeamAndLegue(bet);
-                    this._betDataRepository.Insert(bet);
-                }
+                //    this._betDataRepository.Insert(bet);
+                //    //    if (bet.BetId == 0) transaction.Rollback(); else transaction.Commit();
+                //    //}
+                //}
+                //else
+                //{
+                //    bet.BetStatus = bet.BetStatus.AsString();
+                //    bet.Challenge = null;
+                //    processTeamAndLegue(bet);
+                //    this._betDataRepository.Insert(bet);
+                //}
+
+                bet = this._betDataRepository.InsertBet(bet);
 
                 if (bet.BetId > 0)
                 {
                     try
                     {
-                        BetSubmitNotification(userKey, bet);
+                        this.BetSubmitNotification(bet.CreatedBy, bet);
                     }
                     catch (Exception) { }
                 }
@@ -287,34 +291,36 @@ namespace InplayBet.Web.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    Func<BetModel, ChallengeModel> getCurrentChallenge = (b) =>
-                    {
-                        if ((b.WiningTotal >= CommonUtility.GetConfigData<decimal>("WiningBetAmount")
-                            && b.BetStatus == StatusCode.Won.ToString()) || b.BetStatus == StatusCode.Lost.ToString())
-                        {
-                            int chellangeId = b.ChallengeId;
-                            return this._challengeDataRepository.Get(chellangeId);
-                        }
-                        return null;
-                    };
-                    ChallengeModel challenge = getCurrentChallenge(bet);
-
-                    //using (var transaction = this.unitOfWork.BeginTransaction())
+                    //Func<BetModel, ChallengeModel> getCurrentChallenge = (b) =>
                     //{
-                    bet.UpdatedOn = DateTime.Now;
-                    bet.UpdatedBy = bet.CreatedBy;
-                    this._betDataRepository.Update(bet);
+                    //    if ((b.WiningTotal >= CommonUtility.GetConfigData<decimal>("WiningBetAmount")
+                    //        && b.BetStatus == StatusCode.Won.ToString()) || b.BetStatus == StatusCode.Lost.ToString())
+                    //    {
+                    //        int chellangeId = b.ChallengeId;
+                    //        return this._challengeDataRepository.Get(chellangeId);
+                    //    }
+                    //    return null;
+                    //};
+                    //ChallengeModel challenge = getCurrentChallenge(bet);
 
-                    if (challenge != null)
-                    {
-                        challenge.UpdatedBy = challenge.CreatedBy;
-                        challenge.UpdatedOn = DateTime.Now;
-                        challenge.ChallengeStatus = bet.BetStatus;
-                        challenge.WiningPrice = (bet.BetStatus == StatusCode.Lost.ToString()) ?
-                            ((CommonUtility.GetConfigData<decimal>("StartingBetAmount")) * (-1)) : bet.WiningTotal;
+                    ////using (var transaction = this.unitOfWork.BeginTransaction())
+                    ////{
+                    //bet.UpdatedOn = DateTime.Now;
+                    //bet.UpdatedBy = bet.CreatedBy;
+                    //this._betDataRepository.Update(bet);
 
-                        this._challengeDataRepository.Update(challenge);
-                    }
+                    //if (challenge != null)
+                    //{
+                    //    challenge.UpdatedBy = challenge.CreatedBy;
+                    //    challenge.UpdatedOn = DateTime.Now;
+                    //    challenge.ChallengeStatus = bet.BetStatus;
+                    //    challenge.WiningPrice = (bet.BetStatus == StatusCode.Lost.ToString()) ?
+                    //        ((CommonUtility.GetConfigData<decimal>("StartingBetAmount")) * (-1)) : bet.WiningTotal;
+
+                    //    this._challengeDataRepository.Update(challenge);
+                    //}
+
+                    bet = this._betDataRepository.UpdateBet(bet);
 
                     //transaction.Commit();
                     return new JsonActionResult(bet);
@@ -650,7 +656,9 @@ namespace InplayBet.Web.Controllers
                 };
                 int consicutiveWonBets = this._betDataRepository.GetConsicutiveBetWins(userKey);
                 string mailContent = CommonUtility.RenderViewToString("_BetSubmissionMailNotification", betViewModel,
-                    this, new Dictionary<string, object>() { { "ConsicutiveWonBets", consicutiveWonBets } });
+                    this, new Dictionary<string, object>() { 
+                    { "ConsicutiveWonBets", consicutiveWonBets },
+                    { "ProfileUrl", Url.Action("ViewProfile", "MemberProfile", new { userId = betViewModel.User.UserId }, this.Request.Url.Scheme) }});
 
                 SharedFunctionality shared = new SharedFunctionality();
                 var followerUsers = shared.GetFollowerUsers(userKey);

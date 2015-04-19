@@ -36,6 +36,7 @@ namespace InplayBet.Web.Controllers
         {
             try
             {
+                Session["Test"] = "Test";
                 List<UserRankViewModel> user = new List<UserRankViewModel>();
                 int loggedInUser = SessionVeriables.GetSessionData<int>(SessionVeriables.UserKey);
 

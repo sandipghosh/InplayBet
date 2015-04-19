@@ -51,6 +51,11 @@
     <script type="text/javascript" src='@Url.Action("AppConfigData", "Base", new { area=""})'></script>
 </head>
 <body>
+    @*<div style="color:#fff">
+        @Session["Test"].AsString()
+        <br/>
+        @Session.SessionID.AsString()
+    </div>*@
     @Html.Partial("_SimpleMessage")
     <div class="loading-overlay">
         <img src="@Url.Content("~/Styles/Images/loadingAnimation.gif")" alt="Loading ..." />

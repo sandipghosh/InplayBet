@@ -8,5 +8,9 @@ namespace InplayBet.Web.Data.Interface
     public interface IBetDataRepository : IRepository<BetModel>
     {
         int GetConsicutiveBetWins(int userId);
+
+        BetModel InsertBet(BetModel bet);
+
+        BetModel UpdateBet(BetModel bet);
     }
 }

@@ -82,6 +82,7 @@ namespace InplayBet.Web.Areas.Admin.Controllers
                             x.UserId,
                             x.MemberSince,
                             x.UserName,
+                            x.EmailId,
                             x.Address,
                             Sex = (x.Sex == "M") ? SexType.Male.ToString() : SexType.Female.ToString(),
                             x.BookMakerName,
@@ -161,6 +162,26 @@ namespace InplayBet.Web.Areas.Admin.Controllers
                 columnModel.Add(new colModel()
                 {
                     name = CommonUtility.GetDisplayName((UserRankViewModel x) => x.UserName),
+                    align = Align.left.ToString(),
+                    width = 50,
+                    searchoptions = new SearchOptions
+                    {
+                        sopt = new string[] 
+                        {
+                            SearchOperator.eq.ToString(), 
+                            SearchOperator.ne.ToString(),
+                            SearchOperator.bw.ToString(),
+                            SearchOperator.bn.ToString(),
+                            SearchOperator.cn.ToString(),
+                            SearchOperator.nc.ToString(),
+                            SearchOperator.ew.ToString(),
+                            SearchOperator.en.ToString(),
+                        }
+                    }
+                });
+                columnModel.Add(new colModel()
+                {
+                    name = CommonUtility.GetDisplayName((UserRankViewModel x) => x.EmailId),
                     align = Align.left.ToString(),
                     width = 50,
                     searchoptions = new SearchOptions
@@ -311,6 +332,7 @@ namespace InplayBet.Web.Areas.Admin.Controllers
                 labels.Add(CommonUtility.GetDisplayName((UserRankViewModel x) => x.UserId, true));
                 labels.Add(CommonUtility.GetDisplayName((UserRankViewModel x) => x.MemberSince, true));
                 labels.Add(CommonUtility.GetDisplayName((UserRankViewModel x) => x.UserName, true));
+                labels.Add(CommonUtility.GetDisplayName((UserRankViewModel x) => x.EmailId, true));
                 labels.Add(CommonUtility.GetDisplayName((UserRankViewModel x) => x.Address, true));
                 labels.Add(CommonUtility.GetDisplayName((UserRankViewModel x) => x.Sex, true));
                 labels.Add(CommonUtility.GetDisplayName((UserRankViewModel x) => x.BookMakerName, true));

@@ -2,6 +2,28 @@
     ViewBag.Title = "How TO Play";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@section PageStyle{
+    <style type="text/css">
+        .videowrapper {
+            float: none;
+            clear: both;
+            width: 100%;
+            position: relative;
+            padding-bottom: 56.25%;
+            padding-top: 25px;
+            height: 0;
+            margin-bottom: 10px;
+        }
+
+            .videowrapper iframe {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+            }
+    </style>
+}
 @{Html.RenderPartial("_PageTitle", new ViewDataDictionary { { "Caption", "How TO Play" } });}
 <div class="main-container">
     <div class="container">
@@ -36,6 +58,15 @@
         <h3 class="sub-heading">Not wanting to complete the challenge</h3>
         <p>If you don't want to play our challenge then our system can be used another way. It allows you to follow other people trying the challenge. This can give you valuable inplay tips and our latest bets page shows all the current inplay bets in order. It provides a great tipping service for your own inplay bets.</p>
         <p>Once you are following a certain member, our system will track their bets for you and then email you once they place their latest bet. This then allows you to keep up to date on their latest inplay bets.</p>
+        <h3 class="sub-heading">Step by step guides</h3>
+        <div class="videowrapper">
+            @*<video controls="controls" autoplay="autoplay" width="100%" height="400">
+                <source type="video/mp4" src='@Url.Action("GetVideo", "Base", new { area = "", fileType = @"video/mp4" })' />
+                <source type="video/webm" src='@Url.Action("GetVideo", "Base", new { area = "", fileType = @"video/webm" })' />
+                <source type="video/ogg" src='@Url.Action("GetVideo", "Base", new { area = "", fileType = @"video/ogg" })' />
+            </video>*@
+            <iframe src="https://www.youtube.com/embed/xaKn370HQhk" frameborder="0" allowfullscreen></iframe>
+        </div>
         <div class="step-box">
             <h2>Step 1</h2>
             <div class="img"><img src='@Url.Content("~/Styles/images/step1.jpg")' alt="" /></div>
@@ -102,13 +133,14 @@
                 Winning the challenge is not an easy feat. Have a go today and see if you can master the inplay bets.
             </p>
         </div>
-        <div class="video">
+        @*<div class="videowrapper">
             <video controls="controls" autoplay="autoplay" width="100%" height="400">
-                <source type="video/mp4" src='@Url.Action("GetVideo", "Base", new { area = "", fileType = @"video/mp4" })' />
-                <source type="video/webm" src='@Url.Action("GetVideo", "Base", new { area = "", fileType = @"video/webm" })' />
-                <source type="video/ogg" src='@Url.Action("GetVideo", "Base", new { area = "", fileType = @"video/ogg" })' />
-            </video>
-        </div>
+                    <source type="video/mp4" src='@Url.Action("GetVideo", "Base", new { area = "", fileType = @"video/mp4" })' />
+                    <source type="video/webm" src='@Url.Action("GetVideo", "Base", new { area = "", fileType = @"video/webm" })' />
+                    <source type="video/ogg" src='@Url.Action("GetVideo", "Base", new { area = "", fileType = @"video/ogg" })' />
+                </video>
+            <iframe src="https://www.youtube.com/embed/xaKn370HQhk" frameborder="0" allowfullscreen></iframe>
+        </div>*@
         <div class="sh-bnr-l"><img src='@Url.Content("~/Styles/images/sh-bnr1.jpg")' alt="" /></div>
         <div class="sh-bnr-r"><img src='@Url.Content("~/Styles/images/sh-bnr2.jpg")' alt="" /></div>
         <div class="sh-bnr-l"><img src='@Url.Content("~/Styles/images/sh-bnr3.jpg")' alt="" /></div>

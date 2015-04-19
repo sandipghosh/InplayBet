@@ -420,7 +420,8 @@ namespace InplayBet.Web.Controllers
             try
             {
                 string emailId = user.EmailId;
-                return this._userDataRepository.Exists(x => x.EmailId.Equals(emailId));
+                return this._userDataRepository.Exists(x => x.EmailId.Equals(emailId) 
+                    && x.StatusId.Equals((int)StatusCode.Active));
             }
             catch (Exception ex)
             {
@@ -439,7 +440,8 @@ namespace InplayBet.Web.Controllers
             try
             {
                 string userId = user.UserId;
-                return this._userDataRepository.Exists(x => x.EmailId.Equals(userId));
+                return this._userDataRepository.Exists(x => x.EmailId.Equals(userId)
+                    && x.StatusId.Equals((int)StatusCode.Active));
             }
             catch (Exception ex)
             {
