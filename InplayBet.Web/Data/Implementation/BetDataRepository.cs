@@ -56,28 +56,33 @@ namespace InplayBet.Web.Data.Implementation
         {
             try
             {
-                IQueryDataRepository query = new QueryDataRepository<InplayBetDBEntities>();
-                SqlParameter[] param = new SqlParameter[]
+                if (bet.Challenge != null)
                 {
-                    new SqlParameter("@BetId", bet.BetId),
-                    new SqlParameter("@BetNumber", bet.BetNumber),
-                    new SqlParameter("@TeamAName", bet.TeamAName),
-                    new SqlParameter("@TeamBName", bet.TeamBName),
-                    new SqlParameter("@LegueName", bet.LegueName),
-                    new SqlParameter("@ChallengeId", bet.ChallengeId),
-	                new SqlParameter("@ChallengeNumber", bet.ChallengeNumber),
-                    new SqlParameter("@BetType", bet.BetType),
-                    new SqlParameter("@Odds", bet.Odds),
-                    new SqlParameter("@BetPlaced", bet.BetPlaced),
-                    new SqlParameter("@WiningTotal", bet.WiningTotal),
-                    new SqlParameter("@LoosingTotal", bet.LoosingTotal),
-                    new SqlParameter("@BetStatus", bet.BetStatus.AsString()),
-                    new SqlParameter("@StatusId", bet.StatusId),
-                    new SqlParameter("@CreatedBy", bet.CreatedBy)
-                };
-                var result = query.ExecuteQuery<BetModel>("EXEC InsertBet @BetId, @BetNumber, @TeamAName, @TeamBName, @LegueName, @ChallengeId, @ChallengeNumber, @BetType, @Odds, @BetPlaced, @WiningTotal, @LoosingTotal, @BetStatus, @StatusId, @CreatedBy", param);
-                var newBet = result.FirstOrDefault();
-                return newBet;
+                    IQueryDataRepository query = new QueryDataRepository<InplayBetDBEntities>();
+                    SqlParameter[] param = new SqlParameter[]
+                    {
+                        new SqlParameter("@BetId", bet.BetId),
+                        new SqlParameter("@BetNumber", bet.BetNumber),
+                        new SqlParameter("@TeamAName", bet.TeamAName),
+                        new SqlParameter("@TeamBName", bet.TeamBName),
+                        new SqlParameter("@LegueName", bet.LegueName),
+                        new SqlParameter("@ChallengeId", bet.ChallengeId),
+	                    new SqlParameter("@ChallengeNumber", bet.Challenge.ChallengeNumber),
+                        new SqlParameter("@BetType", bet.BetType),
+                        new SqlParameter("@Odds", bet.Odds),
+                        new SqlParameter("@BetPlaced", bet.BetPlaced),
+                        new SqlParameter("@WiningTotal", bet.WiningTotal),
+                        new SqlParameter("@LoosingTotal", bet.LoosingTotal),
+                        new SqlParameter("@BetStatus", bet.BetStatus.AsString()),
+                        new SqlParameter("@StatusId", bet.StatusId),
+                        new SqlParameter("@CreatedBy", bet.CreatedBy)
+                    };
+                    var result = query.ExecuteQuery<BetModel>("EXEC InsertBet @BetId, @BetNumber, @TeamAName, @TeamBName, @LegueName, @ChallengeId, @ChallengeNumber, @BetType, @Odds, @BetPlaced, @WiningTotal, @LoosingTotal, @BetStatus, @StatusId, @CreatedBy", param);
+                    var newBet = result.FirstOrDefault();
+                    return newBet;
+                }
+                else
+                    return bet;
             }
             catch (Exception ex)
             {

@@ -17,6 +17,31 @@
         }
     });
 
+    this.SetPositionIndex = function (currentPage, pageItemCount) {
+        try {
+            $('.position').each(function (index, element) {
+                var startingPos = (currentPage == 1) ? 1 : ((pageItemCount * (currentPage - 1)) + 1);
+                var position = (index + startingPos);
+
+                switch (position) {
+                    case 1:
+                        $(element).text(position + 'st');
+                        break;
+                    case 2:
+                        $(element).text(position + 'nd');
+                        break;
+                    case 3:
+                        $(element).text(position + 'rd');
+                        break;
+                    default:
+                        $(element).text(position + 'th');
+                        break;
+                }
+            });
+        }
+        catch (ex) { log(ex.message); }
+    }
+
     this.PagerInitialization = function (pageSize, totalRecord) {
         try {
             $('.rank-pagger').pagination({
@@ -27,7 +52,7 @@
                     SearchMember(pageNumber, orderByStr);
                 },
                 onInit: function () {
-                    PagerAfterInitiation(pageSize);
+                    //PagerAfterInitiation(pageSize);
                 }
             });
         } catch (ex) {
@@ -48,6 +73,7 @@
                         ImageError();
                         SetFollowingImage();
                         $('.rank-pagger').pagination('updateItems', parseInt($(result).filter('#extTotalRecord').val()));
+                        SetPositionIndex(parseInt($('.rank-pagger').pagination('getCurrentPage')), parseInt($('#PageSize').val()));
                     }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
@@ -97,7 +123,7 @@
         try {
             var $listContainer = $('<li></li>')
             var $list = $('<select class="itemCount">');
-            var $items = [10, 20, 50, 100];
+            var $items = [10, 20, 30, 50, 100];
             $.each($items, function (index, item) {
                 $list.append(new Option(item, item, (selectedOption == item)));
             });
