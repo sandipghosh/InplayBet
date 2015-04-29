@@ -62,13 +62,13 @@ namespace InplayBet.Web.Areas.Admin.Controllers
                         var searchCriteria = CommonUtility.GetLamdaExpressionFromFilter<UserRankViewModel>(criteria);
                         totalRecords = this._userRankDataRepository.GetCountCompiled(searchCriteria);
                         users = this._userRankDataRepository.GetListCompiled(requestSearchData.page,
-                            requestSearchData.rows, searchCriteria, x => x.UserId, false).ToList();
+                            requestSearchData.rows, searchCriteria, x => x.MemberSince, false).ToList();
                     }
                     else
                     {
                         totalRecords = this._userRankDataRepository.GetCount();
                         users = this._userRankDataRepository.GetList(requestSearchData.page, requestSearchData.rows,
-                            null, x => x.UserId, false).ToList();
+                            null, x => x.MemberSince, false).ToList();
                     }
 
                     return new JsonActionResult(new GridDataModel()
