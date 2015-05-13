@@ -202,7 +202,22 @@ namespace InplayBet.Web.Utilities
         {
             if (CommonUtility.GetConfigData<bool>("MAIL_ENABLE"))
             {
-                System.Threading.Tasks.Parallel.ForEach(mailIds, x =>
+                Bulkmailer bulkMailer = new Bulkmailer
+                {
+                    ToList = mailIds,
+                    Subject = subjects
+                };
+                try
+                {
+                    bulkMailer.StartEmailRun(content);
+                }
+                catch (Exception ex)
+                {
+                    bulkMailer.CancelEmailRun();
+                    ex.ExceptionValueTracker(mailIds, content, subjects);
+                }
+
+                /*System.Threading.Tasks.Parallel.ForEach(mailIds, x =>
                     {
                         EmailSender email = new EmailSender
                         {
@@ -212,7 +227,7 @@ namespace InplayBet.Web.Utilities
                             Subject = subjects
                         };
                         email.SendMail(content);
-                    });
+                    });*/
             }
         }
 

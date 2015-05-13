@@ -336,6 +336,7 @@
     <Compile Include="Models\UserRankViewModel.cs" />
     <Compile Include="Models\WinnerViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\Bulkmailer.cs" />
     <Compile Include="Utilities\CommonUtility.cs" />
     <Compile Include="Utilities\EmailSender.cs" />
     <Compile Include="Utilities\Expression\ExpressionBuilder.cs" />

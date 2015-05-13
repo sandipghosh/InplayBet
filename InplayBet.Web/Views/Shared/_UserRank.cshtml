@@ -34,7 +34,7 @@
 }
 @Html.Hidden("extTotalRecord", totalRecord, new { id = "extTotalRecord" })
 @Html.Hidden("extPageSize", pageSize, new { id = "extPageSize" })
-<ul class="leadbroad-block">
+<ul class=" leadbroad-block" style="display: flex;-ms-flex-direction: row;flex-direction: row;-ms-flex-wrap: wrap;flex-wrap: wrap;">
     @foreach (UserRankViewModel user in Model)
     {
         var id = Model.IndexOf(user);
