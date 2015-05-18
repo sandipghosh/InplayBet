@@ -90,15 +90,18 @@
     var GetSearchDataFilter = function (pageIndex, orderby) {
         try {
             var url = $('#PagingUrl').val();
+            var filter = '';
             var rangeData = $("#betRange").data('ionRangeSlider');
-            var filter = ($('#UserIdSearch').val() != '') ?
-                'UserId.StartsWithSearchEx("{0}")'.format($('#UserIdSearch').val()) : '';
 
-            if (filter != '')
-                filter = Base64Encode('{0} and (TotalBets >= {1} and TotalBets <= {2})'.format(filter, rangeData.old_from, rangeData.old_to));
-            else
-                filter = Base64Encode('(TotalBets >= {0} and TotalBets <= {1})'.format(rangeData.old_from, rangeData.old_to));
+            if (typeof rangeData != 'undefined') {
+                filter = ($('#UserIdSearch').val() != '') ?
+                    'UserId.StartsWithSearchEx("{0}")'.format($('#UserIdSearch').val()) : '';
 
+                if (filter != '')
+                    filter = Base64Encode('{0} and (TotalBets >= {1} and TotalBets <= {2})'.format(filter, rangeData.old_from, rangeData.old_to));
+                else
+                    filter = Base64Encode('(TotalBets >= {0} and TotalBets <= {1})'.format(rangeData.old_from, rangeData.old_to));
+            }
 
             if (url.contains("GetRankByPage")) {
                 return {

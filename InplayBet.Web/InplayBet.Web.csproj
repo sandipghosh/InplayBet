@@ -74,6 +74,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="RestSharp">
+      <HintPath>..\packages\RestSharp.105.1.0\lib\net4\RestSharp.dll</HintPath>
+    </Reference>
     <Reference Include="SimpleInjector">
       <HintPath>..\packages\SimpleInjector.2.7.2\lib\net40-client\SimpleInjector.dll</HintPath>
     </Reference>
@@ -363,6 +366,8 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Content Include="apple-touch-icon-precomposed.png" />
+    <Content Include="apple-touch-icon.png" />
     <Content Include="Areas\Admin\Scripts\AdminScript.js" />
     <Content Include="Areas\Admin\Scripts\grid-intregration.js" />
     <Content Include="Areas\Admin\Scripts\grid.locale-en.js" />
@@ -381,6 +386,7 @@
     <Content Include="Areas\Admin\Styles\Images\TestimonialManager.png" />
     <Content Include="Areas\Admin\Styles\Images\white_zip.png" />
     <Content Include="Areas\Admin\Styles\ui.jqgrid.css" />
+    <Content Include="custom_apple_icon.png" />
     <Content Include="DBScript\MoreLinqDoc.txt" />
     <Content Include="DBScript\SQLQuery.sql" />
     <Content Include="ErrorLogs\TextFile1.txt" />

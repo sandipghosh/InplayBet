@@ -8,11 +8,11 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width; initial-scale=1.0" />
-    <meta http-equiv-"x-ua-compatible"=http-equiv-"X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>@ViewBag.Title</title>
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,500,700,900,100italic,300italic,400italic,500italic,700italic,900italic,100' rel='stylesheet' type='text/css' />
-
+    <link rel="apple-touch-icon" href='@Url.Content("~/custom_apple_icon.png")' />
     <script type="text/javascript">
         @(Html.JsMinify(@<text>
         var VirtualDirectory = '@Url.Content("~/")';
@@ -52,10 +52,10 @@
 </head>
 <body>
     @*<div style="color:#fff">
-        @Session["Test"].AsString()
-        <br/>
-        @Session.SessionID.AsString()
-    </div>*@
+            @Session["Test"].AsString()
+            <br/>
+            @Session.SessionID.AsString()
+        </div>*@
     @Html.Partial("_SimpleMessage")
     <div class="loading-overlay">
         <img src="@Url.Content("~/Styles/Images/loadingAnimation.gif")" alt="Loading ..." />

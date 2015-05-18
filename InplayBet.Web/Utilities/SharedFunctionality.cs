@@ -6,6 +6,7 @@ namespace InplayBet.Web.Utilities
     using InplayBet.Web.Data.Interface;
     using InplayBet.Web.Models;
     using InplayBet.Web.Models.Base;
+    using RestSharp;
     using SimpleInjector;
     using System;
     using System.Collections.Generic;
@@ -202,7 +203,33 @@ namespace InplayBet.Web.Utilities
         {
             if (CommonUtility.GetConfigData<bool>("MAIL_ENABLE"))
             {
-                Bulkmailer bulkMailer = new Bulkmailer
+                try
+                {
+                    RestClient client = new RestClient();
+                    client.BaseUrl = new Uri(CommonUtility.GetConfigData<string>("MAIL_API_URL"));
+                    client.Authenticator = new HttpBasicAuthenticator("api", CommonUtility.GetConfigData<string>("MAIL_API_KEY"));
+                    RestRequest request = new RestRequest();
+                    request.AddParameter("domain", CommonUtility.GetConfigData<string>("MAIL_API_DOMAIN"), ParameterType.UrlSegment);
+                    request.Resource = "{domain}/messages";
+                    request.AddParameter("from", string.Format("{0} <{1}>",
+                        CommonUtility.GetConfigData<string>("MAIL_API_SENDER_FROM"),
+                        CommonUtility.GetConfigData<string>("MAIL_API_SENDER_RECIPIENT")));
+                    mailIds.ForEach(x => request.AddParameter("to", x));
+                    request.AddParameter("subject", subjects);
+                    request.AddParameter("html", content);
+                    request.Method = Method.POST;
+                    client.ExecuteAsync(request, (response) =>
+                    {
+                        CommonUtility.LogToFileWithStack(response.ToString());
+                    });
+                }
+                catch (Exception ex)
+                {
+                    ex.ExceptionValueTracker(mailIds, content, subjects);
+                }
+
+
+                /*Bulkmailer bulkMailer = new Bulkmailer
                 {
                     ToList = mailIds,
                     Subject = subjects
@@ -215,7 +242,7 @@ namespace InplayBet.Web.Utilities
                 {
                     bulkMailer.CancelEmailRun();
                     ex.ExceptionValueTracker(mailIds, content, subjects);
-                }
+                }*/
 
                 /*System.Threading.Tasks.Parallel.ForEach(mailIds, x =>
                     {
