@@ -32,6 +32,11 @@ namespace InplayBet.Web.MapperConfig
         {
             try
             {
+                Mapper.CreateMap<UserModel, RecipientModel>()
+                    .ForMember(dest => dest.EmailId, opt => opt.MapFrom(src => src.EmailId))
+                    .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.UserId))
+                    .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.UserKey.ToString()));
+
                 Mapper.CreateMap<DateTime?, DateTime>().ConvertUsing<DateTimeConverter>();
                 Mapper.CreateMap<DateTime?, DateTime?>().ConvertUsing<NullableDateTimeConverter>();
 

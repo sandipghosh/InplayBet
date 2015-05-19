@@ -15,7 +15,7 @@
         <li>
             <div class="cropped">
                 <img src='@Url.Content("~/Images/Users/Default.jpg")' alt="" />
-                <br/>
+                <br />
                 <a href="javascript:OpenAvaterDialog()">Upload Profile Image</a>
             </div>
         </li>
@@ -62,8 +62,18 @@
         </li>
         <li>
             <label>Currency:</label>
-            <div class="iam">@Html.ValidationMessageFor(x => x.CurrencyId)
-            @Html.DropDownListFor(m => m.CurrencyId, (IEnumerable<SelectListItem>)ViewBag.Currencies, "Select Currency", null)</div>
+            <div class="iam">
+                @if (Model.UserKey > 0)
+                {
+                    <span>@string.Format("{0} ({1})", Model.Currency.CurrencyName, Model.Currency.CurrencySymbol)</span>
+                    @Html.HiddenFor(m => m.CurrencyId)
+                }
+                else
+                {
+                    @Html.ValidationMessageFor(x => x.CurrencyId)
+                    @Html.DropDownListFor(m => m.CurrencyId, (IEnumerable<SelectListItem>)ViewBag.Currencies, "Select Currency", null)
+                }
+            </div>
         </li>
         <li>
             <div class="password">
@@ -79,19 +89,27 @@
         </li>
         <li>
             <label>I am:</label>
-            <div class="iam">@Html.ValidationMessageFor(m => m.Sex)
-            @Html.DropDownListFor(m => m.Sex, (IEnumerable<SelectListItem>)ViewBag.Sex, "Select Sex", null)</div>
+            <div class="iam">
+                @Html.ValidationMessageFor(m => m.Sex)
+                @Html.DropDownListFor(m => m.Sex, (IEnumerable<SelectListItem>)ViewBag.Sex, "Select Sex", null)
+            </div>
         </li>
         <li>
             <label>Date of birth:</label>
-            <div class="dob">@Html.ValidationMessageFor(m => m.DobMonth)
-            @Html.DropDownListFor(m => m.DobMonth, (IEnumerable<SelectListItem>)ViewBag.Months, "Select Month", null)</div>
+            <div class="dob">
+                @Html.ValidationMessageFor(m => m.DobMonth)
+                @Html.DropDownListFor(m => m.DobMonth, (IEnumerable<SelectListItem>)ViewBag.Months, "Select Month", null)
+            </div>
 
-            <div class="dob">@Html.ValidationMessageFor(m => m.DobDay)
-            @Html.DropDownListFor(m => m.DobDay, (IEnumerable<SelectListItem>)ViewBag.Days, "Select Date", null)</div>
+            <div class="dob">
+                @Html.ValidationMessageFor(m => m.DobDay)
+                @Html.DropDownListFor(m => m.DobDay, (IEnumerable<SelectListItem>)ViewBag.Days, "Select Date", null)
+            </div>
 
-            <div class="dob">@Html.ValidationMessageFor(m => m.DobYear)
-            @Html.DropDownListFor(m => m.DobYear, (IEnumerable<SelectListItem>)ViewBag.Years, "Select Year", null)</div>
+            <div class="dob">
+                @Html.ValidationMessageFor(m => m.DobYear)
+                @Html.DropDownListFor(m => m.DobYear, (IEnumerable<SelectListItem>)ViewBag.Years, "Select Year", null)
+            </div>
         </li>
         <li>
             <label>Bookmaker:</label>
@@ -110,6 +128,6 @@
     @Html.HiddenFor(m => m.IsAdmin)
     @Html.HiddenFor(m => m.UpdatedBy)
     @Html.HiddenFor(m => m.UpdatedOn)
-    
+
     @Html.Hidden("hdnSex", Model.Sex, new { id = "hdnSex" })
 }

@@ -385,7 +385,7 @@ namespace InplayBet.Web.Controllers
         {
             try
             {
-                EmailSender email = new EmailSender
+                /*EmailSender email = new EmailSender
                 {
                     Subject = "Inplay Bet Registration Confirmation",
                     To = user.EmailId
@@ -402,7 +402,22 @@ namespace InplayBet.Web.Controllers
                     ("_UserActivationMailNotification", user, this,
                     new Dictionary<string, object>() { { "ActivationUrl", url } });
 
-                email.SendMailAsync(mailBody);
+                email.SendMailAsync(mailBody);*/
+
+                var url = Url.Action("ActivateUser", "RegisterUser", new
+                {
+                    area = "",
+                    timestamp = DateTime.Now.Ticks.ToString(),
+                    userkey = user.UserKey
+                }, this.Request.Url.Scheme);
+
+                string mailBody = Utilities.CommonUtility.RenderViewToString
+                    ("_UserActivationMailNotification", user, this,
+                    new Dictionary<string, object>() { { "ActivationUrl", url } });
+
+                SharedFunctionality shared = new SharedFunctionality();
+                List<RecipientModel> recipients = AutoMapper.Mapper.Map<List<RecipientModel>>(new List<UserModel> { user });
+                shared.MassMailing(recipients, mailBody, "InplayBet Registration Confirmation");
             }
             catch (Exception ex)
             {

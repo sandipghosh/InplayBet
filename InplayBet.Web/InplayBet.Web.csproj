@@ -330,6 +330,7 @@
     <Compile Include="Models\CurrencyModel.cs" />
     <Compile Include="Models\FollowModel.cs" />
     <Compile Include="Models\LegueModel.cs" />
+    <Compile Include="Models\RecipientModel.cs" />
     <Compile Include="Models\ReportCountViewModel.cs" />
     <Compile Include="Models\ReportModel.cs" />
     <Compile Include="Models\SignInModel.cs" />

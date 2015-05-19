@@ -60,7 +60,14 @@ namespace InplayBet.Web.Controllers
                         model, this, new Dictionary<string, object>());
 
                     SharedFunctionality shared = new SharedFunctionality();
-                    shared.MassMailing(new List<string> { CommonUtility.GetConfigData<string>("MAIL_SENDER_RECIPIENT") }, mailContent, "Inplay Enquiry");
+                    List<RecipientModel> recipients = new List<RecipientModel>();
+                    recipients.Add(new RecipientModel
+                    {
+                        EmailId = CommonUtility.GetConfigData<string>("MAIL_SENDER_RECIPIENT"),
+                        Name = "Info",
+                        Id = Guid.NewGuid().ToString("N")
+                    });
+                    shared.MassMailing(recipients, mailContent, "Inplay Enquiry");
                 }
                 return RedirectToActionPermanent("Index");
             }

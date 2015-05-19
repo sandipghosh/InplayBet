@@ -664,8 +664,11 @@ namespace InplayBet.Web.Controllers
                 var followerUsers = shared.GetFollowerUsers(userKey);
                 if (!followerUsers.IsEmptyCollection())
                 {
-                    shared.MassMailing(followerUsers.Select(x => x.EmailId).ToList(), mailContent,
-                        "Inplay Bet Submit Notification");
+                    shared.MassMailing(AutoMapper.Mapper.Map<List<RecipientModel>>(followerUsers),
+                        mailContent, "InplayBet Submit Notification");
+
+                    //shared.MassMailing(followerUsers.Select(x => x.EmailId).ToList(), mailContent,
+                    //    "Inplay Bet Submit Notification");
                 }
             }
             catch (Exception ex)

@@ -196,27 +196,31 @@ namespace InplayBet.Web.Utilities
         /// <summary>
         /// Masses the mailing.
         /// </summary>
-        /// <param name="mailIds">The mail ids.</param>
+        /// <param name="recipients">The mail ids.</param>
         /// <param name="content">The content.</param>
-        /// <param name="subjects">The subjects.</param>
-        public void MassMailing(List<string> mailIds, string content, string subjects)
+        /// <param name="subject">The subjects.</param>
+        public void MassMailing(List<RecipientModel> recipients, string content, string subject)
         {
-            if (CommonUtility.GetConfigData<bool>("MAIL_ENABLE"))
+            if (CommonUtility.GetConfigData<bool>("MAIL_ENABLE") && !recipients.IsEmptyCollection())
             {
                 try
                 {
                     RestClient client = new RestClient();
                     client.BaseUrl = new Uri(CommonUtility.GetConfigData<string>("MAIL_API_URL"));
                     client.Authenticator = new HttpBasicAuthenticator("api", CommonUtility.GetConfigData<string>("MAIL_API_KEY"));
+
                     RestRequest request = new RestRequest();
                     request.AddParameter("domain", CommonUtility.GetConfigData<string>("MAIL_API_DOMAIN"), ParameterType.UrlSegment);
                     request.Resource = "{domain}/messages";
                     request.AddParameter("from", string.Format("{0} <{1}>",
                         CommonUtility.GetConfigData<string>("MAIL_API_SENDER_FROM"),
                         CommonUtility.GetConfigData<string>("MAIL_API_SENDER_RECIPIENT")));
-                    mailIds.ForEach(x => request.AddParameter("to", x));
-                    request.AddParameter("subject", subjects);
+
+                    recipients.ForEach(x => request.AddParameter("to", x.EmailId));
+                    request.AddParameter("subject", subject);
                     request.AddParameter("html", content);
+                    request.AddParameter("recipient-variables", GetRecipintJsonData(recipients));
+
                     request.Method = Method.POST;
                     client.ExecuteAsync(request, (response) =>
                     {
@@ -225,7 +229,7 @@ namespace InplayBet.Web.Utilities
                 }
                 catch (Exception ex)
                 {
-                    ex.ExceptionValueTracker(mailIds, content, subjects);
+                    ex.ExceptionValueTracker(recipients, content, subject);
                 }
 
 
@@ -275,6 +279,25 @@ namespace InplayBet.Web.Utilities
                 ex.ExceptionValueTracker(userKey);
             }
             return 0;
+        }
+
+        private string GetRecipintJsonData(List<RecipientModel> recipients)
+        {
+            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+            try
+            {
+                List<string> data = new List<string>();
+                recipients.ForEach(x =>
+                {
+                    data.Add(string.Format("\"{0}\" : {{ \"name\" : \"{1}\", \"id\" : \"{2}\" }}", x.EmailId, x.Name, x.Id));
+                });
+                sb.AppendFormat("{{ {0} }}", string.Join(",", data));
+            }
+            catch (Exception ex)
+            {
+                ex.ExceptionValueTracker(recipients);
+            }
+            return sb.ToString();
         }
     }
 }
